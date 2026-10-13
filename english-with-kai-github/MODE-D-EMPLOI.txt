@@ -1,0 +1,51 @@
+METTRE « LEARNING ENGLISH WITH KAI » EN LIGNE AVEC GITHUB (gratuit)
+====================================================================
+
+Le dossier « site-english-with-kai » contient toute l'application (82 fichiers, environ 10 Mo).
+Une fois en ligne, l'application s'ouvre avec un simple lien, sans compte, sur téléphone,
+tablette ou ordinateur.
+
+1. CRÉER UN COMPTE GITHUB (gratuit)
+   - Va sur https://github.com et clique « Sign up ».
+   - Le nom d'utilisateur apparaîtra dans l'adresse du site (https://NOM.github.io/...) :
+     évite le prénom ou le nom de famille des enfants.
+
+2. CRÉER LE DÉPÔT
+   - En haut à droite : bouton « + » › « New repository ».
+   - Repository name : english-with-kai
+   - Coche « Public » (obligatoire pour que ce soit gratuit).
+   - Ne coche rien d'autre, puis clique « Create repository ».
+
+3. DÉPOSER LES FICHIERS
+   - Sur la page du dépôt vide, clique le lien « uploading an existing file ».
+   - Dézippe le fichier reçu, ouvre le dossier « site-english-with-kai ».
+   - Sélectionne TOUT son contenu (Ctrl+A sur Windows, Cmd+A sur Mac) et glisse-le dans
+     la page GitHub. Glisse le contenu du dossier, pas le dossier lui-même : le fichier
+     index.html doit se retrouver tout en haut du dépôt, avec les dossiers img et voice.
+   - Attends la fin du chargement, puis clique « Commit changes » en bas de la page.
+
+4. ACTIVER LE SITE
+   - Onglet « Settings » du dépôt › « Pages » dans le menu de gauche.
+   - Source : « Deploy from a branch ».
+   - Branch : « main », dossier « / (root) », puis « Save ».
+   - Attends 1 à 2 minutes et recharge la page : l'adresse apparaît en haut
+     (« Your site is live at https://NOM.github.io/english-with-kai/ »).
+
+5. PARTAGER
+   - Envoie ce lien à ta famille (SMS, e-mail, WhatsApp…).
+   - Sur téléphone ou tablette, ouvrir le lien puis « Partager » › « Sur l'écran d'accueil » :
+     l'icône de Kai apparaît comme une application.
+
+BON À SAVOIR
+   - La progression (prénom, mots, étoiles, leçons) est enregistrée dans le navigateur de
+     chaque appareil. Effacer les données de navigation l'efface aussi.
+   - Sur iPhone et iPad, l'icône de l'écran d'accueil et Safari gardent chacun leur propre
+     progression : utilise toujours la même porte d'entrée.
+   - Plusieurs enfants sur le même appareil : chacun choisit son prénom (« Who's learning today? »).
+   - Le lien est public : toute personne qui l'a peut ouvrir l'application, et les fichiers
+     sont visibles sur GitHub. Aucun prénom ni aucune progression n'est envoyé sur Internet.
+
+METTRE À JOUR PLUS TARD
+   - Quand Claude te donne une nouvelle version : dans le dépôt, « Add file » › « Upload files »,
+     glisse les fichiers modifiés (souvent seulement index.html), puis « Commit changes ».
+   - Le site se met à jour en 1 à 2 minutes. La progression des enfants est conservée.
