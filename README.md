@@ -1,4 +1,4 @@
-# Learning English with Kai
+# Learning English with Kai V0.2
 
 Application d'anglais pour un élève de 6e, avec Kai, un personnage manga : vocabulaire (plus de 1 500 mots), mots du jour, conjugaison, grammaire, quiz et récompenses.
 
