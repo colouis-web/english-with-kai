@@ -744,6 +744,24 @@ html.mlock,html.mlock body{overflow:hidden}
 .tksrc{margin:0;text-align:right;font:500 12px var(--claude);color:var(--mut)}
 .tkex{display:flex;flex-direction:column;gap:8px}
 .tkex[hidden]{display:none}
+/* v51 : Let's talk English, connecteurs, ponctuation, traduction */
+.tkhelp{display:flex;flex-direction:column;gap:8px}
+.tkhint{margin:0;display:flex;flex-direction:column;align-items:center;gap:1px;text-align:center;font:500 14px/1.3 var(--claude);color:var(--mut)}
+.tkhint b{font:700 13px var(--claude);letter-spacing:.6px;text-transform:uppercase;color:var(--ink)}
+.tkstruct{flex-direction:column;align-items:center;gap:8px}
+.tkcl{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.tkstruct .k{display:flex;flex-direction:column;align-items:center;min-width:70px;padding:6px 10px;border-radius:12px;background:#f6eefc;border:2px solid #dcc3f0}
+.tkstruct .k i{color:#7a2fa3}.tkstruct .k small{font:500 12px var(--claude);color:var(--mut)}
+.tkstruct .k.p{background:#fff;border-color:var(--line)}.tkstruct .k.p i{color:var(--mut)}
+.tkstruct .s.im b{color:var(--mut);font-style:italic}
+.tkcon{margin:0;font:500 15px/1.35 var(--claude);color:#5b2380}
+.tkcon.more{color:var(--ink)}.tkcon i{display:block;margin-top:2px;font-style:normal;color:var(--mut)}.tkcon i b{color:#7a2fa3}
+.tkpunct{display:flex;flex-direction:column;gap:4px}
+.tkpunct>i,.tkfr>i{font:700 12px var(--claude);letter-spacing:.6px;text-transform:uppercase;font-style:normal;color:var(--mut)}
+.tkfr{display:flex;flex-direction:column;gap:4px;padding:10px 12px;border-radius:14px;background:#fff;border:2px solid var(--line)}
+.tkfr p{margin:0;font:600 17px/1.35 var(--claude)}.tkfr p i{color:#a15c00}
+.tkfr small{font:500 12px/1.3 var(--claude);color:var(--mut)}
+.tkstruct .tkcl+.tkcl{padding-top:8px;border-top:2px dashed rgba(29,27,46,.15);width:100%}
 #test .top h1,#tests .top h1{font-size:clamp(22px,6.6vw,32px);line-height:1.1}
 </style>
 </head>
@@ -2144,6 +2162,251 @@ document.getElementById("wres").addEventListener("click",e=>{const t=e.target,m=
   cd.classList.toggle("mini",!open);WOPEN[wid(c,x)]=open;tg.setAttribute("aria-expanded",open);vb.inert=!open;return}
  const b=t.closest("[data-say]");if(!b)return;document.querySelectorAll(".snd.talk").forEach(x=>x.classList.remove("talk"));sayOne(b.dataset.say,b)});
 
+/* ===== LET'S TALK : traduction en français simple, avec le lexique de Kai (sans connexion) ===== */
+const TKFR=(function(){
+const first=s=>String(s||"").split(/\s*[\/;]\s*|,\s+/)[0];
+const clean=s=>first(s).replace(/\s*\([^)]*\)/g,"").replace(/\s+/g," ").trim();
+const HASP=/^(hamster|haricot|hibou|héros|hockey|huit|haut|hache|hall|handball|hangar|hasard|honte|hot-dog|hurl|hérisson|hamac|homard|housse|hublot|hutte|hamburger)/;
+const vow=w=>/^[aeiouyéèêëàâîïôûœh]/i.test(w||"")&&!HASP.test(w||"");
+/* ---------- conjugaison ---------- */
+const IRR={"être":"suis,es,est,sommes,êtes,sont","avoir":"ai,as,a,avons,avez,ont","aller":"vais,vas,va,allons,allez,vont","pouvoir":"peux,peux,peut,pouvons,pouvez,peuvent","vouloir":"veux,veux,veut,voulons,voulez,veulent","devoir":"dois,dois,doit,devons,devez,doivent","savoir":"sais,sais,sait,savons,savez,savent","boire":"bois,bois,boit,buvons,buvez,boivent","asseoir":"assieds,assieds,assied,asseyons,asseyez,asseyent","croire":"crois,crois,croit,croyons,croyez,croient","recevoir":"reçois,reçois,reçoit,recevons,recevez,reçoivent","mourir":"meurs,meurs,meurt,mourons,mourez,meurent","plaire":"plais,plais,plaît,plaisons,plaisez,plaisent","envoyer":"envoie,envoies,envoie,envoyons,envoyez,envoient","fuir":"fuis,fuis,fuit,fuyons,fuyez,fuient","falloir":"faut,faut,faut,faut,faut,faut","pleuvoir":"pleut,pleut,pleut,pleut,pleut,pleuvent","naître":"nais,nais,naît,naissons,naissez,naissent","conclure":"conclus,conclus,conclut,concluons,concluez,concluent","dire":"dis,dis,dit,disons,dites,disent","faire":"fais,fais,fait,faisons,faites,font"};
+const FAM=[["crire","cris,cris,crit,crivons,crivez,crivent"],["prendre","prends,prends,prend,prenons,prenez,prennent"],["mettre","mets,mets,met,mettons,mettez,mettent"],["venir","viens,viens,vient,venons,venez,viennent"],["tenir","tiens,tiens,tient,tenons,tenez,tiennent"],["faire","fais,fais,fait,faisons,faites,font"],["cevoir","çois,çois,çoit,cevons,cevez,çoivent"],["voir","vois,vois,voit,voyons,voyez,voient"],["courir","cours,cours,court,courons,courez,courent"],["battre","bats,bats,bat,battons,battez,battent"],["vivre","vis,vis,vit,vivons,vivez,vivent"],["suivre","suis,suis,suit,suivons,suivez,suivent"],["lire","lis,lis,lit,lisons,lisez,lisent"],["rire","ris,ris,rit,rions,riez,rient"],["uire","uis,uis,uit,uisons,uisez,uisent"],["aître","ais,ais,aît,aissons,aissez,aissent"],["eindre","eins,eins,eint,eignons,eignez,eignent"],["aindre","ains,ains,aint,aignons,aignez,aignent"],["oindre","oins,oins,oint,oignons,oignez,oignent"],["vrir","vre,vres,vre,vrons,vrez,vrent"],["frir","fre,fres,fre,frons,frez,frent"],["illir","ille,illes,ille,illons,illez,illent"],["dormir","dors,dors,dort,dormons,dormez,dorment"],["partir","pars,pars,part,partons,partez,partent"],["sortir","sors,sors,sort,sortons,sortez,sortent"],["sentir","sens,sens,sent,sentons,sentez,sentent"],["servir","sers,sers,sert,servons,servez,servent"],["mentir","mens,mens,ment,mentons,mentez,mentent"]];
+const DBL=new Set(["appeler","rappeler","jeter","rejeter","épeler","renouveler","feuilleter","projeter"]);
+function pres(inf){if(IRR[inf])return IRR[inf].split(",");
+ for(const[s,f]of FAM)if(inf.endsWith(s)){const p=inf.slice(0,-s.length);return f.split(",").map(x=>p+x)}
+ if(/ir$/.test(inf)){const st=inf.slice(0,-2);return[st+"is",st+"is",st+"it",st+"issons",st+"issez",st+"issent"]}
+ if(/re$/.test(inf)){const st=inf.slice(0,-2);return[st+"s",st+"s",st+(/[dt]$/.test(st)?"":"t"),st+"ons",st+"ez",st+"ent"]}
+ const st=inf.slice(0,-2);let s1=st,n=st+"ons";if(/g$/.test(st))n=st+"eons";if(/c$/.test(st))n=st.slice(0,-1)+"çons";
+ if(DBL.has(inf))s1=st+st.slice(-1);else if(/[^aeiouyéè]e[^aeiouyé]$/.test(st))s1=st.replace(/e([^aeiouyé])$/,"è$1");else if(/é[^aeiouyé]+$/.test(st))s1=st.replace(/é([^aeiouyé]+)$/,"è$1");else if(/[ou]y$/.test(st)||/ay$/.test(st))s1=st.slice(0,-1)+"i";
+ return[s1+"e",s1+"es",s1+"e",n,st+"ez",s1+"ent"]}
+const PPF=[["prendre","pris"],["mettre","mis"],["venir","venu"],["tenir","tenu"],["crire","crit"],["faire","fait"],["cevoir","çu"],["pouvoir","pu"],["vouloir","voulu"],["devoir","dû"],["savoir","su"],["voir","vu"],["courir","couru"],["battre","battu"],["vivre","vécu"],["suivre","suivi"],["lire","lu"],["boire","bu"],["croire","cru"],["dire","dit"],["rire","ri"],["uire","uit"],["naître","né"],["aître","u"],["eindre","eint"],["aindre","aint"],["oindre","oint"],["vrir","vert"],["frir","fert"],["mourir","mort"],["asseoir","assis"],["plaire","plu"],["pleuvoir","plu"],["falloir","fallu"],["être","été"],["avoir","eu"]];
+function pp(inf){for(const[s,f]of PPF)if(inf.endsWith(s))return inf.slice(0,-s.length)+f;if(/er$/.test(inf))return inf.slice(0,-2)+"é";if(/ir$/.test(inf))return inf.slice(0,-2)+"i";if(/re$/.test(inf))return inf.slice(0,-2)+"u";return inf}
+const FUT={"être":"ser","avoir":"aur","aller":"ir","faire":"fer","pouvoir":"pourr","vouloir":"voudr","devoir":"devr","savoir":"saur","courir":"courr","mourir":"mourr","envoyer":"enverr","asseoir":"assiér","pleuvoir":"pleuvr","falloir":"faudr","cueillir":"cueiller"};
+function futSt(inf){if(FUT[inf])return FUT[inf];for(const[s,f]of[["venir","viendr"],["tenir","tiendr"],["faire","fer"],["cevoir","cevr"],["voir","verr"]])if(inf.endsWith(s))return inf.slice(0,-s.length)+f;
+ if(/re$/.test(inf))return inf.slice(0,-1);if(/er$/.test(inf)&&!/é[^aeiouy]+er$/.test(inf)){const p=pres(inf)[0];if(/è|ll|tt|ie$/.test(p))return p.slice(0,-1)+"er"}return inf}
+function impf(inf,p){const n=inf==="être"?"étons":pres(inf)[3];const st=n.slice(0,-3);return st+["ais","ais","ait","ions","iez","aient"][p]}
+const ETRE=new Set("aller venir arriver partir sortir entrer rester tomber naître mourir monter descendre rentrer retourner devenir revenir".split(" "));
+const RP=["me","te","se","nous","vous","se"],SP=["je","tu","il","nous","vous","ils"];
+/* une forme verbale : {pre:[ne, pronoms], v:"verbe conjugué", post:[pas, adverbes, participe ou infinitif]} */
+function vform(inf,tense,p,o){o=o||{};let refl=false,core=inf.trim(),tail="";
+ const m=core.match(/^(?:se |s')(.+)$/);if(m){refl=true;core=m[1]}
+ const sp=core.indexOf(" ");if(sp>0){tail=core.slice(sp+1);core=core.slice(0,sp)}
+ const pre=[],post=[];if(o.neg)pre.push("ne");if(refl)pre.push(RP[p]);if(o.cl)pre.push(o.cl);
+ let v;
+ if(tense==="pc"||tense==="pqp"){const aux=(refl||ETRE.has(core))?"être":"avoir";v=tense==="pc"?pres(aux)[p]:impf(aux,p);
+  let x=pp(core);if(aux==="être"){if(o.g==="f")x+="e";if(p>=3&&!/s$/.test(x))x+="s"}if(o.neg)post.push(o.never?"jamais":"pas");if(o.adv)post.push(...o.adv);post.push(x)}
+ else{v=tense==="fut"?futSt(core)+["ai","as","a","ons","ez","ont"][p]:tense==="cond"?futSt(core)+["ais","ais","ait","ions","iez","aient"][p]:tense==="imp"?impf(core,p):pres(core)[p];
+  if(o.neg)post.push(o.never?"jamais":"pas");if(o.adv)post.push(...o.adv)}
+ if(tail)post.push(tail);return{pre,v,post}}
+function infp(inf,p,o){o=o||{};let refl=false,core=inf;const m=core.match(/^(?:se |s')(.+)$/);if(m){refl=true;core=m[1]}
+ return[(o.neg?"ne pas":""),(refl?RP[p]:""),(o.cl||""),core].filter(Boolean).join(" ")}
+/* ---------- lexique ---------- */
+let L=null,UNK=[];
+const NX={"noodle":"une nouille","noodles":"des nouilles (f)","soda":"un soda","manga":"un manga","surfboard":"une planche de surf","slope":"une piste","goggles":"des lunettes de ski (f)","can":"une canette","steering wheel":"un volant","wheel":"une roue","thermometer":"un thermomètre","backpack":"un sac à dos","bookshop":"une librairie","bookstore":"une librairie","market":"un marché","seat":"un siège","video game":"un jeu vidéo","video games":"des jeux vidéo (m)","tv":"une télé","cone":"un cornet","bench":"un banc","collar":"un collier","leash":"une laisse","lead":"une laisse","tongue":"une langue","fur":"des poils (m)","paw":"une patte","paws":"des pattes (f)","basket":"un panier","zoo":"un zoo","bag":"un sac","paper bag":"un sac en papier","bunch":"un bouquet","sport":"un sport","fever":"de la fièvre","comic":"une BD","comics":"des BD (f)","passenger":"un passager","surf":"le surf","wave":"une vague","sky":"un ciel","room":"une chambre","bedroom":"une chambre","mum":"maman (f)","mom":"maman (f)","dad":"papa (m)","grandma":"mamie (f)","grandpa":"papi (m)","kai":"Kai (m)","hamster":"un hamster","cheese":"le fromage","pet":"un animal de compagnie","stuff":"des affaires (f)","thing":"une chose","things":"des choses (f)","way":"un chemin","friend":"un ami","girlfriend":"une copine","boyfriend":"un copain","home":"une maison","place":"un endroit","noon":"midi","night":"une nuit","evening":"un soir","weekend":"un week-end"};
+const AX={"cute":"mignon / mignonne","cool":"cool","fun":"amusant(e)","sunny":"ensoleillé(e)","messy":"en désordre","golden":"doré(e)","tabby":"tigré(e)","full":"plein(e)","empty":"vide","cold":"froid(e)","hot":"chaud(e)","sleepy":"endormi(e)","sick":"malade","favourite":"préféré(e)","favorite":"préféré(e)","best":"meilleur(e)","good":"bon / bonne","bad":"mauvais(e)","great":"super","nice":"gentil(le)","delicious":"délicieux / délicieuse","yummy":"délicieux / délicieuse","fast":"rapide","slow":"lent(e)","high":"haut(e)","low":"bas / basse","last":"dernier / dernière","first":"premier / première","next":"prochain(e)","other":"autre","same":"même","own":"propre","snowy":"enneigé(e)","wet":"mouillé(e)","dry":"sec / sèche","warm":"chaud(e)","fresh":"frais / fraîche","calm":"calme","busy":"occupé(e)","ready":"prêt(e)","free":"libre","alone":"seul(e)","asleep":"endormi(e)","awake":"réveillé(e)","afraid":"effrayé(e)","hungry":"affamé(e)","thirsty":"assoiffé(e)","brown":"marron","orange":"orange","pink":"rose","grey":"gris(e)","gray":"gris(e)","big":"grand(e)","huge":"énorme"};
+const VX={stroke:"caresser",pet:"caresser",cuddle:"câliner",crouch:"s'accroupir",surf:"surfer",ski:"skier",hike:"faire de la randonnée",tidy:"ranger",relax:"se détendre",chill:"se détendre",cycle:"faire du vélo",smile:"sourire",sail:"faire de la voile",hug:"faire un câlin à",kick:"taper dans",look:"regarder",enjoy:"aimer",feel:"se sentir",get:"recevoir",rain:"pleuvoir",snow:"neiger",shop:"faire les courses",be:"être",have:"avoir",do:"faire",make:"faire",know:"savoir",lie:"s'allonger",sit:"s'asseoir",stand:"se lever",carry:"porter",hold:"tenir",love:"adorer",need:"avoir besoin de",skate:"faire du skate",swim:"nager",fly:"voler",ride:"monter sur",drive:"conduire",wear:"porter",start:"commencer",begin:"commencer",talk:"parler",speak:"parler",tell:"raconter",take:"prendre",bring:"apporter",put:"mettre",live:"habiter",teach:"apprendre",visit:"visiter",climb:"grimper",throw:"lancer",wash:"laver",brush:"brosser",clean:"nettoyer",win:"gagner",lose:"perdre",go:"aller",come:"venir",leave:"partir",stay:"rester",fall:"tomber",arrive:"arriver",return:"revenir",run:"courir",try:"essayer",help:"aider",finish:"finir",pay:"payer",cook:"cuisiner",meet:"rencontrer",hear:"entendre",cry:"pleurer",laugh:"rire",drink:"boire",eat:"manger",read:"lire",write:"écrire",draw:"dessiner",paint:"peindre",sing:"chanter",dance:"danser",jump:"sauter",walk:"marcher",play:"jouer",watch:"regarder",listen:"écouter",want:"vouloir",like:"aimer",hate:"détester",prefer:"préférer",buy:"acheter",sell:"vendre",sleep:"dormir",wake:"se réveiller",wait:"attendre",open:"ouvrir",close:"fermer",think:"penser",see:"voir",use:"utiliser",travel:"voyager",study:"étudier",learn:"apprendre",work:"travailler",give:"donner",say:"dire",find:"trouver",catch:"attraper",feed:"nourrir",touch:"toucher",show:"montrer",send:"envoyer",forget:"oublier",remember:"se souvenir de",decide:"décider",stop:"arrêter",keep:"garder",turn:"tourner",grow:"grandir",build:"construire"};
+const PHX={"look at":"regarder","look for":"chercher","listen to":"écouter","wait for":"attendre","get up":"se lever","wake up":"se réveiller","sit down":"s'asseoir","stand up":"se lever","lie down":"s'allonger","put on":"mettre","take off":"enlever","pick up":"ramasser","go out":"sortir","come back":"revenir","go back":"retourner","come in":"entrer","go in":"entrer","get dressed":"s'habiller","take care of":"s'occuper de","clean up":"ranger","tidy up":"ranger","turn on":"allumer","turn off":"éteindre","fall down":"tomber","run away":"s'enfuir","get on":"monter dans","get off":"descendre de","look after":"s'occuper de","go to bed":"aller au lit","go home":"rentrer à la maison","come home":"rentrer à la maison","get home":"rentrer à la maison","play with":"jouer avec","talk to":"parler à","speak to":"parler à","think about":"penser à","dream of":"rêver de","dream about":"rêver de","laugh at":"rire de","point at":"montrer du doigt"};
+const DX={"the":"def","a":"ind","an":"ind","one":"ind","his":"son","her":"son","its":"son","my":"mon","your":"ton","our":"notre","their":"leur","this":"ce","that":"ce","these":"ces","those":"ces","some":"part","any":"part","every":"chaque","each":"chaque","another":"autre","no":"aucun"};
+const NUM={two:"deux",three:"trois",four:"quatre",five:"cinq",six:"six",seven:"sept",eight:"huit",nine:"neuf",ten:"dix",eleven:"onze",twelve:"douze",twenty:"vingt",hundred:"cent",many:"beaucoup de",lots:"beaucoup de"};
+const PRX={"in":"dans","on":"sur","at":"à","to":"à","from":"de","with":"avec","without":"sans","for":"pour","of":"de","by":"par","under":"sous","behind":"derrière","in front of":"devant","next to":"à côté de","near":"près de","between":"entre","into":"dans","onto":"sur","out of":"hors de","around":"autour de","after":"après","before":"avant","during":"pendant","like":"comme","about":"sur","up":"en haut de","down":"en bas de","across":"de l'autre côté de","through":"à travers","towards":"vers","inside":"dans","outside":"devant","above":"au-dessus de","over":"au-dessus de","along":"le long de","against":"contre","because of":"à cause de","thanks to":"grâce à","far from":"loin de","on top of":"sur","instead of":"au lieu de"};
+const AVX={"very":"très","really":"vraiment","so":"tellement","too":"trop","also":"aussi","always":"toujours","often":"souvent","sometimes":"parfois","usually":"d'habitude","never":"jamais","now":"maintenant","today":"aujourd'hui","together":"ensemble","here":"ici","there":"là","well":"bien","a lot":"beaucoup","a little":"un peu","a bit":"un peu","still":"encore","already":"déjà","just":"juste","again":"encore","outside":"dehors","inside":"dedans","fast":"vite","quickly":"vite","home":"à la maison","every day":"tous les jours","every morning":"tous les matins","in the morning":"le matin","in the evening":"le soir","at night":"la nuit","at the weekend":"le week-end","right now":"en ce moment","at the moment":"en ce moment"};
+function nparse(fr){let s=first(String(fr||"")).trim();let g="",pl=false;
+ const par=(String(fr||"").split(/\s*\/\s*/)[0].match(/\(([^)]*)\)/g)||[]).join(" ");if(/\bf\b/.test(par))g="f";else if(/\bm\b/.test(par))g="m";if(/\bpl\b/.test(par))pl=true;
+ s=s.replace(/\s*\([^)]*\)/g,"").trim();let m;
+ if((m=s.match(/^(une|un|le|la|les|des|du|de la)\s+(.+)$/))){const a=m[1];s=m[2];if(!g)g=(a==="une"||a==="la"||a==="de la")?"f":"m";if(a==="les"||a==="des")pl=true}
+ else if((m=s.match(/^(l'|de l'|d')\s*(.+)$/)))s=m[2];
+ return{n:s,g:g||"m",pl,prop:/^[A-Z]/.test(s)||/^(maman|papa|mamie|papi)$/.test(s)}}
+function aparse(fr){const a=String(fr||"").split(/\s*\/\s*|,\s+/);let m0=a[0].trim();const q=m0.match(/^([^(]*?)\((e|le|ne|se|te)\)(.*)$/);let m,f;
+ if(q){m=(q[1]+q[3]).replace(/\s*\([^)]*\)/g,"").trim();f=(q[1]+q[2]+q[3]).replace(/\s*\([^)]*\)/g,"").trim()}
+ else{m=m0.replace(/\s*\([^)]*\)/g,"").trim();const a2=(a[1]||"").replace(/\s*\([^)]*\)/g,"").trim();f=a2&&!/\(/.test(a[1])&&a2.slice(0,2)===m.slice(0,2)&&!/^qui |^en /.test(m)?a2:(/e$/.test(m)||/^(qui |en |pas )/.test(m)||/^(super|cool|marron|orange)$/.test(m))?m:m+"e"}
+ return{m,f}}
+function lex(){if(L)return L;L={n:new Map(),a:new Map(),av:new Map(),con:new Map(),pr:new Map(),ph:new Map()};
+ const addN=(k,fr,cat,t,ipl)=>{k=k.toLowerCase();if(!L.n.has(k))L.n.set(k,Object.assign(nparse(fr),{cat,t,ipl}))};
+ for(const[k,v]of Object.entries(NX))addN(k,v,"",/s$/.test(k)?"p":"c",false);
+ for(const n of NDICT){addN(n.w,n.fr,n.cat,n.t,false);const p=String(n.pl||"");if(p&&p!=="—"&&p.toLowerCase()!==n.w.toLowerCase())addN(p,n.fr,n.cat,n.t,true)}
+ for(const[k,v]of Object.entries(AX))L.a.set(k,aparse(v));
+ for(const a of ADJ.data)if(!L.a.has(a.w.toLowerCase()))L.a.set(a.w.toLowerCase(),aparse(a.fr));
+ for(const a of ADV.data)L.av.set(a.w.toLowerCase(),clean(a.fr));for(const[k,v]of Object.entries(AVX))L.av.set(k,v);
+ for(const c of CON.data)L.con.set(c.w.toLowerCase(),clean(c.fr));
+ for(const p of PREP.data)L.pr.set(p.w.toLowerCase(),clean(p.fr));for(const[k,v]of Object.entries(PRX))L.pr.set(k,v);
+ for(const p of PHR.data)L.ph.set(p.w.toLowerCase().replace(/\b(sb|sth|someone|something)\b/g,"").replace(/\s+/g," ").trim(),clean(p.fr));for(const[k,v]of Object.entries(PHX))L.ph.set(k,v);
+ return L}
+function vinf(b){if(VX[b])return VX[b];const d=DICT.find(x=>x.v===b);return d?clean(d.fr):null}
+function frPl(w){const p=w.split(" "),h=p[0];let x=h;if(/[sxz]$/.test(h))x=h;else if(/al$/.test(h)&&!/^(bal|festival|carnaval|chacal|récital)$/.test(h))x=h.slice(0,-2)+"aux";else if(/(eau|au|eu)$/.test(h)&&!/^(pneu|bleu|landau)$/.test(h))x=h+"x";else if(/^(bijou|caillou|chou|genou|hibou|joujou|pou)$/.test(h))x=h+"x";else x=h+"s";p[0]=x;return p.join(" ")}
+function aform(a,g,pl){let x=g==="f"?a.f:a.m;if(pl&&!/^(qui |en |super|cool|marron|orange)/.test(x)&&!/[sx]$/.test(x))x=/al$/.test(x)?x.slice(0,-2)+"aux":/eau$/.test(x)?x+"x":x+"s";return x}
+const PRE=new Set("beau belle joli jolie grand grande petit petite gros grosse bon bonne mauvais mauvaise jeune vieux vieille nouveau nouvelle long longue haut haute premier première dernier dernière autre même meilleur meilleure super vrai vraie".split(" "));
+function det(k,g,pl,nx,o){o=o||{};
+ if(o.neg&&/^(ind|part)$/.test(k))return vow(nx)?"d'":"de";
+ switch(k){case"def":return pl?"les":vow(nx)?"l'":g==="f"?"la":"le";
+  case"ind":return pl?"des":g==="f"?"une":"un";
+  case"part":return pl?"des":vow(nx)?"de l'":g==="f"?"de la":"du";
+  case"son":case"mon":case"ton":{const b=k[0];return pl?b+"es":(g==="f"&&!vow(nx))?b+"a":b+"on"}
+  case"notre":return pl?"nos":"notre";case"leur":return pl?"leurs":"leur";
+  case"ce":return pl?"ces":g==="f"?"cette":vow(nx)?"cet":"ce";case"ces":return"ces";case"chaque":return"chaque";
+  case"autre":return(g==="f"?"une":"un")+" autre";case"aucun":return g==="f"?"aucune":"aucun";default:return k}}
+/* un groupe nominal à partir de w[i] : renvoie {s, j, g, pl, n} ou null */
+function np(w,i,o){o=o||{};const X=lex();let j=i,dk=null,dpl=false,num="",owner="";const adv=[],adj=[];
+ const two=(w[j]||"")+" "+(w[j+1]||""),three=two+" "+(w[j+2]||"");
+ if(three==="a lot of"||three==="a few of"){num=three==="a lot of"?"beaucoup de":"quelques-uns de";j+=3;dpl=three!=="a lot of"}
+ else if(two==="lots of"||two==="plenty of"){num="beaucoup de";j+=2}
+ else if(two==="a few"){num="quelques";j+=2;dpl=true}
+ else if(two==="a little"&&!X.a.has(w[j+2]||"")){num="un peu de";j+=2}
+ else if(two==="all the"){dk="all";j+=2;dpl=true}
+ else if(DX[w[j]]&&!(w[j]==="that"&&o.subj===false)){dk=DX[w[j]];if(w[j]==="these"||w[j]==="those")dpl=true;j++}
+ else if(NUM[w[j]]||/^\d+$/.test(w[j]||"")){num=NUM[w[j]]||w[j];j++;dpl=true}
+ else if(w[j]&&/'s$/.test(w[j])){owner=w[j].slice(0,-2);dk="def";j++}
+ if(!owner&&w[j]&&/'s$/.test(w[j])&&dk){owner=w[j].slice(0,-2);j++;}
+ while(j<w.length){if(/^(very|really|so|too|quite)$/.test(w[j])&&X.a.has(w[j+1]||"")){adv.push(X.av.get(w[j])||w[j]);j++;continue}
+  if(X.a.has(w[j])&&!(X.n.has(w[j])&&!X.n.has(w[j+1]||"")&&!X.a.has(w[j+1]||""))){adj.push({a:X.a.get(w[j]),adv:adv.splice(0)});j++;continue}break}
+ let n=null,nk="",nl=0;for(const len of[3,2,1]){const k=w.slice(j,j+len).join(" ");if(w.slice(j,j+len).length===len&&X.n.has(k)){n=X.n.get(k);nk=k;nl=len;break}}
+ if(!n&&w[j]&&(dk||num||adj.length)&&/^[a-z]+$/.test(w[j])&&!X.pr.has(w[j])&&!V0b(w[j])&&!X.av.has(w[j])&&!/^(and|or|but|so|because|when|then|too)$/.test(w[j])){UNK.push(w[j]);n={n:"<i>"+w[j]+"</i>",g:"m",pl:false,t:"c"};nk=w[j];nl=1}
+ if(!n){if(!adj.length)return null;/* adjectifs seuls */const s=adj.map(a=>[...a.adv,aform(a.a,o.g||"m",o.pl)].join(" ")).join(" et ");return{s,j,g:o.g||"m",pl:!!o.pl,adjOnly:true}}
+ j+=nl;let mod=null;/* nom + nom : « football shirt » → « maillot de football » */
+ for(const len of[3,2,1]){const k=w.slice(j,j+len).join(" ");if(w.slice(j,j+len).length===len&&X.n.has(k)&&!X.a.has(k)&&!/^(and|or)$/.test(k)){mod=n;n=X.n.get(k);nk=k;j+=len;break}}
+ const pl=dpl||n.ipl||n.pl||(nk.endsWith("s")&&n.t==="p");let noun=n.n;if((dpl||n.ipl)&&!n.pl)noun=frPl(noun);
+ const g=n.g;let s;
+ const A=adj.map(a=>({x:[...a.adv,aform(a.a,g,pl)].join(" "),pre:!a.adv.length&&(PRE.has(a.a.m)||PRE.has(a.a.f))}));
+ const pre=A.filter(a=>a.pre).map(a=>a.x),post=A.filter(a=>!a.pre).map(a=>a.x);
+ let core=[...pre,noun,...post].join(" ");if(mod)core+=" de "+mod.n;
+ const head=pre.length?pre[0]:noun;
+ if(n.prop&&!dk&&!num)s=noun;
+ else if(num)s=num+" "+core;
+ else if(dk==="all")s=(g==="f"?"toutes les ":"tous les ")+core;
+ else if(o.bare==="none"&&!dk)s=core;
+ else if(dk)s=det(dk,g,pl,head,o)+" "+core;
+ else{/* sans déterminant en anglais */const k=o.bare&&o.bare!=="prep"?o.bare:(pl?"ind":n.t==="u"?"part":"def");s=det(k,g,pl,head,o)+" "+core}
+ if(owner){const on=owner==="kai"?null:X.n.get(owner);s+=" de "+(owner==="kai"?"Kai":on?(on.prop?on.n:det("def",on.g,false,on.n)+" "+on.n):owner)}
+ return{s:s.replace(/' /g,"'"),j,g,pl,n:nk}}
+/* ---------- une proposition ---------- */
+const PERS={"i":[0,"m"],"you":[1,"m"],"he":[2,"m"],"she":[2,"f"],"it":[2,"m"],"we":[3,"m"],"they":[5,"m"],"kai":[2,"m"],"everybody":[2,"m"],"everyone":[2,"m"],"nobody":[2,"m"],"this":[2,"m"],"that":[2,"m"]};
+const SUBJFR={"i":"je","you":"tu","he":"il","she":"elle","it":"il","we":"nous","they":"ils","kai":"Kai","everybody":"tout le monde","everyone":"tout le monde","nobody":"personne","this":"c'","that":"ça"};
+const BEAV={hungry:"faim",thirsty:"soif",scared:"peur",afraid:"peur",cold:"froid",hot:"chaud",sleepy:"sommeil",right:"raison",wrong:"tort"};
+const WEA={sunny:"il fait beau",hot:"il fait chaud",cold:"il fait froid",warm:"il fait bon",nice:"il fait beau",windy:"il y a du vent",cloudy:"il y a des nuages",foggy:"il y a du brouillard",rainy:"il pleut",snowy:"il neige",dark:"il fait nuit",late:"il est tard",early:"il est tôt"};
+const STATIVE={sit:"assis",lie:"allongé",stand:"debout",crouch:"accroupi"};
+const CATP={start:"à",begin:"à",learn:"à",help:"à",try:"de",stop:"de",decide:"de",forget:"de",finish:"de",refuse:"de",need:"",want:"",like:"",love:"",hate:"",prefer:"",enjoy:"",go:"",hope:""};
+const OBJ={him:"le",her:"la",it:"le",them:"les",me:"me",you:"te",us:"nous"},STR={him:"lui",her:"elle",it:"ça",them:"eux",me:"moi",you:"toi",us:"nous"};
+const IND=new Set("give tell show send offer bring write say".split(" "));
+const GAMES=new Set("game,games,video game,video games,cards,chess,football,basketball,tennis,rugby,volleyball,handball,golf,hockey,hide-and-seek,tag,board games,cards".split(","));
+const INSTR=new Set("piano guitar violin drums flute trumpet cello harp saxophone recorder clarinet keyboard bass".split(" "));
+function rest(w,i,ctx,unk){/* le reste de la proposition, mot à mot avec des règles simples */const X=lex(),out=[];let j=i;
+ while(j<w.length){const t=w[j];
+  if(t===""){j++;continue}
+  // préposition (plusieurs mots d'abord)
+  let pk=null;for(const len of[3,2,1]){const k=w.slice(j,j+len).join(" ");if(w.slice(j,j+len).length===len&&X.pr.has(k)&&!(len===1&&/^(up|down|like|outside|inside|over)$/.test(k)&&!np(w,j+1))){pk=k;break}}
+  if(pk&&!(pk==="to"&&w[j+1]&&V0b(w[j+1]))){let pr=X.pr.get(pk);const k2=pk.split(" ").length;
+   const nx=w[j+k2];
+   if(OBJ[nx]&&!(nx==="her"&&np(w,j+k2+1))){out.push(pr+" "+STR[nx]);j+=k2+1;continue}
+   if(nx&&ingB(nx)){const f=vinf(ingB(nx))||nx;out.push(pk==="before"?"avant de "+infp(f,ctx.p):pk==="after"&&!/^(se |s')/.test(f)?"après avoir "+pp(f.split(" ")[0]):(pk==="without"?"sans":pk==="for"?"pour":pr)+" "+infp(f,ctx.p));j+=k2+1;continue}
+   const g=np(w,j+k2,{bare:pk==="of"?"none":"prep"});
+   if(g){let p2=pr;const vh=/^(plane|train|bus|boat|car|taxi|tram|lorry|truck|van|coach|metro|underground)s?$/.test(g.n);
+    if(pk==="on"&&vh)p2="dans";if(pk==="out of"&&/^(window|door)s?$/.test(g.n))p2="par";if(pk==="by"&&vh){out.push((g.n==="bike"||g.n==="bicycle"?"à vélo":"en "+g.s.replace(/^(le |la |l'|un |une )/,"")));j=g.j;continue}
+    if(pk==="by"&&/^(bike|bicycle|horse)$/.test(g.n)){out.push(g.n==="horse"?"à cheval":"à vélo");j=g.j;continue}
+    if(pk==="at"&&g.n==="home"||pk==="in"&&g.n==="bed"&&!/^(his|her|my|the)/.test(w[j+k2])){out.push(g.n==="home"?"à la maison":"au lit");j=g.j;continue}
+    out.push(p2+" "+g.s);j=g.j;continue}
+   if(AVX[nx]||X.av.has(nx)){out.push(pr);j+=k2;continue}
+   out.push(pr);j+=k2;continue}
+  // to + verbe : « pour » + infinitif
+  if(t==="to"&&w[j+1]&&V0b(w[j+1])){const f=vinf(V0b(w[j+1]));if(f){const r=sub(w,j+2,f,ctx,unk);out.push("pour "+r);j=w.length;continue}}
+  // pronom complément
+  if(OBJ[t]&&!(t==="her"&&np(w,j+1))){out.push(STR[t]);j++;continue}
+  // adverbes (plusieurs mots d'abord)
+  let ak=null;for(const len of[3,2,1]){const k=w.slice(j,j+len).join(" ");if(w.slice(j,j+len).length===len&&(AVX[k]||X.av.has(k))&&!(len===1&&X.a.has(k)&&np(w,j))&&!(len===1&&X.n.has(k)&&np(w,j)&&!AVX[k])){ak=k;break}}
+  if(ak&&/ of$/.test(ak))ak=null;
+  if(ak&&!(ak==="too"&&j<w.length-1)){out.push(ak==="too"?"aussi":(AVX[ak]||X.av.get(ak)));j+=ak.split(" ").length;continue}
+  if(t==="and"||t==="or"){out.push(t==="and"?"et":"ou");j++;continue}
+  const g=np(w,j,{neg:ctx.negObj,bare:ctx.bare,g:ctx.g,pl:ctx.pl});
+  if(g){out.push(g.s);if(ctx.negObj)ctx.negObj=false;ctx.bare=null;j=g.j;continue}
+  if(/^\d+$/.test(t)){out.push(t);j++;continue}
+  if(DX[t]&&w[j+1]){out.push(det(DX[t],"m",false,w[j+1]));j++;continue}
+  if(V0b(t)){const f=vinf(V0b(t));if(f){out.push(infp(f,ctx.p));j++;continue}}
+  if(t==="'s"||t==="of"){out.push("de");j++;continue}
+  unk.push(t);out.push("<i>"+t+"</i>");j++}
+ return out.join(" ")}
+let V0=null;function V0b(x){if(!V0)V0=tkVerbs();const r=V0.get(x);return r?r.b:null}
+function ingB(x){if(!V0)V0=tkVerbs();const r=V0.get(x);return r&&r.t==="ing"?r.b:null}
+/* un infinitif et la suite (« aime jouer au foot ») */
+function sub(w,i,f,ctx,unk){const r=rest(w,i,Object.assign({},ctx,{negObj:false}),unk);return infp(f,ctx.p)+(r?" "+r:"")}
+function clause(c,unk){/* c : {w, vi, vEnd, implied, sp (personne si sujet sous-entendu)} */const X=lex(),w=c.w,vi=c.vi,vEnd=c.vEnd;
+ if(vi<0){return rest(w,0,{p:2},unk)}
+ // sujet
+ let subj="",p=2,g="m",pl=false,isIt=false,isThere=false;
+ if(c.implied){p=c.sp?c.sp.p:2;g=c.sp?c.sp.g:"m"}
+ else{const S=w.slice(0,vi);
+  if(S.length===1&&PERS[S[0]]){p=PERS[S[0]][0];g=PERS[S[0]][1];subj=SUBJFR[S[0]];isIt=S[0]==="it"}
+  else if(S.length===1&&S[0]==="there"){isThere=true}
+  else{const parts=[];let k=0,n=0;while(k<S.length){if(S[k]==="and"){k++;n++;parts.push("et");continue}if(PERS[S[k]]){parts.push(SUBJFR[S[k]]==="je"?"moi":SUBJFR[S[k]]==="tu"?"toi":SUBJFR[S[k]]==="il"?"lui":SUBJFR[S[k]]);if(S[k]==="i")p=3;k++;continue}const G=np(S,k,{subj:true});if(G){parts.push(G.s);g=G.g;pl=G.pl;k=G.j}else{unk.push(S[k]);parts.push("<i>"+S[k]+"</i>");k++}}
+   subj=parts.join(" ").replace(/ et /g," et ").replace(/(\S) (?!et\b)(?=\S)/g,"$1 ");subj=parts.reduce((a,x,i)=>a+(i===0?x:(x==="et"||parts[i-1]==="et"?" ":", ")+x),"");if(n>0){p=p===3?3:5;pl=true}else{p=pl?5:2}if(n>0&&p===5)g="m"}}
+ c.sp={p,g};
+ // groupe verbal
+ const vg=w.slice(vi,vEnd),R=w.slice(vEnd);const neg=vg.includes("not")||vg.includes("never"),never=vg.includes("never");
+ const advs=vg.filter(x=>!/^(not|never)$/.test(x)&&(AVX[x]||X.av.has(x))&&!V0b(x)).map(x=>AVX[x]||X.av.get(x));
+ const vs=vg.filter(x=>V0b(x)&&!/^(not|never)$/.test(x)&&!(AVX[x]&&!V0.get(x)));if(!vs.length)return[subj,rest(w,vi,{p},unk)].filter(Boolean).join(" ");const x0=vs[0],last=vs[vs.length-1],B0=V0b(x0),T0=V0.get(x0).t;
+ let tense="pres",main=B0,mod=null;
+ const BE=/^(am|is|are|was|were|be|being|been)$/,past0=/^(was|were|did|had|could|would)$/.test(x0)||T0==="past";
+ if(BE.test(x0)&&vs.length>1&&V0.get(last).t==="ing"){main=V0b(last);tense=/^(was|were)$/.test(x0)?"imp":"pres"}
+ else if(BE.test(x0)&&vg.includes("going")&&vs.length>2){mod={inf:"aller",tense:/^(was|were)$/.test(x0)?"imp":"pres"};main=V0b(last)}
+ else if(BE.test(x0)&&vs.length>1&&V0.get(last).t==="past"){main="être";tense=/^(was|were)$/.test(x0)?"imp":"pres";R.unshift("__pp:"+V0b(last))}
+ else if(BE.test(x0)){main="être";tense=/^(was|were)$/.test(x0)?"imp":"pres"}
+ else if(T0==="modal"){const M={can:["pouvoir","pres"],could:["pouvoir","imp"],must:["devoir","pres"],should:["devoir","cond"],may:["pouvoir","cond"],might:["pouvoir","cond"]};main=vs.length>1?V0b(last):"faire";
+  if(x0==="will"||x0==="shall")tense="fut";else if(x0==="would"){tense="cond";if(main==="like"){main="want"}}else mod={inf:M[x0][0],tense:M[x0][1]}}
+ else if(B0==="do"&&vs.length>1){main=V0b(last);tense=x0==="did"?"pc":"pres"}
+ else if(B0==="have"&&vs.length>1&&V0.get(last).t==="past"&&last!=="got"){main=V0b(last);tense=x0==="had"?"pqp":"pc"}
+ else if(B0==="have"){main="have";tense=x0==="had"?"imp":"pres"}
+ else{main=B0;tense=T0==="past"?(/^(be|have|like|love|want|know|think|hate|need|seem|feel)$/.test(B0)?"imp":"pc"):"pres"}
+ // locutions
+ let inf=vinf(main)||main,eat=0,cl="",special=null,R2=R.slice();
+ const two=(R2[0]||"")+" "+(R2[1]||"");
+ for(const len of[3,2,1]){const k=[main,...R2.slice(0,len)].join(" ");if(R2.length>=len&&X.ph.has(k)&&!(len===1&&/^(on|in|off|up|down|out)$/.test(R2[0])&&np(R2,1)&&!/^(put on|take off|get on|get off|turn on|turn off|pick up)$/.test(k))){inf=X.ph.get(k);eat=len;break}}
+ R2=R2.slice(eat);
+ if(eat&&/\s(avec|à|de|sur|dans|pour|contre)$/.test(inf)&&OBJ[R2[0]]&&!(R2[0]==="her"&&np(R2,1))){special=STR[R2[0]];R2=R2.slice(1)}
+ if(main==="walk"&&/^(dog|dogs|puppy|pet)$/.test((np(R2,0)||{}).n||""))inf="promener";
+ if(IND.has(main)&&!eat){const a=np(R2,0);if(a&&!OBJ[R2[0]]){const b2=np(R2,a.j);if(b2)R2=[...R2.slice(a.j,b2.j),"to",...R2.slice(0,a.j),...R2.slice(b2.j)]}}
+ if(main==="look"&&!eat&&R2[0]&&(X.a.has(R2[0])||/^(very|so|really)$/.test(R2[0]))){inf="avoir l'air"}
+ if(main==="ride"&&(np(R2,0)||{}).n&&/^(bike|bicycle|horse|pony)s?$/.test(np(R2,0).n)){inf=/horse|pony/.test(np(R2,0).n)?"faire du cheval":"faire du vélo";R2=R2.slice(np(R2,0).j)}
+ if(main==="play"&&!eat&&R2.length){const G=np(R2,0);if(G&&(GAMES.has(G.n)||(X.n.get(G.n)||{}).cat==="sports")){inf="jouer";const D=np(R2,0,{bare:"def"});const s=D.s.replace(/^(un |une |des |son |sa |ses |mon |ma |mes )/,(m)=>/^(un |une )/.test(m)?(/^un /.test(m)?"le ":"la "):/^des /.test(m)?"les ":m);special="à "+s;R2=R2.slice(G.j)}
+  else if(G&&INSTR.has(G.n)){inf="jouer";const D=np(R2,0,{bare:"def"});special="de "+D.s.replace(/^(un |une |son |sa |mon |ma )/,(m)=>/^un |^son |^mon /.test(m)?"le ":"la ");R2=R2.slice(G.j)}}
+ if(/^(brush|wash|comb|dry)$/.test(main)&&/^(his|her|my|your|their|our)$/.test(R2[0]||"")&&/^(teeth|tooth|hair|hands|hand|face|feet)$/.test(R2[1]||"")){inf="se "+vinf(main);R2[0]="the"}
+ if(main==="have"&&!neg){const MEAL={breakfast:"prendre le petit-déjeuner",lunch:"déjeuner",dinner:"dîner",fun:"s'amuser",tea:"goûter"};const k=R2[0]==="a"||R2[0]==="his"?R2[1]:R2[0];
+  if(MEAL[R2[0]]){inf=MEAL[R2[0]];R2=R2.slice(1)}else if(R2[0]==="a"&&/^(shower|bath|rest|temperature|cold|fever|good)$/.test(R2[1]||"")){inf={shower:"prendre une douche",bath:"prendre un bain",rest:"se reposer",temperature:"avoir de la fièvre",fever:"avoir de la fièvre",cold:"avoir un rhume",good:"passer un bon moment"}[R2[1]];R2=R2.slice(R2[1]==="good"?3:2)}}
+ if(main==="go"&&R2[0]&&/ing$/.test(R2[0])){const GO={skiing:"faire du ski",swimming:"aller nager",shopping:"faire les courses",hiking:"faire de la randonnée",surfing:"faire du surf",fishing:"aller à la pêche",camping:"faire du camping",cycling:"faire du vélo",running:"aller courir",sailing:"faire de la voile",skating:"faire du patin"};if(GO[R2[0]]){inf=GO[R2[0]];R2=R2.slice(1)}}
+ // être : cas particuliers
+ if(main==="être"&&!mod&&tense!=="fut"&&tense!=="cond"&&R2[0]&&!/^__pp/.test(R2[0])){
+  if(isThere){const s=(neg?"il n'y ":"il y ")+(tense==="imp"?"avait":"a")+(neg?" pas":"");const r=rest(R2,0,{p:2,negObj:neg},unk);return(s+" "+r).trim()}
+  if(isIt){let k=0;if(/^(very|so|really)$/.test(R2[0]))k=1;if(WEA[R2[k]]&&R2.length===k+1&&!(c.k>0&&/^(nice|hot|cold|warm|dark|late|early)$/.test(R2[k]))){let s=WEA[R2[k]];if(k)s=s.replace(/(beau|chaud|froid|bon|nuit|tard|tôt)$/,(AVX[R2[0]]||"très")+" $1");if(tense==="imp")s=s.replace(/fait/,"faisait").replace(/y a/,"y avait").replace(/pleut/,"pleuvait").replace(/neige/,"neigeait").replace(/est /,"était ");if(neg)s=s.replace(/^il (y )?(\S+)/,(m,y,v)=>"il "+(y?"n'y ":"ne ")+v+" pas").replace(/ne (est|était)/,"n'$1");return s}}
+  let k=0,ad="";if(/^(very|so|really)$/.test(R2[0])&&BEAV[R2[1]]){ad=AVX[R2[0]]+" ";k=1}
+  if(!c.implied&&vi===1&&/^(he|she|it|this|that)$/.test(w[0])&&/^(a|an)$/.test(R2[0]))subj=neg?"ce":"c'";
+  if(BEAV[R2[k]]&&!isIt&&R2.length===k+1){const F=vform("avoir",tense,p,{neg,never,adv:advs});return[subj,...F.pre,F.v,...F.post,ad+BEAV[R2[k]]].join(" ")}
+  if(/^\d+$|^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen)$/.test(R2[0])&&R2[1]==="years"){const F=vform("avoir",tense,p,{neg,never,adv:advs});return[subj,...F.pre,F.v,...F.post,(NUM[R2[0]]||R2[0])+" ans"].join(" ")}}
+ // pronom complément
+ if(R2[0]&&OBJ[R2[0]]&&!(R2[0]==="her"&&np(R2,1))&&main!=="être"){cl=IND.has(main)?(R2[0]==="them"?"leur":/^(me|you|us)$/.test(R2[0])?OBJ[R2[0]]:"lui"):OBJ[R2[0]];R2=R2.slice(1)}
+ // verbe + infinitif (« likes playing », « wants to eat »)
+ let inf2=null;
+ if(!special&&R2[0]==="to"&&R2[1]&&V0b(R2[1])&&CATP[main]!==undefined){inf2={f:vinf(V0b(R2[1])),p:CATP[main]};R2=R2.slice(2)}
+ else if(!special&&R2[0]&&ingB(R2[0])&&CATP[main]!==undefined&&main!=="go"){inf2={f:vinf(ingB(R2[0])),p:CATP[main]};R2=R2.slice(1)}
+ // stative : « is sitting » → « est assis »
+ let F;const ST=STATIVE[main];
+ if(ST&&BE.test(x0)&&vs.length>1&&V0.get(last).t==="ing"){F=vform("être",tense,p,{neg,never,adv:advs});F.post.push(ST+(g==="f"?"e":"")+(p>=3?"s":""))}
+ else if(mod){F=vform(mod.inf,mod.tense,p,{neg,never,adv:advs});F.post.push(infp(inf,p,{cl}))}
+ else F=vform(inf,tense,p,{neg,never,adv:advs,cl,g});
+ if(cl&&mod)F.pre=F.pre.filter(x=>x!==cl);
+ // participe passé après « être » (voix passive)
+ if(R2[0]&&/^__pp:/.test(R2[0])){const b=R2.shift().slice(5);let x=pp(vinf(b)||b);if(g==="f")x+="e";if(p>=3&&!/s$/.test(x))x+="s";F.post.push(x)}
+ if(inf2&&inf2.f){F.post.push(((inf2.p?inf2.p+" ":"")+infp(inf2.f,p)).trim())}
+ if(special)F.post.push(special);
+ const r=rest(R2,0,{p,g,pl,negObj:neg&&main!=="être",bare:/^(like|love|hate|prefer|enjoy)$/.test(main)&&!inf2?"def":null},unk);
+ return[subj,...F.pre,F.v,...F.post,r].filter(Boolean).join(" ")}
+function fix(s){return s.replace(/\s+/g," ").replace(/(^|\s)à les(?=\s|$)/g,"$1aux").replace(/(^|\s)à le(?=\s|$)/g,"$1au").replace(/(^|\s)des autres(?=\s)/g,"$1d'autres").replace(/\bde les\b/g,"des").replace(/\bde le\b/g,"du").replace(/\bde (des|de)\b/g,"de").replace(/\bde (un|une)\b/g,"d'$1")
+ .replace(/\b(je|me|te|se|ne|de|le|la|que|jusque) ([aeiouyéèêàâîïôûh]\S*)/gi,(m,a,b)=>HASP.test(b.toLowerCase())?m:a.slice(0,-1)+"'"+b)
+ .replace(/\bsi (il|ils)\b/g,"s'$1").replace(/' /g,"'").replace(/ ,/g,",").replace(/ \./g,".").trim()}
+/* plusieurs phrases, plusieurs propositions reliées par des connecteurs */
+const CONF={"and":"et","but":"mais","or":"ou","so":"donc","then":"puis","and then":"et puis","yet":"pourtant","because":"parce que","when":"quand","while":"pendant que","if":"si","although":"même si","though":"même si","even though":"même si","whereas":"alors que","as soon as":"dès que","before":"avant que","after":"après que","until":"jusqu'à ce que","since":"depuis que","so that":"pour que","unless":"sauf si","as":"comme","once":"une fois que","that's why":"c'est pourquoi","however":"cependant","first":"d'abord","firstly":"d'abord","next":"ensuite","finally":"enfin","also":"aussi","moreover":"de plus","therefore":"donc","besides":"en plus","afterwards":"ensuite","for example":"par exemple","in conclusion":"pour conclure","of course":"bien sûr","in fact":"en fait","suddenly":"soudain","later":"plus tard"};
+function sentences(S){const unk=UNK=[];const out=S.map(sn=>{let sp=null;const parts=sn.parts.map((pt,k)=>{if(pt.implied&&sp)pt.sp=sp;pt.k=k;let s=clause(pt,unk);if(!pt.implied)sp=pt.sp;else pt.sp=sp;
+   const c=pt.con?(CONF[pt.con.en]||lex().con.get(pt.con.en)||pt.con.en):"";return{s,c,comma:pt.comma||(pt.con&&pt.con.k==="intro"&&/^(however|first|firstly|secondly|finally|moreover|furthermore|therefore|besides|for example|in conclusion|of course|in fact|first of all)$/.test(pt.con.en)),lead:pt.lead,k}});
+  let txt="";parts.forEach((x,k)=>{if(k===0){txt=(x.c?x.c+(x.comma?", ":" "):"")+x.s;if(x.lead&&parts.length>1)txt+=","}else if(!x.c&&!parts[k-1].lead){txt+=". "+x.s.charAt(0).toUpperCase()+x.s.slice(1)}else{txt+=(parts[k-1].lead?" ":x.comma?", ":" ")+(x.c?x.c+" ":"")+x.s}});
+  if(sn.q)txt="est-ce que "+txt;txt=fix(txt);return txt.charAt(0).toUpperCase()+txt.slice(1)+(sn.end==="?"?" ?":sn.end==="!"?" !":".")});
+ return{fr:out.join(" "),unk:[...new Set(unk)]}}
+return{sentences,pres,pp,vform,lex,conFr:en=>CONF[en]||lex().con.get(en)||""}})();
+
 /* ===== LET'S TALK ENGLISH : une image, l'élève dit une phrase, on vérifie sa structure ===== */
 const TKPICS=[
  {img:"kai-dog",d:"Kai, a boy, is crouching and stroking a big golden dog. The dog looks happy.",q:"Tell me something about Kai and his dog!",k:"dog,puppy,pet,stroke,touch,play,love,happy,golden,big,friend",w:[["a dog","un chien"],["to stroke","caresser"],["happy","content"]],m:["Kai is stroking his dog.","The dog is big and happy.","Kai loves his dog."]},
@@ -2171,22 +2434,23 @@ const TKPICS=[
  {img:"sc-chill",d:"Kai is lying on his bed and listening to music with headphones.",q:"What is Kai doing?",k:"listen,music,headphones,bed,relax,lie,song",w:[["to listen to music","écouter de la musique"],["headphones","un casque"],["to relax","se détendre"]],m:["Kai is listening to music.","He is lying on his bed.","He is relaxing."]},
  {img:"sc-ill",d:"Kai is in bed with a thermometer in his mouth. He is ill.",q:"How is Kai today?",k:"ill,sick,thermometer,bed,temperature,fever,cold,flu",w:[["ill / sick","malade"],["a thermometer","un thermomètre"],["a temperature","de la fièvre"]],m:["Kai is ill today.","He is in bed.","He has a temperature."]},
 ];
-let TK={i:-1,seen:[],noAI:false,micOff:false,busy:false};
+let TK={i:-1,seen:[],noAI:false,micOff:false,busy:false,mic:false};
 const TK_SR=window.SpeechRecognition||window.webkitSpeechRecognition||null;let TKREC=null;
 const MICSVG='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M8.5 21h7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
 function tkPick(){let ids=TKPICS.map((_,i)=>i).filter(i=>!TK.seen.includes(i));if(!ids.length){TK.seen=[];ids=TKPICS.map((_,i)=>i).filter(i=>i!==TK.i)}
  TK.i=ids[Math.floor(Math.random()*ids.length)];TK.seen.push(TK.i)}
-function renderTalk(){const P=TKPICS[TK.i],mic=TK_SR&&!TK.micOff;
+function renderTalk(){const P=TKPICS[TK.i],mic=TK_SR&&!TK.micOff;TK.mic=false;
  document.getElementById("talkbody").innerHTML=`<div class="tkpic"><img src="img/${P.img}.webp" alt="${esc(P.d)}"></div>
 <div class="tkq"><button class="snd" data-say="${esc(P.q)}" aria-label="Listen">${SPK}</button><p>${esc(P.q)}<small>Say one sentence about the picture.</small></p></div>
-<div class="tkwords">${P.w.map(([en,fr])=>`<button class="tkw" data-say="${esc(en)}"><b>${esc(en)}</b><i>${esc(fr)}</i></button>`).join("")}</div>
+<div class="tkhelp"><p class="tkhint"><b>💡 Word ideas</b><span>Ce ne sont que des idées : tu peux utiliser d'autres mots !</span></p>
+<div class="tkwords">${P.w.map(([en,fr])=>`<button class="tkw" data-say="${esc(en)}"><b>${esc(en)}</b><i>${esc(fr)}</i></button>`).join("")}</div></div>
 ${mic?`<div class="tkmic"><button class="mic" id="tkmic" type="button" aria-label="Speak">${MICSVG}</button><p id="tkmicmsg">Tap the microphone and speak</p></div>`
  :`<p class="tkmsg">${TK_SR?"Le micro n'est pas autorisé ici :":"La reconnaissance vocale n'existe pas sur ce navigateur :"} touche le micro 🎤 de ton clavier pour dicter ta phrase, ou écris-la.</p>`}
 <textarea id="tktext" rows="2" placeholder="Your sentence: Kai is…" autocomplete="off" autocapitalize="sentences" spellcheck="false" aria-label="Your sentence"></textarea>
 <button class="listen tkcheck" id="tkcheck" type="button">Check my sentence${GOSVG}</button>
 <div id="tkfb" aria-live="polite"></div>
 <div class="endbtns"><button class="ghost sm" id="tkex" type="button">Examples</button><button class="ghost sm" id="tknext" type="button">New picture</button></div>
-<div class="tkex" id="tkexbox" hidden>${P.m.map(m=>`<button class="tkm" data-say="${esc(m)}">${SPK}<span>${esc(m)}</span></button>`).join("")}</div>`}
+<div class="tkex" id="tkexbox" hidden><p class="tkhint"><span>Des exemples parmi d'autres : invente ta propre phrase !</span></p>${P.m.map(m=>`<button class="tkm" data-say="${esc(m)}">${SPK}<span>${esc(m)}</span></button>`).join("")}</div>`}
 function openTalk(){if(TK.i<0)tkPick();renderTalk();show("talk");setTimeout(()=>{const P=TKPICS[TK.i];sayOne(P.q,document.querySelector("#talkbody .tkq .snd"))},450)}
 /* reconnaissance vocale */
 function tkListen(){const b=document.getElementById("tkmic"),msg=document.getElementById("tkmicmsg"),box=document.getElementById("tktext");if(!b||!TK_SR)return;
@@ -2194,78 +2458,246 @@ function tkListen(){const b=document.getElementById("tkmic"),msg=document.getEle
  try{stopSpeech()}catch(e){}
  const r=new TK_SR();TKREC=r;r.lang="en-GB";r.interimResults=true;r.continuous=false;r.maxAlternatives=1;
  b.classList.add("on");msg.textContent="I'm listening…";
- r.onresult=e=>{let t="";for(const x of e.results)t+=x[0].transcript;box.value=t.trim()};
+ r.onresult=e=>{let t="";for(const x of e.results)t+=x[0].transcript;box.value=t.trim();TK.mic=true};
  r.onerror=e=>{if(e.error==="not-allowed"||e.error==="service-not-allowed"||e.error==="audio-capture"){TK.micOff=true;const v=box.value;renderTalk();document.getElementById("tktext").value=v}
   else if(e.error==="no-speech")msg.textContent="I didn't hear anything. Try again!";else msg.textContent="Oops, try again!"};
  r.onend=()=>{TKREC=null;const bb=document.getElementById("tkmic");if(bb)bb.classList.remove("on");const m=document.getElementById("tkmicmsg");
   if(m&&m.textContent==="I'm listening…")m.textContent=box.value.trim()?"Now check your sentence!":"Tap the microphone and speak";if(box.value.trim())document.getElementById("tkcheck").focus({preventScroll:true})};
  try{r.start()}catch(e){TKREC=null;b.classList.remove("on")}}
-/* vérification par règles (sans connexion) : sujet + verbe, accords, be + -ing, a / an, lien avec l'image */
-let TKV=null;
-const tkS3=b=>b==="have"?"has":b==="be"?"is":/(s|x|z|ch|sh|o)$/.test(b)?b+"es":/[^aeiou]y$/.test(b)?b.slice(0,-1)+"ies":b+"s";
-const tkIng=b=>b==="be"?"being":/ie$/.test(b)?b.slice(0,-2)+"ying":/[^aeiou]e$/.test(b)&&b!=="see"?b.slice(0,-1)+"ing":/^[^aeiou]*[aeiou][bdgmnpt]$/.test(b)?b+b.slice(-1)+"ing":b+"ing";
-function tkVerbs(){if(TKV)return TKV;const m=new Map(),add=(f,b,t)=>{f=String(f||"").trim().toLowerCase();if(f&&!m.has(f))m.set(f,{b,t})};
- ["am","is","are","was","were"].forEach(x=>m.set(x,{b:"be",t:"be"}));
+/* ---------- vérification par règles (sans connexion) ---------- */
+let TKV=null,TKPPS=null;
+const tkS3=b=>b==="have"?"has":b==="be"?"is":b==="do"?"does":b==="go"?"goes":/(s|x|z|ch|sh|o)$/.test(b)?b+"es":/[^aeiou]y$/.test(b)?b.slice(0,-1)+"ies":b+"s";
+const tkIng=b=>b==="be"?"being":/ie$/.test(b)?b.slice(0,-2)+"ying":/[^aeiou]e$/.test(b)&&!/^(see|be)$/.test(b)?b.slice(0,-1)+"ing":/^[^aeiou]*[aeiou][bdgmnpt]$/.test(b)?b+b.slice(-1)+"ing":b+"ing";
+const tkEd=b=>/e$/.test(b)?b+"d":/[^aeiou]y$/.test(b)?b.slice(0,-1)+"ied":/^[^aeiou]*[aeiou][bdgmnpt]$/.test(b)?b+b.slice(-1)+"ed":b+"ed";
+function tkVerbs(){if(TKV)return TKV;const m=new Map(),pp=new Set(),add=(f,b,t)=>{f=String(f||"").trim().toLowerCase();if(f&&!m.has(f))m.set(f,{b,t})};
+ ["am","is","are","was","were","be","being","been"].forEach(x=>m.set(x,{b:"be",t:"be"}));
  ["can","could","will","would","should","must","may","might","shall"].forEach(x=>m.set(x,{b:x,t:"modal"}));
- m.set("has",{b:"have",t:"s"});m.set("does",{b:"do",t:"s"});m.set("do",{b:"do",t:"base"});m.set("have",{b:"have",t:"base"});
- for(const d of DICT){if(d.modal)continue;const b=d.v.toLowerCase();if(b.includes(" "))continue;add(b,b,"base");add(tkS3(b),b,"s");add(tkIng(b),b,"ing");
-  String(d.pt).split("/").forEach(x=>add(x,b,"past"));String(d.pp).split("/").forEach(x=>add(x,b,"past"))}
- "stroke,pet,hug,cuddle,crouch,ski,surf,hike,tidy,brush,relax,chill,cycle,smile,stand,hold,wear,sail,pat,lie,look,wait,shop,skate,swim,climb".split(",").forEach(b=>{add(b,b,"base");add(tkS3(b),b,"s");add(tkIng(b),b,"ing")});
- return TKV=m}
-const TK_DET=new Set("the a an his her my your our their its this that these those some two three one".split(" "));
-const TK_ADV=new Set("not never always often sometimes usually really just also still already very".split(" "));
-const TK_PL=new Set("children people men women mice teeth feet sheep fish".split(" "));
-function tkLocal(P,raw){let t=" "+raw.toLowerCase().replace(/[’`]/g,"'").replace(/[^a-z' -]/g," ")+" ";
- t=t.replace(/ (he|she|it|that|there|what|who)'s /g," $1 is ").replace(/ i'm /g," i am ").replace(/ (you|we|they)'re /g," $1 are ").replace(/n't /g," not ").replace(/ can not /g," cannot ").replace(/ wo not /g," will not ").replace(/ ca not /g," can not ");
- const w=t.trim().split(/\s+/).filter(Boolean),V=tkVerbs(),tips=[];if(w.length<3)return{ok:false,about:false,corrected:raw,tips_fr:["Ta phrase est trop courte : dis au moins un sujet, un verbe et un complément (Kai is playing…)."],subject:"",verb:"",rest:raw};
- let vi=-1;for(let i=0;i<w.length;i++){const x=V.get(w[i]);if(x&&!(i>0&&TK_DET.has(w[i-1]))&&!(x.t==="base"&&i>0&&/^(to)$/.test(w[i-1]))){vi=i;break}}
- const out=w.slice();let ok=true;
- if(vi<0){return{ok:false,about:tkAbout(P,w),corrected:raw,tips_fr:["Il manque un verbe conjugué : is, has, likes, plays…"],subject:"",verb:"",rest:raw}}
- if(vi===0){ok=false;tips.push("Il manque le sujet au début de la phrase : Kai, he, she, the dog…")}
- const subj=w.slice(0,vi),head=subj[subj.length-1]||"",x0=V.get(w[vi]);
- let per="3s";if(subj.includes("and")||["you","we","they"].includes(head)||TK_PL.has(head)||(/s$/.test(head)&&!/(ss|us|is|'s)$/.test(head)&&!TK_DET.has(head)&&head.length>3))per="p";if(head==="i")per="1s";if(head==="there"){const nx=w[vi+1]||"";per=/s$/.test(nx)&&!/ss$/.test(nx)?"p":"3s"}
- let vj=vi+1;while(vj<w.length&&TK_ADV.has(w[vj]))vj++;
- const next=w[vj]?V.get(w[vj]):null;
- if(x0.t==="be"){const want=per==="1s"?(/^(was|were)$/.test(w[vi])?"was":"am"):per==="3s"?(/^(was|were)$/.test(w[vi])?"was":"is"):(/^(was|were)$/.test(w[vi])?"were":"are");
-  if(w[vi]!==want){ok=false;tips.push(`Avec « ${subj.join(" ")} », on dit « ${want} » et pas « ${w[vi]} ».`);out[vi]=want}
-  if(next&&next.t==="base"&&next.b!=="be"&&!/^(have|do)$/.test(w[vj])){ok=false;const g=tkIng(next.b);tips.push(`Après be, le verbe prend -ing : « ${out[vi]} ${g} » (présent continu).`);out[vj]=g}}
- else if(x0.t==="modal"){if(next&&next.t==="s"){ok=false;tips.push(`Après « ${w[vi]} », le verbe reste à la base : « ${w[vi]} ${next.b} ».`);out[vj]=next.b}if(w[vj]==="to"){ok=false;tips.push(`Pas de « to » après « ${w[vi]} ».`);out[vj]=""}}
- else if(x0.t==="base"||x0.t==="s"){const isPast=x0.t==="base"&&[...V.entries()].some(([f,o])=>f===w[vi]&&o.t==="past");
-  if(per==="3s"&&x0.t==="base"&&!isPast&&!(x0.b==="do"&&w[vj]==="not")){ok=false;const f=tkS3(x0.b);tips.push(`Avec he, she, it (ou un seul nom), on ajoute -s au présent : « ${f} ».`);out[vi]=f}
-  else if(per!=="3s"&&x0.t==="s"){ok=false;tips.push(`Avec « ${subj.join(" ")} », pas de -s : « ${x0.b} ».`);out[vi]=x0.b}
-  if((x0.b==="do")&&next&&next.t==="s"){ok=false;out[vj]=next.b;tips.push(`Après do / does / did, le verbe reste à la base : « ${next.b} ».`)}}
- for(let i=0;i<out.length-1;i++){const a=out[i],n=out[i+1];if(a==="a"&&/^[aeiou]/.test(n)&&!/^(uni|use|eu|one|u[^n])/.test(n)){out[i]="an";ok=false;tips.push(`Devant un son voyelle, « a » devient « an » : an ${n}.`)}
-  else if(a==="an"&&/^[^aeiou]/.test(n)&&!/^(hour|honest|honour)/.test(n)){out[i]="a";ok=false;tips.push(`Devant une consonne, on dit « a » : a ${n}.`)}}
- for(let i=0;i<out.length;i++){if(out[i]==="i")out[i]="I";else if(out[i]==="kai")out[i]="Kai"}
- const fixed=out.filter(Boolean).join(" ");
- const corrected=fixed.charAt(0).toUpperCase()+fixed.slice(1)+".";
- const vEnd=vj<w.length&&next&&(x0.t!=="base"&&x0.t!=="s")?vj+1:vi+1;
- return{ok,about:tkAbout(P,w),corrected,tips_fr:tips.slice(0,3),subject:out.slice(0,vi).join(" "),verb:out.slice(vi,vEnd).filter(Boolean).join(" "),rest:out.slice(vEnd).filter(Boolean).join(" ")}}
-function tkAbout(P,w){const s=" "+w.join(" ")+" ";return P.k.split(",").some(k=>s.includes(" "+k)||s.includes(" "+k.replace(/e$/,"")))||/ kai | he | his /.test(s)}
-async function tkClaude(P,raw){if(TK.noAI||!window.claude||!window.claude.use)return null;let S=null;try{S=await window.claude.use("sample")}catch(e){S=null}if(!S){TK.noAI=true;return null}
+ m.set("has",{b:"have",t:"s"});m.set("does",{b:"do",t:"s"});m.set("do",{b:"do",t:"base"});m.set("have",{b:"have",t:"base"});m.set("had",{b:"have",t:"past"});m.set("did",{b:"do",t:"past"});
+ const one=(b,pt,ppf)=>{add(b,b,"base");add(tkS3(b),b,"s");add(tkIng(b),b,"ing");if(/[aeiou]l$/.test(b))add(b+"ling",b,"ing");
+  String(pt||tkEd(b)).split("/").forEach(x=>add(x,b,"past"));String(ppf||tkEd(b)).split("/").forEach(x=>{add(x,b,"past");pp.add(x.trim().toLowerCase())});if(/[aeiou]l$/.test(b)){add(b+"led",b,"past");pp.add(b+"led")}};
+ for(const d of DICT){if(d.modal)continue;const b=d.v.toLowerCase();if(b.includes(" ")||b==="be"||b==="have"||b==="do")continue;one(b,d.pt,d.pp)}
+ "stroke,pet,hug,cuddle,crouch,ski,surf,hike,tidy,brush,relax,chill,cycle,smile,stand,hold,wear,sail,pat,lie,look,wait,shop,skate,swim,climb".split(",").forEach(b=>{if(!m.has(b))one(b)});
+ ["been","done","had","got","gone"].forEach(x=>pp.add(x));TKPPS=pp;return TKV=m}
+function tkPP(){tkVerbs();return TKPPS}
+const tkPastOf=b=>{const d=DICT.find(x=>x.v===b);return d?String(d.pt).split("/")[0].trim():tkEd(b)};
+const TK_DET=new Set("the a an his her my your our their its this that these those some two three four five one every each no another any".split(" "));
+const TK_ADV=new Set("not never always often sometimes usually really just also still already even probably rarely".split(" "));
+const TK_PL=new Set("children people men women mice teeth feet".split(" "));
+const TK_SUBJ=new Set("i you he she it we they kai there".split(" "));
+const TK_NAMES=new Set("kai english french monday tuesday wednesday thursday friday saturday sunday january february april june july august september october november december london paris france england christmas".split(" "));
+const TK_BENO=new Set("like near round home back out in up down over off well right fine free open close clean dry warm cool wet empty last first sure alone ready kind mean fun cold hot".split(" "));
+const TK_TOV=new Set("want need decide hope plan learn forget refuse promise agree".split(" ")),TK_INGV=new Set("enjoy finish stop mind keep avoid practise practice".split(" ")),TK_LIKE=new Set("like love hate prefer".split(" "));
+const TK_THAT=new Set("think know say believe hope feel guess see hear tell mean remember forget wish imagine notice realize understand show find decide agree promise explain".split(" "));
+const TK_NEG={"don't":"do","doesn't":"does","didn't":"did","isn't":"is","aren't":"are","wasn't":"was","weren't":"were","can't":"can","cannot":"can","couldn't":"could","won't":"will","wouldn't":"would","shouldn't":"should","haven't":"have","hasn't":"has","hadn't":"had","mustn't":"must"};
+const TK_NEGOUT={do:"don't",does:"doesn't",did:"didn't",is:"isn't",are:"aren't",was:"wasn't",were:"weren't",can:"can't",could:"couldn't",will:"won't",would:"wouldn't",should:"shouldn't",have:"haven't",has:"hasn't",had:"hadn't",must:"mustn't"};
+const TK_NOAP={dont:"don't",doesnt:"doesn't",didnt:"didn't",isnt:"isn't",arent:"aren't",wasnt:"wasn't",werent:"weren't",cant:"can't",couldnt:"couldn't",wouldnt:"wouldn't",shouldnt:"shouldn't",havent:"haven't",hasnt:"hasn't",im:"I'm",ive:"I've",youre:"you're",theyre:"they're",hes:"he's",shes:"she's",thats:"that's",theres:"there's",whats:"what's"};
+const TK_CS={"'m":"am","'re":"are","'ve":"have","'ll":"will","'d":"would"};
+/* mots et ponctuation */
+function tkTok(raw){const s=String(raw||"").replace(/[’‘`´]/g,"'");const re=/[A-Za-zÀ-ÿ]+(?:'[A-Za-z]+)?|\d+|[.,!?;:]/g;let m;const T=[],ap=[];
+ const nextW=()=>((s.slice(re.lastIndex).match(/^\s*([A-Za-z]+)/)||[])[1]||"").toLowerCase();
+ while((m=re.exec(s))){let o=m[0];
+  if(/^[.,!?;:]$/.test(o)){T.push({t:o,o,p:1});continue}
+  let l=o.toLowerCase();const cap=/^[A-Z]/.test(o);
+  if(TK_NOAP[l]){ap.push([o,TK_NOAP[l]]);o=TK_NOAP[l];l=o.toLowerCase()}
+  if(l==="its"&&/^(a|an|the|very|so|really|not|raining|snowing|sunny|cold|hot|time|my|his|her|big|small|late|early|nice|fun|great|cool|good|bad|windy|cloudy|beautiful)$/.test(nextW())){ap.push([o,"it's"]);o="it's";l="it's"}
+  if(TK_NEG[l]){T.push({t:TK_NEG[l],o,cap,neg:1});T.push({t:"not",o:"",half:1});continue}
+  let mm=l.match(/^([a-z]+)('m|'re|'ve|'ll|'d)$/);if(mm){T.push({t:mm[1],o,cap,cs:1});T.push({t:TK_CS[mm[2]],o:"",half:1});continue}
+  mm=l.match(/^([a-z]+)'s$/);if(mm){if(/^(he|she|it|that|there|what|who|here|where|how)$/.test(mm[1])){T.push({t:mm[1],o,cap,cs:1});T.push({t:/^(got|been)$/.test(nextW())?"has":"is",o:"",half:1})}else T.push({t:l,o,cap,poss:1});continue}
+  T.push({t:l,o,cap})}
+ return{T,ap,sp:/\s[!?;:]/.test(s)}}
+function tkIsV(w,i){const x=tkVerbs().get(w[i]);if(!x)return false;const pv=w[i-1]||"",X=TKFR.lex();
+ if(TK_DET.has(pv)||/'s$/.test(pv))return false;
+ if(x.t==="base"&&pv==="to")return false;
+ if(x.t!=="be"&&x.t!=="modal"&&X.a.has(w[i])&&(/^(am|is|are|was|were|be|very|so|too|really|quite|looks?|seems?|feels?)$/.test(pv)))return false;
+ if(x.t!=="be"&&x.t!=="modal"&&x.t!=="ing"&&X.n.has(w[i])&&X.a.has(pv))return false;
+ return true}
+const tkHasV=w=>w.some((_,k)=>tkIsV(w,k));
+function tkSubjLen(w,i,strict){const t=w[i];if(!t)return 0;if(TK_SUBJ.has(t)&&t!=="there"||t==="there"&&/^(is|are|was|were)$/.test(w[i+1]||""))return 1;if(strict)return 0;
+ if(TK_DET.has(t)||/'s$/.test(t)){let k=i+1;while(k<w.length&&k<i+5&&!tkIsV(w,k))k++;return k<w.length&&k>i+1?k-i:0}return 0}
+function tkStartsSubj(w,i,strict){i=i||0;const n=tkSubjLen(w,i,strict);if(!n)return false;let k=i+n;while(k<w.length&&TK_ADV.has(w[k]))k++;return tkIsV(w,k)&&tkVerbs().get(w[k]).t!=="ing"}
+function tkSharedOK(rem,prev){let k=0;while(k<rem.length&&TK_ADV.has(rem[k]))k++;if(!tkIsV(rem,k))return false;const t=rem[k],x=tkVerbs().get(t),X=TKFR.lex();
+ if(x.t==="ing"||x.t==="past"||x.t==="be"||x.t==="modal")return true;if(!X.n.has(t))return true;const nx=rem[k+1]||"";
+ if(TK_DET.has(nx)||TKFR.lex().pr.has(nx)||/^(him|her|it|them|me|us|to|very|well|a)$/.test(nx))return true;
+ return!!prev.length&&tkIsV(prev,prev.length-1)&&!nx}
+const TK_CL=[["as","soon","as"],["even","though"],["so","that"],["and","then"],["that","is","why"],["because"],["when"],["while"],["if"],["although"],["though"],["whereas"],["unless"],["since"],["before"],["after"],["until"],["once"],["and"],["but"],["or"],["so"],["then"],["yet"]];
+const TK_CK={"and then":"coord","that is why":"coord","and":"coord","but":"coord","or":"coord","so":"coord","then":"coord","yet":"coord"};
+const TK_PREPLIKE=new Set(["before","after","since","until","once","so","then","yet"]),TK_SHARE=new Set(["and","but","or","then","and then","yet"]);
+const TK_INTRO=[["first","of","all"],["for","example"],["in","conclusion"],["of","course"],["in","fact"],["however"],["first"],["firstly"],["secondly"],["next"],["finally"],["moreover"],["furthermore"],["therefore"],["besides"],["afterwards"],["suddenly"],["later"],["also"],["then"],["so"],["but"],["and"]];
+const TK_INTROCOMMA=new Set(["first of all","for example","in conclusion","of course","in fact","however","firstly","secondly","finally","moreover","furthermore","therefore","besides"]);
+const tkEn=c=>{const k=c.join(" ");return k==="that is why"?"that's why":k};
+const tkKind=k=>TK_CK[k]||"sub";
+function tkIsQ(w){return/^(is|are|am|was|were|do|does|did|can|could|will|would|should|has|have)$/.test(w[0]||"")&&(TK_SUBJ.has(w[1]||"")||TK_DET.has(w[1]||""))||/^(what|where|who|why|how|which)$/.test(w[0]||"")&&tkVerbs().has(w[1]||"")}
+/* découpe une phrase en propositions : connecteurs et ponctuation */
+function tkSplit(ts){const W=ts.map(x=>x.t);const parts=[];const np=(con,comma)=>({con,ws:[],tk:[],ca:new Set(),comma:!!comma});let cur=np(null),i=0;
+ const ml=(L,i)=>{for(const c of L)if(c.every((x,k)=>W[i+k]===x))return c;return null};
+ const isQ=tkIsQ(W.filter(x=>!/^[,;:]$/.test(x)));
+ let c=ml(TK_CL,0);
+ if(c&&tkKind(c.join(" "))==="sub"&&!isQ){cur.con={en:tkEn(c),k:"sub"};cur.lead=true;i=c.length}
+ else if((c=ml(TK_INTRO,0))&&!isQ){cur.con={en:tkEn(c),k:"intro"};i=c.length;if(W[i]===","){cur.icomma=true;i++}}
+ let pend=false;
+ for(;i<W.length;i++){const t=W[i];
+  if(/^[,;:]$/.test(t)){pend=true;continue}
+  const hasV=tkHasV(cur.ws),rem=W.slice(i).filter(x=>!/^[,;:]$/.test(x));
+  const cc=hasV?ml(TK_CL,i):null;
+  if(cc){const key=cc.join(" "),r2=rem.slice(cc.length),rv=tkHasV(r2),rs=tkStartsSubj(r2,0);let ok;
+   if(TK_SHARE.has(key))ok=rv&&(rs||tkSharedOK(r2,cur.ws));else if(key==="so"||key==="that is why"||TK_PREPLIKE.has(key))ok=rv&&rs;else ok=true;
+   if(ok){parts.push(cur);cur=np({en:tkEn(cc),k:tkKind(key)},pend);pend=false;i+=cc.length-1;continue}}
+  if(hasV&&cur.ws.length&&(pend||!isQ)){const lastB=(()=>{for(let k=cur.ws.length-1;k>=0;k--){if(tkIsV(cur.ws,k))return tkVerbs().get(cur.ws[k]).b}return""})();
+   const strict=!pend&&!(cur.lead&&!parts.length);
+   if(tkStartsSubj(rem,0,strict)&&!(TK_THAT.has(lastB)&&!pend)){parts.push(cur);cur=np(null,pend);cur.cut=true;pend=false}}
+  if(pend&&cur.ws.length)cur.ca.add(cur.ws.length-1);pend=false;
+  cur.ws.push(t);cur.tk.push(ts[i])}
+ parts.push(cur);return parts.filter(p=>p.ws.length||p.con)}
+/* une proposition : sujet, verbe, accords */
+function tkPer(subj,w,vi){const head=subj[subj.length-1]||"",X=TKFR.lex();let per="3s";
+ const n=X.n.get(head);
+ if(subj.includes("and")||["you","we","they"].includes(head)||TK_PL.has(head)||(n&&(n.ipl||n.pl))||(!n&&/s$/.test(head)&&!/(ss|us|is|'s)$/.test(head)&&!TK_DET.has(head)&&head.length>3)||/^(these|those|two|three|four|five)$/.test(subj[0]||""))per="p";
+ if(head==="i"&&subj.length===1)per="1s";
+ if(head==="there"){per="";for(let k=vi+1;k<w.length;k++){const x=w[k];if(TK_ADV.has(x))continue;
+  if((x==="a"&&w[k+1]==="lot"&&w[k+2]==="of")||(x==="lots"&&w[k+1]==="of")){k+=x==="a"?2:1;continue}
+  if(/^(a|an|one)$/.test(x)){per="3s";break}if(/^(two|three|four|five|six|seven|eight|nine|ten|many|several|some|lots|\d+)$/.test(x)&&x!=="1"){per=x==="some"?"":"p";if(per)break;continue}
+  if(TK_DET.has(x)||TKFR.lex().a.has(x))continue;const m=X.n.get(x);if(m){per=(m.ipl||m.pl)?"p":"3s";break}break}if(!per)per="?"}
+ return per}
+function tkClause(w,ctx){const V=tkVerbs(),X=TKFR.lex(),tips=[],out=w.slice();let ok=true;
+ let vi=-1;for(let i=0;i<w.length;i++){if(tkIsV(w,i)){vi=i;break}}
+ const con=ctx.con&&ctx.con.en;
+ if(vi<0)return{ok:false,tips:[ctx.con&&ctx.con.k==="sub"?`Après « ${con} », il faut une vraie phrase avec un sujet et un verbe : ${con} he is…`:"Il manque un verbe conjugué : is, has, likes, plays…"],out,vi:-1,vEnd:0,per:"3s",kind:"",implied:false};
+ const implied=vi===0&&!!ctx.shared;
+ if(vi===0&&!implied&&!ctx.q){ok=false;tips.push(ctx.con?`Après « ${con} », dis qui fait l'action : ${con} he…`:"Il manque le sujet au début de la phrase : Kai, he, she, the dog…")}
+ const subj=implied?[]:w.slice(0,vi);const per=implied?ctx.shared.per:tkPer(subj,w,vi);
+ const sj=implied?ctx.shared.label:subj.join(" ").replace(/\bkai\b/,"Kai").replace(/^i$/,"I");
+ const x0=V.get(w[vi]);let j=vi+1;const adv=()=>{while(j<w.length&&TK_ADV.has(w[j]))j++};let kind="pres",vEnd=vi+1;
+ const fix=(i,v,tip)=>{if(out[i]!==v){out[i]=v;ok=false;if(tip&&!tips.includes(tip))tips.push(tip)}};
+ const nAt=k=>{let q=k;while(q<w.length&&TK_ADV.has(w[q]))q++;return q};
+ if(x0.t==="be"){const past=/^(was|were)$/.test(w[vi]);
+  if(!/^(be|been|being)$/.test(w[vi])&&per!=="?"){const want=per==="1s"?(past?"was":"am"):per==="3s"?(past?"was":"is"):(past?"were":"are");fix(vi,want,`Avec « ${sj} », on dit « ${want} » et pas « ${w[vi]} ».`)}
+  adv();const nx=V.get(w[j]);
+  if(w[j]==="going"&&w[j+1]==="to"&&V.get(w[j+2])){kind="going";if(V.get(w[j+2]).t!=="base"&&V.get(w[j+2]).t!=="be")fix(j+2,V.get(w[j+2]).b,"Après going to, le verbe reste à la base.");vEnd=j+3}
+  else if(nx&&nx.t==="ing"){kind=past?"pcont":"cont";vEnd=j+1}
+  else if(nx&&(nx.t==="base"||nx.t==="s")&&!X.a.has(w[j])&&!TK_BENO.has(w[j])&&!/^(be|have|do)$/.test(nx.b)&&!(X.n.has(w[j])&&(TK_DET.has(w[j-1])||nx.t==="s"))){const g=tkIng(nx.b);fix(j,g,`Après be, le verbe prend -ing : « ${out[vi]} ${g} » (présent continu).`);kind="cont";vEnd=j+1}
+  else if(nx&&nx.t==="past"&&tkPP().has(w[j])&&!X.a.has(w[j])){kind="passive";vEnd=j+1}
+  else kind=past?"bepast":"be"}
+ else if(x0.t==="modal"){adv();if(w[j]==="to"&&V.get(w[j+1])){out[j]="";ok=false;tips.push(`Pas de « to » après « ${w[vi]} » : ${w[vi]} ${V.get(w[j+1]).b}.`);j++}
+  const nx=V.get(w[j]);if(nx&&!TK_DET.has(w[j-1])){if(nx.t==="be"&&w[j]!=="be")fix(j,"be",`Après « ${w[vi]} », on dit « be ».`);else if(nx.t!=="base"&&nx.t!=="be"&&nx.t!=="modal")fix(j,nx.b,`Après « ${w[vi]} », le verbe reste à la base : « ${w[vi]} ${nx.b} ».`);vEnd=j+1}
+  kind="modal"}
+ else if(x0.b==="do"&&(()=>{const k=nAt(j),n=V.get(w[k]);return n&&n.t!=="modal"&&n.t!=="be"})()){
+  if(w[vi]!=="did"&&per!=="?"){const want=per==="3s"?"does":"do";fix(vi,want,`Avec « ${sj} », on dit « ${want} ».`)}
+  adv();const nx=V.get(w[j]);if(nx.t!=="base")fix(j,nx.b,`Après do / does / did, le verbe reste à la base : « ${nx.b} ».`);vEnd=j+1;kind=w[vi]==="did"?"past":"pres"}
+ else if(x0.b==="have"&&(()=>{const k=nAt(j);return w[k]==="got"||tkPP().has(w[k])&&V.get(w[k]).t==="past"})()){
+  if(w[vi]!=="had"){const want=per==="3s"?"has":"have";fix(vi,want,`Avec « ${sj} », on dit « ${want} ».`)}adv();vEnd=j+1;kind=w[j]==="got"?"pres":"perfect"}
+ else if(x0.t==="ing"){if(implied&&/cont/.test(ctx.shared.kind))kind="cont";else{const be=per==="1s"?"am":per==="p"?"are":"is";fix(vi,be+" "+w[vi],`Avec -ing, il faut be : « ${be} ${w[vi]} ».`);kind="cont"}}
+ else if(x0.t==="base"||x0.t==="s"){const isPast=x0.t==="base"&&!(implied&&ctx.shared.kind==="pres")&&String((DICT.find(d=>d.v===x0.b)||{}).pt||"").split("/").map(x=>x.trim()).includes(w[vi]);
+  if(implied&&/past/.test(ctx.shared.kind)){const f=tkPastOf(x0.b);fix(vi,f,`Garde le même temps que le début de la phrase (passé) : « ${f} ».`);kind="past"}
+  else if(x0.b==="have"){if(per==="3s"&&w[vi]==="have")fix(vi,"has","Avec he, she, it (ou un seul nom), on dit « has ».");else if(per!=="3s"&&w[vi]==="has")fix(vi,"have",`Avec « ${sj} », on dit « have ».`)}
+  else if(per==="3s"&&x0.t==="base"&&!isPast){const f=tkS3(x0.b);fix(vi,f,`Avec he, she, it (ou un seul nom), on ajoute -s au présent : « ${f} ».`)}
+  else if((per==="p"||per==="1s")&&x0.t==="s"){fix(vi,x0.b,`Avec « ${sj} », pas de -s : « ${x0.b} ».`)}
+  if(kind!=="past")kind=isPast?"past":"pres"}
+ else if(x0.t==="past")kind="past";
+ // verbe + verbe : want to, enjoy -ing, like -ing
+ const mb=(V.get(out[vEnd-1])||V.get(w[vEnd-1])||{}).b,n1=w[vEnd],n2=w[vEnd+1],v1=n1&&V.get(n1),cNoun=x=>{const n=X.n.get(x);return n&&n.t!=="c"};
+ if(mb&&n1&&!TK_DET.has(n1)){
+  if(TK_TOV.has(mb)&&v1&&v1.t==="ing"){fix(vEnd,"to "+v1.b,`Après « ${mb} », on met to + verbe : ${mb} to ${v1.b}.`)}
+  else if(TK_INGV.has(mb)&&n1==="to"&&n2&&V.get(n2)&&V.get(n2).t==="base"){out[vEnd]="";fix(vEnd+1,tkIng(V.get(n2).b),`Après « ${mb} », le verbe prend -ing : ${mb} ${tkIng(V.get(n2).b)}.`)}
+  else if(TK_TOV.has(mb)&&v1&&v1.t==="base"&&!cNoun(n1)){fix(vEnd,"to "+n1,`Après « ${mb} », on met to devant le verbe : ${mb} to ${n1}.`)}
+  else if(TK_LIKE.has(mb)&&v1&&v1.t==="base"&&!cNoun(n1)){fix(vEnd,tkIng(n1),`Après « ${mb} », le verbe prend -ing : ${mb} ${tkIng(n1)}.`)}}
+ // a / an
+ for(let i=0;i<out.length-1;i++){const a=out[i],n=(out[i+1]||"").split(" ")[0];if(!n)continue;
+  if(a==="a"&&/^[aeiou]/.test(n)&&!/^(uni|use|usu|eu|one|u[^n])/.test(n)){out[i]="an";ok=false;const t=`Devant un son voyelle, « a » devient « an » : an ${n}.`;if(!tips.includes(t))tips.push(t)}
+  else if(a==="an"&&/^[^aeiou]/.test(n)&&!/^(hour|honest|honour)/.test(n)){out[i]="a";ok=false;const t=`Devant une consonne, on dit « a » : a ${n}.`;if(!tips.includes(t))tips.push(t)}}
+ return{ok,tips,out,vi,vEnd,per,kind,implied}}
+function tkAbout(P,w){const V=tkVerbs(),K=new Set(),st=x=>x.replace(/ies$/,"y").replace(/(s|es)$/,"");
+ const add=s=>String(s).toLowerCase().replace(/[^a-z ]/g," ").split(/\s+/).forEach(x=>{if(x.length>2&&!/^(the|and|with|his|her|has|have|very|this|that|there|are|was|for|from|into|front|its|one|two|they|him|but|not|can|out|other|some|both|lot|looks?|like|likes)$/.test(x)){K.add(st(x));const b=V.get(x);if(b)K.add(b.b)}});
+ add(P.k.replace(/,/g," "));P.w.forEach(([en])=>add(en));P.m.forEach(add);add(P.d);
+ return w.some(x=>{const b=V.get(x);return K.has(st(x))||(b&&K.has(b.b))||/^(kai|he|his|him)$/.test(x)})}
+const tkCap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function tkLocal(P,raw,mic){const{T,ap,sp}=tkTok(raw);const words=T.filter(x=>!x.p).map(x=>x.t);
+ if(words.length<3)return{ok:false,about:false,corrected:raw,tips_fr:["Ta phrase est trop courte : dis au moins un sujet, un verbe et un complément (Kai is playing…)."],punct_fr:[],parts:[],fr:"",unk:[]};
+ const S=[];let cur=[];for(const x of T){if(x.p&&/[.!?]/.test(x.t)){if(cur.length)S.push({ts:cur,end:x.t});cur=[];continue}cur.push(x)}if(cur.length)S.push({ts:cur,end:""});
+ const tips=[],pt=[],sents=[];let ok=true;
+ for(const sn of S){const W=sn.ts.filter(x=>!x.p).map(x=>x.t),q=tkIsQ(W);sn.q=q;
+  if(q&&/^(what|where|who|why|how|which)$/.test(W[0])){sn.parts=[{con:null,ws:W,tk:sn.ts.filter(x=>!x.p),ca:new Set(),r:{ok:true,tips:[],out:W.slice(),vi:-1,vEnd:0,kind:"q"}}];sn.wh=true;sents.push(sn);continue}
+  const parts=tkSplit(sn.ts);let shared=null;
+  parts.forEach(p=>{let ws=p.ws;
+   if(q){/* question oui / non : on remet dans l'ordre d'une phrase pour la vérifier */const X=TKFR.lex();let s=1;if(TK_DET.has(ws[1])){s=2;while(X.a.has(ws[s])&&!X.n.has(ws[s]))s++;if(X.n.has(ws[s]))s++;s--}p.qws=ws;ws=[...ws.slice(1,1+s),ws[0],...ws.slice(1+s)];p.ws=ws}
+   const ctx={con:p.con,q,shared:p.con&&TK_SHARE.has(p.con.en)?shared:null};
+   const r=tkClause(ws,ctx);if(!r.ok)ok=false;r.tips.forEach(t=>{if(!tips.includes(t))tips.push(t)});
+   if(!r.implied&&r.vi>0)shared={per:r.per,kind:r.kind,label:ws.slice(0,r.vi).join(" ").replace(/\bkai\b/,"Kai")};else if(shared&&r.kind)shared.kind=r.kind;
+   p.r=r});
+  sn.parts=parts;sents.push(sn)}
+ // ponctuation : seulement quand la phrase est écrite (la reconnaissance vocale ne la donne pas)
+ if(!mic){if(sp)pt.push("En anglais, pas d'espace avant ! ? : ; (c'est une règle du français).");
+  ap.forEach(([a,b])=>{const t=`Il manque l'apostrophe : « ${b} » et pas « ${a} ».`;if(!pt.includes(t))pt.push(t)});
+  if(sents.some(sn=>{const f=sn.ts.find(x=>!x.p);return f&&/^[a-z]/.test(f.o)}))pt.push("Une phrase commence toujours par une majuscule.");
+  if(T.some(x=>x.t==="i"&&x.o==="i"))pt.push("« I » (je) s'écrit toujours en majuscule.");
+  const nm=T.find(x=>TK_NAMES.has(x.t)&&/^[a-z]/.test(x.o));if(nm)pt.push(`« ${tkCap(nm.t)} » prend une majuscule.`);
+  const lastS=sents[sents.length-1];if(lastS&&!lastS.end)pt.push(lastS.q?"C'est une question : termine par un point d'interrogation « ? ».":"Termine ta phrase par un point « . ».");
+  else if(lastS&&lastS.q&&lastS.end==="."&&!lastS.wh)pt.push("C'est une question : termine par « ? » et pas par un point.");
+  sents.forEach(sn=>(sn.parts||[]).forEach((p,k)=>{
+   if(k===0&&p.con&&p.con.k==="intro"&&TK_INTROCOMMA.has(p.con.en)&&!p.icomma)pt.push(`Après « ${tkCap(p.con.en)} » en début de phrase, on met une virgule.`);
+   if(k>0&&!p.con&&sn.parts[k-1].lead&&!p.comma)pt.push(`Quand la phrase commence par « ${tkCap(sn.parts[k-1].con.en)} … », on met une virgule avant la suite.`);
+   if(k>0&&!p.con&&!sn.parts[k-1].lead)pt.push(p.comma?"Deux phrases complètes ne se séparent pas par une simple virgule : mets un point, ou relie-les avec un connecteur (and, because, so…).":"Il y a deux phrases collées : mets un point entre les deux, ou relie-les avec un connecteur (and, because, so…).")}))}
+ // la phrase corrigée
+ const nameCap=(x,tok,first)=>{if(x==="i")return"I";if(x==="i'm"||x==="i've"||x==="i'll"||x==="i'd")return"I"+x.slice(1);if(TK_NAMES.has(x)||/^kai's$/.test(x))return tkCap(x);if(tok&&tok.cap&&!first&&!TKFR.lex().n.has(x)&&!tkVerbs().has(x)&&!TK_SUBJ.has(x))return tkCap(x);return x};
+ const outWords=p=>{const r=p.r,res=[],ws=p.qws||p.ws,map=p.qws?null:r.out;let skip=false;
+  for(let i=0;i<ws.length;i++){const tok=p.tk[i],orig=ws[i];let o=map?map[i]:orig;
+   if(tok&&tok.half){if(skip){skip=false;continue}if(o!=="")res.push(o);continue}skip=false;if(o==="")continue;const same=o===orig;
+   if(tok&&tok.neg){o=same?tok.o.toLowerCase():(TK_NEGOUT[o]||o+" not");skip=true}
+   else if(tok&&tok.cs){const hs=!map||map[i+1]===ws[i+1];o=hs?tok.o.toLowerCase():tok.t;skip=hs}
+   else if(tok&&tok.poss&&same)o=tok.o.toLowerCase();
+   res.push(nameCap(o,tok,i===0));if(p.ca&&p.ca.has(i))res[res.length-1]+=","}
+  return res.join(" ")};
+ const corrected=sents.map(sn=>{let s="";const P=sn.parts;
+  P.forEach((p,k)=>{const words=outWords(p);
+   if(k===0){s=(p.con?p.con.en+(p.con.k==="intro"&&(TK_INTROCOMMA.has(p.con.en)||p.icomma)?",":"")+" ":"")+words;if(p.lead&&P.length>1)s+=","}
+   else if(p.con)s+=(p.comma?", ":" ")+p.con.en+" "+words;
+   else if(P[k-1].lead)s+=" "+words;
+   else s+=". "+tkCap(words)});
+  s=s.replace(/\s+/g," ").replace(/ ,/g,",").replace(/,,/g,",").trim();
+  return tkCap(s)+(sn.end||(sn.q?"?":"."))}).join(" ");
+ // la structure, pour l'affichage
+ const parts=[];sents.forEach((sn,si)=>{let last="";(sn.parts||[]).forEach((p,k)=>{const r=p.r,o=r.out||p.ws,cap=x=>x.split(" ").map(y=>nameCap(y)).join(" ");
+  if(sn.wh){parts.push({con:null,q:true,subject:"",verb:"",rest:tkCap(p.ws.join(" "))});return}
+  const sep=!p.con&&((k>0&&!sn.parts[k-1].lead)||(k===0&&si>0))?".":"";const subj=cap(o.slice(0,Math.max(r.vi,0)).filter(Boolean).join(" "));if(!r.implied&&subj)last=subj;
+  parts.push({con:p.con?{en:p.con.en,fr:TKFR.conFr(p.con.en)}:null,sep,q:sn.q,implied:r.implied,subject:r.implied?(last?"("+last+")":""):subj,verb:cap(o.slice(Math.max(r.vi,0),r.vEnd).filter(Boolean).join(" ")),rest:cap(o.slice(r.vEnd).filter(Boolean).join(" "))})})});
+ // la traduction
+ let fr="",unk=[];try{const tr=TKFR.sentences(sents.filter(sn=>!sn.wh).map(sn=>({end:sn.end||(sn.q?"?":"."),q:sn.q,parts:sn.parts.map(p=>{const r=p.r,w=[],m=[];(r.out||p.ws).forEach((x,i)=>{m[i]=w.length;String(x).split(" ").filter(Boolean).forEach(y=>w.push(y))});m[(r.out||p.ws).length]=w.length;
+   return{w,vi:r.vi<0?-1:m[r.vi],vEnd:r.vi<0?0:m[r.vEnd],implied:r.implied,con:p.con,lead:p.lead,comma:p.comma}})})));fr=tr.fr;unk=tr.unk}catch(e){fr=""}
+ return{ok,about:tkAbout(P,words),corrected,tips_fr:tips.slice(0,4),punct_fr:pt.slice(0,4),parts,fr,unk}}
+async function tkClaude(P,raw,mic){if(TK.noAI||!window.claude||!window.claude.use)return null;let S=null;try{S=await window.claude.use("sample")}catch(e){S=null}if(!S){TK.noAI=true;return null}
  const prompt=`You are a kind English teacher for a French child (11 years old, level A1-A2).
 The picture shows: ${P.d}
 The question was: "${P.q}"
-The child answered with speech-to-text (ignore capital letters and punctuation; ignore obvious speech-recognition slips): "${raw}"
-Check the sentence structure: subject, verb (tense and agreement), word order, articles, prepositions. Also say if it describes the picture.
+The child's sentence (${mic?"spoken with speech-to-text: ignore capital letters and punctuation, and ignore obvious speech-recognition slips":"typed on a keyboard: also check punctuation, capital letters and apostrophes"}): "${raw}"
+Check the sentence structure. First find the connectors (and, but, because, so, when, then…) and the punctuation (commas, full stops) that split it into clauses; then check each clause: subject, verb (tense and agreement), word order, articles, prepositions. A subject can be shared after and / but / or. Also say if it talks about the picture; any words are fine, the child does not have to use the suggested words.
 Reply with only this JSON:
-{"ok": true or false (true when the sentence is correct English), "about": true or false (true when it talks about the picture), "corrected": "the corrected sentence, simple English, same meaning (copy it if already correct)", "subject": "subject words", "verb": "verb group", "rest": "the rest of the sentence", "tips_fr": ["at most 3 very short explanations in French for a child; empty list if the sentence is correct"], "praise": "one short encouraging sentence in simple English"}`;
+{"ok": true or false (true when the grammar is correct; punctuation alone does not make it false), "about": true or false, "corrected": "the corrected sentence with correct punctuation, simple English, same meaning", "clauses": [{"connector": "connector before this clause or empty", "subject": "subject words (empty if shared)", "verb": "verb group", "rest": "the rest"}], "tips_fr": ["at most 3 very short grammar explanations in French for a child; empty list if correct"], "punct_fr": [${mic?"":"\"at most 2 very short punctuation explanations in French; empty list if correct\""}], "fr": "translation of the corrected sentence into simple everyday French, with basic words a French 11-year-old knows", "praise": "one short encouraging sentence in simple English"}`;
  try{const r=await S.json(prompt,{modelTier:"quick"});if(r&&typeof r==="object"&&typeof r.corrected==="string")return r;return null}
  catch(e){if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(e&&e.code))TK.noAI=true;return null}}
+function tkStructHtml(parts){return`<div class="tkstruct">${parts.map(p=>`<div class="tkcl">${p.con?`<span class="k"><i>Connector</i><b>${esc(p.con.en)}</b>${p.con.fr?`<small>${esc(p.con.fr)}</small>`:""}</span>`:p.sep?`<span class="k p"><i>Full stop</i><b>.</b></span>`:""}${p.q&&!p.verb?`<span class="c"><i>Question</i><b>${esc(p.rest)}</b></span>`:`<span class="s${p.implied?" im":""}"><i>Subject</i><b>${esc(p.subject||"–")}</b></span><span class="v"><i>Verb</i><b>${esc(p.verb||"–")}</b></span>${p.rest?`<span class="c"><i>Rest</i><b>${esc(p.rest)}</b></span>`:""}`}</div>`).join("")}</div>`}
 async function tkCheck(){const box=document.getElementById("tktext"),raw=box.value.trim(),fb=document.getElementById("tkfb"),P=TKPICS[TK.i];if(TK.busy)return;
  if(!raw){box.focus();box.classList.add("shake");setTimeout(()=>box.classList.remove("shake"),400);return}
- TK.busy=true;const btn=document.getElementById("tkcheck");btn.disabled=true;fb.innerHTML=`<p class="tkwait">Kai is checking your sentence…</p>`;
- let r=await tkClaude(P,raw),src="Checked by Claude";if(!r){r=tkLocal(P,raw);src="Checked by Kai's grammar rules"}
+ TK.busy=true;const btn=document.getElementById("tkcheck");btn.disabled=true;fb.innerHTML=`<p class="tkwait">Kai is checking your sentence…</p>`;const mic=TK.mic;
+ const L=tkLocal(P,raw,mic);let r=await tkClaude(P,raw,mic),src="claude";
+ if(r){if(!Array.isArray(r.clauses)||!r.clauses.length)r.parts=L.parts;else r.parts=r.clauses.map(c=>({con:c.connector?{en:String(c.connector),fr:TKFR.conFr(String(c.connector).toLowerCase())}:null,subject:String(c.subject||""),verb:String(c.verb||""),rest:String(c.rest||""),implied:!c.subject}));
+  if(!r.fr){const L2=tkLocal(P,r.corrected,true);r.frLocal=L2.fr;r.unk=L2.unk}}
+ else{r=L;src="local"}
  TK.busy=false;btn.disabled=false;
- const good=!!r.ok,about=r.about!==false,same=(r.corrected||"").toLowerCase().replace(/[^a-z]/g,"")===raw.toLowerCase().replace(/[^a-z]/g,"");
- const tips=(Array.isArray(r.tips_fr)?r.tips_fr:[]).slice(0,3).map(x=>`<li>${esc(String(x))}</li>`).join("");
+ const good=!!r.ok,about=r.about!==false&&L.about!==false||r.about===true,same=(r.corrected||"").toLowerCase().replace(/[^a-z]/g,"")===raw.toLowerCase().replace(/[^a-z]/g,"");
+ const li=a=>(Array.isArray(a)?a:[]).filter(Boolean).slice(0,3).map(x=>`<li>${esc(String(x))}</li>`).join("");
+ const tips=li(r.tips_fr),ptips=mic?"":(Array.isArray(r.punct_fr)?r.punct_fr:[]).filter(Boolean).slice(0,4).map(x=>`<li>${esc(String(x))}</li>`).join("");
+ const cons=(r.parts||[]).filter(p=>p.con).map(p=>`<b>${esc(p.con.en)}</b>${p.con.fr?` (${esc(p.con.fr)})`:""}`);
  const praise=String(r.praise||(good?(about?"Great sentence!":"Good sentence!"):"Nice try! Let's fix it."));
+ const frTxt=src==="claude"&&r.fr?esc(String(r.fr)):(r.fr||r.frLocal||"");
+ const unk=(r.unk||[]).filter(Boolean);
  fb.innerHTML=`<div class="tkres ${good?"ok":"ko"}"><p class="verdict ${good?"ok":"ko"}">${good?(about?"GREAT SENTENCE!":"GOOD SENTENCE!"):"ALMOST!"}</p>
-${r.subject||r.verb?`<div class="tkstruct"><span class="s"><i>Subject</i><b>${esc(r.subject||"–")}</b></span><span class="v"><i>Verb</i><b>${esc(r.verb||"–")}</b></span><span class="c"><i>Rest</i><b>${esc(r.rest||"–")}</b></span></div>`:""}
-${!same&&r.corrected?`<div class="tkcorr"><i>${good?"Even better":"Correct sentence"}</i><button class="tkm" data-say="${esc(r.corrected)}">${SPK}<span>${esc(r.corrected)}</span></button></div>`:""}
+${(r.parts||[]).length?tkStructHtml(r.parts):""}
+${cons.length?`<p class="tkcon">🔗 Tes idées sont reliées par ${cons.join(", ")}. Bravo !</p>`:good&&(r.parts||[]).length===1?`<p class="tkcon more">🔗 Pour aller plus loin, relie deux idées avec un connecteur : and, but, because, so… <i>Kai is happy <b>because</b> he is playing.</i></p>`:""}
+${(!same||ptips)&&r.corrected?`<div class="tkcorr"><i>${good&&!ptips?"Even better":"Correct sentence"}</i><button class="tkm" data-say="${esc(r.corrected)}">${SPK}<span>${esc(r.corrected)}</span></button></div>`:""}
 ${tips?`<ul class="tktips">${tips}</ul>`:""}
-${!about?`<p class="tktip2">Ta phrase doit parler de l'image ! Regarde les mots en haut ou les exemples.</p>`:""}
-<p class="tksrc">${src}</p></div>`;
+${ptips?`<div class="tkpunct"><i>✏️ Ponctuation</i><ul class="tktips">${ptips}</ul></div>`:""}
+${frTxt?`<div class="tkfr"><i>🇫🇷 En français</i><p>${frTxt}</p>${unk.length&&src!=="claude"||unk.length&&!r.fr?`<small>Mots pas encore dans le lexique de Kai : ${unk.map(esc).join(", ")}</small>`:""}<small>${src==="claude"&&r.fr?"Traduction de Claude, avec des mots simples.":"Traduction automatique avec les mots de Kai : elle peut être un peu maladroite."}</small></div>`:""}
+${!about?`<p class="tktip2">Ta phrase doit parler de l'image ! Tu peux utiliser tes propres mots, ou t'aider des idées en haut.</p>`:""}
+<p class="tksrc">${src==="claude"?"Checked by Claude":"Checked by Kai's grammar rules"}</p></div>`;
  try{sayOne(praise+(!good&&r.corrected?" "+r.corrected:""),null)}catch(e){}
  fb.scrollIntoView({behavior:"smooth",block:"nearest"})}
 document.getElementById("toTalk").addEventListener("click",openTalk);
@@ -2276,6 +2708,7 @@ document.getElementById("talkbody").addEventListener("click",e=>{const t=e.targe
  if(t.closest("#tknext")){if(TKREC)try{TKREC.abort()}catch(err){}tkPick();renderTalk();scrollTo({top:0,behavior:"smooth"});setTimeout(()=>sayOne(TKPICS[TK.i].q,document.querySelector("#talkbody .tkq .snd")),300);return}
  if(t.closest("#tkex")){const x=document.getElementById("tkexbox");x.hidden=!x.hidden;return}
  const s=t.closest("[data-say]");if(s){document.querySelectorAll(".talk").forEach(x=>x.classList.remove("talk"));sayOne(s.dataset.say,s)}});
+document.getElementById("talkbody").addEventListener("input",e=>{if(e.target.id==="tktext"&&e.inputType!==undefined)TK.mic=false});
 document.getElementById("talkbody").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="tktext"&&!e.shiftKey){e.preventDefault();tkCheck()}});
 
 (function(){const PAGES=new Set(["verbs","nouns","adjectives","adverbs","connectors","prepositions","words","lesson","grammar","conj","test","phrasals","idioms","talk"]);
