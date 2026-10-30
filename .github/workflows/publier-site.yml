@@ -49,7 +49,7 @@ jobs:
           # Ce qui n'est pas l'application ne part pas en ligne (revue, scripts, guide, fichiers git).
           for f in *; do
             case "$f" in
-              _site|.git|.github|.gitignore|.gitattributes|docs|publier.bat|publier.ps1|PUBLIER.md|README.md) ;;
+              _site|.git|.github|.gitignore|.gitattributes|docs|scripts|tests|publier.bat|publier.ps1|PUBLIER.md|README.md) ;;
               *) cp -R "$f" _site/ ;;
             esac
           done
