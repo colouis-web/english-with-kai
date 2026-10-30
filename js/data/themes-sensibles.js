@@ -1,7 +1,7 @@
 /* Données — thèmes et mots « sensibles » pour un enfant (Ludo, 30/10/2026, analyse UX I-03, bug « mots du jour »).
    Script classique : à charger AVANT js/app-usage.js (lvOkWord s'en sert).
 
-   Règle : jusqu'au niveau SENSITIVE.maxLevel inclus (0 = Beginner, 1 = Elementary), un mot sensible n'est
+   Règle : jusqu'au niveau SENSITIVE.maxLevel inclus (0 = Beginner, 1 = Elementary, 2 = Intermediate), un mot sensible n'est
    JAMAIS proposé automatiquement : ni en mot du jour (nouveau ou à revoir), ni dans un quiz « All … »,
    ni comme mauvaise réponse (distracteur), ni en dictée. Il reste consultable dans les dictionnaires et dans
    un quiz dont l'élève choisit lui-même le thème (ex. « War »).
@@ -15,7 +15,7 @@
    Aucune donnée d'élève n'est touchée : un mot exclu reste dans sa mémoire et revient dès le niveau 2. */
 "use strict";
 const SENSITIVE = {
-    maxLevel: 1,
+    maxLevel: 2,   /* jusqu'à Intermediate inclus (décision du PO, 30/10) */
     /* thèmes entiers : mort, guerre, crime et justice pénale, argent « adulte » (impôts, dettes, assurances) */
     themes: {
         nouns: ["endoflife", "war", "justice", "finance"],

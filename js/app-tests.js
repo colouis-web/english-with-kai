@@ -2,7 +2,7 @@
 "use strict";
 /* Les nombres de leçons viennent de LORDER (S-06) ; « sub » est un getter car des leçons sont ajoutées à LORDER
    après le chargement de ce fichier (enrichissement) : lu au moment de l'affichage, le compte est toujours juste. */
-const TESTS = { grammar: { title: "Grammar test", h1: "Grammar test", ic: "G", get sub() { return `20 questions on the ${LORDER.grammar.length} grammar lessons · 7 to type`; }, say: "Grammar test! *20 questions* on all the lessons." },
+const TESTS = { grammar: { title: "Grammar test", h1: "Grammar test", ic: "G", get sub() { const n = testLessons("grammar").length; return `20 questions on your ${n} grammar lesson${n > 1 ? "s" : ""} · 7 to type`; }, say: "Grammar test! *20 questions* on your lessons." },
     conj: { title: "Conjugation test", h1: "Conjugation", ic: "C", get sub() { return `20 questions on the ${LORDER.conj.length} tenses · 7 to type`; }, say: "Conjugation test! *20 questions* on all the tenses." },
     irr: { title: "Irregular verbs test", h1: "Irregular verbs", ic: "V", sub: "10 random verbs · type the past simple and the past participle", say: "Irregular verbs! Type the *past* forms." } };
 const n20 = x => String(Math.round(x * 10) / 10);
@@ -225,10 +225,27 @@ function pickRot(list, n, key, hf) {
     return out;
 }
 const tkey = (k, x) => "kai.tq." + (PROFS.cur || "x") + "." + k + "." + x;
+/* Leçons couvertes par un test (décision du PO, 30/10) : pour la grammaire, seulement les leçons que l'élève a déjà
+   travaillées (au moins une série faite), complétées par les premières leçons du parcours pour avoir au moins
+   TMINLES leçons. Un débutant ne tombe donc plus sur le discours indirect dès la 3e question. */
+const TMINLES = 3;
+function testLessons(kind) {
+    const all = LORDER[kind];
+    if (kind !== "grammar")
+        return all;
+    const p = curProf(), done = all.filter(id => p && p.lessons && p.lessons[id]);
+    for (const id of all) {
+        if (done.length >= TMINLES)
+            break;
+        if (!done.includes(id))
+            done.push(id);
+    }
+    return all.filter(id => done.includes(id));
+}
 function buildTest(kind) {
     if (kind === "irr")
         return pickRot(IRR100.filter(v => DMAP[v]), 10, tkey(kind, "v"), v => v).map(v => ({ irr: 1, v, d: DMAP[v] }));
-    const ids = LORDER[kind], N = TQN, base = Math.floor(N / ids.length), extra = new Set(shuffle(ids).slice(0, N - base * ids.length)), typed = new Set(shuffle(ids.filter(id => (TTYPE[kind][id] || []).length)).slice(0, TQTYPED)), qs = [];
+    const ids = testLessons(kind), N = TQN, base = Math.floor(N / ids.length), extra = new Set(shuffle(ids).slice(0, N - base * ids.length)), typed = new Set(shuffle(ids.filter(id => (TTYPE[kind][id] || []).length)).slice(0, TQTYPED)), qs = [];
     for (const id of ids) {
         let k = base + (extra.has(id) ? 1 : 0);
         if (typed.has(id)) {

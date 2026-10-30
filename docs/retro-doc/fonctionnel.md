@@ -155,7 +155,7 @@ téléphone) et vitesse ; **Save & move** (export / import) ; **Parent code** ; 
 | 0 Beginner | Débutant | A1 | 10 | 3 | — |
 | 1 Practicer | Pratiquant | A2 | 15 | 5 | 15 jours objectif atteint, 250 mots connus, 80 % de moyenne sur les 10 derniers quiz (5 quiz minimum), 3 leçons réussies |
 | 2 Confirmed | Confirmé | B1 | 20 | 8 | 20 jours, 600 mots, 85 %, 6 leçons |
-| 3 Expert | Expert | B2 | 30 | 15 | 25 jours, 1 000 mots, 90 %, 9 leçons |
+| 3 Upper-intermediate | Intermédiaire avancé | B2 | 30 | 15 | 25 jours, 1 000 mots, 90 %, 9 leçons |
 
 - Le passage est **automatique** à l'ouverture de My daily work quand les 4 conditions sont remplies
   (`checkLevelUp`) ; les jours comptent depuis la date d'arrivée au niveau (`lvSince`).
