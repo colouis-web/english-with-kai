@@ -627,9 +627,9 @@ function renderDaily() {
         body.innerHTML = h + calendar();
         return;
     }
-    h += `${LVUP !== null ? `<div class="lvup"><div class="dend">${kaiBig("joy", [["LEVEL UP!"], ["YOU ARE NOW"], [[LV[LVUP].name.toUpperCase()]]], "Level up! You are now " + LV[LVUP].name)}</div><p>New goal: <b>${LV[LVUP].words} words a day</b>. Bravo!</p></div>` : ""}
-<p class="ddate">${longDate(r.d)}</p>${moodBlock(r)}
-<div class="dsec"><h2>Today's goal</h2><span>${Math.min(m, n)}/${n}</span></div>${goalCard(r)}${memCard()}
+    h += `${LVUP !== null ? `<div class="lvup"><div class="dend">${kaiBig("joy", [["Level up!"], ["You are now"], [[LV[LVUP].name]]], "Level up! You are now " + LV[LVUP].name)}</div><p>New goal: <b>${LV[LVUP].words} words a day</b>. Bravo!</p></div>` : ""}
+<p class="ddate">${longDate(r.d)}</p>
+<div class="dsec"><h2>Today's goal</h2><span>${Math.min(m, n)}/${n}</span></div>${goalCard(r)}${moodBlock(r)}${memCard()}
 ${done ? `<button class="listen more" id="dmore">Other quizzes${GOSVG}</button>` : ""}
 <div class="dsec"><h2>This week</h2><span>${wk}/2</span></div>${weekTiles()}
 <div class="dsec"><h2>My level</h2></div>${levelCard()}
@@ -637,7 +637,7 @@ ${done ? `<button class="listen more" id="dmore">Other quizzes${GOSVG}</button>`
 <div class="dsec"><h2>My week</h2></div>${weekChart()}
 <div class="dsec" id="dtests"><h2>My tests</h2><span>/20</span></div>${testProgress()}
 <div class="dsec"><h2>Words of the day</h2><span>${wordsOf(r).length}</span></div>${wordLists(r, true)}
-<div class="dend">${done ? kaiBig("joy", [["ALL DONE!"], ["SEE YOU"], [["TOMORROW!"]]], "All done! See you tomorrow!") : kaiBig("dyn", [["KEEP GOING!"], [[String(left)], ` WORD${left > 1 ? "S" : ""}`], ["TO GO!"]], `Keep going! ${left} word${left > 1 ? "s" : ""} to go!`)}</div>`;
+<div class="dend">${done ? kaiBig("joy", [["All done!"], ["See you"], [["tomorrow!"]]], "All done! See you tomorrow!") : kaiBig("dyn", [["Keep going!"], [[String(left)], ` word${left > 1 ? "s" : ""}`], ["to go!"]], `Keep going! ${left} word${left > 1 ? "s" : ""} to go!`)}</div>`;
     body.innerHTML = h;
     if (lvUp) {
         confetti();

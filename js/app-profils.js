@@ -4,7 +4,7 @@
 const BACKSVG = '<svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const initial = n => (n || "?").trim().charAt(0).toUpperCase() || "?";
 function menuRows(name) {
-    return name ? [["WELCOME"], [[name.toUpperCase()], "!"], ["LET'S LEARN ENGLISH"], ["TOGETHER!"]] : [["WHAT DO YOU"], ["WANT TO LEARN"], [["TODAY"], "?"]];
+    return name ? [["Welcome"], [[name], "!"], ["Let's learn English"], ["together!"]] : [["What do you"], ["want to learn"], [["today"], "?"]];
 }
 function renderMenuHead() {
     const p = curProf(), say = p ? `Welcome ${p.name}! Let's learn English together!` : "What do you want to learn today?", rows = menuRows(p ? p.name : "");

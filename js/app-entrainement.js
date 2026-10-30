@@ -128,8 +128,8 @@ function answerPQ(k) {
     document.getElementById("pnext").scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 function endPractice() {
-    const N = LQ.qs.length, P = pct(LQ.ok, N), pick = P >= 60 ? (P === 100 ? "joy" : "dyn") : "angry", img = END_L[pick] || END_L.dyn, msg = P === 100 ? "PERFECT!" : P >= 80 ? "GREAT JOB!" : P >= 60 ? "WELL DONE!" : "TRY AGAIN!", L = LESSONS[LES];
-    const rows = [["YOU GOT"], [[`${P}%`], "!"], [msg]];
+    const N = LQ.qs.length, P = pct(LQ.ok, N), pick = P >= 60 ? (P === 100 ? "joy" : "dyn") : "angry", img = END_L[pick] || END_L.dyn, msg = P === 100 ? "Perfect!" : P >= 80 ? "Great job!" : P >= 60 ? "Well done!" : "Try again!", L = LESSONS[LES];
+    const rows = [["You got"], [[`${P}%`], "!"], [msg]];
     document.getElementById("lessonbody").innerHTML = `<p class="qpart">Your score · ${esc(L.title)}</p><div class="qend"><svg viewBox="0 0 360 300" role="img" aria-label="Kai : you got ${P} percent">
 <image class="kai${pick === "angry" ? " mad" : ""}" href="img/kai-${pick}.webp" x="${img.x}" y="${img.y}" width="${img.w}" height="${img.h}" preserveAspectRatio="xMidYMax meet"/>
 <g class="bb b1"><path d="${bubblePath(img.c, img.r, img.tip)}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${rows.map((rw, j) => `<tspan x="${img.c[0]}" y="${f1(img.c[1] - 20 + 6 + j * 20)}">${rowSvg(rw)}</tspan>`).join("")}</text></g></svg></div>

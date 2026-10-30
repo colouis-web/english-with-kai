@@ -127,7 +127,7 @@ function wrapRows(s, maxW) {
         if (!seg)
             return;
         const hl = seg[0] === "*", txt = seg.replace(/\*/g, "");
-        txt.split(/\s+/).filter(Boolean).forEach((w, k) => toks.push({ w: w.toUpperCase(), hl, glue: k === 0 && toks.length > 0 && !prevEnd && !/^\s/.test(txt) }));
+        txt.split(/\s+/).filter(Boolean).forEach((w, k) => toks.push({ w, hl, glue: k === 0 && toks.length > 0 && !prevEnd && !/^\s/.test(txt) }));
         prevEnd = /\s$/.test(txt);
     });
     const rows = [];
@@ -153,13 +153,15 @@ function rowTok(row) {
     }).join("");
 }
 /* rotation des images de Kai : bonne réponse / mauvaise réponse */
-const ROT = { good: ["smile", "joy"], bad: ["cry", "grumpy", "cry", "bored"] }, ROTI = { good: 0, bad: 0 };
+/* S-09 : une erreur reste normale, Kai ne pleure plus (« cry » est réservé à l'humeur « Sad » de My daily work) */
+const ROT = { good: ["smile", "joy"], bad: ["head", "grumpy", "head", "bored"] }, ROTI = { good: 0, bad: 0 };
 const nextFace = k => ROT[k][ROTI[k]++ % ROT[k].length];
-function headSvg(sentence, face, mood) {
+/* lang : "fr" quand la bulle porte une phrase française (S-10), pour que le lecteur d'écran la lise avec le bon accent */
+function headSvg(sentence, face, mood, lang) {
     const rows = wrapRows(sentence, 168), n = rows.length, lh = 18, ry = Math.max(44, n * lh / 2 + 22), cx = 238, H = Math.max(176, 2 * ry + 26), cy = H / 2, rx = 116;
     return `<svg viewBox="0 0 360 ${f1(H)}" role="img" aria-label="Kai : ${esc(plain(sentence))}">
 <image class="kai qface${mood ? " " + mood : ""}" href="img/kai-${face}.webp" x="2" y="${f1(H - 150)}" width="122" height="150" preserveAspectRatio="xMidYMax meet"/>
-<g class="bb b1 qb"><path d="${bubblePath([cx, cy], [rx, ry], [108, H - 62])}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${rows.map((r, j) => `<tspan x="${cx}" y="${f1(cy - (n - 1) * lh / 2 + 5 + j * lh)}">${rowTok(r)}</tspan>`).join("")}</text></g></svg>`;
+<g class="bb b1 qb"><path d="${bubblePath([cx, cy], [rx, ry], [108, H - 62])}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle"${lang ? ` lang="${lang}"` : ""}>${rows.map((r, j) => `<tspan x="${cx}" y="${f1(cy - (n - 1) * lh / 2 + 5 + j * lh)}">${rowTok(r)}</tspan>`).join("")}</text></g></svg>`;
 }
 const QW = () => document.getElementById("qwrap");
 const GOSVG = '<svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -172,7 +174,7 @@ function renderQ() {
     document.getElementById("qn").textContent = `${QZ.i + 1}/${list.length}`;
     const ask = ph ? "What does it mean in French?" : typeof x.ask === "function" ? x.ask((q.k && q.k !== QZ.kind) || QZ.tag === "all" ? (q.d && q.d.cat) || "all" : QZ.tag) : x.ask;
     QW().innerHTML = `<p class="qpart">${partLab(ph)}</p><div class="dots${QZ.qs[QZ.ph].length > 10 ? " many" : ""}" aria-hidden="true">${dotsHtml()}</div>
-<div class="qhead" id="qhead">${headSvg(ph ? q.en : q.fr, "head")}</div>
+<div class="qhead" id="qhead">${headSvg(ph ? q.en : q.fr, "head", "", ph ? "" : "fr")}</div>
 <p class="qask" id="qask">${ask}</p>
 <div class="opts" id="opts">${q.labels.map((l, k) => `<button class="opt${ph ? " fr" : ""}" data-k="${k}">${esc(l)}</button>`).join("")}</div>
 <div class="fb" id="fb" aria-live="polite"></div>`;
@@ -195,7 +197,7 @@ function answer(k) {
         else
             b.classList.add("dim");
     });
-    document.getElementById("qhead").innerHTML = headSvg(ph ? q.en : q.fr, nextFace(good ? "good" : "bad"), good ? "joy" : "sad");
+    document.getElementById("qhead").innerHTML = headSvg(ph ? q.en : q.fr, nextFace(good ? "good" : "bad"), good ? "joy" : "sad", ph ? "" : "fr");
     document.querySelector(".qhead .bb").style.animation = "none";
     document.querySelector(".dots").innerHTML = dotsHtml();
     const PR = ["GREAT!", "WELL DONE!", "YES! PERFECT!", "AWESOME!"], last = QZ.i === list.length - 1;
@@ -233,16 +235,16 @@ function endPick(s, N) {
 }
 function renderEnd() {
     const DR = dailyRecord(), N = QZ.qs[0].length, s1 = QZ.qs[0].filter(q => q.res).length, s2 = QZ.qs[1].filter(q => q.res).length, T = s1 + s2, perfect = s1 === N && s2 === N, P = pct(T, 2 * N);
-    const msg = perfect ? "PERFECT!" : P >= 80 ? "GREAT JOB!" : P >= 60 ? "WELL DONE!" : "NOT YET!", nfix = QZ.words.filter(({ d }) => !(QZ.qs[0].find(q => q.d === d) || {}).res || !(QZ.qs[1].find(q => q.d === d) || {}).res).length;
+    const msg = perfect ? "Perfect!" : P >= 80 ? "Great job!" : P >= 60 ? "Well done!" : "Not yet!", nfix = QZ.words.filter(({ d }) => !(QZ.qs[0].find(q => q.d === d) || {}).res || !(QZ.qs[1].find(q => q.d === d) || {}).res).length;
     document.getElementById("qn").textContent = "";
-    const rows = [["YOU GOT"], [[`${P}%`], "!"], [msg]], pick = endPick(T, 2 * N), img = END_L[pick];
+    const rows = [["You got"], [[`${P}%`], "!"], [msg]], pick = endPick(T, 2 * N), img = END_L[pick];
     const r = (ph, d) => QZ.qs[ph].find(q => q.d === d).res, mk = v => `<span class="m ${v ? "ok" : "ko"}">${v ? CHECK : CROSS}</span>`;
     QW().innerHTML = `<p class="qpart">${QZ.attempt > 1 ? `Try ${QZ.attempt}` : "Results"}</p>
 <div class="qend"><svg viewBox="0 0 360 300" role="img" aria-label="Kai : you got ${P} percent">
 <image class="kai${pick === "angry" ? " mad" : ""}" href="img/kai-${pick}.webp" x="${img.x}" y="${img.y}" width="${img.w}" height="${img.h}" preserveAspectRatio="xMidYMax meet"/>
 <g class="bb b1" id="endb"><path d="${bubblePath(img.c, img.r, img.tip)}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${rows.map((rw, j) => `<tspan x="${img.c[0]}" y="${f1(img.c[1] - 20 + 6 + j * 20)}">${rowSvg(rw)}</tspan>`).join("")}</text></g></svg></div>
 <div class="scores"><div class="sc${s1 === N ? " ok" : ""}"><i>French → English</i><b>${pct(s1, N)}%</b><small>${s1} of ${N} words</small></div><div class="sc${s2 === N ? " ok" : ""}"><i>English → French</i><b>${pct(s2, N)}%</b><small>${s2} of ${N} words</small></div></div>
-<p class="goal${perfect ? " ok" : ""}">${perfect ? `100% both ways: you know these ${N} words. Well done!` : (P < 60 ? `Not yet! ${nfix} word${nfix > 1 ? "s" : ""} to fix: let's go again, you can do it.` : `Get 100% both ways to unlock new words!`)}</p>
+<p class="goal${perfect ? " ok" : ""}">${perfect ? `100% both ways: you know these ${N} words. Well done!` : (P < 60 ? `Not yet! ${nfix} word${nfix > 1 ? "s" : ""} to fix: let's go again, you can do it.` : (QZ.kind === "mix" ? `Next round: new words and the ones you missed!` : `Get 100% both ways to unlock new words!`))}</p>
 ${DR ? `<p class="dban${DR.reached ? " ok" : ""}">${DR.reached ? `${CHECK}Goal reached: ${DR.m} words today! Trophy +3 stars` : DR.bonus ? `${BOLT}Bonus quiz: +1 star!` : `${CHECK}Words of the day: ${Math.min(DR.m, DR.n)}/${DR.n} mastered`}</p>` : ""}
 <p class="rleg">FR → EN · EN → FR</p>
 <ul class="recap two">${QZ.words.map(({ d, k }) => `<li>${mk(r(0, d))}${mk(r(1, d))}<b>${esc(recapLab(k || QZ.kind, d))}</b><i>${esc(d.fr)}</i></li>`).join("")}</ul>

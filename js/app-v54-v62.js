@@ -140,6 +140,22 @@ function t3Close(v, it) {
         return false;
     }
 }
+/* S-08 : une coquille d'une lettre est acceptée (avec l'orthographe affichée) seulement si la réponse attendue a au
+   moins T3TYPO_MIN lettres, et si ce que l'élève a tapé n'est PAS un mot anglais connu (« skirt » pour « shirt » reste faux :
+   c'est un autre mot, pas une faute de frappe). Réservé à « Type it » : ni les tests notés sur 20, ni la dictée. */
+const T3TYPO_MIN = 5;
+function t3Typo(v, it) {
+    const e = t3Norm(t3Ans(it));
+    if (e.replace(/[^a-z]/g, "").length < T3TYPO_MIN)
+        return false;
+    try {
+        if (t3Norm(v).split(" ").every(w => tkKnown(w)))
+            return false;
+    }
+    catch (err) {
+    }
+    return t3Close(v, it);
+}
 let XMODE = null; /* "t3" ou "dz" quand la page du quiz sert à écrire */
 function startT3() {
     const it = [];
@@ -193,12 +209,15 @@ function xCheck() {
         setTimeout(() => inp.classList.remove("shake"), 400);
         return;
     }
-    const ok = t3Ok(v, it), ans = t3Ans(it), close = !ok && t3Close(v, it), last = X.i === X.items.length - 1;
+    const exact = t3Ok(v, it), typo = !exact && !dz && t3Typo(v, it), ok = exact || typo, ans = t3Ans(it), close = !ok && t3Close(v, it), last = X.i === X.items.length - 1;
     X.res[X.i] = ok;
     inp.disabled = true;
+    const cb = document.getElementById("xcheck");
+    if (cb)
+        cb.remove(); /* S-08 : plus de bouton CHECK une fois la réponse donnée */
     inp.classList.add(ok ? "right" : "wrong");
     document.querySelector("#qwrap .dots").outerHTML = xDots(X);
-    document.getElementById("xfb").innerHTML = `<p class="verdict ${ok ? "ok" : "ko"}">${ok ? ["YES!", "PERFECT!", "WELL DONE!"][X.i % 3] : close ? `ALMOST! IT'S <b>${esc(ans.toUpperCase())}</b>` : `IT'S <b>${esc(ans.toUpperCase())}</b>`}</p>
+    document.getElementById("xfb").innerHTML = `<p class="verdict ${ok ? "ok" : "ko"}">${ok ? ["YES!", "PERFECT!", "WELL DONE!"][X.i % 3] : close ? `ALMOST! IT'S <b>${esc(ans.toUpperCase())}</b>` : `IT'S <b>${esc(ans.toUpperCase())}</b>`}</p>${typo ? `<p class="tright">Watch the spelling: <b>${esc(ans)}</b></p>` : ""}
 <div class="ex"><button class="snd sm" id="xsay2" aria-label="Listen to the sentence">${SPK}</button><div><p class="en">${hl(it.en)}</p><p class="fr">${hl(it.fr)}</p></div></div>
 <button class="listen next" id="xnext">${last ? "See my score" : "Next"}${GOSVG}</button>`;
     sayOne(plain(it.en), document.getElementById("xsay2"));
@@ -864,7 +883,7 @@ function dyRender() {
     document.getElementById("dyqn").textContent = `${R.i + 1}/${N}`;
     let h = `<p class="qpart">Do it yourself · ${esc(dyLab(q.src, 1))}</p><div class="dots${N > 10 ? " many" : ""}" aria-hidden="true">${dyDots()}</div>`;
     if (q.type === "wm")
-        h += `<div class="qhead" id="dyhead">${headSvg(q.dir ? q.en : q.fr, "head")}</div><p class="qask">${dyAsk(q)}</p>
+        h += `<div class="qhead" id="dyhead">${headSvg(q.dir ? q.en : q.fr, "head", "", q.dir ? "" : "fr")}</div><p class="qask">${dyAsk(q)}</p>
 <div class="opts" id="dyopts">${q.labels.map((l, k) => `<button class="opt${q.dir ? " fr" : ""}" data-k="${k}">${esc(l)}</button>`).join("")}</div>`;
     else if (q.type === "wt")
         h += `<div class="qhead">${headSvg(R.i === 0 ? "Type the *missing* word!" : "Write the *English* word!", "head")}</div>
@@ -918,7 +937,7 @@ function dyPick(k) {
             else
                 b.classList.add("dim");
         });
-        document.getElementById("dyhead").innerHTML = headSvg(q.dir ? q.en : q.fr, nextFace(good ? "good" : "bad"), good ? "joy" : "sad");
+        document.getElementById("dyhead").innerHTML = headSvg(q.dir ? q.en : q.fr, nextFace(good ? "good" : "bad"), good ? "joy" : "sad", q.dir ? "" : "fr");
         dyFeedback(good, `<p class="verdict ${good ? "ok" : "ko"}">${good ? DYPR[R.i % 4] : `OOPS! IT'S <b>${esc(String(q.dir ? q.labels[q.opts.indexOf(q.d)] : q.ans).toUpperCase())}</b>`}</p>${dyEx(q)}`, q.dir ? null : plain(q.en));
         return;
     }
@@ -1014,7 +1033,7 @@ function dyEnd() {
             b.ok++;
     });
     const miss = R.items.map((q, j) => ({ q, j })).filter(x => R.res[x.j] !== true), pick = P >= 80 ? "v" : P >= 50 ? "dyn" : "profile";
-    dyBody().innerHTML = `<div class="dend">${kaiBig(pick, [["YOUR SCORE"], [[String(n)], ` / ${N}`], [P >= 80 ? "GREAT JOB!" : P >= 50 ? "GOOD WORK!" : "KEEP TRYING!"]], `Your score: ${n} out of ${N}. ${P >= 80 ? "Great job!" : P >= 50 ? "Good work!" : "Keep trying!"}`)}</div>
+    dyBody().innerHTML = `<div class="dend">${kaiBig(pick, [["Your score"], [[String(n)], ` / ${N}`], [P >= 80 ? "Great job!" : P >= 50 ? "Good work!" : "Keep trying!"]], `Your score: ${n} out of ${N}. ${P >= 80 ? "Great job!" : P >= 50 ? "Good work!" : "Keep trying!"}`)}</div>
 <div class="dytab">${Object.entries(by).map(([s, b]) => `<div class="dyrow"><span>${esc(dyLab(s))}</span><b class="${b.ok === b.n ? "ok" : b.ok * 2 >= b.n ? "" : "ko"}">${b.ok}/${b.n}</b></div>`).join("")}</div>
 ${miss.length ? `<details class="wd" open><summary class="wh ko">To learn again <span>${miss.length}</span></summary><ul class="dymiss">${miss.map(({ q }) => {
         const c = dyCorr(q);
@@ -1604,7 +1623,7 @@ function t6End() {
             b.ok++;
     });
     const miss = R.items.map((q, j) => ({ q, j })).filter(x => !R.res[x.j]), pick = mark >= 16 ? "v" : mark >= 10 ? "dyn" : "profile";
-    t6Body().innerHTML = `<div class="dend">${kaiBig(pick, [[full ? "YOUR MARK" : "YOUR SCORE"], [[full ? n20(mark) : String(n)], full ? " / 20" : ` / ${N}`], [mark >= 16 ? "GREAT JOB!" : mark >= 10 ? "GOOD WORK!" : "KEEP TRYING!"]], `${full ? "Your mark: " + n20(mark) + " out of 20" : "Your score: " + n + " out of " + N}`)}</div>
+    t6Body().innerHTML = `<div class="dend">${kaiBig(pick, [[full ? "Your mark" : "Your score"], [[full ? n20(mark) : String(n)], full ? " / 20" : ` / ${N}`], [mark >= 16 ? "Great job!" : mark >= 10 ? "Good work!" : "Keep trying!"]], `${full ? "Your mark: " + n20(mark) + " out of 20" : "Your score: " + n + " out of " + N}`)}</div>
 <p class="dban">${n} / ${N} words right · ${fr ? "English → French" : "French → English"}${full ? "" : " · only some parts: your best mark is kept for the whole list"}</p>
 <div class="dytab">${Object.entries(by).map(([s, b]) => `<div class="dyrow"><span>${esc(s)}</span><b class="${b.ok === b.n ? "ok" : b.ok * 2 >= b.n ? "" : "ko"}">${b.ok}/${b.n}</b></div>`).join("")}</div>
 ${miss.length ? `<details class="wd" open><summary class="wh ko">To learn again <span>${miss.length}</span></summary><ul class="dymiss">${miss.map(({ q, j }) => `<li><button class="snd sm" type="button" data-say="${esc(q.w[0].replace(/\s*\(.*\)$/, ""))}" aria-label="Listen">${SPK}</button><div><b>${esc(q.w[0])} = ${esc(q.w[1])}</b>${R.your[j] ? `<small>You wrote: ${esc(R.your[j])}</small>` : `<small>You didn't know</small>`}</div></li>`).join("")}</ul></details>` : `<p class="dban">Perfect! No mistakes. 🎉</p>`}
@@ -1716,7 +1735,8 @@ document.getElementById("t6body").addEventListener("keydown", e => {
                 const n = t6Days(x.date);
                 return n >= 0 && n <= 10;
             }).sort((a, b) => a.date.localeCompare(b.date))[0];
-            const dd = document.querySelector("#dailybody .ddate");
+            /* S-03 : le bandeau passe sous l'objectif du jour, pour que « Start » reste visible sans défiler */
+            const dd = document.querySelector("#dailybody .wgoal");
             if (t && dd && !document.getElementById("t6ban")) {
                 dd.insertAdjacentHTML("afterend", `<button class="t6ban" id="t6ban" type="button" data-t6go="${t.id}">📅 <span><b>Class test ${t6When(t.date)}</b> ${esc(t.title)} · ${t6Date(t.date)}</span>${GOSVG}</button>`);
             }
