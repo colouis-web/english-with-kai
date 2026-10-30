@@ -188,7 +188,7 @@ function show(id, back) {
 }
 const openMenu = () => startApp(), goHome = () => show("home", true);
 document.getElementById("kaitap").addEventListener("click", openMenu);
-document.getElementById("hint").addEventListener("click", openMenu);
+document.getElementById("start").addEventListener("click", openMenu);
 document.getElementById("back").addEventListener("click", goHome);
 /* en-tête du menu : buste de Kai (expression neutre) + bulle */
 let ASK = { say: "What do you want to learn today?" };

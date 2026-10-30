@@ -8,7 +8,7 @@ main{max-width:480px;min-height:100svh;margin:0 auto;padding:calc(14px + env(saf
 h1{margin:0;text-align:center;font:700 clamp(24px,7vw,32px)/1.05 var(--title);letter-spacing:.6px;text-transform:uppercase}
 h1 span{display:block;font-size:1em;letter-spacing:1px;color:var(--teal)}
 .stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;margin:6px 0 10px}
-.stagebox{position:relative;width:100%;max-height:calc(100svh - 190px);aspect-ratio:360/640;margin:0 auto}
+.stagebox{position:relative;width:100%;max-height:calc(100svh - 250px);aspect-ratio:360/640;margin:0 auto}
 .stagebox svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .kaitap{position:absolute;left:58%;top:3%;width:41%;height:96%;border:0;background:transparent;cursor:pointer;border-radius:30px;padding:0}
 .kaitap:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
@@ -31,9 +31,9 @@ body.navlock .page{pointer-events:none}
 @keyframes pagein{from{opacity:0;transform:translateY(14px)}}
 .page.on.rev{animation-name:pageback}@keyframes pageback{from{opacity:0;transform:translateY(-10px)}}
 .kai{cursor:pointer}
-.hint{align-self:center;margin:12px 0 0;font:500 14px var(--claude);color:var(--mut);letter-spacing:.3px;text-transform:uppercase;display:flex;align-items:center;gap:6px;background:none;border:0;cursor:pointer}
-.hint i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--teal);animation:blink 1.4s ease-in-out infinite}
-@keyframes blink{50%{opacity:.25;transform:scale(.7)}}
+/* Accueil : « Start » est le bouton principal (S-02), « Listen to Kai » est secondaire */
+.ghost.sm#listen{display:inline-flex;align-items:center;gap:8px;align-self:center;margin-top:14px;min-height:44px}
+.ghost.sm#listen svg{width:20px;height:20px}
 .top{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;margin-bottom:6px}
 .back{width:44px;height:44px;border-radius:14px;border:2px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--ink)}
 .back svg{width:22px;height:22px}
