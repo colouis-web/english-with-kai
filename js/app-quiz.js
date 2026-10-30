@@ -151,7 +151,8 @@ function rowTok(row) {
     }).join("");
 }
 /* rotation des images de Kai : bonne réponse / mauvaise réponse */
-const ROT = { good: ["smile", "joy"], bad: ["cry", "grumpy", "cry", "bored"] }, ROTI = { good: 0, bad: 0 };
+/* S-09 : une erreur reste normale, Kai ne pleure plus (« cry » est réservé à l'humeur « Sad » de My daily work) */
+const ROT = { good: ["smile", "joy"], bad: ["head", "grumpy", "head", "bored"] }, ROTI = { good: 0, bad: 0 };
 const nextFace = k => ROT[k][ROTI[k]++ % ROT[k].length];
 function headSvg(sentence, face, mood) {
     const rows = wrapRows(sentence, 168), n = rows.length, lh = 18, ry = Math.max(44, n * lh / 2 + 22), cx = 238, H = Math.max(176, 2 * ry + 26), cy = H / 2, rx = 116;
