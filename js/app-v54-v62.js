@@ -47,13 +47,14 @@ const roundMin = n => Math.max(2, Math.round(n * .3));
 /* --- 3. la mémoire des mots : mots à revoir aujourd'hui, mots souvent ratés --- */
 function memStats() {
     const t = todayKey(), S = wordState(), A = allWords(), seen = new Set(Object.keys((DST.days[t] || {}).w || {}));
-    const due = Object.entries(S).filter(([key, s]) => !seen.has(key) && A.byKey.has(key) && daysBetween(s.last, t) >= INTV[s.b]).sort((a, b) => a[1].b - b[1].b || a[1].last.localeCompare(b[1].last)).map(([key]) => A.byKey.get(key));
+    const lvm = lvOf(curProf()), sOk = key => typeof sensOk !== "function" || sensOk(A.byKey.get(key).k, A.byKey.get(key).d, lvm);
+    const due = Object.entries(S).filter(([key, s]) => !seen.has(key) && A.byKey.has(key) && daysBetween(s.last, t) >= INTV[s.b] && sOk(key)).sort((a, b) => a[1].b - b[1].b || a[1].last.localeCompare(b[1].last)).map(([key]) => A.byKey.get(key));
     const miss = {};
     for (const r of Object.values(DST.days))
         for (const [key, w] of Object.entries(r.w || {}))
             if (!w.ok)
                 miss[key] = (miss[key] || 0) + 1;
-    const often = Object.keys(miss).filter(k => A.byKey.has(k) && (miss[k] >= 2 || (S[k] && !S[k].ok))).sort((a, b) => miss[b] - miss[a] || String((S[b] || {}).last || "").localeCompare(String((S[a] || {}).last || ""))).slice(0, 12).map(k => ({ w: A.byKey.get(k), m: miss[k], fixed: !!(S[k] && S[k].ok) }));
+    const often = Object.keys(miss).filter(k => A.byKey.has(k) && sOk(k) && (miss[k] >= 2 || (S[k] && !S[k].ok))).sort((a, b) => miss[b] - miss[a] || String((S[b] || {}).last || "").localeCompare(String((S[a] || {}).last || ""))).slice(0, 12).map(k => ({ w: A.byKey.get(k), m: miss[k], fixed: !!(S[k] && S[k].ok) }));
     return { due, often };
 }
 function memWords(list) {
@@ -538,7 +539,7 @@ function semOf(k, d) {
     }
 }
 wrongs = function (k, tag, d, sent, plural) {
-    const pool = wPool(k, tag), full = kAll(k), S = new Set(semOf(k, d)), same = o => S.size && semOf(k, o).some(c => S.has(c)), inT = o => kIn(k, o, tag), res = [], STOK = new Set((sent || "").split(/[^a-z]+/));
+    const lvw = lvOf(curProf()), pool = wPool(k, tag), full = kAll(k).filter(o => tag !== "all" || typeof sensOk !== "function" || sensOk(k, o, lvw)), S = new Set(semOf(k, d)), same = o => S.size && semOf(k, o).some(c => S.has(c)), inT = o => kIn(k, o, tag), res = [], STOK = new Set((sent || "").split(/[^a-z]+/));
     const easy = o => {
         try {
             return useOf(k, o).f >= 2;
