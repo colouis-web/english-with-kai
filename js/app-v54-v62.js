@@ -1715,7 +1715,8 @@ document.getElementById("t6body").addEventListener("keydown", e => {
                 const n = t6Days(x.date);
                 return n >= 0 && n <= 10;
             }).sort((a, b) => a.date.localeCompare(b.date))[0];
-            const dd = document.querySelector("#dailybody .ddate");
+            /* S-03 : le bandeau passe sous l'objectif du jour, pour que « Start » reste visible sans défiler */
+            const dd = document.querySelector("#dailybody .wgoal");
             if (t && dd && !document.getElementById("t6ban")) {
                 dd.insertAdjacentHTML("afterend", `<button class="t6ban" id="t6ban" type="button" data-t6go="${t.id}">📅 <span><b>Class test ${t6When(t.date)}</b> ${esc(t.title)} · ${t6Date(t.date)}</span>${GOSVG}</button>`);
             }

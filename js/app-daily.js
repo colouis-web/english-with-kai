@@ -627,8 +627,8 @@ function renderDaily() {
         return;
     }
     h += `${LVUP !== null ? `<div class="lvup"><div class="dend">${kaiBig("joy", [["LEVEL UP!"], ["YOU ARE NOW"], [[LV[LVUP].name.toUpperCase()]]], "Level up! You are now " + LV[LVUP].name)}</div><p>New goal: <b>${LV[LVUP].words} words a day</b>. Bravo!</p></div>` : ""}
-<p class="ddate">${longDate(r.d)}</p>${moodBlock(r)}
-<div class="dsec"><h2>Today's goal</h2><span>${Math.min(m, n)}/${n}</span></div>${goalCard(r)}${memCard()}
+<p class="ddate">${longDate(r.d)}</p>
+<div class="dsec"><h2>Today's goal</h2><span>${Math.min(m, n)}/${n}</span></div>${goalCard(r)}${moodBlock(r)}${memCard()}
 ${done ? `<button class="listen more" id="dmore">Other quizzes${GOSVG}</button>` : ""}
 <div class="dsec"><h2>This week</h2><span>${wk}/2</span></div>${weekTiles()}
 <div class="dsec"><h2>My level</h2></div>${levelCard()}
