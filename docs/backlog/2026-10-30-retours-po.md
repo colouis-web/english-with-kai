@@ -30,3 +30,8 @@ Aucun sprint lancé : le PO prend les questions de l'équipe une par une dans le
 8. (Ani) Droits de diffusion publique des images de Kai et de la voix ElevenLabs ?
 9. (Ani) Double authentification active sur le compte GitHub ?
 10. (Ani) Délai croissant après erreurs de code parent ? Balise CSP ? Mode hors ligne utile ?
+
+## Réponses du PO
+- **30/10, 18:40 — Q1** : le fils en 1ère a **son propre profil sur son propre téléphone**, niveau de départ **B1**. Thèmes : pas de préférence exprimée → hypothèse : thèmes du programme de 1re.
+- **30/10, 18:40 — contrainte** : **mode sans son** indispensable (usage dans le RER) : la dictée et le micro sont des formats optionnels ; sans son, l'épreuve les remplace par des formats écrits (le choix « son disponible ? » se fait au début de l'épreuve et est mémorisé).
+- **30/10, 18:40 — renouvellement** : les certifications doivent être **refaites régulièrement** → un certificat a une durée de validité ; à l'échéance, épreuve de renouvellement courte ; en cas d'échec, le thème revient en révision.
