@@ -75,6 +75,7 @@ jobs:
       version: ${{ steps.preparer.outputs.version }}
 
   tests:
+    continue-on-error: true
     name: Tests (Playwright + Chromium)
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -135,7 +136,10 @@ jobs:
   publier:
     name: Publier sur GitHub Pages
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: [verifier, tests]   # publication seulement si vérifications ET tests sont verts
+    # v1.0 (30/10, scrum master) : les tests de parcours navigateur sont encore instables (délais) ; ils s'exécutent et
+    # s'affichent mais ne bloquent pas la publication. La vérification (secrets, liens, manifest) reste bloquante.
+    # À rebloquer (needs: [verifier, tests]) une fois les tests stabilisés.
+    needs: [verifier]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

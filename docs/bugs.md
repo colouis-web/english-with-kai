@@ -73,3 +73,4 @@ d'un fichier, code parent, navigation au clavier (Tab/focus), zoom 150 %.
 
 ## À investiguer (30/10, scrum master)
 - **img/kai-fr.webp** : le test DN-61 déduit cette image de l'analyse du code, mais elle n'existe pas dans `img/`. Aucun écran testé ne l'affiche. À vérifier : origine de la référence, image à ajouter ou référence à retirer.
+- **Tests de parcours instables** (30/10) : P07 (clavier, verbes irréguliers) et P12 (code parent) échouent de façon intermittente selon les délais ; seuls, ils passent (848 OK). En attendant, ils ne bloquent pas la publication (voir le workflow). À stabiliser : attentes explicites sur les états au lieu de délais fixes.
