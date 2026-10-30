@@ -66,7 +66,9 @@ function pickWords(k, tag) {
     if (k === "mix")
         return pickMix(roundSize());
     const x = KK(k), out = [], N = QNUM;
-    for (const d of shuffle(kAll(k).filter(d => kIn(k, d, tag)))) {
+    /* quiz « All … » : pas de mot sensible aux niveaux 0–1 ; un thème choisi par l'élève (ex. War) reste complet */
+    const lvq = lvOf(curProf()), sOk = d => tag !== "all" || typeof sensOk !== "function" || sensOk(k, d, lvq);
+    for (const d of shuffle(kAll(k).filter(d => kIn(k, d, tag) && sOk(d)))) {
         if (out.length >= N)
             break;
         const ok = [0, 1].filter(i => !x.eiOk || x.eiOk(d, i));

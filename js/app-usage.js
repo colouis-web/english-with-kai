@@ -25,6 +25,9 @@ function usageHelp() {
 }
 /* les mots du jour selon le niveau : d'abord les mots courants et neutres */
 function lvOkWord(kind, d, lv) {
+    /* thèmes sensibles (mort, guerre, crime, impôts…) : jamais proposés automatiquement aux niveaux 0–1 (js/data/themes-sensibles.js) */
+    if (typeof sensOk === "function" && !sensOk(kind, d, lv))
+        return false;
     const u = useOf(kind, d);
     if (lv <= 0)
         return u.f >= 2 && !/[sfelox]/.test(u.r);

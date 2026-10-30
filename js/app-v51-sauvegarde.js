@@ -211,7 +211,7 @@ function wPool(k, tag) {
             return A;
         const kind = k;
         const B = A.filter(x => lvOkWord(kind, x, lv));
-        return B.length >= 12 ? B : A;
+        return B.length >= 12 ? B : typeof sensOk === "function" ? A.filter(x => sensOk(kind, x, lv)) : A;
     }
     catch (e) {
         return A;

@@ -390,14 +390,15 @@ function quota(n) {
 /* une série de mots du jour : d'abord les mots à revoir, puis des mots nouveaux pris dans le thème le moins vu */
 function pickMix(size) {
     const t = todayKey(), S = wordState(), A = allWords(), lv = LV[lvOf(curProf())], seen = new Set(Object.keys((DST.days[t] || {}).w || {})), used = new Set();
-    const due = Object.entries(S).filter(([key, s]) => !seen.has(key) && A.byKey.has(key) && daysBetween(s.last, t) >= INTV[s.b]).sort((a, b) => a[1].b - b[1].b || a[1].last.localeCompare(b[1].last)).map(([key]) => A.byKey.get(key));
+    const lvn = lvOf(curProf()), sOk = w => typeof sensOk !== "function" || sensOk(w.k, w.d, lvn);
+    /* un mot sensible déjà vu reste dans la mémoire de l'élève mais ne revient qu'à partir du niveau 2 */
+    const due = Object.entries(S).filter(([key, s]) => !seen.has(key) && A.byKey.has(key) && daysBetween(s.last, t) >= INTV[s.b] && sOk(A.byKey.get(key))).sort((a, b) => a[1].b - b[1].b || a[1].last.localeCompare(b[1].last)).map(([key]) => A.byKey.get(key));
     const out = due.slice(0, Math.round(size * lv.rev / lv.words));
     out.forEach(w => used.add(w.key));
-    const lvn = lvOf(curProf());
     for (const k of quota(size - out.length)) {
         let free = A.filter(w => w.k === k && !used.has(w.key) && !seen.has(w.key) && lvOkWord(w.k, w.d, lvn));
         if (!free.length)
-            free = A.filter(w => w.k === k && !used.has(w.key) && !seen.has(w.key));
+            free = A.filter(w => w.k === k && !used.has(w.key) && !seen.has(w.key) && sOk(w));
         let pool = free.filter(w => !S[w.key]);
         if (!pool.length)
             pool = free.slice().sort((a, b) => S[a.key].last.localeCompare(S[b.key].last)).slice(0, 30);
