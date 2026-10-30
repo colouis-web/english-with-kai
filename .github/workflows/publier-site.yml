@@ -1,0 +1,110 @@
+# Livraison automatique de Learning English with Kai.
+#
+# - Pull request  : vérification seulement (rien n'est publié).
+# - Envoi sur main : vérification, PUIS publication sur GitHub Pages, PUIS étiquette de version.
+#   Si la vérification échoue, le site en ligne NE CHANGE PAS (croix rouge + e-mail).
+#
+# Réglage à faire UNE fois : Settings > Pages > Build and deployment > Source = « GitHub Actions ».
+# Gratuit sur un dépôt public. Actions officielles GitHub uniquement, épinglées par leur empreinte.
+name: Publier le site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:   # bouton « Run workflow » dans l'onglet Actions pour republier à la main
+
+permissions: {}        # aucun droit par défaut ; chaque tâche demande seulement ce qu'il lui faut
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  verifier:
+    name: Vérifier (secrets, liens, manifest, taille)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Récupérer le code (git seul, sans action tierce)
+        run: |
+          git init -q .
+          git fetch -q --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA"
+          git checkout -q FETCH_HEAD
+
+      - name: Contrôles
+        run: python3 -I .github/verifier.py
+
+      - name: Préparer le site (fichiers de l'app seulement + numéro de version)
+        id: preparer
+        if: github.event_name != 'pull_request'
+        run: |
+          set -eu
+          shopt -s dotglob nullglob
+          VERSION="v$(TZ=Europe/Paris date +%Y.%m.%d).${GITHUB_RUN_NUMBER}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          mkdir _site
+          # Ce qui n'est pas l'application ne part pas en ligne (revue, scripts, guide, fichiers git).
+          for f in *; do
+            case "$f" in
+              _site|.git|.github|.gitignore|.gitattributes|docs|publier.bat|publier.ps1|PUBLIER.md|README.md) ;;
+              *) cp -R "$f" _site/ ;;
+            esac
+          done
+          # Version visible sans toucher au code source de l'app :
+          #  - https://<compte>.github.io/english-with-kai/version.json
+          #  - balise <meta name="version"> ajoutée à la copie publiée de index.html
+          printf '{"version":"%s","date":"%s","commit":"%s"}\n' \
+            "$VERSION" "$(TZ=Europe/Paris date '+%d/%m/%Y %H:%M')" "${GITHUB_SHA:0:7}" > _site/version.json
+          sed -i "0,/<meta charset=\"utf-8\">/s//<meta charset=\"utf-8\">\n<meta name=\"version\" content=\"$VERSION\">/" _site/index.html
+          grep -q "name=\"version\"" _site/index.html
+          echo "Version préparée : $VERSION"
+
+      - name: Empaqueter le site pour GitHub Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+    outputs:
+      version: ${{ steps.preparer.outputs.version }}
+
+  publier:
+    name: Publier sur GitHub Pages
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: verifier
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - name: Déployer
+        id: deploiement
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+  etiqueter:
+    name: Étiqueter la version publiée
+    needs: [verifier, publier]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Créer l'étiquette (tag) de version
+        env:
+          VERSION: ${{ needs.verifier.outputs.version }}
+          TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          test -n "$VERSION"
+          AUTH="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)"
+          git init -q .
+          git -c http.extraheader="$AUTH" fetch -q --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA"
+          git -c http.extraheader="$AUTH" push -q "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA:refs/tags/$VERSION"
+          echo "Étiquette $VERSION posée sur ${GITHUB_SHA:0:7}"
