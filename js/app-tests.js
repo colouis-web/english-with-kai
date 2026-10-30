@@ -1,7 +1,9 @@
 /* Code — tranche de l'ancien index.html (lignes 2116–2289). Script classique : l'ordre des <script> compte. */
 "use strict";
-const TESTS = { grammar: { title: "Grammar test", h1: "Grammar test", ic: "G", sub: "20 questions on the 19 grammar lessons · 7 to type", say: "Grammar test! *20 questions* on all the lessons." },
-    conj: { title: "Conjugation test", h1: "Conjugation", ic: "C", sub: "20 questions on the 13 tenses · 7 to type", say: "Conjugation test! *20 questions* on all the tenses." },
+/* Les nombres de leçons viennent de LORDER (S-06) ; « sub » est un getter car des leçons sont ajoutées à LORDER
+   après le chargement de ce fichier (enrichissement) : lu au moment de l'affichage, le compte est toujours juste. */
+const TESTS = { grammar: { title: "Grammar test", h1: "Grammar test", ic: "G", get sub() { return `20 questions on the ${LORDER.grammar.length} grammar lessons · 7 to type`; }, say: "Grammar test! *20 questions* on all the lessons." },
+    conj: { title: "Conjugation test", h1: "Conjugation", ic: "C", get sub() { return `20 questions on the ${LORDER.conj.length} tenses · 7 to type`; }, say: "Conjugation test! *20 questions* on all the tenses." },
     irr: { title: "Irregular verbs test", h1: "Irregular verbs", ic: "V", sub: "10 random verbs · type the past simple and the past participle", say: "Irregular verbs! Type the *past* forms." } };
 const n20 = x => String(Math.round(x * 10) / 10);
 function isTest(q) {
