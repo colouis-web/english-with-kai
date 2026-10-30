@@ -1,0 +1,37 @@
+# --- Fichiers systeme Windows / Mac ---
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# --- Fichiers temporaires (Office, editeurs, telechargements) ---
+~$*
+*.tmp
+*.bak
+*.swp
+*.crdownload
+*.part
+
+# --- Secrets : jamais sur un depot public ---
+.env
+.env.*
+*.env
+*.key
+*.pem
+*.pfx
+*.p12
+*.ppk
+*.kdbx
+id_rsa*
+id_ed25519*
+
+# --- Sauvegardes d'eleves (Me > Save & move) : contiennent des prenoms ---
+kai-english-*.json
+
+# --- Outils de developpement ---
+node_modules/
+.vscode/
+.idea/
+__pycache__/
+tests/_out/

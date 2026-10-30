@@ -1,0 +1,1230 @@
+{
+ "genere_avec": "index.html d'origine (main 51efca8) — ne pas régénérer avec une version découpée",
+ "date_figee": "2026-10-30T10:00:00",
+ "ls": {
+  "kai.tq.kmvm3z7k0vnx6.grammar.questions": "[\"16q5ags\",\"r2llp5\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.comparat": "[\"My marks are ___ than last year.\"]",
+  "kai.pq.kmvm3z7k0vnx6.articles": "[\"amgcve\",\"nwl7ku\",\"kkcqk6\",\"15uzfbo\",\"ejyo65\",\"1el56a8\",\"1hsanze\",\"1kfjuhn\",\"1rom9lh\",\"j4hj44\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.pronouns": "[\"1hrpxmx\",\"1amjd7x\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.demonstr": "[\"ybqsmr\",\"1m570ey\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.reflexive": "[\"b6dpyj\"]",
+  "kai.daily.v1.kmvm3z7k0vnx6": "{\"2026-10-24\":{\"d\":\"2026-10-24\",\"mood\":null,\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1792828800000}],\"w\":{\"nouns:cake\":{\"k\":\"nouns\",\"e\":\"a cake\",\"f\":\"un gâteau\",\"ok\":1},\"adjectives:expensive\":{\"k\":\"adjectives\",\"e\":\"expensive\",\"f\":\"cher / chère\",\"ok\":1},\"connectors:finally\":{\"k\":\"connectors\",\"e\":\"finally\",\"f\":\"finalement / enfin\",\"ok\":1},\"nouns:cloud\":{\"k\":\"nouns\",\"e\":\"a cloud\",\"f\":\"un nuage\",\"ok\":1},\"nouns:holiday\":{\"k\":\"nouns\",\"e\":\"a holiday\",\"f\":\"des vacances (f)\",\"ok\":1},\"adjectives:warm\":{\"k\":\"adjectives\",\"e\":\"warm\",\"f\":\"chaud(e) / doux / douce\",\"ok\":1},\"verbs:judge\":{\"k\":\"verbs\",\"e\":\"to judge\",\"f\":\"juger\",\"ok\":1},\"adverbs:definitely\":{\"k\":\"adverbs\",\"e\":\"definitely\",\"f\":\"sans aucun doute / c'est sûr\",\"ok\":1},\"verbs:add\":{\"k\":\"verbs\",\"e\":\"to add\",\"f\":\"ajouter\",\"ok\":1},\"verbs:shine\":{\"k\":\"verbs\",\"e\":\"to shine\",\"f\":\"briller\",\"ok\":1}},\"n\":10,\"lv\":0,\"goalT\":1792828800000,\"u\":1792828800000,\"cel\":1},\"2026-10-25\":{\"d\":\"2026-10-25\",\"mood\":\"tired\",\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":85,\"t\":1792918800000}],\"w\":{\"nouns:cake\":{\"k\":\"nouns\",\"e\":\"a cake\",\"f\":\"un gâteau\",\"ok\":1},\"prepositions:behind\":{\"k\":\"prepositions\",\"e\":\"behind\",\"f\":\"derrière\",\"ok\":1},\"connectors:finally\":{\"k\":\"connectors\",\"e\":\"finally\",\"f\":\"finalement / enfin\",\"ok\":1},\"nouns:lie\":{\"k\":\"nouns\",\"e\":\"a lie\",\"f\":\"un mensonge\",\"ok\":1},\"adjectives:expensive\":{\"k\":\"adjectives\",\"e\":\"expensive\",\"f\":\"cher / chère\",\"ok\":1},\"verbs:stick\":{\"k\":\"verbs\",\"e\":\"to stick\",\"f\":\"coller\",\"ok\":1},\"nouns:exhibition\":{\"k\":\"nouns\",\"e\":\"an exhibition\",\"f\":\"une exposition\",\"ok\":0},\"adverbs:now\":{\"k\":\"adverbs\",\"e\":\"now\",\"f\":\"maintenant\",\"ok\":1},\"adjectives:happy\":{\"k\":\"adjectives\",\"e\":\"happy\",\"f\":\"heureux / heureuse / content(e)\",\"ok\":0},\"verbs:believe\":{\"k\":\"verbs\",\"e\":\"to believe\",\"f\":\"croire\",\"ok\":0}},\"n\":10,\"u\":1792918800000,\"lv\":0},\"2026-10-26\":{\"d\":\"2026-10-26\",\"mood\":null,\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1793005200000},{\"k\":\"lesson-be\",\"n\":10,\"p\":90,\"t\":1793005200000}],\"w\":{\"nouns:Spain\":{\"k\":\"nouns\",\"e\":\"Spain\",\"f\":\"l'Espagne\",\"ok\":1},\"adverbs:left\":{\"k\":\"adverbs\",\"e\":\"left\",\"f\":\"à gauche\",\"ok\":1},\"verbs:believe\":{\"k\":\"verbs\",\"e\":\"to believe\",\"f\":\"croire\",\"ok\":1},\"verbs:bake\":{\"k\":\"verbs\",\"e\":\"to bake\",\"f\":\"faire cuire au four\",\"ok\":1},\"nouns:exhibition\":{\"k\":\"nouns\",\"e\":\"an exhibition\",\"f\":\"une exposition\",\"ok\":1},\"nouns:grave\":{\"k\":\"nouns\",\"e\":\"a grave\",\"f\":\"une tombe\",\"ok\":1},\"verbs:create\":{\"k\":\"verbs\",\"e\":\"to create\",\"f\":\"créer\",\"ok\":1},\"prepositions:except\":{\"k\":\"prepositions\",\"e\":\"except\",\"f\":\"sauf\",\"ok\":1},\"adjectives:dirty\":{\"k\":\"adjectives\",\"e\":\"dirty\",\"f\":\"sale\",\"ok\":1},\"adjectives:happy\":{\"k\":\"adjectives\",\"e\":\"happy\",\"f\":\"heureux / heureuse / content(e)\",\"ok\":1}},\"n\":10,\"lv\":0,\"goalT\":1793005200000,\"u\":1793005200000,\"cel\":1},\"2026-10-28\":{\"d\":\"2026-10-28\",\"mood\":null,\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1793178000000},{\"k\":\"lesson-articles\",\"n\":10,\"p\":100,\"t\":1793178000000},{\"k\":\"lesson-have\",\"n\":10,\"p\":100,\"t\":1793178000000}],\"w\":{\"nouns:beach\":{\"k\":\"nouns\",\"e\":\"a beach\",\"f\":\"une plage\",\"ok\":1},\"nouns:cloud\":{\"k\":\"nouns\",\"e\":\"a cloud\",\"f\":\"un nuage\",\"ok\":1},\"prepositions:since\":{\"k\":\"prepositions\",\"e\":\"since\",\"f\":\"depuis\",\"ok\":1},\"adverbs:usually\":{\"k\":\"adverbs\",\"e\":\"usually\",\"f\":\"d'habitude / généralement\",\"ok\":1},\"verbs:rob\":{\"k\":\"verbs\",\"e\":\"to rob\",\"f\":\"voler, cambrioler\",\"ok\":1},\"nouns:holiday\":{\"k\":\"nouns\",\"e\":\"a holiday\",\"f\":\"des vacances (f)\",\"ok\":1},\"nouns:helmet\":{\"k\":\"nouns\",\"e\":\"a helmet\",\"f\":\"un casque\",\"ok\":1},\"adjectives:green\":{\"k\":\"adjectives\",\"e\":\"green\",\"f\":\"vert(e)\",\"ok\":1},\"verbs:find\":{\"k\":\"verbs\",\"e\":\"to find\",\"f\":\"trouver\",\"ok\":1},\"adjectives:warm\":{\"k\":\"adjectives\",\"e\":\"warm\",\"f\":\"chaud(e) / doux / douce\",\"ok\":1}},\"n\":10,\"lv\":0,\"goalT\":1793178000000,\"u\":1793178000000,\"cel\":1},\"2026-10-29\":{\"d\":\"2026-10-29\",\"mood\":null,\"qs\":[{\"k\":\"test-grammar\",\"n\":20,\"p\":100,\"t\":1793264400000,\"m\":20},{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1793264400000}],\"w\":{\"nouns:ten\":{\"k\":\"nouns\",\"e\":\"ten\",\"f\":\"dix\",\"ok\":1},\"adverbs:definitely\":{\"k\":\"adverbs\",\"e\":\"definitely\",\"f\":\"sans aucun doute / c'est sûr\",\"ok\":1},\"connectors:and\":{\"k\":\"connectors\",\"e\":\"and\",\"f\":\"et\",\"ok\":1},\"verbs:happen\":{\"k\":\"verbs\",\"e\":\"to happen\",\"f\":\"se passer / arriver / se produire\",\"ok\":1},\"prepositions:up\":{\"k\":\"prepositions\",\"e\":\"up\",\"f\":\"en haut de (en montant)\",\"ok\":1},\"verbs:judge\":{\"k\":\"verbs\",\"e\":\"to judge\",\"f\":\"juger\",\"ok\":1},\"adjectives:affordable\":{\"k\":\"adjectives\",\"e\":\"affordable\",\"f\":\"abordable, pas trop cher\",\"ok\":1},\"verbs:hunt\":{\"k\":\"verbs\",\"e\":\"to hunt\",\"f\":\"chasser\",\"ok\":1},\"nouns:lily\":{\"k\":\"nouns\",\"e\":\"a lily\",\"f\":\"un lys\",\"ok\":1},\"verbs:add\":{\"k\":\"verbs\",\"e\":\"to add\",\"f\":\"ajouter\",\"ok\":1}},\"n\":10,\"lv\":0,\"u\":1793264400000,\"goalT\":1793264400000,\"cel\":1},\"2026-10-30\":{\"d\":\"2026-10-30\",\"mood\":null,\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1793350800000},{\"k\":\"test-conj\",\"n\":20,\"p\":95,\"t\":1793350800000,\"m\":19},{\"k\":\"test-irr\",\"n\":10,\"p\":100,\"t\":1793350800000,\"m\":20},{\"k\":\"nouns\",\"n\":5,\"p\":100,\"t\":1793350800000}],\"w\":{\"prepositions:above\":{\"k\":\"prepositions\",\"e\":\"above\",\"f\":\"au-dessus de\",\"ok\":1},\"adverbs:most\":{\"k\":\"adverbs\",\"e\":\"most\",\"f\":\"le plus\",\"ok\":1},\"verbs:shine\":{\"k\":\"verbs\",\"e\":\"to shine\",\"f\":\"briller\",\"ok\":1},\"nouns:lie\":{\"k\":\"nouns\",\"e\":\"a lie\",\"f\":\"un mensonge\",\"ok\":1},\"verbs:pull\":{\"k\":\"verbs\",\"e\":\"to pull\",\"f\":\"tirer\",\"ok\":1},\"verbs:keep\":{\"k\":\"verbs\",\"e\":\"to keep\",\"f\":\"garder\",\"ok\":1},\"adjectives:honest\":{\"k\":\"adjectives\",\"e\":\"honest\",\"f\":\"honnête\",\"ok\":1},\"nouns:towel\":{\"k\":\"nouns\",\"e\":\"a towel\",\"f\":\"une serviette (de toilette)\",\"ok\":1},\"prepositions:behind\":{\"k\":\"prepositions\",\"e\":\"behind\",\"f\":\"derrière\",\"ok\":1},\"nouns:school bus\":{\"k\":\"nouns\",\"e\":\"a school bus\",\"f\":\"un car scolaire\",\"ok\":1},\"nouns:fly\":{\"k\":\"nouns\",\"e\":\"a fly\",\"f\":\"une mouche\",\"ok\":1},\"nouns:calf\":{\"k\":\"nouns\",\"e\":\"a calf\",\"f\":\"un veau\",\"ok\":1},\"nouns:donkey\":{\"k\":\"nouns\",\"e\":\"a donkey\",\"f\":\"un âne\",\"ok\":1},\"nouns:frog\":{\"k\":\"nouns\",\"e\":\"a frog\",\"f\":\"une grenouille\",\"ok\":1},\"nouns:gorilla\":{\"k\":\"nouns\",\"e\":\"a gorilla\",\"f\":\"un gorille\",\"ok\":1}},\"n\":10,\"lv\":0,\"goalT\":1793350800000,\"u\":1793350800000,\"cel\":1}}",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.genitive": "[\"I love ___ cakes.\",\"The ___ toys are everywhere!\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.cond": "[\"u9lv6q\",\"1wqho19\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.possessive": "[\"wcezew\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.have": "[\"1eob68\",\"oaa5dy\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.future": "[\"g4ethr\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.t.condperf": "[\"What ___ in my place?\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.imperative": "[\"166affj\",\"jk4s3m\"]",
+  "kai.pq.kmvuqrhc0w5vp.plurals": "[\"ehicjr\",\"10k294h\",\"1ve21iv\",\"1sbphxx\",\"1mpfpzc\",\"6v6g2v\",\"tz220d\",\"a00c60\",\"g18ks5\",\"qkvauc\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.reported": "[\"b19lzf\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.condperf": "[\"44trzn\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.t.pastcont": "[\"I ___ when you called me.\"]",
+  "kai.qnum": "5",
+  "kai.tq.kmvm3z7k0vnx6.conj.t.psimple": "[\"We ___ football on Saturdays.\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.relative": "[\"5gwhff\",\"czpvzc\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.passive": "[\"English ___ all over the world.\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.plurals": "[\"qlj924\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.adverbs": "[\"I ___ at 7 o'clock.\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.quant": "[\"1adp0dk\",\"17vj57j\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.superlat": "[\"January is the ___ month of the year.\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.pperf": "[\"1s3qsaj\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.articles": "[\"Look at ___ moon! It's beautiful.\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.adverbs": "[\"2yibn8\"]",
+  "kai.pq.kmvm3z7k0vnx6.be": "[\"16x2qif\",\"2fyfio\",\"1tdz5h5\",\"8f7ypm\",\"12114xr\",\"1hho84q\",\"1i8ecrp\",\"1wvhd9i\",\"efedr0\",\"fr2xpu\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.superlat": "[\"1shaldg\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.on": "[\"On va au cinéma ce soir ? → Shall ___ go to the cinema tonight?\",\"On frappe à la porte. → ___ is knocking at the door.\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.t.ppcont": "[\"I ___ for the bus for twenty minutes.\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.reported": "[\"She asked me, \\\"Do you like cats?\\\" → She asked me ___ I liked cats.\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.modals": "[\"1kc12ng\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.t.pperf": "[\"___ a camel?\"]",
+  "kai.tq.kmvm3z7k0vnx6.irr.v": "[\"go\",\"lie\",\"freeze\",\"hang\",\"fall\",\"grind\",\"spell\",\"hurt\",\"stick\",\"see\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.plurals": "[\"There are ten ___ in my class.\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.prepos": "[\"19m6ym7\",\"1ltxkdu\"]",
+  "kai.rec": "0",
+  "kai.pcode": "1234",
+  "kai.tq.kmvm3z7k0vnx6.grammar.comparat": "[\"1o45bul\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.futperf": "[\"13gss0n\",\"1jnxmm0\"]",
+  "kai.rate": "0.8",
+  "kai.tq.kmvm3z7k0vnx6.conj.t.past": "[\"She ___ her homework yesterday.\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.articles": "[\"rbch6s\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.t.pcont": "[\"I ___ a book at the moment.\"]",
+  "kai.pq.kmvm3z7k0vnx6.have": "[\"se3bqk\",\"1g1nul8\",\"1u3znjw\",\"1viqlo4\",\"1bxmnuy\",\"js664d\",\"fjvwa9\",\"1hntr24\",\"ylxgo3\",\"1haw1d9\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.reflexive": "[\"He taught ___ to play the guitar.\"]",
+  "kai.tq.kmvm3z7k0vnx6.conj.be": "[\"7yyogz\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.possessive": "[\"The red coat is ___.\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.order": "[\"n34syg\",\"1hfjr9i\"]",
+  "kai.tsave.kmvm3z7k0vnx6.grammar": "{\"kind\":\"grammar\",\"i\":5,\"pts\":5,\"max\":20,\"t0\":1793350800000,\"qs\":[{\"q\":\"I've got ___ umbrella.\",\"o\":[\"an\",\"a\",\"the\"],\"e\":\"Umbrella commence par un son de voyelle → an.\",\"opts\":[\"the\",\"a\",\"an\"],\"les\":\"articles\",\"res\":true,\"your\":\"an\"},{\"q\":\"Mets à la forme négative : They have danced at parties. → ___\",\"o\":[\"They haven't danced at parties.\",\"They don't have danced at parties.\",\"They haven't dance at parties.\"],\"e\":\"Present perfect : haven't + participe passé.\",\"t\":\"pp\",\"opts\":[\"They haven't danced at parties.\",\"They don't have danced at parties.\",\"They haven't dance at parties.\"],\"les\":\"negative\",\"res\":true,\"your\":\"They haven't danced at parties.\"},{\"q\":\"She asked me, \\\"Do you like cats?\\\" → She asked me ___ I liked cats.\",\"h\":\"\",\"a\":[\"if\",\"whether\"],\"fr\":\"Elle m'a demandé si j'aimais les chats.\",\"e\":\"Question fermée → if.\",\"i\":\"Passe au discours indirect.\",\"typed\":1,\"les\":\"reported\",\"res\":true,\"your\":\"if\"},{\"q\":\"___ your cousin draw pictures?\",\"o\":[\"Can\",\"Does\",\"Do\"],\"e\":\"Avec un modal, pas de do : Can + sujet + verbe ?\",\"t\":\"q\",\"opts\":[\"Can\",\"Does\",\"Do\"],\"les\":\"modals\",\"res\":true,\"your\":\"Can\"},{\"q\":\"Quelle question est correcte ?\",\"o\":[\"When does your brother fix bikes?\",\"When your brother fixes bikes?\",\"When does your brother fixes bikes?\"],\"e\":\"Mot interrogatif + does + sujet + verbe à la base.\",\"t\":\"order\",\"opts\":[\"When does your brother fix bikes?\",\"When your brother fixes bikes?\",\"When does your brother fixes bikes?\"],\"les\":\"questions\",\"res\":true,\"your\":\"When does your brother fix bikes?\"},{\"q\":\"My marks are ___ than last year.\",\"h\":\"good\",\"a\":[\"better\"],\"fr\":\"Mes notes sont meilleures que l'année dernière.\",\"e\":\"Good → better (irrégulier).\",\"i\":\"Écris le comparatif de l'adjectif entre parenthèses.\",\"typed\":1,\"les\":\"comparat\"},{\"q\":\"The trees ___ planted every week.\",\"o\":[\"are\",\"is\",\"has\"],\"e\":\"Passif : be au bon temps (are) + participe passé (planted).\",\"t\":\"be\",\"opts\":[\"has\",\"are\",\"is\"],\"les\":\"passive\"},{\"q\":\"He taught ___ to play the guitar.\",\"h\":\"\",\"a\":[\"himself\"],\"fr\":\"Il a appris tout seul à jouer de la guitare.\",\"e\":\"He → himself.\",\"i\":\"Écris le pronom réfléchi (myself, yourself…).\",\"typed\":1,\"les\":\"reflexive\"},{\"q\":\"January is the ___ month of the year.\",\"h\":\"cold\",\"a\":[\"coldest\"],\"fr\":\"Janvier est le mois le plus froid de l'année.\",\"e\":\"Cold → the coldest.\",\"i\":\"Écris le superlatif de l'adjectif entre parenthèses.\",\"typed\":1,\"les\":\"superlat\"},{\"q\":\"She gave ___ a present.\",\"o\":[\"her brother\",\"to her brother\",\"her brother to\"],\"e\":\"give + personne + chose, sans to.\",\"opts\":[\"her brother\",\"to her brother\",\"her brother to\"],\"les\":\"order\"},{\"q\":\"I can see ten ___. (deer)\",\"o\":[\"deer\",\"deers\",\"deeres\"],\"e\":\"deer → deer. Ce mot ne change pas au pluriel !\",\"t\":\"same\",\"opts\":[\"deers\",\"deeres\",\"deer\"],\"les\":\"plurals\"},{\"q\":\"How ___ times have you been to Paris?\",\"o\":[\"many\",\"much\",\"lot\"],\"e\":\"Times (fois) au pluriel → many.\",\"fr\":\"Combien de fois es-tu allé à Paris ?\",\"t\":\"qty\",\"opts\":[\"lot\",\"much\",\"many\"],\"les\":\"quant\"},{\"q\":\"The house ___ is on the corner is very old.\",\"o\":[\"which\",\"who\",\"where\"],\"e\":\"Pour une chose ou un animal → which (ou that).\",\"t\":\"which\",\"opts\":[\"who\",\"which\",\"where\"],\"les\":\"relative\"},{\"q\":\"I like Mrs Smith. I see ___ every day.\",\"o\":[\"her\",\"she\",\"hers\"],\"e\":\"Mrs Smith → her (pronom complément, après le verbe ou la préposition).\",\"t\":\"obj\",\"opts\":[\"she\",\"hers\",\"her\"],\"les\":\"pronouns\"},{\"q\":\"On frappe à la porte. → ___ is knocking at the door.\",\"h\":\"\",\"a\":[\"Someone\",\"Somebody\"],\"fr\":\"\",\"e\":\"On = quelqu'un → someone.\",\"i\":\"Traduis « on ».\",\"typed\":1,\"les\":\"on\"},{\"q\":\"Kai ___ late.\",\"o\":[\"is always\",\"always is\",\"is alwayss\"],\"e\":\"Avec be, l'adverbe se place après : is always.\",\"t\":\"freqbe\",\"opts\":[\"is alwayss\",\"always is\",\"is always\"],\"les\":\"adverbs\"},{\"q\":\"The red coat is ___.\",\"h\":\"à elle\",\"a\":[\"hers\"],\"fr\":\"Le manteau rouge est à elle.\",\"e\":\"Sans nom après → hers.\",\"i\":\"Écris le bon possessif (my, mine, his, her, hers…).\",\"typed\":1,\"les\":\"possessive\"},{\"q\":\"___ cake next to me is big.\",\"o\":[\"This\",\"These\",\"That\"],\"e\":\"Près (next to me) et singulier → this.\",\"t\":\"dn\",\"opts\":[\"This\",\"That\",\"These\"],\"les\":\"demonstr\"},{\"q\":\"I've lived here ___ three years.\",\"o\":[\"for\",\"since\",\"during\"],\"e\":\"Durée → for.\",\"t\":\"for\",\"opts\":[\"for\",\"since\",\"during\"],\"les\":\"prepos\"},{\"q\":\"The ___ toys are everywhere!\",\"h\":\"les jouets des enfants\",\"a\":[\"children's\"],\"fr\":\"Les jouets des enfants sont partout !\",\"e\":\"Pluriel irrégulier (sans -s) → 's : children's.\",\"i\":\"Écris le génitif : nom du possesseur + 's (ou ' après un pluriel en -s).\",\"typed\":1,\"les\":\"genitive\"}]}",
+  "kai.profiles.v1": "{\"list\":[{\"id\":\"kmvm3z7k0vnx6\",\"name\":\"Camille Évrard\",\"u\":1793350800000,\"lv\":0,\"lvSince\":\"2026-10-24\",\"lvHist\":[{\"lv\":0,\"d\":\"2026-10-24\"}],\"first\":1,\"lessons\":{\"be\":{\"best\":90,\"n\":1,\"t\":1793005200000,\"g\":1},\"articles\":{\"best\":100,\"n\":1,\"t\":1793178000000,\"g\":1},\"have\":{\"best\":100,\"n\":1,\"t\":1793178000000,\"g\":1}},\"tests\":{\"grammar\":{\"last\":20,\"best\":20,\"n\":1,\"t\":1793264400000,\"h\":[20]},\"conj\":{\"last\":19,\"best\":19,\"n\":1,\"t\":1793350800000,\"h\":[19]},\"irr\":{\"last\":20,\"best\":20,\"n\":1,\"t\":1793350800000,\"h\":[20]}}},{\"id\":\"kmvuqrhc0w5vp\",\"name\":\"Noé\",\"u\":1793350800000,\"lv\":1,\"lvSince\":\"2026-10-30\",\"lvHist\":[{\"lv\":1,\"d\":\"2026-10-30\"}],\"lessons\":{\"plurals\":{\"best\":90,\"n\":1,\"t\":1793350800000,\"g\":1}}}],\"cur\":\"kmvm3z7k0vnx6\"}",
+  "kai.tq.kmvm3z7k0vnx6.grammar.t.modals": "[\"Tomorrow is Sunday: you ___ get up early.\"]",
+  "kai.qsave.kmvm3z7k0vnx6.daily": "{\"v\":1,\"day\":\"2026-10-30\",\"daily\":true,\"kind\":\"mix\",\"tag\":\"all\",\"attempt\":1,\"ph\":0,\"i\":2,\"t\":1793350800000,\"words\":[{\"r\":[\"nouns\",\"exhibition\",\"une exposition\"],\"ei\":0,\"k\":\"nouns\"},{\"r\":[\"adverbs\",\"now\",\"maintenant\"],\"ei\":0,\"k\":\"adverbs\"},{\"r\":[\"verbs\",\"write\",\"écrire\"],\"ei\":0,\"k\":\"verbs\"},{\"r\":[\"prepositions\",\"under\",\"sous\"],\"ei\":1,\"k\":\"prepositions\"},{\"r\":[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],\"ei\":1,\"k\":\"adjectives\"},{\"r\":[\"connectors\",\"unless\",\"à moins que / sauf si\"],\"ei\":0,\"k\":\"connectors\"},{\"r\":[\"nouns\",\"stairs\",\"un escalier / les escaliers\"],\"ei\":0,\"k\":\"nouns\"},{\"r\":[\"verbs\",\"rule\",\"gouverner / régner\"],\"ei\":0,\"k\":\"verbs\"},{\"r\":[\"nouns\",\"foot\",\"un pied\"],\"ei\":0,\"k\":\"nouns\"},{\"r\":[\"verbs\",\"stick\",\"coller\"],\"ei\":0,\"k\":\"verbs\"}],\"qs\":[[{\"r\":[\"nouns\",\"exhibition\",\"une exposition\"],\"k\":\"nouns\",\"en\":\"We visited an *exhibition* about Egypt.\",\"fr\":\"Nous avons visité une *exposition* sur l'Égypte.\",\"o\":[[\"nouns\",\"exhibition\",\"une exposition\"],[\"nouns\",\"art\",\"les arts plastiques (m)\"],[\"nouns\",\"scene\",\"une scène (un passage du film ou de la pièce)\"],[\"nouns\",\"play\",\"une pièce de théâtre\"]],\"labels\":[\"exhibition\",\"art\",\"scene\",\"play\"],\"subs\":[\"une exposition\",\"les arts plastiques (m)\",\"une scène (un passage du film ou de la pièce)\",\"une pièce de théâtre\"],\"ans\":\"exhibition\",\"res\":true},{\"r\":[\"verbs\",\"rule\",\"gouverner / régner\"],\"k\":\"verbs\",\"en\":\"The king *rules* the country.\",\"fr\":\"Le roi *gouverne* le pays.\",\"o\":[[\"verbs\",\"free\",\"libérer\"],[\"verbs\",\"rule\",\"gouverner / régner\"],[\"verbs\",\"shoot\",\"tirer (au but)\"],[\"verbs\",\"hunt\",\"chasser\"]],\"labels\":[\"to free\",\"to rule\",\"to shoot\",\"to hunt\"],\"subs\":[\"libérer\",\"gouverner / régner\",\"tirer (au but)\",\"chasser\"],\"ans\":\"to rule\",\"res\":true},{\"r\":[\"verbs\",\"write\",\"écrire\"],\"k\":\"verbs\",\"en\":\"I *write* in my diary every night.\",\"fr\":\"J'*écris* dans mon journal tous les soirs.\",\"o\":[[\"verbs\",\"worry\",\"s'inquiéter\"],[\"verbs\",\"study\",\"étudier\"],[\"verbs\",\"write\",\"écrire\"],[\"verbs\",\"mean\",\"signifier\"]],\"labels\":[\"to worry\",\"to study\",\"to write\",\"to mean\"],\"subs\":[\"s'inquiéter\",\"étudier\",\"écrire\",\"signifier\"],\"ans\":\"to write\",\"res\":true},{\"r\":[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],\"k\":\"adjectives\",\"en\":\"Don't be *jealous*!\",\"fr\":\"Ne sois pas *jaloux* !\",\"o\":[[\"adjectives\",\"nice\",\"gentil(le) / sympa\"],[\"adjectives\",\"strange\",\"étrange, bizarre\"],[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],[\"adjectives\",\"impatient\",\"impatient(e)\"]],\"labels\":[\"nice\",\"strange\",\"jealous\",\"impatient\"],\"subs\":[\"gentil(le) / sympa\",\"étrange, bizarre\",\"jaloux, jalouse\",\"impatient(e)\"],\"ans\":\"jealous\"},{\"r\":[\"adverbs\",\"now\",\"maintenant\"],\"k\":\"adverbs\",\"en\":\"I'm doing my homework *now*.\",\"fr\":\"Je fais mes devoirs *maintenant*.\",\"o\":[[\"adverbs\",\"now\",\"maintenant\"],[\"adverbs\",\"today\",\"aujourd'hui\"],[\"adverbs\",\"before\",\"avant\"],[\"adverbs\",\"once\",\"autrefois / une fois\"]],\"labels\":[\"now\",\"today\",\"before\",\"once\"],\"subs\":[\"maintenant\",\"aujourd'hui\",\"avant\",\"autrefois / une fois\"],\"ans\":\"now\"},{\"r\":[\"connectors\",\"unless\",\"à moins que / sauf si\"],\"k\":\"connectors\",\"en\":\"We'll play outside *unless* it rains.\",\"fr\":\"Nous jouerons dehors *sauf s'*il pleut.\",\"o\":[[\"connectors\",\"in case\",\"au cas où\"],[\"connectors\",\"if\",\"si\"],[\"connectors\",\"unless\",\"à moins que / sauf si\"],[\"connectors\",\"whether\",\"si (pour choisir)\"]],\"labels\":[\"in case\",\"if\",\"unless\",\"whether\"],\"subs\":[\"au cas où\",\"si\",\"à moins que / sauf si\",\"si (pour choisir)\"],\"ans\":\"unless\"},{\"r\":[\"verbs\",\"stick\",\"coller\"],\"k\":\"verbs\",\"en\":\"*Stick* the photo in your notebook.\",\"fr\":\"*Colle* la photo dans ton cahier.\",\"o\":[[\"verbs\",\"dig\",\"creuser\"],[\"verbs\",\"show\",\"montrer\"],[\"verbs\",\"fold\",\"plier\"],[\"verbs\",\"stick\",\"coller\"]],\"labels\":[\"to dig\",\"to show\",\"to fold\",\"to stick\"],\"subs\":[\"creuser\",\"montrer\",\"plier\",\"coller\"],\"ans\":\"to stick\"},{\"r\":[\"nouns\",\"foot\",\"un pied\"],\"k\":\"nouns\",\"en\":\"I hurt my *foot*.\",\"fr\":\"Je me suis fait mal au *pied*.\",\"o\":[[\"nouns\",\"throat\",\"la gorge\"],[\"nouns\",\"foot\",\"un pied\"],[\"nouns\",\"bone\",\"un os\"],[\"nouns\",\"blood\",\"le sang\"]],\"labels\":[\"throat\",\"foot\",\"bone\",\"blood\"],\"subs\":[\"la gorge\",\"un pied\",\"un os\",\"le sang\"],\"ans\":\"foot\"},{\"r\":[\"prepositions\",\"under\",\"sous\"],\"k\":\"prepositions\",\"en\":\"I found my shoe *under* the sofa.\",\"fr\":\"J'ai trouvé ma chaussure *sous* le canapé.\",\"o\":[[\"prepositions\",\"next to\",\"à côté de\"],[\"prepositions\",\"in\",\"dans / en\"],[\"prepositions\",\"behind\",\"derrière\"],[\"prepositions\",\"under\",\"sous\"]],\"labels\":[\"next to\",\"in\",\"behind\",\"under\"],\"subs\":[\"à côté de\",\"dans / en\",\"derrière\",\"sous\"],\"ans\":\"under\"},{\"r\":[\"nouns\",\"stairs\",\"un escalier / les escaliers\"],\"k\":\"nouns\",\"en\":\"Don't run on the *stairs*!\",\"fr\":\"Ne cours pas dans les *escaliers* !\",\"o\":[[\"nouns\",\"knife\",\"un couteau\"],[\"nouns\",\"iron\",\"un fer à repasser ; le fer (métal)\"],[\"nouns\",\"stairs\",\"un escalier / les escaliers\"],[\"nouns\",\"pillow\",\"un oreiller\"]],\"labels\":[\"knife\",\"iron\",\"stairs\",\"pillow\"],\"subs\":[\"un couteau\",\"un fer à repasser ; le fer (métal)\",\"un escalier / les escaliers\",\"un oreiller\"],\"ans\":\"stairs\"}],[{\"r\":[\"prepositions\",\"under\",\"sous\"],\"k\":\"prepositions\",\"en\":\"I found my shoe *under* the sofa.\",\"fr\":\"J'ai trouvé ma chaussure *sous* le canapé.\",\"o\":[[\"prepositions\",\"on\",\"sur / le (+ jour)\"],[\"prepositions\",\"under\",\"sous\"],[\"prepositions\",\"against\",\"contre\"],[\"prepositions\",\"outside\",\"à l'extérieur de / devant\"]],\"labels\":[\"sur / le (+ jour)\",\"sous\",\"contre\",\"à l'extérieur de / devant\"],\"subs\":[\"on\",\"under\",\"against\",\"outside\"],\"ans\":\"sous\"},{\"r\":[\"verbs\",\"write\",\"écrire\"],\"k\":\"verbs\",\"en\":\"I *write* in my diary every night.\",\"fr\":\"J'*écris* dans mon journal tous les soirs.\",\"o\":[[\"verbs\",\"feel\",\"ressentir\"],[\"verbs\",\"decide\",\"décider\"],[\"verbs\",\"worry\",\"s'inquiéter\"],[\"verbs\",\"write\",\"écrire\"]],\"labels\":[\"ressentir\",\"décider\",\"s'inquiéter\",\"écrire\"],\"subs\":[\"to feel\",\"to decide\",\"to worry\",\"to write\"],\"ans\":\"écrire\"},{\"r\":[\"connectors\",\"unless\",\"à moins que / sauf si\"],\"k\":\"connectors\",\"en\":\"We'll play outside *unless* it rains.\",\"fr\":\"Nous jouerons dehors *sauf s'*il pleut.\",\"o\":[[\"connectors\",\"if\",\"si\"],[\"connectors\",\"as long as\",\"du moment que / tant que\"],[\"connectors\",\"unless\",\"à moins que / sauf si\"],[\"connectors\",\"in case\",\"au cas où\"]],\"labels\":[\"si\",\"du moment que / tant que\",\"à moins que / sauf si\",\"au cas où\"],\"subs\":[\"if\",\"as long as\",\"unless\",\"in case\"],\"ans\":\"à moins que / sauf si\"},{\"r\":[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],\"k\":\"adjectives\",\"en\":\"Don't be *jealous*!\",\"fr\":\"Ne sois pas *jaloux* !\",\"o\":[[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],[\"adjectives\",\"ill\",\"malade\"],[\"adjectives\",\"cute\",\"mignon, mignonne\"],[\"adjectives\",\"funny\",\"drôle / marrant(e)\"]],\"labels\":[\"jaloux, jalouse\",\"malade\",\"mignon, mignonne\",\"drôle / marrant(e)\"],\"subs\":[\"jealous\",\"ill\",\"cute\",\"funny\"],\"ans\":\"jaloux, jalouse\"},{\"r\":[\"verbs\",\"rule\",\"gouverner / régner\"],\"k\":\"verbs\",\"en\":\"The king *rules* the country.\",\"fr\":\"Le roi *gouverne* le pays.\",\"o\":[[\"verbs\",\"shoot\",\"tirer (au but)\"],[\"verbs\",\"rule\",\"gouverner / régner\"],[\"verbs\",\"fight\",\"se battre\"],[\"verbs\",\"rescue\",\"secourir / sauver\"]],\"labels\":[\"tirer (au but)\",\"gouverner / régner\",\"se battre\",\"secourir / sauver\"],\"subs\":[\"to shoot\",\"to rule\",\"to fight\",\"to rescue\"],\"ans\":\"gouverner / régner\"},{\"r\":[\"verbs\",\"stick\",\"coller\"],\"k\":\"verbs\",\"en\":\"*Stick* the photo in your notebook.\",\"fr\":\"*Colle* la photo dans ton cahier.\",\"o\":[[\"verbs\",\"fold\",\"plier\"],[\"verbs\",\"stick\",\"coller\"],[\"verbs\",\"drop\",\"faire tomber / laisser tomber\"],[\"verbs\",\"open\",\"ouvrir\"]],\"labels\":[\"plier\",\"coller\",\"faire tomber / laisser tomber\",\"ouvrir\"],\"subs\":[\"to fold\",\"to stick\",\"to drop\",\"to open\"],\"ans\":\"coller\"},{\"r\":[\"adverbs\",\"now\",\"maintenant\"],\"k\":\"adverbs\",\"en\":\"I'm doing my homework *now*.\",\"fr\":\"Je fais mes devoirs *maintenant*.\",\"o\":[[\"adverbs\",\"soon\",\"bientôt\"],[\"adverbs\",\"now\",\"maintenant\"],[\"adverbs\",\"still\",\"encore / toujours\"],[\"adverbs\",\"later\",\"plus tard\"]],\"labels\":[\"bientôt\",\"maintenant\",\"encore / toujours\",\"plus tard\"],\"subs\":[\"soon\",\"now\",\"still\",\"later\"],\"ans\":\"maintenant\"},{\"r\":[\"nouns\",\"foot\",\"un pied\"],\"k\":\"nouns\",\"en\":\"I hurt my *foot*.\",\"fr\":\"Je me suis fait mal au *pied*.\",\"o\":[[\"nouns\",\"shoulder\",\"une épaule\"],[\"nouns\",\"foot\",\"un pied\"],[\"nouns\",\"muscle\",\"un muscle\"],[\"nouns\",\"beard\",\"une barbe\"]],\"labels\":[\"une épaule\",\"un pied\",\"un muscle\",\"une barbe\"],\"subs\":[\"shoulder\",\"foot\",\"muscle\",\"beard\"],\"ans\":\"un pied\"},{\"r\":[\"nouns\",\"stairs\",\"un escalier / les escaliers\"],\"k\":\"nouns\",\"en\":\"Don't run on the *stairs*!\",\"fr\":\"Ne cours pas dans les *escaliers* !\",\"o\":[[\"nouns\",\"glass\",\"un verre\"],[\"nouns\",\"washing machine\",\"une machine à laver\"],[\"nouns\",\"house\",\"une maison\"],[\"nouns\",\"stairs\",\"un escalier / les escaliers\"]],\"labels\":[\"un verre\",\"une machine à laver\",\"une maison\",\"un escalier / les escaliers\"],\"subs\":[\"glass\",\"washing machine\",\"house\",\"stairs\"],\"ans\":\"un escalier / les escaliers\"},{\"r\":[\"nouns\",\"exhibition\",\"une exposition\"],\"k\":\"nouns\",\"en\":\"We visited an *exhibition* about Egypt.\",\"fr\":\"Nous avons visité une *exposition* sur l'Égypte.\",\"o\":[[\"nouns\",\"exhibition\",\"une exposition\"],[\"nouns\",\"artist\",\"un/une artiste\"],[\"nouns\",\"drawing\",\"un dessin\"],[\"nouns\",\"painter\",\"un peintre / une peintre\"]],\"labels\":[\"une exposition\",\"un/une artiste\",\"un dessin\",\"un peintre / une peintre\"],\"subs\":[\"exhibition\",\"artist\",\"drawing\",\"painter\"],\"ans\":\"une exposition\"}]]}",
+  "kai.daily.v1.kmvuqrhc0w5vp": "{\"2026-10-30\":{\"d\":\"2026-10-30\",\"mood\":null,\"qs\":[{\"k\":\"lesson-plurals\",\"n\":10,\"p\":90,\"t\":1793350800000}],\"w\":{},\"n\":15,\"lv\":1,\"u\":1793350800000}}",
+  "kai.tq.kmvm3z7k0vnx6.conj.past": "[\"dxjrdx\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.passive": "[\"1n4qug7\"]",
+  "kai.tq.kmvm3z7k0vnx6.grammar.negative": "[\"155ytox\",\"wphazd\"]"
+ },
+ "attendu": {
+  "app": {
+   "profils": {
+    "list": [
+     {
+      "id": "kmvm3z7k0vnx6",
+      "name": "Camille Évrard",
+      "u": 1793350800000,
+      "lv": 0,
+      "lvSince": "2026-10-24",
+      "lvHist": [
+       {
+        "lv": 0,
+        "d": "2026-10-24"
+       }
+      ],
+      "first": 1,
+      "lessons": {
+       "be": {
+        "best": 90,
+        "n": 1,
+        "t": 1793005200000,
+        "g": 1
+       },
+       "articles": {
+        "best": 100,
+        "n": 1,
+        "t": 1793178000000,
+        "g": 1
+       },
+       "have": {
+        "best": 100,
+        "n": 1,
+        "t": 1793178000000,
+        "g": 1
+       }
+      },
+      "tests": {
+       "grammar": {
+        "last": 20,
+        "best": 20,
+        "n": 1,
+        "t": 1793264400000,
+        "h": [
+         20
+        ]
+       },
+       "conj": {
+        "last": 19,
+        "best": 19,
+        "n": 1,
+        "t": 1793350800000,
+        "h": [
+         19
+        ]
+       },
+       "irr": {
+        "last": 20,
+        "best": 20,
+        "n": 1,
+        "t": 1793350800000,
+        "h": [
+         20
+        ]
+       }
+      }
+     },
+     {
+      "id": "kmvuqrhc0w5vp",
+      "name": "Noé",
+      "u": 1793350800000,
+      "lv": 1,
+      "lvSince": "2026-10-30",
+      "lvHist": [
+       {
+        "lv": 1,
+        "d": "2026-10-30"
+       }
+      ],
+      "lessons": {
+       "plurals": {
+        "best": 90,
+        "n": 1,
+        "t": 1793350800000,
+        "g": 1
+       }
+      }
+     }
+    ],
+    "cur": "kmvm3z7k0vnx6"
+   },
+   "journal": {
+    "2026-10-24": {
+     "d": "2026-10-24",
+     "mood": null,
+     "qs": [
+      {
+       "k": "mix",
+       "n": 10,
+       "p": 100,
+       "t": 1792828800000
+      }
+     ],
+     "w": {
+      "nouns:cake": {
+       "k": "nouns",
+       "e": "a cake",
+       "f": "un gâteau",
+       "ok": 1
+      },
+      "adjectives:expensive": {
+       "k": "adjectives",
+       "e": "expensive",
+       "f": "cher / chère",
+       "ok": 1
+      },
+      "connectors:finally": {
+       "k": "connectors",
+       "e": "finally",
+       "f": "finalement / enfin",
+       "ok": 1
+      },
+      "nouns:cloud": {
+       "k": "nouns",
+       "e": "a cloud",
+       "f": "un nuage",
+       "ok": 1
+      },
+      "nouns:holiday": {
+       "k": "nouns",
+       "e": "a holiday",
+       "f": "des vacances (f)",
+       "ok": 1
+      },
+      "adjectives:warm": {
+       "k": "adjectives",
+       "e": "warm",
+       "f": "chaud(e) / doux / douce",
+       "ok": 1
+      },
+      "verbs:judge": {
+       "k": "verbs",
+       "e": "to judge",
+       "f": "juger",
+       "ok": 1
+      },
+      "adverbs:definitely": {
+       "k": "adverbs",
+       "e": "definitely",
+       "f": "sans aucun doute / c'est sûr",
+       "ok": 1
+      },
+      "verbs:add": {
+       "k": "verbs",
+       "e": "to add",
+       "f": "ajouter",
+       "ok": 1
+      },
+      "verbs:shine": {
+       "k": "verbs",
+       "e": "to shine",
+       "f": "briller",
+       "ok": 1
+      }
+     },
+     "n": 10,
+     "lv": 0,
+     "goalT": 1792828800000,
+     "u": 1792828800000,
+     "cel": 1
+    },
+    "2026-10-25": {
+     "d": "2026-10-25",
+     "mood": "tired",
+     "qs": [
+      {
+       "k": "mix",
+       "n": 10,
+       "p": 85,
+       "t": 1792918800000
+      }
+     ],
+     "w": {
+      "nouns:cake": {
+       "k": "nouns",
+       "e": "a cake",
+       "f": "un gâteau",
+       "ok": 1
+      },
+      "prepositions:behind": {
+       "k": "prepositions",
+       "e": "behind",
+       "f": "derrière",
+       "ok": 1
+      },
+      "connectors:finally": {
+       "k": "connectors",
+       "e": "finally",
+       "f": "finalement / enfin",
+       "ok": 1
+      },
+      "nouns:lie": {
+       "k": "nouns",
+       "e": "a lie",
+       "f": "un mensonge",
+       "ok": 1
+      },
+      "adjectives:expensive": {
+       "k": "adjectives",
+       "e": "expensive",
+       "f": "cher / chère",
+       "ok": 1
+      },
+      "verbs:stick": {
+       "k": "verbs",
+       "e": "to stick",
+       "f": "coller",
+       "ok": 1
+      },
+      "nouns:exhibition": {
+       "k": "nouns",
+       "e": "an exhibition",
+       "f": "une exposition",
+       "ok": 0
+      },
+      "adverbs:now": {
+       "k": "adverbs",
+       "e": "now",
+       "f": "maintenant",
+       "ok": 1
+      },
+      "adjectives:happy": {
+       "k": "adjectives",
+       "e": "happy",
+       "f": "heureux / heureuse / content(e)",
+       "ok": 0
+      },
+      "verbs:believe": {
+       "k": "verbs",
+       "e": "to believe",
+       "f": "croire",
+       "ok": 0
+      }
+     },
+     "n": 10,
+     "u": 1792918800000,
+     "lv": 0
+    },
+    "2026-10-26": {
+     "d": "2026-10-26",
+     "mood": null,
+     "qs": [
+      {
+       "k": "mix",
+       "n": 10,
+       "p": 100,
+       "t": 1793005200000
+      },
+      {
+       "k": "lesson-be",
+       "n": 10,
+       "p": 90,
+       "t": 1793005200000
+      }
+     ],
+     "w": {
+      "nouns:Spain": {
+       "k": "nouns",
+       "e": "Spain",
+       "f": "l'Espagne",
+       "ok": 1
+      },
+      "adverbs:left": {
+       "k": "adverbs",
+       "e": "left",
+       "f": "à gauche",
+       "ok": 1
+      },
+      "verbs:believe": {
+       "k": "verbs",
+       "e": "to believe",
+       "f": "croire",
+       "ok": 1
+      },
+      "verbs:bake": {
+       "k": "verbs",
+       "e": "to bake",
+       "f": "faire cuire au four",
+       "ok": 1
+      },
+      "nouns:exhibition": {
+       "k": "nouns",
+       "e": "an exhibition",
+       "f": "une exposition",
+       "ok": 1
+      },
+      "nouns:grave": {
+       "k": "nouns",
+       "e": "a grave",
+       "f": "une tombe",
+       "ok": 1
+      },
+      "verbs:create": {
+       "k": "verbs",
+       "e": "to create",
+       "f": "créer",
+       "ok": 1
+      },
+      "prepositions:except": {
+       "k": "prepositions",
+       "e": "except",
+       "f": "sauf",
+       "ok": 1
+      },
+      "adjectives:dirty": {
+       "k": "adjectives",
+       "e": "dirty",
+       "f": "sale",
+       "ok": 1
+      },
+      "adjectives:happy": {
+       "k": "adjectives",
+       "e": "happy",
+       "f": "heureux / heureuse / content(e)",
+       "ok": 1
+      }
+     },
+     "n": 10,
+     "lv": 0,
+     "goalT": 1793005200000,
+     "u": 1793005200000,
+     "cel": 1
+    },
+    "2026-10-28": {
+     "d": "2026-10-28",
+     "mood": null,
+     "qs": [
+      {
+       "k": "mix",
+       "n": 10,
+       "p": 100,
+       "t": 1793178000000
+      },
+      {
+       "k": "lesson-articles",
+       "n": 10,
+       "p": 100,
+       "t": 1793178000000
+      },
+      {
+       "k": "lesson-have",
+       "n": 10,
+       "p": 100,
+       "t": 1793178000000
+      }
+     ],
+     "w": {
+      "nouns:beach": {
+       "k": "nouns",
+       "e": "a beach",
+       "f": "une plage",
+       "ok": 1
+      },
+      "nouns:cloud": {
+       "k": "nouns",
+       "e": "a cloud",
+       "f": "un nuage",
+       "ok": 1
+      },
+      "prepositions:since": {
+       "k": "prepositions",
+       "e": "since",
+       "f": "depuis",
+       "ok": 1
+      },
+      "adverbs:usually": {
+       "k": "adverbs",
+       "e": "usually",
+       "f": "d'habitude / généralement",
+       "ok": 1
+      },
+      "verbs:rob": {
+       "k": "verbs",
+       "e": "to rob",
+       "f": "voler, cambrioler",
+       "ok": 1
+      },
+      "nouns:holiday": {
+       "k": "nouns",
+       "e": "a holiday",
+       "f": "des vacances (f)",
+       "ok": 1
+      },
+      "nouns:helmet": {
+       "k": "nouns",
+       "e": "a helmet",
+       "f": "un casque",
+       "ok": 1
+      },
+      "adjectives:green": {
+       "k": "adjectives",
+       "e": "green",
+       "f": "vert(e)",
+       "ok": 1
+      },
+      "verbs:find": {
+       "k": "verbs",
+       "e": "to find",
+       "f": "trouver",
+       "ok": 1
+      },
+      "adjectives:warm": {
+       "k": "adjectives",
+       "e": "warm",
+       "f": "chaud(e) / doux / douce",
+       "ok": 1
+      }
+     },
+     "n": 10,
+     "lv": 0,
+     "goalT": 1793178000000,
+     "u": 1793178000000,
+     "cel": 1
+    },
+    "2026-10-29": {
+     "d": "2026-10-29",
+     "mood": null,
+     "qs": [
+      {
+       "k": "test-grammar",
+       "n": 20,
+       "p": 100,
+       "t": 1793264400000,
+       "m": 20
+      },
+      {
+       "k": "mix",
+       "n": 10,
+       "p": 100,
+       "t": 1793264400000
+      }
+     ],
+     "w": {
+      "nouns:ten": {
+       "k": "nouns",
+       "e": "ten",
+       "f": "dix",
+       "ok": 1
+      },
+      "adverbs:definitely": {
+       "k": "adverbs",
+       "e": "definitely",
+       "f": "sans aucun doute / c'est sûr",
+       "ok": 1
+      },
+      "connectors:and": {
+       "k": "connectors",
+       "e": "and",
+       "f": "et",
+       "ok": 1
+      },
+      "verbs:happen": {
+       "k": "verbs",
+       "e": "to happen",
+       "f": "se passer / arriver / se produire",
+       "ok": 1
+      },
+      "prepositions:up": {
+       "k": "prepositions",
+       "e": "up",
+       "f": "en haut de (en montant)",
+       "ok": 1
+      },
+      "verbs:judge": {
+       "k": "verbs",
+       "e": "to judge",
+       "f": "juger",
+       "ok": 1
+      },
+      "adjectives:affordable": {
+       "k": "adjectives",
+       "e": "affordable",
+       "f": "abordable, pas trop cher",
+       "ok": 1
+      },
+      "verbs:hunt": {
+       "k": "verbs",
+       "e": "to hunt",
+       "f": "chasser",
+       "ok": 1
+      },
+      "nouns:lily": {
+       "k": "nouns",
+       "e": "a lily",
+       "f": "un lys",
+       "ok": 1
+      },
+      "verbs:add": {
+       "k": "verbs",
+       "e": "to add",
+       "f": "ajouter",
+       "ok": 1
+      }
+     },
+     "n": 10,
+     "lv": 0,
+     "u": 1793264400000,
+     "goalT": 1793264400000,
+     "cel": 1
+    },
+    "2026-10-30": {
+     "d": "2026-10-30",
+     "mood": null,
+     "qs": [
+      {
+       "k": "mix",
+       "n": 10,
+       "p": 100,
+       "t": 1793350800000
+      },
+      {
+       "k": "test-conj",
+       "n": 20,
+       "p": 95,
+       "t": 1793350800000,
+       "m": 19
+      },
+      {
+       "k": "test-irr",
+       "n": 10,
+       "p": 100,
+       "t": 1793350800000,
+       "m": 20
+      },
+      {
+       "k": "nouns",
+       "n": 5,
+       "p": 100,
+       "t": 1793350800000
+      }
+     ],
+     "w": {
+      "prepositions:above": {
+       "k": "prepositions",
+       "e": "above",
+       "f": "au-dessus de",
+       "ok": 1
+      },
+      "adverbs:most": {
+       "k": "adverbs",
+       "e": "most",
+       "f": "le plus",
+       "ok": 1
+      },
+      "verbs:shine": {
+       "k": "verbs",
+       "e": "to shine",
+       "f": "briller",
+       "ok": 1
+      },
+      "nouns:lie": {
+       "k": "nouns",
+       "e": "a lie",
+       "f": "un mensonge",
+       "ok": 1
+      },
+      "verbs:pull": {
+       "k": "verbs",
+       "e": "to pull",
+       "f": "tirer",
+       "ok": 1
+      },
+      "verbs:keep": {
+       "k": "verbs",
+       "e": "to keep",
+       "f": "garder",
+       "ok": 1
+      },
+      "adjectives:honest": {
+       "k": "adjectives",
+       "e": "honest",
+       "f": "honnête",
+       "ok": 1
+      },
+      "nouns:towel": {
+       "k": "nouns",
+       "e": "a towel",
+       "f": "une serviette (de toilette)",
+       "ok": 1
+      },
+      "prepositions:behind": {
+       "k": "prepositions",
+       "e": "behind",
+       "f": "derrière",
+       "ok": 1
+      },
+      "nouns:school bus": {
+       "k": "nouns",
+       "e": "a school bus",
+       "f": "un car scolaire",
+       "ok": 1
+      },
+      "nouns:fly": {
+       "k": "nouns",
+       "e": "a fly",
+       "f": "une mouche",
+       "ok": 1
+      },
+      "nouns:calf": {
+       "k": "nouns",
+       "e": "a calf",
+       "f": "un veau",
+       "ok": 1
+      },
+      "nouns:donkey": {
+       "k": "nouns",
+       "e": "a donkey",
+       "f": "un âne",
+       "ok": 1
+      },
+      "nouns:frog": {
+       "k": "nouns",
+       "e": "a frog",
+       "f": "une grenouille",
+       "ok": 1
+      },
+      "nouns:gorilla": {
+       "k": "nouns",
+       "e": "a gorilla",
+       "f": "un gorille",
+       "ok": 1
+      }
+     },
+     "n": 10,
+     "lv": 0,
+     "goalT": 1793350800000,
+     "u": 1793350800000,
+     "cel": 1
+    }
+   },
+   "etoiles": 41,
+   "serie": 3,
+   "rang": "Explorer",
+   "niveau": 0,
+   "progression_niveau": {
+    "i": 1,
+    "ok": false,
+    "items": [
+     [
+      "Days with your words goal",
+      5,
+      15,
+      "",
+      false
+     ],
+     [
+      "Words you know",
+      50,
+      250,
+      "",
+      false
+     ],
+     [
+      "Average score, last 10 quizzes",
+      98,
+      80,
+      "%",
+      true
+     ],
+     [
+      "Lessons passed",
+      3,
+      3,
+      "",
+      true
+     ]
+    ]
+   },
+   "lecons_semaine": {
+    "grammar": {
+     "id": "articles",
+     "p": 100,
+     "d": "2026-10-28"
+    },
+    "conj": {
+     "id": "be",
+     "p": 90,
+     "d": "2026-10-26"
+    }
+   },
+   "semaines_tests": {
+    "weeks": [
+     "2026-09-07",
+     "2026-09-14",
+     "2026-09-21",
+     "2026-09-28",
+     "2026-10-05",
+     "2026-10-12",
+     "2026-10-19",
+     "2026-10-26"
+    ],
+    "tab": {
+     "grammar": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+       "avg": 20,
+       "n": 1
+      }
+     ],
+     "conj": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+       "avg": 19,
+       "n": 1
+      }
+     ],
+     "irr": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+       "avg": 20,
+       "n": 1
+      }
+     ]
+    },
+    "cur": "2026-10-26",
+    "prev": {}
+   },
+   "memoire_mots": {
+    "nouns:cake": {
+     "b": 2,
+     "last": "2026-10-25",
+     "k": "nouns",
+     "ok": true
+    },
+    "adjectives:expensive": {
+     "b": 2,
+     "last": "2026-10-25",
+     "k": "adjectives",
+     "ok": true
+    },
+    "connectors:finally": {
+     "b": 2,
+     "last": "2026-10-25",
+     "k": "connectors",
+     "ok": true
+    },
+    "nouns:cloud": {
+     "b": 2,
+     "last": "2026-10-28",
+     "k": "nouns",
+     "ok": true
+    },
+    "nouns:holiday": {
+     "b": 2,
+     "last": "2026-10-28",
+     "k": "nouns",
+     "ok": true
+    },
+    "adjectives:warm": {
+     "b": 2,
+     "last": "2026-10-28",
+     "k": "adjectives",
+     "ok": true
+    },
+    "verbs:judge": {
+     "b": 2,
+     "last": "2026-10-29",
+     "k": "verbs",
+     "ok": true
+    },
+    "adverbs:definitely": {
+     "b": 2,
+     "last": "2026-10-29",
+     "k": "adverbs",
+     "ok": true
+    },
+    "verbs:add": {
+     "b": 2,
+     "last": "2026-10-29",
+     "k": "verbs",
+     "ok": true
+    },
+    "verbs:shine": {
+     "b": 2,
+     "last": "2026-10-30",
+     "k": "verbs",
+     "ok": true
+    },
+    "prepositions:behind": {
+     "b": 2,
+     "last": "2026-10-30",
+     "k": "prepositions",
+     "ok": true
+    },
+    "nouns:lie": {
+     "b": 2,
+     "last": "2026-10-30",
+     "k": "nouns",
+     "ok": true
+    },
+    "verbs:stick": {
+     "b": 1,
+     "last": "2026-10-25",
+     "k": "verbs",
+     "ok": true
+    },
+    "nouns:exhibition": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "nouns",
+     "ok": true
+    },
+    "adverbs:now": {
+     "b": 1,
+     "last": "2026-10-25",
+     "k": "adverbs",
+     "ok": true
+    },
+    "adjectives:happy": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "adjectives",
+     "ok": true
+    },
+    "verbs:believe": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "verbs",
+     "ok": true
+    },
+    "nouns:Spain": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "nouns",
+     "ok": true
+    },
+    "adverbs:left": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "adverbs",
+     "ok": true
+    },
+    "verbs:bake": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "verbs",
+     "ok": true
+    },
+    "nouns:grave": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "nouns",
+     "ok": true
+    },
+    "verbs:create": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "verbs",
+     "ok": true
+    },
+    "prepositions:except": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "prepositions",
+     "ok": true
+    },
+    "adjectives:dirty": {
+     "b": 1,
+     "last": "2026-10-26",
+     "k": "adjectives",
+     "ok": true
+    },
+    "nouns:beach": {
+     "b": 1,
+     "last": "2026-10-28",
+     "k": "nouns",
+     "ok": true
+    },
+    "prepositions:since": {
+     "b": 1,
+     "last": "2026-10-28",
+     "k": "prepositions",
+     "ok": true
+    },
+    "adverbs:usually": {
+     "b": 1,
+     "last": "2026-10-28",
+     "k": "adverbs",
+     "ok": true
+    },
+    "verbs:rob": {
+     "b": 1,
+     "last": "2026-10-28",
+     "k": "verbs",
+     "ok": true
+    },
+    "nouns:helmet": {
+     "b": 1,
+     "last": "2026-10-28",
+     "k": "nouns",
+     "ok": true
+    },
+    "adjectives:green": {
+     "b": 1,
+     "last": "2026-10-28",
+     "k": "adjectives",
+     "ok": true
+    },
+    "verbs:find": {
+     "b": 1,
+     "last": "2026-10-28",
+     "k": "verbs",
+     "ok": true
+    },
+    "nouns:ten": {
+     "b": 1,
+     "last": "2026-10-29",
+     "k": "nouns",
+     "ok": true
+    },
+    "connectors:and": {
+     "b": 1,
+     "last": "2026-10-29",
+     "k": "connectors",
+     "ok": true
+    },
+    "verbs:happen": {
+     "b": 1,
+     "last": "2026-10-29",
+     "k": "verbs",
+     "ok": true
+    },
+    "prepositions:up": {
+     "b": 1,
+     "last": "2026-10-29",
+     "k": "prepositions",
+     "ok": true
+    },
+    "adjectives:affordable": {
+     "b": 1,
+     "last": "2026-10-29",
+     "k": "adjectives",
+     "ok": true
+    },
+    "verbs:hunt": {
+     "b": 1,
+     "last": "2026-10-29",
+     "k": "verbs",
+     "ok": true
+    },
+    "nouns:lily": {
+     "b": 1,
+     "last": "2026-10-29",
+     "k": "nouns",
+     "ok": true
+    },
+    "prepositions:above": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "prepositions",
+     "ok": true
+    },
+    "adverbs:most": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "adverbs",
+     "ok": true
+    },
+    "verbs:pull": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "verbs",
+     "ok": true
+    },
+    "verbs:keep": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "verbs",
+     "ok": true
+    },
+    "adjectives:honest": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "adjectives",
+     "ok": true
+    },
+    "nouns:towel": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "nouns",
+     "ok": true
+    },
+    "nouns:school bus": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "nouns",
+     "ok": true
+    },
+    "nouns:fly": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "nouns",
+     "ok": true
+    },
+    "nouns:calf": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "nouns",
+     "ok": true
+    },
+    "nouns:donkey": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "nouns",
+     "ok": true
+    },
+    "nouns:frog": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "nouns",
+     "ok": true
+    },
+    "nouns:gorilla": {
+     "b": 1,
+     "last": "2026-10-30",
+     "k": "nouns",
+     "ok": true
+    }
+   },
+   "stats_profil": "Beginner · Explorer · 41 stars",
+   "meilleures_lecons": {
+    "be": 90,
+    "have": 100,
+    "psimple": null,
+    "pcont": null,
+    "past": null,
+    "pperf": null,
+    "future": null,
+    "cond": null,
+    "articles": 100,
+    "order": null,
+    "plurals": null,
+    "negative": null,
+    "questions": null,
+    "pronouns": null,
+    "reflexive": null,
+    "possessive": null,
+    "relative": null,
+    "demonstr": null,
+    "genitive": null,
+    "comparat": null,
+    "superlat": null,
+    "adverbs": null,
+    "reported": null,
+    "modals": null,
+    "on": null,
+    "prepos": null,
+    "passive": null,
+    "pastcont": null,
+    "ppcont": null,
+    "imperative": null,
+    "futperf": null,
+    "condperf": null,
+    "quant": null
+   },
+   "suggestion": {
+    "grammar": "plurals",
+    "conj": "psimple"
+   },
+   "nb_par_quiz": 5,
+   "vitesse": 0.8,
+   "voix_enregistree": false
+  },
+  "rendus": {
+   "menu_tuiles": "My daily workGoal reached today: 15 words! WordsVerbs, nouns, adjectives, adverbs, connectors, prepositions GrammarArticles, sentence order… ConjugationBe, have and 11 tenses My weekly reviewThis week: Grammar 20/20 · Conjugation 19/20 · Irregular verbs 20/20 Test yourselfQuiz, Do it yourself, Let's talk English More lessons coming soon",
+   "menu_bienvenue": "Welcome Camille Évrard! Let's learn English together!",
+   "daily_today": "TodayCalendar Friday 30 October📅 Class test in 3 days Unit 1 · My world · Monday 2 November HI! HOW DO YOUFEEL TODAY? GreatSuperGoodBienOKÇa vaTiredFatiguéGrumpyGrognonSadTriste Today's goal10/10Beginner · A110 words a day 15/ 10 words mastered Goal reached! Every extra round gives bonus stars. Bonus round · 10 words≈ 3 minOne round a day keeps your streak going.My memory32 32words to review todayKai brings back the words you learned just before you forget them. They are in your next rounds, or review them now. Review 10 of them now · ≈ 3 min ✍ Dictation · ≈ 3 min Other quizzes This week2/2GrammarArticlesDone · 100%ConjugationTo beDone · 90% My levelBeginnerDébutant · A1 · 10 words a day Road to Practicer (15 words a day):Days with your words goal5 / 15Words you know50 / 250Average score, last 10 quizzes80% / 80%Lessons passed3 / 3 My rewards?9Stars today0Bonus quizzes3Day streak TrophyWords goalBronze2 bonus quizzesSilver5 bonus quizzesGold10 bonus quizzes 2 more bonus quizzes for the bronze medal! Rank 2 · Explorer41 stars34 stars to Adventurer My week10Sat7Sun10MonTue10Wed10Thu15Fri Last 7 days: 62 words mastered · 5 days with the goal · 13 quizzes and lessons My tests/20Your average mark of the week (Monday to Sunday), for each test, and your progress week after week.Grammar20/201 test this weekFirst week with this testConjugation19/201 test this weekFirst week with this testIrregular verbs20/201 test this weekFirst week with this testGrammarConjugationIrregular verbs 051015207 Sept14 Sept21 Sept28 Sept5 Oct12 Oct19 OctThis wk See the numbersWeekGrammarConjugationIrregular verbsThis week201920 Words of the day15To review 0No mistakes. Bravo! Mastered 15prep.aboveau-dessus deadv.mostle plusverbto shinebrillernouna lieun mensongeverbto pulltirerverbto keepgarderadj.honesthonnêtenouna towelune serviette (de toilette)prep.behindderrièrenouna school busun car scolairenouna flyune mouchenouna calfun veaunouna donkeyun ânenouna frogune grenouillenouna gorillaun gorille ALL DONE!SEE YOUTOMORROW!",
+   "daily_calendrier": "TodayCalendarOctober 2026 MonTueWedThuFriSatSun12345678910111213141516171819202122232425262728293031 Goal reachedSome workNothing 6Days worked5Trophies62Words41Stars Friday 30 October Words 15/10Conjugation test 19/20Irregular verbs test 20/20 4Quizzes0Bonus9Stars To review 0No mistakes. Bravo! Mastered 15prep.aboveau-dessus deadv.mostle plusverbto shinebrillernouna lieun mensongeverbto pulltirerverbto keepgarderadj.honesthonnêtenouna towelune serviette (de toilette)prep.behindderrièrenouna school busun car scolairenouna flyune mouchenouna calfun veaunouna donkeyun ânenouna frogune grenouillenouna gorillaun gorilleGo to today",
+   "tests": "LET'S TEST YOURENGLISH! My marks this week/20Grammar20/201 test this weekFirst week with this testConjugation19/201 test this weekFirst week with this testIrregular verbs20/201 test this weekFirst week with this test See my progress week after week The tests3 GGrammar test20 questions on the 19 grammar lessons · 7 to typeNot finished · 5/20 answeredLast 20/20 · best 20/20 · 1 timeResumeCConjugation test20 questions on the 13 tenses · 7 to typeLast 19/20 · best 19/20 · 1 timeAgainVIrregular verbs test10 random verbs · type the past simple and the past participleLast 20/20 · best 20/20 · 1 timeAgain Each test gives a mark out of 20. Your average is calculated for each test, week by week (Monday to Sunday): you can take a test several times. If you stop before the end, your answers are saved and you can finish the test later. Questions marked Type your answer are not a quiz: write the answer yourself. The tense, the verb and the form (negative or question) are given each time.",
+   "me": "Learner CCamille ÉvrardBeginner · Explorer · 41 starsRename Switch learnerNew learner Each learner has their own goals, stars and calendar. English level BeginnerDébutant · A1 · 10 words a dayPracticerPratiquant · A2 · 15 words a dayConfirmedConfirmé · B1 · 20 words a dayExpertExpert · B2 · 30 words a day Kai moves you up a level when you are ready (see My daily work › My level). A parent can also change it here. Kai's voice Kai's real voicePhone voice Kai uses the phone voice for everything. Phone voice No English voice found on this device yet. Speed SlowNormal The voices come from this phone or computer. For a more natural voice on iPhone or iPad, download an English voice marked “Enhanced” or “Premium” in Settings › Accessibility › Spoken Content › Voices. Save & move Your progress is kept in this browser. Save it in a file to keep a copy, or load it on another phone or computer: the work done on both is put together. Save my progressLoad a save Parent code A parent code protects changing the level, deleting a learner and loading a save. Change the codeRemove the codeDelete Delete this learner",
+   "liste_conjugaison": "LET'S CONJUGATE!ONE LESSON AWEEK: START WITHBE AND HAVE. This week's conjugation lesson is done: To be (90%) beTo beêtre · be = être · I am, you are, he is…Passed · best 90%This weekhaveTo haveavoir · have = avoir · I have, she has, have got…Passed · best 100%1Present simpleprésent simple · I play · she plays · habitudesNew lesson2Present continuousprésent en be + -ing · I am playing · en ce momentNew lesson3Imperativel'impératif · Sit down! · Don't run! · Let's go!New lesson4Past simpleprétérit · I played · I went · actions finiesNew lesson5Past continuousle prétérit continu · I was playing · they were sleepingNew lesson6Present perfectle « passé composé » anglais · I have played · I've seen · expériencesNew lesson7Present perfect continuousle present perfect continu · I have been waiting for an hourNew lesson8Futurefutur : will et going to · I will play · I'm going to playNew lesson9Future perfectle futur antérieur · I will have finished by 6New lesson10Conditionalconditionnel : would · I would like · I would playNew lesson11Conditional perfectle conditionnel passé · I would have come · If I had known…New lesson",
+   "liste_grammaire": "LET'S LEARNGRAMMAR! ONELESSON A WEEK. This week's grammar lesson is done: Articles (100%) 1Articlesa, an, the… ou rien · a dog · an apple · the sun · I love chocolatePassed · best 100%This week2Pluralsles pluriels · cats · boxes · babies · childrenNew lesson3Quantifiersbeaucoup, plusieurs, peu… · much · many · a lot of · several · a few · moreNew lesson4Personal pronounsles pronoms personnels · I / me · he / him · they / themNew lesson5Possessivesles possessifs · my · mine · his · hers · their · theirsNew lesson6This, that, these, thoseles démonstratifs · this cat · that cat · these cats · those catsNew lesson7Questionsla phrase interrogative · Do you…? · Where is…? · Who…?New lesson8Negative sentencesla phrase négative · don't · doesn't · didn't · isn't · neverNew lesson9Sentence ordersujet – verbe – complément · Subject · Verb · Object · Place · Time · jusqu'au niveau B1New lesson10Prepositions: in, on, at…les prépositions · in · on · at · for · since · to · byNew lesson11The genitive ('s)le génitif · Tom's bike · my parents' houseNew lesson12Comparativesles comparatifs · taller · more expensive · less · as … asNew lesson13Superlativesle superlatif · the tallest · the most beautiful · the bestNew lesson14Adverb positionla place des adverbes · always · quickly · very · enoughNew lesson15Reflexive pronounsles pronoms réfléchis · myself · yourself · themselvesNew lesson16Modal verbsles verbes modaux · can · could · may · must · should · have toNew lesson17How to say « on »traduire « on » · we · you · they · people · someone · passiveNew lesson18Relative pronounsles pronoms relatifs · who · which · that · whose · whereNew lesson19The passive voicela voix passive · The cake was eaten · English is spokenNew lesson20Reported speechle discours indirect · He said that… · She asked if…New lesson"
+  },
+  "ls": {
+   "kai.tq.kmvm3z7k0vnx6.grammar.questions": "[\"16q5ags\",\"r2llp5\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.comparat": "[\"My marks are ___ than last year.\"]",
+   "kai.pq.kmvm3z7k0vnx6.articles": "[\"amgcve\",\"nwl7ku\",\"kkcqk6\",\"15uzfbo\",\"ejyo65\",\"1el56a8\",\"1hsanze\",\"1kfjuhn\",\"1rom9lh\",\"j4hj44\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.pronouns": "[\"1hrpxmx\",\"1amjd7x\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.demonstr": "[\"ybqsmr\",\"1m570ey\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.reflexive": "[\"b6dpyj\"]",
+   "kai.daily.v1.kmvm3z7k0vnx6": "{\"2026-10-24\":{\"d\":\"2026-10-24\",\"mood\":null,\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1792828800000}],\"w\":{\"nouns:cake\":{\"k\":\"nouns\",\"e\":\"a cake\",\"f\":\"un gâteau\",\"ok\":1},\"adjectives:expensive\":{\"k\":\"adjectives\",\"e\":\"expensive\",\"f\":\"cher / chère\",\"ok\":1},\"connectors:finally\":{\"k\":\"connectors\",\"e\":\"finally\",\"f\":\"finalement / enfin\",\"ok\":1},\"nouns:cloud\":{\"k\":\"nouns\",\"e\":\"a cloud\",\"f\":\"un nuage\",\"ok\":1},\"nouns:holiday\":{\"k\":\"nouns\",\"e\":\"a holiday\",\"f\":\"des vacances (f)\",\"ok\":1},\"adjectives:warm\":{\"k\":\"adjectives\",\"e\":\"warm\",\"f\":\"chaud(e) / doux / douce\",\"ok\":1},\"verbs:judge\":{\"k\":\"verbs\",\"e\":\"to judge\",\"f\":\"juger\",\"ok\":1},\"adverbs:definitely\":{\"k\":\"adverbs\",\"e\":\"definitely\",\"f\":\"sans aucun doute / c'est sûr\",\"ok\":1},\"verbs:add\":{\"k\":\"verbs\",\"e\":\"to add\",\"f\":\"ajouter\",\"ok\":1},\"verbs:shine\":{\"k\":\"verbs\",\"e\":\"to shine\",\"f\":\"briller\",\"ok\":1}},\"n\":10,\"lv\":0,\"goalT\":1792828800000,\"u\":1792828800000,\"cel\":1},\"2026-10-25\":{\"d\":\"2026-10-25\",\"mood\":\"tired\",\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":85,\"t\":1792918800000}],\"w\":{\"nouns:cake\":{\"k\":\"nouns\",\"e\":\"a cake\",\"f\":\"un gâteau\",\"ok\":1},\"prepositions:behind\":{\"k\":\"prepositions\",\"e\":\"behind\",\"f\":\"derrière\",\"ok\":1},\"connectors:finally\":{\"k\":\"connectors\",\"e\":\"finally\",\"f\":\"finalement / enfin\",\"ok\":1},\"nouns:lie\":{\"k\":\"nouns\",\"e\":\"a lie\",\"f\":\"un mensonge\",\"ok\":1},\"adjectives:expensive\":{\"k\":\"adjectives\",\"e\":\"expensive\",\"f\":\"cher / chère\",\"ok\":1},\"verbs:stick\":{\"k\":\"verbs\",\"e\":\"to stick\",\"f\":\"coller\",\"ok\":1},\"nouns:exhibition\":{\"k\":\"nouns\",\"e\":\"an exhibition\",\"f\":\"une exposition\",\"ok\":0},\"adverbs:now\":{\"k\":\"adverbs\",\"e\":\"now\",\"f\":\"maintenant\",\"ok\":1},\"adjectives:happy\":{\"k\":\"adjectives\",\"e\":\"happy\",\"f\":\"heureux / heureuse / content(e)\",\"ok\":0},\"verbs:believe\":{\"k\":\"verbs\",\"e\":\"to believe\",\"f\":\"croire\",\"ok\":0}},\"n\":10,\"u\":1792918800000,\"lv\":0},\"2026-10-26\":{\"d\":\"2026-10-26\",\"mood\":null,\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1793005200000},{\"k\":\"lesson-be\",\"n\":10,\"p\":90,\"t\":1793005200000}],\"w\":{\"nouns:Spain\":{\"k\":\"nouns\",\"e\":\"Spain\",\"f\":\"l'Espagne\",\"ok\":1},\"adverbs:left\":{\"k\":\"adverbs\",\"e\":\"left\",\"f\":\"à gauche\",\"ok\":1},\"verbs:believe\":{\"k\":\"verbs\",\"e\":\"to believe\",\"f\":\"croire\",\"ok\":1},\"verbs:bake\":{\"k\":\"verbs\",\"e\":\"to bake\",\"f\":\"faire cuire au four\",\"ok\":1},\"nouns:exhibition\":{\"k\":\"nouns\",\"e\":\"an exhibition\",\"f\":\"une exposition\",\"ok\":1},\"nouns:grave\":{\"k\":\"nouns\",\"e\":\"a grave\",\"f\":\"une tombe\",\"ok\":1},\"verbs:create\":{\"k\":\"verbs\",\"e\":\"to create\",\"f\":\"créer\",\"ok\":1},\"prepositions:except\":{\"k\":\"prepositions\",\"e\":\"except\",\"f\":\"sauf\",\"ok\":1},\"adjectives:dirty\":{\"k\":\"adjectives\",\"e\":\"dirty\",\"f\":\"sale\",\"ok\":1},\"adjectives:happy\":{\"k\":\"adjectives\",\"e\":\"happy\",\"f\":\"heureux / heureuse / content(e)\",\"ok\":1}},\"n\":10,\"lv\":0,\"goalT\":1793005200000,\"u\":1793005200000,\"cel\":1},\"2026-10-28\":{\"d\":\"2026-10-28\",\"mood\":null,\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1793178000000},{\"k\":\"lesson-articles\",\"n\":10,\"p\":100,\"t\":1793178000000},{\"k\":\"lesson-have\",\"n\":10,\"p\":100,\"t\":1793178000000}],\"w\":{\"nouns:beach\":{\"k\":\"nouns\",\"e\":\"a beach\",\"f\":\"une plage\",\"ok\":1},\"nouns:cloud\":{\"k\":\"nouns\",\"e\":\"a cloud\",\"f\":\"un nuage\",\"ok\":1},\"prepositions:since\":{\"k\":\"prepositions\",\"e\":\"since\",\"f\":\"depuis\",\"ok\":1},\"adverbs:usually\":{\"k\":\"adverbs\",\"e\":\"usually\",\"f\":\"d'habitude / généralement\",\"ok\":1},\"verbs:rob\":{\"k\":\"verbs\",\"e\":\"to rob\",\"f\":\"voler, cambrioler\",\"ok\":1},\"nouns:holiday\":{\"k\":\"nouns\",\"e\":\"a holiday\",\"f\":\"des vacances (f)\",\"ok\":1},\"nouns:helmet\":{\"k\":\"nouns\",\"e\":\"a helmet\",\"f\":\"un casque\",\"ok\":1},\"adjectives:green\":{\"k\":\"adjectives\",\"e\":\"green\",\"f\":\"vert(e)\",\"ok\":1},\"verbs:find\":{\"k\":\"verbs\",\"e\":\"to find\",\"f\":\"trouver\",\"ok\":1},\"adjectives:warm\":{\"k\":\"adjectives\",\"e\":\"warm\",\"f\":\"chaud(e) / doux / douce\",\"ok\":1}},\"n\":10,\"lv\":0,\"goalT\":1793178000000,\"u\":1793178000000,\"cel\":1},\"2026-10-29\":{\"d\":\"2026-10-29\",\"mood\":null,\"qs\":[{\"k\":\"test-grammar\",\"n\":20,\"p\":100,\"t\":1793264400000,\"m\":20},{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1793264400000}],\"w\":{\"nouns:ten\":{\"k\":\"nouns\",\"e\":\"ten\",\"f\":\"dix\",\"ok\":1},\"adverbs:definitely\":{\"k\":\"adverbs\",\"e\":\"definitely\",\"f\":\"sans aucun doute / c'est sûr\",\"ok\":1},\"connectors:and\":{\"k\":\"connectors\",\"e\":\"and\",\"f\":\"et\",\"ok\":1},\"verbs:happen\":{\"k\":\"verbs\",\"e\":\"to happen\",\"f\":\"se passer / arriver / se produire\",\"ok\":1},\"prepositions:up\":{\"k\":\"prepositions\",\"e\":\"up\",\"f\":\"en haut de (en montant)\",\"ok\":1},\"verbs:judge\":{\"k\":\"verbs\",\"e\":\"to judge\",\"f\":\"juger\",\"ok\":1},\"adjectives:affordable\":{\"k\":\"adjectives\",\"e\":\"affordable\",\"f\":\"abordable, pas trop cher\",\"ok\":1},\"verbs:hunt\":{\"k\":\"verbs\",\"e\":\"to hunt\",\"f\":\"chasser\",\"ok\":1},\"nouns:lily\":{\"k\":\"nouns\",\"e\":\"a lily\",\"f\":\"un lys\",\"ok\":1},\"verbs:add\":{\"k\":\"verbs\",\"e\":\"to add\",\"f\":\"ajouter\",\"ok\":1}},\"n\":10,\"lv\":0,\"u\":1793264400000,\"goalT\":1793264400000,\"cel\":1},\"2026-10-30\":{\"d\":\"2026-10-30\",\"mood\":null,\"qs\":[{\"k\":\"mix\",\"n\":10,\"p\":100,\"t\":1793350800000},{\"k\":\"test-conj\",\"n\":20,\"p\":95,\"t\":1793350800000,\"m\":19},{\"k\":\"test-irr\",\"n\":10,\"p\":100,\"t\":1793350800000,\"m\":20},{\"k\":\"nouns\",\"n\":5,\"p\":100,\"t\":1793350800000}],\"w\":{\"prepositions:above\":{\"k\":\"prepositions\",\"e\":\"above\",\"f\":\"au-dessus de\",\"ok\":1},\"adverbs:most\":{\"k\":\"adverbs\",\"e\":\"most\",\"f\":\"le plus\",\"ok\":1},\"verbs:shine\":{\"k\":\"verbs\",\"e\":\"to shine\",\"f\":\"briller\",\"ok\":1},\"nouns:lie\":{\"k\":\"nouns\",\"e\":\"a lie\",\"f\":\"un mensonge\",\"ok\":1},\"verbs:pull\":{\"k\":\"verbs\",\"e\":\"to pull\",\"f\":\"tirer\",\"ok\":1},\"verbs:keep\":{\"k\":\"verbs\",\"e\":\"to keep\",\"f\":\"garder\",\"ok\":1},\"adjectives:honest\":{\"k\":\"adjectives\",\"e\":\"honest\",\"f\":\"honnête\",\"ok\":1},\"nouns:towel\":{\"k\":\"nouns\",\"e\":\"a towel\",\"f\":\"une serviette (de toilette)\",\"ok\":1},\"prepositions:behind\":{\"k\":\"prepositions\",\"e\":\"behind\",\"f\":\"derrière\",\"ok\":1},\"nouns:school bus\":{\"k\":\"nouns\",\"e\":\"a school bus\",\"f\":\"un car scolaire\",\"ok\":1},\"nouns:fly\":{\"k\":\"nouns\",\"e\":\"a fly\",\"f\":\"une mouche\",\"ok\":1},\"nouns:calf\":{\"k\":\"nouns\",\"e\":\"a calf\",\"f\":\"un veau\",\"ok\":1},\"nouns:donkey\":{\"k\":\"nouns\",\"e\":\"a donkey\",\"f\":\"un âne\",\"ok\":1},\"nouns:frog\":{\"k\":\"nouns\",\"e\":\"a frog\",\"f\":\"une grenouille\",\"ok\":1},\"nouns:gorilla\":{\"k\":\"nouns\",\"e\":\"a gorilla\",\"f\":\"un gorille\",\"ok\":1}},\"n\":10,\"lv\":0,\"goalT\":1793350800000,\"u\":1793350800000,\"cel\":1}}",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.genitive": "[\"I love ___ cakes.\",\"The ___ toys are everywhere!\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.cond": "[\"u9lv6q\",\"1wqho19\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.possessive": "[\"wcezew\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.have": "[\"1eob68\",\"oaa5dy\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.future": "[\"g4ethr\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.t.condperf": "[\"What ___ in my place?\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.imperative": "[\"166affj\",\"jk4s3m\"]",
+   "kai.pq.kmvuqrhc0w5vp.plurals": "[\"ehicjr\",\"10k294h\",\"1ve21iv\",\"1sbphxx\",\"1mpfpzc\",\"6v6g2v\",\"tz220d\",\"a00c60\",\"g18ks5\",\"qkvauc\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.reported": "[\"b19lzf\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.condperf": "[\"44trzn\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.t.pastcont": "[\"I ___ when you called me.\"]",
+   "kai.qnum": "5",
+   "kai.tq.kmvm3z7k0vnx6.conj.t.psimple": "[\"We ___ football on Saturdays.\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.relative": "[\"5gwhff\",\"czpvzc\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.passive": "[\"English ___ all over the world.\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.plurals": "[\"qlj924\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.adverbs": "[\"I ___ at 7 o'clock.\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.quant": "[\"1adp0dk\",\"17vj57j\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.superlat": "[\"January is the ___ month of the year.\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.pperf": "[\"1s3qsaj\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.articles": "[\"Look at ___ moon! It's beautiful.\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.adverbs": "[\"2yibn8\"]",
+   "kai.pq.kmvm3z7k0vnx6.be": "[\"16x2qif\",\"2fyfio\",\"1tdz5h5\",\"8f7ypm\",\"12114xr\",\"1hho84q\",\"1i8ecrp\",\"1wvhd9i\",\"efedr0\",\"fr2xpu\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.superlat": "[\"1shaldg\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.on": "[\"On va au cinéma ce soir ? → Shall ___ go to the cinema tonight?\",\"On frappe à la porte. → ___ is knocking at the door.\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.t.ppcont": "[\"I ___ for the bus for twenty minutes.\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.reported": "[\"She asked me, \\\"Do you like cats?\\\" → She asked me ___ I liked cats.\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.modals": "[\"1kc12ng\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.t.pperf": "[\"___ a camel?\"]",
+   "kai.tq.kmvm3z7k0vnx6.irr.v": "[\"go\",\"lie\",\"freeze\",\"hang\",\"fall\",\"grind\",\"spell\",\"hurt\",\"stick\",\"see\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.plurals": "[\"There are ten ___ in my class.\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.prepos": "[\"19m6ym7\",\"1ltxkdu\"]",
+   "kai.rec": "0",
+   "kai.pcode": "1234",
+   "kai.tq.kmvm3z7k0vnx6.grammar.comparat": "[\"1o45bul\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.futperf": "[\"13gss0n\",\"1jnxmm0\"]",
+   "kai.rate": "0.8",
+   "kai.tq.kmvm3z7k0vnx6.conj.t.past": "[\"She ___ her homework yesterday.\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.articles": "[\"rbch6s\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.t.pcont": "[\"I ___ a book at the moment.\"]",
+   "kai.pq.kmvm3z7k0vnx6.have": "[\"se3bqk\",\"1g1nul8\",\"1u3znjw\",\"1viqlo4\",\"1bxmnuy\",\"js664d\",\"fjvwa9\",\"1hntr24\",\"ylxgo3\",\"1haw1d9\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.reflexive": "[\"He taught ___ to play the guitar.\"]",
+   "kai.tq.kmvm3z7k0vnx6.conj.be": "[\"7yyogz\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.possessive": "[\"The red coat is ___.\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.order": "[\"n34syg\",\"1hfjr9i\"]",
+   "kai.tsave.kmvm3z7k0vnx6.grammar": "{\"kind\":\"grammar\",\"i\":5,\"pts\":5,\"max\":20,\"t0\":1793350800000,\"qs\":[{\"q\":\"I've got ___ umbrella.\",\"o\":[\"an\",\"a\",\"the\"],\"e\":\"Umbrella commence par un son de voyelle → an.\",\"opts\":[\"the\",\"a\",\"an\"],\"les\":\"articles\",\"res\":true,\"your\":\"an\"},{\"q\":\"Mets à la forme négative : They have danced at parties. → ___\",\"o\":[\"They haven't danced at parties.\",\"They don't have danced at parties.\",\"They haven't dance at parties.\"],\"e\":\"Present perfect : haven't + participe passé.\",\"t\":\"pp\",\"opts\":[\"They haven't danced at parties.\",\"They don't have danced at parties.\",\"They haven't dance at parties.\"],\"les\":\"negative\",\"res\":true,\"your\":\"They haven't danced at parties.\"},{\"q\":\"She asked me, \\\"Do you like cats?\\\" → She asked me ___ I liked cats.\",\"h\":\"\",\"a\":[\"if\",\"whether\"],\"fr\":\"Elle m'a demandé si j'aimais les chats.\",\"e\":\"Question fermée → if.\",\"i\":\"Passe au discours indirect.\",\"typed\":1,\"les\":\"reported\",\"res\":true,\"your\":\"if\"},{\"q\":\"___ your cousin draw pictures?\",\"o\":[\"Can\",\"Does\",\"Do\"],\"e\":\"Avec un modal, pas de do : Can + sujet + verbe ?\",\"t\":\"q\",\"opts\":[\"Can\",\"Does\",\"Do\"],\"les\":\"modals\",\"res\":true,\"your\":\"Can\"},{\"q\":\"Quelle question est correcte ?\",\"o\":[\"When does your brother fix bikes?\",\"When your brother fixes bikes?\",\"When does your brother fixes bikes?\"],\"e\":\"Mot interrogatif + does + sujet + verbe à la base.\",\"t\":\"order\",\"opts\":[\"When does your brother fix bikes?\",\"When your brother fixes bikes?\",\"When does your brother fixes bikes?\"],\"les\":\"questions\",\"res\":true,\"your\":\"When does your brother fix bikes?\"},{\"q\":\"My marks are ___ than last year.\",\"h\":\"good\",\"a\":[\"better\"],\"fr\":\"Mes notes sont meilleures que l'année dernière.\",\"e\":\"Good → better (irrégulier).\",\"i\":\"Écris le comparatif de l'adjectif entre parenthèses.\",\"typed\":1,\"les\":\"comparat\"},{\"q\":\"The trees ___ planted every week.\",\"o\":[\"are\",\"is\",\"has\"],\"e\":\"Passif : be au bon temps (are) + participe passé (planted).\",\"t\":\"be\",\"opts\":[\"has\",\"are\",\"is\"],\"les\":\"passive\"},{\"q\":\"He taught ___ to play the guitar.\",\"h\":\"\",\"a\":[\"himself\"],\"fr\":\"Il a appris tout seul à jouer de la guitare.\",\"e\":\"He → himself.\",\"i\":\"Écris le pronom réfléchi (myself, yourself…).\",\"typed\":1,\"les\":\"reflexive\"},{\"q\":\"January is the ___ month of the year.\",\"h\":\"cold\",\"a\":[\"coldest\"],\"fr\":\"Janvier est le mois le plus froid de l'année.\",\"e\":\"Cold → the coldest.\",\"i\":\"Écris le superlatif de l'adjectif entre parenthèses.\",\"typed\":1,\"les\":\"superlat\"},{\"q\":\"She gave ___ a present.\",\"o\":[\"her brother\",\"to her brother\",\"her brother to\"],\"e\":\"give + personne + chose, sans to.\",\"opts\":[\"her brother\",\"to her brother\",\"her brother to\"],\"les\":\"order\"},{\"q\":\"I can see ten ___. (deer)\",\"o\":[\"deer\",\"deers\",\"deeres\"],\"e\":\"deer → deer. Ce mot ne change pas au pluriel !\",\"t\":\"same\",\"opts\":[\"deers\",\"deeres\",\"deer\"],\"les\":\"plurals\"},{\"q\":\"How ___ times have you been to Paris?\",\"o\":[\"many\",\"much\",\"lot\"],\"e\":\"Times (fois) au pluriel → many.\",\"fr\":\"Combien de fois es-tu allé à Paris ?\",\"t\":\"qty\",\"opts\":[\"lot\",\"much\",\"many\"],\"les\":\"quant\"},{\"q\":\"The house ___ is on the corner is very old.\",\"o\":[\"which\",\"who\",\"where\"],\"e\":\"Pour une chose ou un animal → which (ou that).\",\"t\":\"which\",\"opts\":[\"who\",\"which\",\"where\"],\"les\":\"relative\"},{\"q\":\"I like Mrs Smith. I see ___ every day.\",\"o\":[\"her\",\"she\",\"hers\"],\"e\":\"Mrs Smith → her (pronom complément, après le verbe ou la préposition).\",\"t\":\"obj\",\"opts\":[\"she\",\"hers\",\"her\"],\"les\":\"pronouns\"},{\"q\":\"On frappe à la porte. → ___ is knocking at the door.\",\"h\":\"\",\"a\":[\"Someone\",\"Somebody\"],\"fr\":\"\",\"e\":\"On = quelqu'un → someone.\",\"i\":\"Traduis « on ».\",\"typed\":1,\"les\":\"on\"},{\"q\":\"Kai ___ late.\",\"o\":[\"is always\",\"always is\",\"is alwayss\"],\"e\":\"Avec be, l'adverbe se place après : is always.\",\"t\":\"freqbe\",\"opts\":[\"is alwayss\",\"always is\",\"is always\"],\"les\":\"adverbs\"},{\"q\":\"The red coat is ___.\",\"h\":\"à elle\",\"a\":[\"hers\"],\"fr\":\"Le manteau rouge est à elle.\",\"e\":\"Sans nom après → hers.\",\"i\":\"Écris le bon possessif (my, mine, his, her, hers…).\",\"typed\":1,\"les\":\"possessive\"},{\"q\":\"___ cake next to me is big.\",\"o\":[\"This\",\"These\",\"That\"],\"e\":\"Près (next to me) et singulier → this.\",\"t\":\"dn\",\"opts\":[\"This\",\"That\",\"These\"],\"les\":\"demonstr\"},{\"q\":\"I've lived here ___ three years.\",\"o\":[\"for\",\"since\",\"during\"],\"e\":\"Durée → for.\",\"t\":\"for\",\"opts\":[\"for\",\"since\",\"during\"],\"les\":\"prepos\"},{\"q\":\"The ___ toys are everywhere!\",\"h\":\"les jouets des enfants\",\"a\":[\"children's\"],\"fr\":\"Les jouets des enfants sont partout !\",\"e\":\"Pluriel irrégulier (sans -s) → 's : children's.\",\"i\":\"Écris le génitif : nom du possesseur + 's (ou ' après un pluriel en -s).\",\"typed\":1,\"les\":\"genitive\"}]}",
+   "kai.profiles.v1": "{\"list\":[{\"id\":\"kmvm3z7k0vnx6\",\"name\":\"Camille Évrard\",\"u\":1793350800000,\"lv\":0,\"lvSince\":\"2026-10-24\",\"lvHist\":[{\"lv\":0,\"d\":\"2026-10-24\"}],\"first\":1,\"lessons\":{\"be\":{\"best\":90,\"n\":1,\"t\":1793005200000,\"g\":1},\"articles\":{\"best\":100,\"n\":1,\"t\":1793178000000,\"g\":1},\"have\":{\"best\":100,\"n\":1,\"t\":1793178000000,\"g\":1}},\"tests\":{\"grammar\":{\"last\":20,\"best\":20,\"n\":1,\"t\":1793264400000,\"h\":[20]},\"conj\":{\"last\":19,\"best\":19,\"n\":1,\"t\":1793350800000,\"h\":[19]},\"irr\":{\"last\":20,\"best\":20,\"n\":1,\"t\":1793350800000,\"h\":[20]}}},{\"id\":\"kmvuqrhc0w5vp\",\"name\":\"Noé\",\"u\":1793350800000,\"lv\":1,\"lvSince\":\"2026-10-30\",\"lvHist\":[{\"lv\":1,\"d\":\"2026-10-30\"}],\"lessons\":{\"plurals\":{\"best\":90,\"n\":1,\"t\":1793350800000,\"g\":1}}}],\"cur\":\"kmvm3z7k0vnx6\"}",
+   "kai.tq.kmvm3z7k0vnx6.grammar.t.modals": "[\"Tomorrow is Sunday: you ___ get up early.\"]",
+   "kai.qsave.kmvm3z7k0vnx6.daily": "{\"v\":1,\"day\":\"2026-10-30\",\"daily\":true,\"kind\":\"mix\",\"tag\":\"all\",\"attempt\":1,\"ph\":0,\"i\":2,\"t\":1793350800000,\"words\":[{\"r\":[\"nouns\",\"exhibition\",\"une exposition\"],\"ei\":0,\"k\":\"nouns\"},{\"r\":[\"adverbs\",\"now\",\"maintenant\"],\"ei\":0,\"k\":\"adverbs\"},{\"r\":[\"verbs\",\"write\",\"écrire\"],\"ei\":0,\"k\":\"verbs\"},{\"r\":[\"prepositions\",\"under\",\"sous\"],\"ei\":1,\"k\":\"prepositions\"},{\"r\":[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],\"ei\":1,\"k\":\"adjectives\"},{\"r\":[\"connectors\",\"unless\",\"à moins que / sauf si\"],\"ei\":0,\"k\":\"connectors\"},{\"r\":[\"nouns\",\"stairs\",\"un escalier / les escaliers\"],\"ei\":0,\"k\":\"nouns\"},{\"r\":[\"verbs\",\"rule\",\"gouverner / régner\"],\"ei\":0,\"k\":\"verbs\"},{\"r\":[\"nouns\",\"foot\",\"un pied\"],\"ei\":0,\"k\":\"nouns\"},{\"r\":[\"verbs\",\"stick\",\"coller\"],\"ei\":0,\"k\":\"verbs\"}],\"qs\":[[{\"r\":[\"nouns\",\"exhibition\",\"une exposition\"],\"k\":\"nouns\",\"en\":\"We visited an *exhibition* about Egypt.\",\"fr\":\"Nous avons visité une *exposition* sur l'Égypte.\",\"o\":[[\"nouns\",\"exhibition\",\"une exposition\"],[\"nouns\",\"art\",\"les arts plastiques (m)\"],[\"nouns\",\"scene\",\"une scène (un passage du film ou de la pièce)\"],[\"nouns\",\"play\",\"une pièce de théâtre\"]],\"labels\":[\"exhibition\",\"art\",\"scene\",\"play\"],\"subs\":[\"une exposition\",\"les arts plastiques (m)\",\"une scène (un passage du film ou de la pièce)\",\"une pièce de théâtre\"],\"ans\":\"exhibition\",\"res\":true},{\"r\":[\"verbs\",\"rule\",\"gouverner / régner\"],\"k\":\"verbs\",\"en\":\"The king *rules* the country.\",\"fr\":\"Le roi *gouverne* le pays.\",\"o\":[[\"verbs\",\"free\",\"libérer\"],[\"verbs\",\"rule\",\"gouverner / régner\"],[\"verbs\",\"shoot\",\"tirer (au but)\"],[\"verbs\",\"hunt\",\"chasser\"]],\"labels\":[\"to free\",\"to rule\",\"to shoot\",\"to hunt\"],\"subs\":[\"libérer\",\"gouverner / régner\",\"tirer (au but)\",\"chasser\"],\"ans\":\"to rule\",\"res\":true},{\"r\":[\"verbs\",\"write\",\"écrire\"],\"k\":\"verbs\",\"en\":\"I *write* in my diary every night.\",\"fr\":\"J'*écris* dans mon journal tous les soirs.\",\"o\":[[\"verbs\",\"worry\",\"s'inquiéter\"],[\"verbs\",\"study\",\"étudier\"],[\"verbs\",\"write\",\"écrire\"],[\"verbs\",\"mean\",\"signifier\"]],\"labels\":[\"to worry\",\"to study\",\"to write\",\"to mean\"],\"subs\":[\"s'inquiéter\",\"étudier\",\"écrire\",\"signifier\"],\"ans\":\"to write\",\"res\":true},{\"r\":[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],\"k\":\"adjectives\",\"en\":\"Don't be *jealous*!\",\"fr\":\"Ne sois pas *jaloux* !\",\"o\":[[\"adjectives\",\"nice\",\"gentil(le) / sympa\"],[\"adjectives\",\"strange\",\"étrange, bizarre\"],[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],[\"adjectives\",\"impatient\",\"impatient(e)\"]],\"labels\":[\"nice\",\"strange\",\"jealous\",\"impatient\"],\"subs\":[\"gentil(le) / sympa\",\"étrange, bizarre\",\"jaloux, jalouse\",\"impatient(e)\"],\"ans\":\"jealous\"},{\"r\":[\"adverbs\",\"now\",\"maintenant\"],\"k\":\"adverbs\",\"en\":\"I'm doing my homework *now*.\",\"fr\":\"Je fais mes devoirs *maintenant*.\",\"o\":[[\"adverbs\",\"now\",\"maintenant\"],[\"adverbs\",\"today\",\"aujourd'hui\"],[\"adverbs\",\"before\",\"avant\"],[\"adverbs\",\"once\",\"autrefois / une fois\"]],\"labels\":[\"now\",\"today\",\"before\",\"once\"],\"subs\":[\"maintenant\",\"aujourd'hui\",\"avant\",\"autrefois / une fois\"],\"ans\":\"now\"},{\"r\":[\"connectors\",\"unless\",\"à moins que / sauf si\"],\"k\":\"connectors\",\"en\":\"We'll play outside *unless* it rains.\",\"fr\":\"Nous jouerons dehors *sauf s'*il pleut.\",\"o\":[[\"connectors\",\"in case\",\"au cas où\"],[\"connectors\",\"if\",\"si\"],[\"connectors\",\"unless\",\"à moins que / sauf si\"],[\"connectors\",\"whether\",\"si (pour choisir)\"]],\"labels\":[\"in case\",\"if\",\"unless\",\"whether\"],\"subs\":[\"au cas où\",\"si\",\"à moins que / sauf si\",\"si (pour choisir)\"],\"ans\":\"unless\"},{\"r\":[\"verbs\",\"stick\",\"coller\"],\"k\":\"verbs\",\"en\":\"*Stick* the photo in your notebook.\",\"fr\":\"*Colle* la photo dans ton cahier.\",\"o\":[[\"verbs\",\"dig\",\"creuser\"],[\"verbs\",\"show\",\"montrer\"],[\"verbs\",\"fold\",\"plier\"],[\"verbs\",\"stick\",\"coller\"]],\"labels\":[\"to dig\",\"to show\",\"to fold\",\"to stick\"],\"subs\":[\"creuser\",\"montrer\",\"plier\",\"coller\"],\"ans\":\"to stick\"},{\"r\":[\"nouns\",\"foot\",\"un pied\"],\"k\":\"nouns\",\"en\":\"I hurt my *foot*.\",\"fr\":\"Je me suis fait mal au *pied*.\",\"o\":[[\"nouns\",\"throat\",\"la gorge\"],[\"nouns\",\"foot\",\"un pied\"],[\"nouns\",\"bone\",\"un os\"],[\"nouns\",\"blood\",\"le sang\"]],\"labels\":[\"throat\",\"foot\",\"bone\",\"blood\"],\"subs\":[\"la gorge\",\"un pied\",\"un os\",\"le sang\"],\"ans\":\"foot\"},{\"r\":[\"prepositions\",\"under\",\"sous\"],\"k\":\"prepositions\",\"en\":\"I found my shoe *under* the sofa.\",\"fr\":\"J'ai trouvé ma chaussure *sous* le canapé.\",\"o\":[[\"prepositions\",\"next to\",\"à côté de\"],[\"prepositions\",\"in\",\"dans / en\"],[\"prepositions\",\"behind\",\"derrière\"],[\"prepositions\",\"under\",\"sous\"]],\"labels\":[\"next to\",\"in\",\"behind\",\"under\"],\"subs\":[\"à côté de\",\"dans / en\",\"derrière\",\"sous\"],\"ans\":\"under\"},{\"r\":[\"nouns\",\"stairs\",\"un escalier / les escaliers\"],\"k\":\"nouns\",\"en\":\"Don't run on the *stairs*!\",\"fr\":\"Ne cours pas dans les *escaliers* !\",\"o\":[[\"nouns\",\"knife\",\"un couteau\"],[\"nouns\",\"iron\",\"un fer à repasser ; le fer (métal)\"],[\"nouns\",\"stairs\",\"un escalier / les escaliers\"],[\"nouns\",\"pillow\",\"un oreiller\"]],\"labels\":[\"knife\",\"iron\",\"stairs\",\"pillow\"],\"subs\":[\"un couteau\",\"un fer à repasser ; le fer (métal)\",\"un escalier / les escaliers\",\"un oreiller\"],\"ans\":\"stairs\"}],[{\"r\":[\"prepositions\",\"under\",\"sous\"],\"k\":\"prepositions\",\"en\":\"I found my shoe *under* the sofa.\",\"fr\":\"J'ai trouvé ma chaussure *sous* le canapé.\",\"o\":[[\"prepositions\",\"on\",\"sur / le (+ jour)\"],[\"prepositions\",\"under\",\"sous\"],[\"prepositions\",\"against\",\"contre\"],[\"prepositions\",\"outside\",\"à l'extérieur de / devant\"]],\"labels\":[\"sur / le (+ jour)\",\"sous\",\"contre\",\"à l'extérieur de / devant\"],\"subs\":[\"on\",\"under\",\"against\",\"outside\"],\"ans\":\"sous\"},{\"r\":[\"verbs\",\"write\",\"écrire\"],\"k\":\"verbs\",\"en\":\"I *write* in my diary every night.\",\"fr\":\"J'*écris* dans mon journal tous les soirs.\",\"o\":[[\"verbs\",\"feel\",\"ressentir\"],[\"verbs\",\"decide\",\"décider\"],[\"verbs\",\"worry\",\"s'inquiéter\"],[\"verbs\",\"write\",\"écrire\"]],\"labels\":[\"ressentir\",\"décider\",\"s'inquiéter\",\"écrire\"],\"subs\":[\"to feel\",\"to decide\",\"to worry\",\"to write\"],\"ans\":\"écrire\"},{\"r\":[\"connectors\",\"unless\",\"à moins que / sauf si\"],\"k\":\"connectors\",\"en\":\"We'll play outside *unless* it rains.\",\"fr\":\"Nous jouerons dehors *sauf s'*il pleut.\",\"o\":[[\"connectors\",\"if\",\"si\"],[\"connectors\",\"as long as\",\"du moment que / tant que\"],[\"connectors\",\"unless\",\"à moins que / sauf si\"],[\"connectors\",\"in case\",\"au cas où\"]],\"labels\":[\"si\",\"du moment que / tant que\",\"à moins que / sauf si\",\"au cas où\"],\"subs\":[\"if\",\"as long as\",\"unless\",\"in case\"],\"ans\":\"à moins que / sauf si\"},{\"r\":[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],\"k\":\"adjectives\",\"en\":\"Don't be *jealous*!\",\"fr\":\"Ne sois pas *jaloux* !\",\"o\":[[\"adjectives\",\"jealous\",\"jaloux, jalouse\"],[\"adjectives\",\"ill\",\"malade\"],[\"adjectives\",\"cute\",\"mignon, mignonne\"],[\"adjectives\",\"funny\",\"drôle / marrant(e)\"]],\"labels\":[\"jaloux, jalouse\",\"malade\",\"mignon, mignonne\",\"drôle / marrant(e)\"],\"subs\":[\"jealous\",\"ill\",\"cute\",\"funny\"],\"ans\":\"jaloux, jalouse\"},{\"r\":[\"verbs\",\"rule\",\"gouverner / régner\"],\"k\":\"verbs\",\"en\":\"The king *rules* the country.\",\"fr\":\"Le roi *gouverne* le pays.\",\"o\":[[\"verbs\",\"shoot\",\"tirer (au but)\"],[\"verbs\",\"rule\",\"gouverner / régner\"],[\"verbs\",\"fight\",\"se battre\"],[\"verbs\",\"rescue\",\"secourir / sauver\"]],\"labels\":[\"tirer (au but)\",\"gouverner / régner\",\"se battre\",\"secourir / sauver\"],\"subs\":[\"to shoot\",\"to rule\",\"to fight\",\"to rescue\"],\"ans\":\"gouverner / régner\"},{\"r\":[\"verbs\",\"stick\",\"coller\"],\"k\":\"verbs\",\"en\":\"*Stick* the photo in your notebook.\",\"fr\":\"*Colle* la photo dans ton cahier.\",\"o\":[[\"verbs\",\"fold\",\"plier\"],[\"verbs\",\"stick\",\"coller\"],[\"verbs\",\"drop\",\"faire tomber / laisser tomber\"],[\"verbs\",\"open\",\"ouvrir\"]],\"labels\":[\"plier\",\"coller\",\"faire tomber / laisser tomber\",\"ouvrir\"],\"subs\":[\"to fold\",\"to stick\",\"to drop\",\"to open\"],\"ans\":\"coller\"},{\"r\":[\"adverbs\",\"now\",\"maintenant\"],\"k\":\"adverbs\",\"en\":\"I'm doing my homework *now*.\",\"fr\":\"Je fais mes devoirs *maintenant*.\",\"o\":[[\"adverbs\",\"soon\",\"bientôt\"],[\"adverbs\",\"now\",\"maintenant\"],[\"adverbs\",\"still\",\"encore / toujours\"],[\"adverbs\",\"later\",\"plus tard\"]],\"labels\":[\"bientôt\",\"maintenant\",\"encore / toujours\",\"plus tard\"],\"subs\":[\"soon\",\"now\",\"still\",\"later\"],\"ans\":\"maintenant\"},{\"r\":[\"nouns\",\"foot\",\"un pied\"],\"k\":\"nouns\",\"en\":\"I hurt my *foot*.\",\"fr\":\"Je me suis fait mal au *pied*.\",\"o\":[[\"nouns\",\"shoulder\",\"une épaule\"],[\"nouns\",\"foot\",\"un pied\"],[\"nouns\",\"muscle\",\"un muscle\"],[\"nouns\",\"beard\",\"une barbe\"]],\"labels\":[\"une épaule\",\"un pied\",\"un muscle\",\"une barbe\"],\"subs\":[\"shoulder\",\"foot\",\"muscle\",\"beard\"],\"ans\":\"un pied\"},{\"r\":[\"nouns\",\"stairs\",\"un escalier / les escaliers\"],\"k\":\"nouns\",\"en\":\"Don't run on the *stairs*!\",\"fr\":\"Ne cours pas dans les *escaliers* !\",\"o\":[[\"nouns\",\"glass\",\"un verre\"],[\"nouns\",\"washing machine\",\"une machine à laver\"],[\"nouns\",\"house\",\"une maison\"],[\"nouns\",\"stairs\",\"un escalier / les escaliers\"]],\"labels\":[\"un verre\",\"une machine à laver\",\"une maison\",\"un escalier / les escaliers\"],\"subs\":[\"glass\",\"washing machine\",\"house\",\"stairs\"],\"ans\":\"un escalier / les escaliers\"},{\"r\":[\"nouns\",\"exhibition\",\"une exposition\"],\"k\":\"nouns\",\"en\":\"We visited an *exhibition* about Egypt.\",\"fr\":\"Nous avons visité une *exposition* sur l'Égypte.\",\"o\":[[\"nouns\",\"exhibition\",\"une exposition\"],[\"nouns\",\"artist\",\"un/une artiste\"],[\"nouns\",\"drawing\",\"un dessin\"],[\"nouns\",\"painter\",\"un peintre / une peintre\"]],\"labels\":[\"une exposition\",\"un/une artiste\",\"un dessin\",\"un peintre / une peintre\"],\"subs\":[\"exhibition\",\"artist\",\"drawing\",\"painter\"],\"ans\":\"une exposition\"}]]}",
+   "kai.daily.v1.kmvuqrhc0w5vp": "{\"2026-10-30\":{\"d\":\"2026-10-30\",\"mood\":null,\"qs\":[{\"k\":\"lesson-plurals\",\"n\":10,\"p\":90,\"t\":1793350800000}],\"w\":{},\"n\":15,\"lv\":1,\"u\":1793350800000}}",
+   "kai.tq.kmvm3z7k0vnx6.conj.past": "[\"dxjrdx\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.passive": "[\"1n4qug7\"]",
+   "kai.tq.kmvm3z7k0vnx6.grammar.negative": "[\"155ytox\",\"wphazd\"]"
+  }
+ }
+}

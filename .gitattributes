@@ -1,0 +1,9 @@
+# Fins de ligne : Windows pour les scripts Windows, normalisation automatique pour le reste.
+* text=auto
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+*.png binary
+*.webp binary
+*.jpg binary
+*.mp3 binary
+*.ico binary
