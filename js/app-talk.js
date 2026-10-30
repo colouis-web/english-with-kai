@@ -902,6 +902,38 @@ function tkSinceFix(sents, tips) {
     }
     return bad;
 }
+/* S-01 : la phrase corrigée par les règles locales n'est PAS validée si elle contient un nom d'objet / d'animal singulier
+   sans article (« see elephant ») ou un adjectif placé après le nom (« elephant big »). Dans ce cas Kai propose, il
+   n'affirme pas, et la phrase n'est jamais lue à voix haute. Choix prudent : seules les catégories où le nom est
+   vraiment comptable sont contrôlées (le lexique marque « comptable » presque tout, nourriture comprise), et le doute
+   ne porte que sur un nom juste après un verbe ou une préposition (pas de fausse alerte sur « skate park »). */
+const TK_NODET = /^(in|at|to|by|on|from) (bed|school|class|town|hospital|church|prison|bus|car|train|plane|bike|foot|home|work|night|sea)$/;
+const TK_DETX = /^(\d+|several|many|much|all|both|lots|enough|most|other|what|whose)$/;
+const TK_COUNTCAT = new Set(["animals", "family", "body", "clothes", "house", "school", "transport", "places", "jobs"]);
+function tkShaky(sentence) {
+    const X = TKFR.lex(), V = tkVerbs();
+    const isDet = w => TK_DET.has(w) || /'s$/.test(w) || TK_DETX.test(w);
+    const isCount = w => { const n = X.n.get(w); return !!n && n.t === "c" && !n.ipl && TK_COUNTCAT.has(n.cat) && !V.has(w) && w !== "kai" && !TK_NAMES.has(w); };
+    return String(sentence || "").toLowerCase().split(/[.!?,;:]+/).some(seg => {
+        const W = seg.replace(/[^a-z' ]/g, " ").split(/\s+/).filter(Boolean);
+        return W.some((w, i) => {
+            if (!X.n.has(w) || X.n.get(w).t !== "c" || X.n.get(w).ipl)
+                return false;
+            const nx = W[i + 1];
+            if (nx && X.a.has(nx) && !X.n.has(nx) && !V.has(nx) && !X.av.has(nx))
+                return true;
+            if (!isCount(w))
+                return false;
+            let j = i - 1;
+            while (j >= 0 && X.a.has(W[j]) && !isDet(W[j]))
+                j--;
+            if (j >= 0 && isDet(W[j]))
+                return false;
+            const governed = j < 0 || ((V.has(W[j]) || X.pr.has(W[j]) || X.con.has(W[j])) && W[j] !== "of" && !X.n.has(W[j]) && !(j > 0 && isDet(W[j - 1])));
+            return governed && !(j === i - 1 && TK_NODET.test(W[j] + " " + w));
+        });
+    });
+}
 function tkLocal(P, raw, mic) {
     const { T, ap, sp } = tkTok(raw);
     if (tkFrench(T))
@@ -1139,7 +1171,7 @@ function tkLocal(P, raw, mic) {
     catch (e) {
         fr = "";
     }
-    return { ok, unsure: unknown.length > 0, unknown, about: tkAbout(P, words), corrected, tips_fr: tips.slice(0, 4), punct_fr: pt.slice(0, 4), parts, fr, unk };
+    return { ok, unsure: unknown.length > 0 || tkShaky(corrected), unknown, about: tkAbout(P, words), corrected, tips_fr: tips.slice(0, 4), punct_fr: pt.slice(0, 4), parts, fr, unk };
 }
 async function tkClaude(P, raw, mic) {
     if (TK.noAI || !window.claude || !window.claude.use)
@@ -1176,6 +1208,13 @@ Reply with only this JSON:
 }
 function tkStructHtml(parts) {
     return `<div class="tkstruct">${parts.map(p => `<div class="tkcl">${p.con ? `<span class="k"><i>Connector</i><b>${esc(p.con.en)}</b>${p.con.fr ? `<small>${esc(p.con.fr)}</small>` : ""}</span>` : p.sep ? `<span class="k p"><i>Full stop</i><b>.</b></span>` : ""}${p.q && !p.verb ? `<span class="c"><i>Question</i><b>${esc(p.rest)}</b></span>` : `<span class="s${p.implied ? " im" : ""}"><i>Subject</i><b>${esc(p.subject || "–")}</b></span><span class="v"><i>Verb</i><b>${esc(p.verb || "–")}</b></span>${p.rest ? `<span class="c"><i>Rest</i><b>${esc(p.rest)}</b></span>` : ""}`}</div>`).join("")}</div>`;
+}
+/* S-01 : phrase corrigée. Validée (Claude, ou règles sans doute) : « Correct sentence », avec son bouton audio.
+   Pas sûre (risky) : « Kai's suggestion », affichée sans bouton audio, car on ne lit jamais une phrase non validée. */
+function tkCorrHtml(text, risky, better) {
+    if (risky)
+        return `<div class="tkcorr"><i>Kai's suggestion</i><p class="tkm tksug">${esc(text)}</p></div>`;
+    return `<div class="tkcorr"><i>${better ? "Even better" : "Correct sentence"}</i><button class="tkm" data-say="${esc(text)}">${SPK}<span>${esc(text)}</span></button></div>`;
 }
 async function tkCheck() {
     const box = document.getElementById("tktext"), raw = box.value.trim(), fb = document.getElementById("tkfb"), P = TKPICS[TK.i];
@@ -1224,7 +1263,7 @@ async function tkCheck() {
     }
     TK.busy = false;
     btn.disabled = false;
-    const uns = src === "local" && !!r.ok && !!r.unsure, good = !!r.ok && !uns, about = r.about !== false && L.about !== false || r.about === true, same = (r.corrected || "").toLowerCase().replace(/[^a-z]/g, "") === raw.toLowerCase().replace(/[^a-z]/g, "");
+    const uns = src === "local" && !!r.ok && !!r.unsure, risky = src === "local" && !!r.unsure, good = !!r.ok && !uns, about = r.about !== false && L.about !== false || r.about === true, same = (r.corrected || "").toLowerCase().replace(/[^a-z]/g, "") === raw.toLowerCase().replace(/[^a-z]/g, "");
     const li = a => (Array.isArray(a) ? a : []).filter(Boolean).slice(0, 3).map(x => `<li>${esc(String(x))}</li>`).join("");
     const tips = li(r.tips_fr), ptips = mic ? "" : (Array.isArray(r.punct_fr) ? r.punct_fr : []).filter(Boolean).slice(0, 4).map(x => `<li>${esc(String(x))}</li>`).join("");
     const cons = (r.parts || []).filter(p => p.con).map(p => `<b>${esc(p.con.en)}</b>${p.con.fr ? ` (${esc(p.con.fr)})` : ""}`);
@@ -1235,14 +1274,15 @@ async function tkCheck() {
     fb.innerHTML = `<div class="tkres ${good ? "ok" : uns ? "un" : "ko"}"><p class="verdict ${good ? "ok" : uns ? "un" : "ko"}">${uns ? "HMM… KAI ISN'T SURE" : good ? (about ? "GREAT SENTENCE!" : "GOOD SENTENCE!") : "ALMOST!"}</p>
 ${(r.parts || []).length ? tkStructHtml(r.parts) : ""}
 ${cons.length ? `<p class="tkcon">🔗 Tes idées sont reliées par ${cons.join(", ")}. Bravo !</p>` : good && (r.parts || []).length === 1 ? `<p class="tkcon more">🔗 Pour aller plus loin, relie deux idées avec un connecteur : and, but, because, so… <i>Kai is happy <b>because</b> he is playing.</i></p>` : ""}
-${(!same || ptips || uns) && r.corrected ? `<div class="tkcorr"><i>${uns ? "Kai's best guess" : good && !ptips ? "Even better" : "Correct sentence"}</i><button class="tkm" data-say="${esc(r.corrected)}">${SPK}<span>${esc(r.corrected)}</span></button></div>` : ""}
+${(!same || ptips || uns || risky) && r.corrected ? tkCorrHtml(r.corrected, risky, good && !ptips) : ""}
+${risky && P.m[0] ? `<div class="tkcorr"><i>Example for this picture</i><button class="tkm" data-say="${esc(P.m[0])}">${SPK}<span>${esc(P.m[0])}</span></button></div>` : ""}
 ${unkL}${tips ? `<ul class="tktips">${tips}</ul>` : ""}
 ${ptips ? `<div class="tkpunct"><i>✏️ Ponctuation</i><ul class="tktips">${ptips}</ul></div>` : ""}
 ${frTxt ? `<div class="tkfr"><i>🇫🇷 En français</i><p>${frTxt}</p>${unk.length && src !== "claude" || unk.length && !r.fr ? `<small>Mots pas encore dans le lexique de Kai : ${unk.map(esc).join(", ")}</small>` : ""}<small>${src === "claude" && r.fr ? "Traduction de Claude, avec des mots simples." : "Traduction automatique avec les mots de Kai : elle peut être un peu maladroite."}</small></div>` : ""}
 ${!about ? `<p class="tktip2">Ta phrase doit parler de l'image ! Tu peux utiliser tes propres mots, ou t'aider des idées en haut.</p>` : ""}
 <p class="tksrc">${src === "claude" ? "Checked by Claude" : "Checked by Kai's grammar rules"}</p></div>`;
     try {
-        sayOne(praise + (!good && r.corrected ? " " + r.corrected : ""), null);
+        sayOne(praise + (risky ? (P.m[0] ? " For example: " + P.m[0] : "") : !good && r.corrected ? " " + r.corrected : ""), null);
     }
     catch (e) {
     }

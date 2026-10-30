@@ -723,6 +723,7 @@ html.mlock,html.mlock body{overflow:hidden}
 .tkm{display:flex;align-items:center;gap:10px;width:100%;padding:8px 12px 8px 8px;border:2.5px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font:600 17px/1.25 var(--claude);text-align:left;cursor:pointer}
 .tkm svg{flex:none;width:30px;height:30px;padding:6px;border-radius:50%;background:var(--ink);color:#fff;box-sizing:border-box}
 .tkm.talk{border-color:var(--teal)}
+.tkm.tksug{cursor:default;padding-left:12px;border-style:dashed;background:#f7f8fb;margin:0}
 .tktips{margin:0;padding-left:20px;font:500 15px/1.4 var(--claude)}
 .tktips li+li{margin-top:4px}
 .tktip2{margin:0;font:600 15px/1.35 var(--claude);color:#a15c00}
