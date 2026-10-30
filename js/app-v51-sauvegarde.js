@@ -336,14 +336,8 @@ function kaiImport(file) {
     r.readAsText(file);
 }
 /* --- 5. code parent : changer de niveau, supprimer un élève ou charger une sauvegarde --- */
-const PCK = "kai.pcode", pcode = () => {
-    try {
-        return localStorage.getItem(PCK) || "";
-    }
-    catch (e) {
-        return "";
-    }
-};
+/* Le code est haché (js/security.js : PBKDF2) ; pcode() ne dit plus que « il y en a un » (le code n'est plus lisible). */
+const pcode = () => KaiSecurity.has() ? "1" : "";
 let GATEOK = false;
 function gate(why, ok) {
     const c = pcode(), p = curProf(), n = p ? p.name : "";
@@ -352,10 +346,12 @@ function gate(why, ok) {
         openModal("Parent code", `<p class="mtxt">${why}</p><p class="mtxt">Ask a parent to type the code.</p>${f("Parent code", "password")}<div class="endbtns"><button class="listen sm" data-mact="ok">OK</button><button class="ghost sm" data-mclose>Cancel</button></div>`);
         MACT = { ok: () => {
                 const v = (document.getElementById("pcin") || {}).value || "";
-                if (v === c)
-                    ok();
-                else
-                    toast("Wrong code", 2000);
+                KaiSecurity.verify(v).then(good => {
+                    if (good)
+                        ok();
+                    else
+                        toast("Wrong code", 2000);
+                });
             } };
     }
     else {
@@ -390,13 +386,10 @@ function askNewCode() {
                 toast("The two codes are different", 2200);
                 return;
             }
-            try {
-                localStorage.setItem(PCK, a);
-            }
-            catch (e) {
-            }
-            renderMe();
-            toast("Parent code saved", 2000);
+            KaiSecurity.set(a).then(() => {
+                renderMe();
+                toast("Parent code saved", 2000);
+            }, () => toast("Could not save the code", 2200));
         } };
     setTimeout(() => {
         const i = document.getElementById("pcin");
@@ -505,11 +498,7 @@ document.getElementById("mebody").addEventListener("click", e => {
     if (t.closest("#mePcDel")) {
         e.stopPropagation();
         gate("Type the code to remove it.", () => {
-            try {
-                localStorage.removeItem(PCK);
-            }
-            catch (e) {
-            }
+            KaiSecurity.remove();
             renderMe();
             toast("Parent code removed", 2000);
         });
