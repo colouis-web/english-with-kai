@@ -44,3 +44,16 @@ Aucun sprint lancé : le PO prend les questions de l'équipe une par une dans le
 - **30/10, 18:48 — Q7** : ajouter au sprint Kai 2 les leçons 6e « l'heure et la date » et « like + -ing » ✅ (Matt écrit, scrum master relit).
 - **30/10, 18:51 — Q8** : on garde ghost, skeleton, church pour un Beginner ✅ ; relecture de toutes les phrases d'exemple (adaptées à un enfant) ✅ (Ludo, ≈ 0,5 dj).
 - **30/10, 18:51 — Q9** : Kai dessiné d'après un croquis du PO, autres images générées avec Gemini, voix générée avec ElevenLabs. → Ani : page « Crédits » dans l'aide (images : croquis original + Gemini ; voix : ElevenLabs), usage gratuit non commercial ; vérifier les conditions de l'offre ElevenLabs utilisée (attribution exigée sur l'offre gratuite) (≈ 0,1 dj).
+- **30/10, 18:53 — Q10** : délai croissant après 3 mauvais codes parent ✅ ; CSP ✅ ; mode hors ligne ✅ (Ani).
+
+## Backlog du sprint Kai 2 (validé par le PO le 30/10, en attente de son « top »)
+| Lot | Contenu | Qui | Effort |
+|---|---|---|---|
+| Lisibilité | R1 police des bulles ; R2 cadrage petits iPhone ; R3 désélection d'un thème | Ouss, Dédé | ≈ 0,85 dj |
+| Certificats v1 (vocabulaire) | Épreuves sans QCM (traduction tapée, image → mot, phrase à compléter, ordre des mots, correction d'erreur ; dictée et micro seulement si « son disponible »), réussite 90 % sur ≥ 3 formats, badge daté, page imprimable, sortie de la rotation, validité 3 mois (6e) / 6 mois (B1–B2), renouvellement 8 questions à 80 % (mots rares et déjà ratés), rappel une semaine avant | Matt (conception), Ludo (moteur), Ouss (écrans), Dédé (tests) | ≈ 3 dj |
+| Rattrapage valorisé (R6) | Étoile de rattrapage, message de Kai, compteur et médailles, révision rapprochée | Ouss | ≈ 0,5 dj |
+| Seuil 80 % | Seuil unique, leçons déjà réussies conservées | Ludo | ≈ 0,25 dj |
+| Contenu | Leçons 6e « l'heure et la date » et « like + -ing » ; relecture des exemples ; vocabulaire B1 (thèmes de 1re) pour le fils aîné | Matt + scrum master, Ludo | ≈ 2 dj |
+| Sécurité et confort | Crédits ; délai après mauvais codes ; CSP ; mode hors ligne | Ani | ≈ 2,1 dj |
+| Après les certificats | Écran parent des contrôles (≈ 2 dj) ; certificats de grammaire (sprint suivant) | — | — |
+Rappel : double authentification à activer sur le compte GitHub du PO.
