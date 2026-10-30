@@ -64,7 +64,8 @@ function openHello(fromWho) {
 }
 document.getElementById("nameform").addEventListener("submit", e => {
     e.preventDefault();
-    const name = document.getElementById("pname").value.replace(/\s+/g, " ").trim().slice(0, 16);
+    // [...s] compte en caractères entiers : un émoji (2 unités UTF-16) n'est plus coupé en deux
+    const name = [...document.getElementById("pname").value.replace(/\s+/g, " ").trim()].slice(0, 16).join("");
     if (!name) {
         document.getElementById("nmsg").textContent = "Type your first name, then tap Let's go!";
         document.getElementById("pname").focus();
@@ -251,13 +252,22 @@ document.getElementById("mebody").addEventListener("click", e => {
 });
 document.getElementById("mebody").addEventListener("submit", e => {
     e.preventDefault();
-    const p = curProf(), n = (document.getElementById("rname").value || "").replace(/\s+/g, " ").trim().slice(0, 16);
+    const p = curProf(), n = [...(document.getElementById("rname").value || "").replace(/\s+/g, " ").trim()].slice(0, 16).join("");
+    // Un autre élève porte déjà ce prénom (sans tenir compte de la casse) : on garde le formulaire ouvert
+    if (p && n && PROFS.list.some(x => x !== p && x.name.toLowerCase() === n.toLowerCase())) {
+        toast("This name is already used", 2200);
+        return;
+    }
     if (p && n) {
         p.name = n;
         p.u = Date.now();
         pSave();
         pPush(p);
         renderMenuHead();
+    }
+    else if (p) {
+        // Champ vidé : on referme le formulaire (c'est la seule façon d'annuler), mais on le dit
+        toast("The first name did not change", 2200);
     }
     RENAME = false;
     renderMe();

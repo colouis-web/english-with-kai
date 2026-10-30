@@ -27,6 +27,7 @@ h1 span{display:block;font-size:1em;letter-spacing:1px;color:var(--teal)}
 .listen svg{width:24px;height:24px}
 .listen:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 .page{display:none}.page.on{display:flex;animation:pagein .35s cubic-bezier(.2,.9,.3,1) both}
+body.navlock .page{pointer-events:none}
 @keyframes pagein{from{opacity:0;transform:translateY(14px)}}
 .page.on.rev{animation-name:pageback}@keyframes pageback{from{opacity:0;transform:translateY(-10px)}}
 .kai{cursor:pointer}
@@ -472,9 +473,10 @@ html.emo-ok .emo{visibility:visible}html.emo-no .emo{display:none}
 .tense .wkb{display:inline-flex;align-items:center;gap:4px;margin-left:6px;background:#ecfbf2;color:#106b39}
 .tense .wkb .stamp{width:13px;height:13px}
 .lvq{margin:6px 0 0;text-align:center;font:700 15px var(--claude);letter-spacing:.8px;text-transform:uppercase;color:var(--mut)}
-.lvpick{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lvpick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .lvopt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 12px;border:2.5px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);text-align:left;cursor:pointer}
 .lvopt b{font:700 17px var(--claude);letter-spacing:.4px;text-transform:uppercase}
+.lvopt b{max-width:100%;overflow-wrap:anywhere}@media(max-width:360px){.lvopt b{font-size:14px;letter-spacing:0}}
 .lvopt small{font:500 12.5px/1.3 var(--claude);color:var(--mut)}
 .lvopt.on{border-color:var(--teal);background:#e6f7f8;box-shadow:inset 0 0 0 1px var(--teal)}
 .lvopt:focus-visible{outline:3px solid var(--teal);outline-offset:2px}

@@ -11,8 +11,8 @@ const MOODS = [{ id: "great", img: "smile", en: "Great", fr: "Super", say: "Grea
     { id: "sad", img: "cry", en: "Sad", fr: "Triste", say: "Sad? I'm *here* with you!" }];
 /* niveaux de l'élève : mots par jour (dont des mots à revoir), et ce qu'il faut pour passer au niveau suivant */
 const LV = [{ id: "beginner", name: "Beginner", fr: "Débutant", cefr: "A1", words: 10, rev: 3, req: null },
-    { id: "practicer", name: "Practicer", fr: "Pratiquant", cefr: "A2", words: 15, rev: 5, req: { days: 15, words: 250, acc: 80, lessons: 3 } },
-    { id: "confirmed", name: "Confirmed", fr: "Confirmé", cefr: "B1", words: 20, rev: 8, req: { days: 20, words: 600, acc: 85, lessons: 6 } },
+    { id: "practicer", name: "Elementary", fr: "Pratiquant", cefr: "A2", words: 15, rev: 5, req: { days: 15, words: 250, acc: 80, lessons: 3 } },
+    { id: "confirmed", name: "Intermediate", fr: "Confirmé", cefr: "B1", words: 20, rev: 8, req: { days: 20, words: 600, acc: 85, lessons: 6 } },
     { id: "expert", name: "Expert", fr: "Expert", cefr: "B2", words: 30, rev: 15, req: { days: 25, words: 1000, acc: 90, lessons: 9 } }];
 const RANKS = [[0, "Rookie"], [25, "Explorer"], [75, "Adventurer"], [150, "Champion"], [300, "Hero"], [500, "Master"], [800, "Legend"]];
 const MEDALS = [[2, "Bronze"], [5, "Silver"], [10, "Gold"]];
