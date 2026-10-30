@@ -1,6 +1,6 @@
 /* =====================================================================================
    Enrichissement du 30/10/2026 — lot 1 (Matt, sprint Kai 1). Plan : docs/enrichissement/plan.md
-   À RELIRE par le scrum master avant branchement. Entrées dont je ne suis pas sûr : marquées « À VÉRIFIER ».
+   Relu par le scrum master le 30/10 (IPA, traductions, exemples, distracteurs) : tummy en registre « Informal », exemple « zoos » sans fait invérifiable, distracteur « Theres » remplacé.
 
    Contenu :
    - NDICT : 34 noms du programme de 6e absents du dictionnaire (famille, école, maison, santé, vêtements,
@@ -10,16 +10,11 @@
      courtes, how many, prétérit there was / there were). Il n'en existait que 6, tous affirmatifs.
      Chaque exercice porte sa traduction ("fr"), comme ceux de LBANK.quant.
 
-   ORDRE DE CHARGEMENT (pour Ludo) — important :
-   1. après les fichiers qui définissent NDICT, DICT et LBANK ;
-   2. AVANT le code qui indexe les données, sinon les nouvelles entrées n'ont ni index ni clés de recherche :
-      - DICT.forEach((d,i)=>{d.i=i;DMAP[d.v]=d;d.keys=…})   (index.html l. 1184, juste après DICT.push)
-      - QPOOL=DICT.filter(d=>d.q||…)                         (l. 1216)
-      - NDICT.forEach((n,i)=>{n.i=i;n.keys=…;n.lkeys=…})     (l. 1971)
-      - lessonBank(id) met la banque en cache au premier appel : charger avant toute leçon.
-   Format : identique aux entrées existantes (mêmes champs, même ordre). Catégories : clés existantes de NCAT.
+   Chargement : enrichissement-2026-10-30-verbes.js juste après data/dict.js (avant app-quiz.js, qui calcule QPOOL),
+   ce fichier juste après data/ndict.js. Chaque ajout est indexé par indexVerb / indexNoun (mêmes règles que les données d'origine).
    ===================================================================================== */
 
+const N0_ENR1=NDICT.length;
 NDICT.push(...[
 /* --- famille et personnes --- */
 {"w":"grandma","pl":"grandmas","fr":"une mamie","e":"👵","ipa":"ˈɡrænmɑː","pr":"GRANN-mâ","cat":"family","t":"c","ipl":false,"ex":[["My *grandma* makes great pancakes.","Ma *mamie* fait de super crêpes."],["Both my *grandmas* live in Lyon.","Mes deux *mamies* habitent à Lyon."]]},
@@ -38,7 +33,7 @@ NDICT.push(...[
 {"w":"cooker","pl":"cookers","fr":"une cuisinière (l'appareil)","e":"🍳","ipa":"ˈkʊkə","pr":"KOU-keur","cat":"house","t":"c","ipl":false,"ex":[["Be careful, the *cooker* is hot!","Attention, la *cuisinière* est chaude !"],["A cook uses a *cooker*: *cookers* are not people!","Un cuisinier utilise une *cuisinière* : les *cuisinières* ne sont pas des personnes !"]]},
 {"w":"bookcase","pl":"bookcases","fr":"une bibliothèque (le meuble)","e":"📚","ipa":"ˈbʊkkeɪs","pr":"BOUK-kéïss","cat":"house","t":"c","ipl":false,"ex":[["My comics are on the *bookcase*.","Mes BD sont dans la *bibliothèque*."],["There are two *bookcases* in the living room.","Il y a deux *bibliothèques* dans le salon."]]},
 /* --- corps et santé --- */
-{"w":"tummy","pl":"tummies","fr":"le ventre (mot familier)","e":"🧍","ipa":"ˈtʌmi","pr":"TEU-mi","cat":"body","t":"c","ipl":false,"ex":[["I ate too much: my *tummy* hurts!","J'ai trop mangé : j'ai mal au *ventre* !"],["The puppies have got round *tummies*.","Les chiots ont le *ventre* tout rond."]],"r":"c"},
+{"w":"tummy","pl":"tummies","fr":"le ventre (mot familier)","e":"🧍","ipa":"ˈtʌmi","pr":"TEU-mi","cat":"body","t":"c","ipl":false,"ex":[["I ate too much: my *tummy* hurts!","J'ai trop mangé : j'ai mal au *ventre* !"],["The puppies have got round *tummies*.","Les chiots ont le *ventre* tout rond."]],"r":"i"},
 {"w":"headache","pl":"headaches","fr":"un mal de tête","e":"🤕","ipa":"ˈhedeɪk","pr":"HÈD-éïk","cat":"body","t":"c","ipl":false,"ex":[["I've got a *headache*.","J'ai *mal à la tête*."],["Loud music gives me *headaches*.","La musique forte me donne des *maux de tête*."]]},
 {"w":"toothache","pl":"—","fr":"le mal de dents","e":"🦷","ipa":"ˈtuːθeɪk","pr":"TOUTH-éïk","cat":"body","t":"u","ipl":false,"ex":[["I've got *toothache*: I need to see the dentist.","J'ai *mal aux dents* : je dois aller chez le dentiste."],["Too many sweets can give you *toothache*.","Trop de bonbons peuvent donner *mal aux dents*."]]},
 {"w":"sore throat","pl":"sore throats","fr":"un mal de gorge","e":"🤒","ipa":"ˌsɔː ˈθrəʊt","pr":"sôr THRÔOUT","cat":"body","t":"c","ipl":false,"ex":[["I've got a *sore throat* and a cold.","J'ai *mal à la gorge* et un rhume."],["In winter, lots of children have *sore throats*.","En hiver, beaucoup d'enfants ont *mal à la gorge*."]]},
@@ -56,7 +51,7 @@ NDICT.push(...[
 {"w":"picnic","pl":"picnics","fr":"un pique-nique","e":"🧺","ipa":"ˈpɪknɪk","pr":"PIK-nik","cat":"food","t":"c","ipl":false,"ex":[["Let's have a *picnic* in the park!","Faisons un *pique-nique* au parc !"],["We love *picnics* in summer.","Nous adorons les *pique-niques* en été."]],"also":["nature"]},
 {"w":"hot chocolate","pl":"hot chocolates","fr":"un chocolat chaud","e":"☕","ipa":"ˌhɒt ˈtʃɒklət","pr":"hott TCHOK-leutt","cat":"food","t":"c","ipl":false,"ex":[["I drink a *hot chocolate* every morning.","Je bois un *chocolat chaud* tous les matins."],["Two *hot chocolates*, please!","Deux *chocolats chauds*, s'il vous plaît !"]]},
 /* --- ville --- */
-{"w":"zoo","pl":"zoos","fr":"un zoo","e":"🦒","ipa":"zuː","pr":"zou","cat":"places","t":"c","ipl":false,"ex":[["We saw a panda at the *zoo*.","Nous avons vu un panda au *zoo*."],["There are two *zoos* near Paris.","Il y a deux *zoos* près de Paris."]],"also":["animals"]},
+{"w":"zoo","pl":"zoos","fr":"un zoo","e":"🦒","ipa":"zuː","pr":"zou","cat":"places","t":"c","ipl":false,"ex":[["We saw a panda at the *zoo*.","Nous avons vu un panda au *zoo*."],["We visited two *zoos* during the holidays.","Nous avons visité deux *zoos* pendant les vacances."]],"also":["animals"]},
 {"w":"market","pl":"markets","fr":"un marché","e":"🧺","ipa":"ˈmɑːkɪt","pr":"MÂR-kit","cat":"places","t":"c","ipl":false,"ex":[["We buy fruit at the *market* on Saturdays.","Nous achetons des fruits au *marché* le samedi."],["Christmas *markets* are beautiful.","Les *marchés* de Noël sont magnifiques."]]},
 {"w":"café","pl":"cafés","fr":"un café (l'endroit)","e":"☕","ipa":"ˈkæfeɪ","pr":"KA-féï","cat":"places","t":"c","ipl":false,"ex":[["Let's meet at the *café* near the station.","Retrouvons-nous au *café* près de la gare."],["There are lots of *cafés* in London.","Il y a beaucoup de *cafés* à Londres."]]},
 {"w":"sports centre","pl":"sports centres","fr":"un centre sportif / un gymnase","e":"🏟","ipa":"ˈspɔːts ˌsentə","pr":"SPÔRTS sènn-teur","cat":"places","t":"c","ipl":false,"ex":[["I go to the *sports centre* after school.","Je vais au *centre sportif* après les cours."],["Our town has got two *sports centres*.","Notre ville a deux *centres sportifs*."]],"also":["sports"]},
@@ -64,12 +59,7 @@ NDICT.push(...[
 {"w":"quarter","pl":"quarters","fr":"un quart (d'heure)","e":"🕒","ipa":"ˈkwɔːtə","pr":"KOUÔ-teur","cat":"time","t":"c","ipl":false,"ex":[["It's a *quarter* past seven.","Il est sept heures et *quart*."],["Cut the pizza into *quarters*.","Coupe la pizza en *quarts*."]],"also":["numbers"]},
 {"w":"mobile phone","pl":"mobile phones","fr":"un téléphone portable","e":"📱","ipa":"ˌməʊbaɪl ˈfəʊn","pr":"môou-baïl FÔOUN","cat":"science","t":"c","ipl":false,"ex":[["Switch off your *mobile phone* in class.","Éteins ton *téléphone portable* en classe."],["*Mobile phones* are not allowed at school.","Les *téléphones portables* sont interdits au collège."]]}
 ]);
-
-DICT.push(...[
-{"v":"practise","fr":"s'entraîner, pratiquer","ipa":"ˈpræktɪs","pr":"PRAK-tiss","pt":"practised","pp":"practised","irr":false,"ex":[["I *practise* the piano every day.","Je *m'entraîne* au piano tous les jours."],["We *practised* our English with Kai.","Nous *avons pratiqué* notre anglais avec Kai."]],"q":1},
-{"v":"revise","fr":"réviser (une leçon)","ipa":"rɪˈvaɪz","pr":"ri-VAÏZ","pt":"revised","pp":"revised","irr":false,"ex":[["I *revise* my words before a test.","Je *révise* mes mots avant un contrôle."],["She *revised* her history lesson last night.","Elle *a révisé* sa leçon d'histoire hier soir."]],"q":1},
-{"v":"chat","fr":"bavarder, discuter","ipa":"tʃæt","pr":"tchatt","pt":"chatted","pp":"chatted","irr":false,"ex":[["I *chat* with my friends at break time.","Je *discute* avec mes amis à la récré."],["We *chatted* for hours on Saturday.","Nous *avons bavardé* pendant des heures samedi."]],"q":1}
-]);
+NDICT.slice(N0_ENR1).forEach((n,k)=>indexNoun(n,N0_ENR1+k));
 
 /* --- leçon « To be » : there is / there are (section « Bonus : il y a ») --- */
 LBANK.be.push(...[
@@ -80,7 +70,7 @@ LBANK.be.push(...[
 {"q":"There ___ a lot of children in the park.","o":["are","is","be"],"e":"Children est un pluriel (irrégulier) → there are.","fr":"Il y a beaucoup d'enfants dans le parc.","t":"there"},
 {"q":"There ___ some water in the bottle.","o":["is","are","be"],"e":"Water ne se compte pas → there is.","fr":"Il y a de l'eau dans la bouteille.","t":"there"},
 {"q":"Look! ___ a spider on your head!","o":["There's","There are","It's"],"e":"There's = there is (forme courte, très courante à l'oral).","fr":"Regarde ! Il y a une araignée sur ta tête !","t":"there"},
-{"q":"___ a computer in the classroom, but there isn't a printer.","o":["There's","There are","Theres"],"e":"There's = there is : n'oublie pas l'apostrophe.","fr":"Il y a un ordinateur dans la salle, mais il n'y a pas d'imprimante.","t":"there"},
+{"q":"___ a computer in the classroom, but there isn't a printer.","o":["There's","There are","It has"],"e":"A computer (singulier) → there's (= there is). « Il y a » ne se traduit pas avec have.","fr":"Il y a un ordinateur dans la salle, mais il n'y a pas d'imprimante.","t":"there"},
 {"q":"___ any bread in the kitchen.","o":["There isn't","There aren't","It isn't"],"e":"Bread ne se compte pas → there isn't any.","fr":"Il n'y a pas de pain dans la cuisine.","t":"there"},
 {"q":"___ any shops in my street.","o":["There aren't","There isn't","They aren't"],"e":"Shops (pluriel) → there aren't any.","fr":"Il n'y a pas de magasins dans ma rue.","t":"there"},
 {"q":"There ___ any homework today. Great!","o":["isn't","aren't","not"],"e":"Homework ne se compte pas → there isn't any.","fr":"Il n'y a pas de devoirs aujourd'hui. Génial !","t":"there"},
