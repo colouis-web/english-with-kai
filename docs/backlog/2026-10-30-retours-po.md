@@ -42,3 +42,4 @@ Aucun sprint lancé : le PO prend les questions de l'équipe une par une dans le
 - **30/10, 18:47 — Q5** : pas de mise en page tablette / ordinateur pour l'instant ✅ (priorité aux certificats).
 - **30/10, 18:47 — Q6** : écran parent pour saisir les contrôles de la classe ✅ (≈ 2 dj, après les certificats).
 - **30/10, 18:48 — Q7** : ajouter au sprint Kai 2 les leçons 6e « l'heure et la date » et « like + -ing » ✅ (Matt écrit, scrum master relit).
+- **30/10, 18:51 — Q8** : on garde ghost, skeleton, church pour un Beginner ✅ ; relecture de toutes les phrases d'exemple (adaptées à un enfant) ✅ (Ludo, ≈ 0,5 dj).
