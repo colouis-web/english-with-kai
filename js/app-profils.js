@@ -252,6 +252,11 @@ document.getElementById("mebody").addEventListener("click", e => {
 document.getElementById("mebody").addEventListener("submit", e => {
     e.preventDefault();
     const p = curProf(), n = (document.getElementById("rname").value || "").replace(/\s+/g, " ").trim().slice(0, 16);
+    // Un autre élève porte déjà ce prénom (sans tenir compte de la casse) : on garde le formulaire ouvert
+    if (p && n && PROFS.list.some(x => x !== p && x.name.toLowerCase() === n.toLowerCase())) {
+        toast("This name is already used", 2200);
+        return;
+    }
     if (p && n) {
         p.name = n;
         p.u = Date.now();
