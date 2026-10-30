@@ -43,3 +43,4 @@ Aucun sprint lancé : le PO prend les questions de l'équipe une par une dans le
 - **30/10, 18:47 — Q6** : écran parent pour saisir les contrôles de la classe ✅ (≈ 2 dj, après les certificats).
 - **30/10, 18:48 — Q7** : ajouter au sprint Kai 2 les leçons 6e « l'heure et la date » et « like + -ing » ✅ (Matt écrit, scrum master relit).
 - **30/10, 18:51 — Q8** : on garde ghost, skeleton, church pour un Beginner ✅ ; relecture de toutes les phrases d'exemple (adaptées à un enfant) ✅ (Ludo, ≈ 0,5 dj).
+- **30/10, 18:51 — Q9** : Kai dessiné d'après un croquis du PO, autres images générées avec Gemini, voix générée avec ElevenLabs. → Ani : page « Crédits » dans l'aide (images : croquis original + Gemini ; voix : ElevenLabs), usage gratuit non commercial ; vérifier les conditions de l'offre ElevenLabs utilisée (attribution exigée sur l'offre gratuite) (≈ 0,1 dj).
