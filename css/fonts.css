@@ -1,0 +1,16 @@
+/* Polices auto-hébergées (aucune requête vers Google : l'enfant n'est pas pisté, l'app marche hors ligne).
+   Licence SIL OFL 1.1 : voir fonts/OFL-*.txt. Sous-ensembles latin ; régénération : scripts/polices.md.
+   Chemins relatifs à ce fichier (css/ -> ../fonts/). */
+@font-face{
+  font-family:"Roboto Condensed";font-style:normal;font-weight:100 900;font-display:swap;
+  src:url("../fonts/RobotoCondensed-latin.woff") format("woff");
+}
+@font-face{
+  font-family:"Roboto Condensed";font-style:italic;font-weight:100 900;font-display:swap;
+  src:url("../fonts/RobotoCondensed-Italic-latin.woff") format("woff");
+}
+/* Emojis monochromes (graisse 500 figée) : display:block comme avant, pour ne pas voir l'emoji système clignoter. */
+@font-face{
+  font-family:"Noto Emoji";font-style:normal;font-weight:500;font-display:block;
+  src:url("../fonts/NotoEmoji-500.woff") format("woff");
+}
