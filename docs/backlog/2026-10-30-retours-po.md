@@ -1,0 +1,32 @@
+# Kai — retours du PO après la v1.0 (30/10, 18:30) et préparation du sprint Kai 2
+
+Aucun sprint lancé : le PO prend les questions de l'équipe une par une dans le chat.
+
+## Retours du PO
+| # | Retour | Analyse / piste | Qui | Effort |
+|---|---|---|---|---|
+| R1 | Police des bulles de Kai un peu petite et fine sur téléphone | Taille et graisse des bulles et des phrases d'exercice : ≥ 18 px, graisse 500, interligne 1,4 ; vérifier sur 360–430 px de large | Ouss | 0,25 dj |
+| R2 | iPhone plus petit (fils) : images mal cadrées | Cadrage des images de Kai et des scènes sur petits écrans (iPhone SE 375×667, iPhone mini 375×812) : `object-fit`/`viewBox`, zones de sécurité ; tests visuels de Dédé à ces tailles | Ouss + Dédé | 0,5 dj |
+| R3 | Mots : quand on choisit un thème, on ne peut plus l'enlever | Bouton « tous les thèmes » / re-toucher la puce pour la désélectionner, état visible | Ouss | 0,1 dj |
+| R4 | L'app sert aussi au fils en 1ère (vocabulaire) | Deuxième public B1–B2 : profils par élève (existants), niveaux Intermediate / Upper-intermediate, vocabulaire de lycée (thèmes du programme de 1re : identités et échanges, espace privé et public, art et pouvoir, citoyenneté et mondes virtuels, fictions et réalités, innovations scientifiques, diversité et inclusion), connecteurs de dissertation (existants) | Matt + scrum master (contenu), Ludo (données) | à chiffrer |
+| R5 | D'autres formes de tests, « comme pour des certifications », pas de QCM ; ce qui est maîtrisé (ex. les couleurs) ne revient plus régulièrement | Voir proposition ci-dessous | Matt (conception), Ludo (moteur), Dédé (validation) | ≈ 3 dj (v1) |
+
+## Proposition R5 — certificats de maîtrise (scrum master)
+- **Un certificat par thème de vocabulaire et par point de grammaire** (Colours, Family, Present simple…), puis un certificat de niveau (A1, A2 ; B1, B2 pour le lycéen) quand tous les thèmes du niveau sont certifiés.
+- **Épreuve sans choix multiple**, formats mélangés : traduction FR → EN tapée ; dictée (Kai dit, l'élève écrit) ; image → mot tapé ; phrase à compléter sans propositions ; remettre les mots dans l'ordre ; corriger l'erreur d'une phrase ; dire le mot ou la phrase au micro (option). Un seul essai par item, ordre aléatoire, pas d'indice ; faute de frappe tolérée, faute de grammaire non.
+- **Réussite** : ≥ 90 % sur au moins 3 formats → badge « certifié » daté, page de certificats imprimable pour les parents.
+- **Ce qui est certifié sort de la rotation** des mots du jour ; une **vérification d'entretien** rapide (2–3 questions) tous les 2–3 mois ; en cas d'échec, le thème revient en révision.
+- **Lycéen (B1–B2)** : épreuves plus longues (phrases complètes, connecteurs, reformulation), vocabulaire du programme de 1re.
+- Effort indicatif : moteur + 4 formats tapés + badges + sortie de rotation ≈ 3 dj ; micro + certificats de niveau ≈ 2 dj de plus.
+
+## Questions ouvertes de l'équipe (à poser une par une)
+1. (Matt) R4 — fils en 1ère : son propre profil, sur son propre téléphone ? niveau de départ (B1) ? quels thèmes en priorité ?
+2. (Matt) R5 — certificats : priorité vocabulaire, grammaire, ou les deux ? micro dans les épreuves ?
+3. (Matt, Q-03) Un seul seuil de réussite à 80 % pour toutes les leçons ?
+4. (Matt, Q-04) Mise en page tablette / ordinateur dédiée ?
+5. (Matt, Q-06) Les contrôles de la classe saisis par le parent ?
+6. (Matt) Créer deux leçons 6e manquantes : l'heure et la date ; *like + -ing* ?
+7. (Ludo) Garder *ghost*, *skeleton*, *church* pour un Beginner ? Auditer les phrases d'exemple (0,5 dj) ?
+8. (Ani) Droits de diffusion publique des images de Kai et de la voix ElevenLabs ?
+9. (Ani) Double authentification active sur le compte GitHub ?
+10. (Ani) Délai croissant après erreurs de code parent ? Balise CSP ? Mode hors ligne utile ?
