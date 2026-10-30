@@ -104,7 +104,7 @@ function rewardsHelp() {
 <div class="hrow"><span class="hico">${FLAME}</span><div><b>Day streak · la série</b><p>Le nombre de jours d'affilée où tu as fait au moins un tour de mots : un tour par jour suffit ! Le trophée, lui, demande l'objectif complet. Si tu sautes un jour, la série repart à zéro.</p></div></div>
 <div class="hrow"><span class="hico">${PODIUM}</span><div><b>Rank · le rang</b><p>Toutes tes étoiles s'additionnent depuis le début :</p><p class="hrk">${RANKS.map(([n, r]) => `<span>${r} <i>${n}</i></span>`).join("")}</p></div></div>
 <div class="hrow"><span class="hico">${starRow(3)}</span><div><b>Lesson stars · les étoiles des leçons</b><p>Chaque leçon de grammaire et de conjugaison a 3 étoiles : <b>1 étoile</b> quand tu réussis l'entraînement avec 80&nbsp;% ou plus, <b>2 étoiles</b> après 3 réussites, <b>3 étoiles</b> après 6.</p></div></div>
-<p class="hnote">Ton niveau (Beginner, Practicer…) est différent : il monte avec ta régularité, les mots que tu connais, tes scores et les leçons réussies. Regarde « My level ».</p></div>`);
+<p class="hnote">Ton niveau (Beginner, Elementary…) est différent : il monte avec ta régularité, les mots que tu connais, tes scores et les leçons réussies. Regarde « My level ».</p></div>`);
 }
 document.addEventListener("click", e => {
     const h = e.target.closest("[data-help]");
