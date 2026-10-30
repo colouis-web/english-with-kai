@@ -27,6 +27,7 @@ h1 span{display:block;font-size:1em;letter-spacing:1px;color:var(--teal)}
 .listen svg{width:24px;height:24px}
 .listen:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 .page{display:none}.page.on{display:flex;animation:pagein .35s cubic-bezier(.2,.9,.3,1) both}
+body.navlock .page{pointer-events:none}
 @keyframes pagein{from{opacity:0;transform:translateY(14px)}}
 .page.on.rev{animation-name:pageback}@keyframes pageback{from{opacity:0;transform:translateY(-10px)}}
 .kai{cursor:pointer}

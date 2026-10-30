@@ -181,6 +181,10 @@ function show(id, back) {
     scrollTo(0, 0);
     if (id === "home")
         requestAnimationFrame(fit);
+    // Protège du double clic : le 2e clic tomberait sur ce qui se trouve sous le doigt dans le nouvel écran
+    document.body.classList.add("navlock");
+    clearTimeout(show.lockTimer);
+    show.lockTimer = setTimeout(() => document.body.classList.remove("navlock"), 350);
 }
 const openMenu = () => startApp(), goHome = () => show("home", true);
 document.getElementById("kaitap").addEventListener("click", openMenu);
