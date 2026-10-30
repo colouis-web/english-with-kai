@@ -38,6 +38,7 @@ SECRET = re.compile(
 SAUVEGARDE = re.compile(r'"app"\s*:\s*"learning-english-with-kai"')
 TEXTE = re.compile(r"\.(html?|js|css|json|webmanifest|md|txt|csv|ya?ml|xml|ini|cfg|conf|ps1|bat|py)$", re.I)
 REF_MEDIA = re.compile(r"""["'(=](?:\./)?((?:img|voice)/[A-Za-z0-9._-]+\.(?:webp|png|jpg|svg|json|mp3|ogg|opus))""")
+REF_LOCAL = re.compile(r"""(?:<script[^>]*\ssrc|<link[^>]*\shref)="(?:\./)?((?:css|js)/[A-Za-z0-9._/-]+\.(?:css|js))\"""")
 REF_RACINE = re.compile(r"""(?:href|src)="(?:\./)?([A-Za-z0-9._-]+\.(?:png|webmanifest|ico|svg|webp))\"""")
 
 
@@ -101,7 +102,17 @@ def main() -> int:
     if os.path.isfile("index.html"):
         with open("index.html", encoding="utf-8", errors="replace") as fh:
             html = fh.read()
-        refs = set(REF_MEDIA.findall(html)) | set(REF_RACINE.findall(html))
+        # Depuis le découpage (refactor Ludo), le code et les styles sont dans css/ et js/ : on les lit aussi.
+        locaux = REF_LOCAL.findall(html)
+        for ref in locaux:
+            if not os.path.isfile(ref):
+                erreurs.append(f"index.html : fichier de l'app absent {ref}")
+        sources = html
+        for ref in locaux:
+            if os.path.isfile(ref):
+                with open(ref, encoding="utf-8", errors="replace") as fh:
+                    sources += "\n" + fh.read()
+        refs = set(REF_MEDIA.findall(sources)) | set(REF_RACINE.findall(html))
         refs.discard("voice/kai-N.json")  # exemple dans un commentaire, pas un vrai lien
         for ref in sorted(set(LIEN_LOCAL.findall(html))):
             if not os.path.isfile(ref):
