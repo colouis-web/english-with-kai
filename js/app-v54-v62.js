@@ -1013,7 +1013,7 @@ function dyEnd() {
             b.ok++;
     });
     const miss = R.items.map((q, j) => ({ q, j })).filter(x => R.res[x.j] !== true), pick = P >= 80 ? "v" : P >= 50 ? "dyn" : "profile";
-    dyBody().innerHTML = `<div class="dend">${kaiBig(pick, [["YOUR SCORE"], [[String(n)], ` / ${N}`], [P >= 80 ? "GREAT JOB!" : P >= 50 ? "GOOD WORK!" : "KEEP TRYING!"]], `Your score: ${n} out of ${N}. ${P >= 80 ? "Great job!" : P >= 50 ? "Good work!" : "Keep trying!"}`)}</div>
+    dyBody().innerHTML = `<div class="dend">${kaiBig(pick, [["Your score"], [[String(n)], ` / ${N}`], [P >= 80 ? "Great job!" : P >= 50 ? "Good work!" : "Keep trying!"]], `Your score: ${n} out of ${N}. ${P >= 80 ? "Great job!" : P >= 50 ? "Good work!" : "Keep trying!"}`)}</div>
 <div class="dytab">${Object.entries(by).map(([s, b]) => `<div class="dyrow"><span>${esc(dyLab(s))}</span><b class="${b.ok === b.n ? "ok" : b.ok * 2 >= b.n ? "" : "ko"}">${b.ok}/${b.n}</b></div>`).join("")}</div>
 ${miss.length ? `<details class="wd" open><summary class="wh ko">To learn again <span>${miss.length}</span></summary><ul class="dymiss">${miss.map(({ q }) => {
         const c = dyCorr(q);
@@ -1603,7 +1603,7 @@ function t6End() {
             b.ok++;
     });
     const miss = R.items.map((q, j) => ({ q, j })).filter(x => !R.res[x.j]), pick = mark >= 16 ? "v" : mark >= 10 ? "dyn" : "profile";
-    t6Body().innerHTML = `<div class="dend">${kaiBig(pick, [[full ? "YOUR MARK" : "YOUR SCORE"], [[full ? n20(mark) : String(n)], full ? " / 20" : ` / ${N}`], [mark >= 16 ? "GREAT JOB!" : mark >= 10 ? "GOOD WORK!" : "KEEP TRYING!"]], `${full ? "Your mark: " + n20(mark) + " out of 20" : "Your score: " + n + " out of " + N}`)}</div>
+    t6Body().innerHTML = `<div class="dend">${kaiBig(pick, [[full ? "Your mark" : "Your score"], [[full ? n20(mark) : String(n)], full ? " / 20" : ` / ${N}`], [mark >= 16 ? "Great job!" : mark >= 10 ? "Good work!" : "Keep trying!"]], `${full ? "Your mark: " + n20(mark) + " out of 20" : "Your score: " + n + " out of " + N}`)}</div>
 <p class="dban">${n} / ${N} words right · ${fr ? "English → French" : "French → English"}${full ? "" : " · only some parts: your best mark is kept for the whole list"}</p>
 <div class="dytab">${Object.entries(by).map(([s, b]) => `<div class="dyrow"><span>${esc(s)}</span><b class="${b.ok === b.n ? "ok" : b.ok * 2 >= b.n ? "" : "ko"}">${b.ok}/${b.n}</b></div>`).join("")}</div>
 ${miss.length ? `<details class="wd" open><summary class="wh ko">To learn again <span>${miss.length}</span></summary><ul class="dymiss">${miss.map(({ q, j }) => `<li><button class="snd sm" type="button" data-say="${esc(q.w[0].replace(/\s*\(.*\)$/, ""))}" aria-label="Listen">${SPK}</button><div><b>${esc(q.w[0])} = ${esc(q.w[1])}</b>${R.your[j] ? `<small>You wrote: ${esc(R.your[j])}</small>` : `<small>You didn't know</small>`}</div></li>`).join("")}</ul></details>` : `<p class="dban">Perfect! No mistakes. 🎉</p>`}

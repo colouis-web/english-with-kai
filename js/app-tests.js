@@ -472,7 +472,7 @@ function answerIrr() {
 }
 function endTest() {
     const k = TQ.kind, X = TESTS[k], S = TQ.pts, M = TQ.max, P = pct(S, M), note = Math.round(40 * S / M) / 2, pick = note >= 18 ? "v" : note >= 14 ? "knee" : note >= 12 ? "dyn" : "profile", img = END_L[pick] || END_L.dyn;
-    const msg = note >= 18 ? "EXCELLENT!" : note >= 14 ? "GREAT JOB!" : note >= 10 ? "WELL DONE!" : "KEEP WORKING!";
+    const msg = note >= 18 ? "Excellent!" : note >= 14 ? "Great job!" : note >= 10 ? "Well done!" : "Keep working!";
     let best = false, first = false;
     try {
         const p = curProf();
@@ -512,7 +512,7 @@ function endTest() {
         : `<li class="${q.res ? "ok" : "ko"}"><span class="m">${q.res ? CHECK : CROSS}</span><b>${esc(q.typed ? (q.q.includes("→") ? q.q.split("→").pop() : q.q).replace("___", q.a[0]).replace(/[“”"]/g, "").trim() : fullSent(q))}</b><i>${q.res ? "" : `${q.typed ? "you wrote" : "you chose"}: ${esc(optLab(q.your || ""))}`}</i></li>`).join("");
     document.getElementById("testbody").innerHTML = `<p class="qpart">Your mark · ${esc(X.title)}</p><div class="qend"><svg viewBox="0 0 360 300" role="img" aria-label="Kai : your mark is ${n20(note)} out of 20">
 <image class="kai${pick === "angry" ? " mad" : ""}" href="img/kai-${pick}.webp" x="${img.x}" y="${img.y}" width="${img.w}" height="${img.h}" preserveAspectRatio="xMidYMax meet"/>
-<g class="bb b1"><path d="${bubblePath(img.c, img.r, img.tip)}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${[["YOUR MARK"], [[n20(note)], "/20"], [msg]].map((rw, j) => `<tspan x="${img.c[0]}" y="${f1(img.c[1] - 20 + 6 + j * 20)}">${rowSvg(rw)}</tspan>`).join("")}</text></g></svg></div>
+<g class="bb b1"><path d="${bubblePath(img.c, img.r, img.tip)}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${[["Your mark"], [[n20(note)], "/20"], [msg]].map((rw, j) => `<tspan x="${img.c[0]}" y="${f1(img.c[1] - 20 + 6 + j * 20)}">${rowSvg(rw)}</tspan>`).join("")}</text></g></svg></div>
 <div class="pscore"><b>${n20(note)}</b><span>/ 20</span></div>
 <p class="goal${note >= 10 ? " ok" : ""}">${k === "irr" ? `${S} good forms out of ${M}` : `${S} good answers out of ${M}`}${best ? " · New best mark!" : ""}</p>
 ${ws.now ? `<div class="twk"><span>${TSHORT[k]} · my average this week</span><b>${n20(ws.now.avg)}<small>/20</small></b><em>${ws.now.n} test${ws.now.n > 1 ? "s" : ""} this week</em>${deltaHtml(ws)}<button class="ghost sm" data-goprog>See my progress</button></div>` : ""}

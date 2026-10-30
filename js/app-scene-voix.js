@@ -3,8 +3,8 @@
 const INK = "#1d1b2e", f1 = n => (+n).toFixed(1);
 /* ce que dit Kai : deux bulles, comme dans un manga */
 const LINES = [
-    { say: "Hello, my name is Kai!", rows: [["HELLO, MY NAME"], ["IS ", ["KAI"], "!"]], c: [104, 76], r: [93, 50], tip: [205, 95] },
-    { say: "I'm here to help you speak English!", rows: [["I'M HERE TO"], ["HELP YOU SPEAK"], [["ENGLISH"], "!"]], c: [102, 196], r: [93, 58], tip: [207, 108] }
+    { say: "Hello, my name is Kai!", rows: [["Hello, my name"], ["is ", ["Kai"], "!"]], c: [104, 76], r: [93, 50], tip: [205, 95] },
+    { say: "I'm here to help you speak English!", rows: [["I'm here to"], ["help you speak"], [["English"], "!"]], c: [102, 196], r: [93, 58], tip: [207, 108] }
 ];
 /* bulle ovale légèrement irrégulière, avec une pointe vers la bouche de Kai */
 function bubblePath(c, r, tip) {

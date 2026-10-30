@@ -125,7 +125,7 @@ function wrapRows(s, maxW) {
         if (!seg)
             return;
         const hl = seg[0] === "*", txt = seg.replace(/\*/g, "");
-        txt.split(/\s+/).filter(Boolean).forEach((w, k) => toks.push({ w: w.toUpperCase(), hl, glue: k === 0 && toks.length > 0 && !prevEnd && !/^\s/.test(txt) }));
+        txt.split(/\s+/).filter(Boolean).forEach((w, k) => toks.push({ w, hl, glue: k === 0 && toks.length > 0 && !prevEnd && !/^\s/.test(txt) }));
         prevEnd = /\s$/.test(txt);
     });
     const rows = [];
@@ -231,9 +231,9 @@ function endPick(s, N) {
 }
 function renderEnd() {
     const DR = dailyRecord(), N = QZ.qs[0].length, s1 = QZ.qs[0].filter(q => q.res).length, s2 = QZ.qs[1].filter(q => q.res).length, T = s1 + s2, perfect = s1 === N && s2 === N, P = pct(T, 2 * N);
-    const msg = perfect ? "PERFECT!" : P >= 80 ? "GREAT JOB!" : P >= 60 ? "WELL DONE!" : "NOT YET!", nfix = QZ.words.filter(({ d }) => !(QZ.qs[0].find(q => q.d === d) || {}).res || !(QZ.qs[1].find(q => q.d === d) || {}).res).length;
+    const msg = perfect ? "Perfect!" : P >= 80 ? "Great job!" : P >= 60 ? "Well done!" : "Not yet!", nfix = QZ.words.filter(({ d }) => !(QZ.qs[0].find(q => q.d === d) || {}).res || !(QZ.qs[1].find(q => q.d === d) || {}).res).length;
     document.getElementById("qn").textContent = "";
-    const rows = [["YOU GOT"], [[`${P}%`], "!"], [msg]], pick = endPick(T, 2 * N), img = END_L[pick];
+    const rows = [["You got"], [[`${P}%`], "!"], [msg]], pick = endPick(T, 2 * N), img = END_L[pick];
     const r = (ph, d) => QZ.qs[ph].find(q => q.d === d).res, mk = v => `<span class="m ${v ? "ok" : "ko"}">${v ? CHECK : CROSS}</span>`;
     QW().innerHTML = `<p class="qpart">${QZ.attempt > 1 ? `Try ${QZ.attempt}` : "Results"}</p>
 <div class="qend"><svg viewBox="0 0 360 300" role="img" aria-label="Kai : you got ${P} percent">
