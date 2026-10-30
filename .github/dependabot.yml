@@ -1,0 +1,11 @@
+# Mises à jour automatiques des actions GitHub (elles sont épinglées par empreinte SHA : Dependabot propose
+# la nouvelle empreinte dans une pull request, le PO fusionne ou non). Aucune autre dépendance dans ce dépôt.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci(kai)"
+    open-pull-requests-limit: 3

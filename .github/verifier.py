@@ -3,6 +3,8 @@
 Bloque la publication si : clé ou secret probable, sauvegarde d'élève, fichier > 50 Mo,
 manifest invalide ou icône manquante, image / voix référencée par index.html absente,
 fichier de voix JSON invalide. Python standard uniquement, aucune dépendance.
+Depuis le découpage d'index.html : vérifie aussi css/ et js/ (secrets, taille, références <link>/<script>,
+url() des CSS, médias cités par les JS) et signale toute ressource chargée depuis internet à l'exécution.
 Usage : python3 -I .github/verifier.py   (depuis la racine du dépôt)
 """
 import json
@@ -12,6 +14,18 @@ import subprocess
 import sys
 
 MAX_OCTETS = 50 * 1024 * 1024
+MAX_CODE = 5 * 1024 * 1024      # un fichier html/css/js au-delà est suspect (donnée collée, binaire encodé)
+MAX_POLICE = 2 * 1024 * 1024    # une police auto-hébergée
+# Ressource chargée depuis internet à l'exécution (interdit : vie privée de l'enfant, hors ligne).
+# True = bloque la publication ; False = simple avertissement (tant que les polices Google sont encore dans index.html).
+EXTERNE_BLOQUANT = False
+EXTERNE = re.compile(
+    r"""<(?:link|script|img|iframe|source)\b[^>]*\b(?:href|src)\s*=\s*["']?(?:https?:)?//(?!www\.w3\.org)([^"' >]+)"""
+    r"""|@import\s+(?:url\()?["']?(?:https?:)?//([^"')\s;]+)|url\(\s*["']?(?:https?:)?//([^"')\s]+)""",
+    re.I,
+)
+LIEN_LOCAL = re.compile(r"""<(?:link|script)\b[^>]*\b(?:href|src)\s*=\s*["'](?!https?:|//|data:|#)([^"'?#]+)""", re.I)
+URL_CSS = re.compile(r"""url\(\s*["']?(?!https?:|//|data:|#)([^"')?#\s]+)""", re.I)
 NOM_SENSIBLE = re.compile(
     r"(^|/)\.env($|\.)|\.env$|\.(key|pem|pfx|p12|ppk|kdbx)$|(^|/)id_(rsa|dsa|ecdsa|ed25519)|kai-english-.*\.json$",
     re.I,
@@ -40,6 +54,10 @@ def main() -> int:
             erreurs.append(f"{f} : nom de fichier sensible")
         if taille > MAX_OCTETS:
             erreurs.append(f"{f} : plus de 50 Mo")
+        if f.startswith("fonts/") and taille > MAX_POLICE and not f.endswith(".txt"):
+            erreurs.append(f"{f} : police de plus de 2 Mo (sous-ensemble latin attendu)")
+        if re.search(r"\.(html?|css|js)$", f, re.I) and taille > MAX_CODE:
+            erreurs.append(f"{f} : fichier de code de plus de 5 Mo")
         if f.startswith("voice/") or not TEXTE.search(f):
             continue
         with open(f, encoding="utf-8", errors="replace") as fh:
@@ -50,6 +68,24 @@ def main() -> int:
             erreurs.append(f"{f} : clé ou secret probable ({m.group(0)[:4]}...)")
         if SAUVEGARDE.search(texte):
             erreurs.append(f"{f} : ressemble à une sauvegarde d'élève (contient des prénoms)")
+        if re.search(r"\.(html?|css)$", f, re.I):
+            for m in EXTERNE.finditer(texte):
+                hote = next(g for g in m.groups() if g)
+                msg = f"{f} : ressource chargée depuis internet à l'exécution ({hote.split('/')[0]})"
+                if EXTERNE_BLOQUANT:
+                    erreurs.append(msg)
+                else:
+                    print("::warning::" + msg)
+        if f.lower().endswith(".css"):
+            base = os.path.dirname(f)
+            for ref in sorted(set(URL_CSS.findall(texte))):
+                cible = os.path.normpath(os.path.join(base, ref))
+                if not os.path.isfile(cible):
+                    erreurs.append(f"{f} : url() cassée vers {ref}")
+        if f.lower().endswith(".js"):
+            for ref in sorted(set(REF_MEDIA.findall(texte))):
+                if ref != "voice/kai-N.json" and not os.path.isfile(ref):
+                    erreurs.append(f"{f} : lien cassé vers {ref}")
 
     # Manifest PWA : JSON valide, icônes présentes.
     try:
@@ -67,6 +103,9 @@ def main() -> int:
             html = fh.read()
         refs = set(REF_MEDIA.findall(html)) | set(REF_RACINE.findall(html))
         refs.discard("voice/kai-N.json")  # exemple dans un commentaire, pas un vrai lien
+        for ref in sorted(set(LIEN_LOCAL.findall(html))):
+            if not os.path.isfile(ref):
+                erreurs.append(f"index.html : <link>/<script> vers un fichier absent {ref}")
         for ref in sorted(refs):
             if not os.path.isfile(ref):
                 erreurs.append(f"index.html : lien cassé vers {ref}")
