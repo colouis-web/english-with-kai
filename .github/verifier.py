@@ -17,8 +17,8 @@ MAX_OCTETS = 50 * 1024 * 1024
 MAX_CODE = 5 * 1024 * 1024      # un fichier html/css/js au-delà est suspect (donnée collée, binaire encodé)
 MAX_POLICE = 2 * 1024 * 1024    # une police auto-hébergée
 # Ressource chargée depuis internet à l'exécution (interdit : vie privée de l'enfant, hors ligne).
-# True = bloque la publication ; False = simple avertissement (tant que les polices Google sont encore dans index.html).
-EXTERNE_BLOQUANT = False
+# True = bloque la publication (polices et scripts sont auto-hébergés) ; False = simple avertissement.
+EXTERNE_BLOQUANT = True
 EXTERNE = re.compile(
     r"""<(?:link|script|img|iframe|source)\b[^>]*\b(?:href|src)\s*=\s*["']?(?:https?:)?//(?!www\.w3\.org)([^"' >]+)"""
     r"""|@import\s+(?:url\()?["']?(?:https?:)?//([^"')\s;]+)|url\(\s*["']?(?:https?:)?//([^"')\s]+)""",
