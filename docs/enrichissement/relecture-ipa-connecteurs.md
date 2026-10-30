@@ -35,3 +35,7 @@ next, then, secondly, however, although, even though, even if, in spite of, whil
 meanwhile, as if, if, unless, as long as, provided that, whether, in case, supposing, since, as soon as, so, in order
 to, so as to, therefore, consequently, as a result, that's why, finally, lastly, in conclusion, to conclude, in short,
 to sum up, all in all*) : pas de doute particulier, transcription standard des deux dictionnaires.
+
+## Relecture du scrum master (30/10)
+Choix de Ludo validés (formes de citation britanniques, accents des expressions conformes à l'usage courant).
+Correction appliquée : *thanks to* → « THANKS teu » dans les deux fiches (cohérent avec /tə/).
