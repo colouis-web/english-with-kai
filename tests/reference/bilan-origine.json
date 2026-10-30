@@ -1,0 +1,6492 @@
+{
+ "app": "/home/claude/kai-dede",
+ "commit": "7fd6799 docs(kai): charte du dépôt et point de synchro du sprint Kai 1",
+ "items": {
+  "donnees:DN-00": {
+   "id": "DN-00",
+   "titre": "Les globales JS attendues existent (contrat avec le découpage)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-11a": {
+   "id": "DN-11a",
+   "titre": "verbes (510) : chaque fiche a une clé propre, sans espace en trop",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-11b": {
+   "id": "DN-11b",
+   "titre": "verbes : chaque fiche a une traduction « fr »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-11c": {
+   "id": "DN-11c",
+   "titre": "verbes : ipa et pr présents",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-11d": {
+   "id": "DN-11d",
+   "titre": "verbes : au moins un exemple « ex » par fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-11e": {
+   "id": "DN-11e",
+   "titre": "verbes : exemples = [anglais, français] non vides",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-11f": {
+   "id": "DN-11f",
+   "titre": "verbes : mot mis en évidence (*mot*) dans les deux langues, étoiles par paires",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-11g": {
+   "id": "DN-11g",
+   "titre": "verbes : pas de doublon (sans tenir compte de la casse)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-12a": {
+   "id": "DN-12a",
+   "titre": "noms (1224) : chaque fiche a une clé propre, sans espace en trop",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-12b": {
+   "id": "DN-12b",
+   "titre": "noms : chaque fiche a une traduction « fr »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-12c": {
+   "id": "DN-12c",
+   "titre": "noms : ipa et pr présents",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-12d": {
+   "id": "DN-12d",
+   "titre": "noms : au moins un exemple « ex » par fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-12e": {
+   "id": "DN-12e",
+   "titre": "noms : exemples = [anglais, français] non vides",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-12f": {
+   "id": "DN-12f",
+   "titre": "noms : mot mis en évidence (*mot*) dans les deux langues, étoiles par paires",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-12g": {
+   "id": "DN-12g",
+   "titre": "noms : pas de doublon (sans tenir compte de la casse)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-13a": {
+   "id": "DN-13a",
+   "titre": "adjectifs (202) : chaque fiche a une clé propre, sans espace en trop",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-13b": {
+   "id": "DN-13b",
+   "titre": "adjectifs : chaque fiche a une traduction « fr »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-13c": {
+   "id": "DN-13c",
+   "titre": "adjectifs : ipa et pr présents",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-13d": {
+   "id": "DN-13d",
+   "titre": "adjectifs : au moins un exemple « ex » par fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-13e": {
+   "id": "DN-13e",
+   "titre": "adjectifs : exemples = [anglais, français] non vides",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-13f": {
+   "id": "DN-13f",
+   "titre": "adjectifs : mot mis en évidence (*mot*) dans les deux langues, étoiles par paires",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-13g": {
+   "id": "DN-13g",
+   "titre": "adjectifs : pas de doublon (sans tenir compte de la casse)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-14a": {
+   "id": "DN-14a",
+   "titre": "adverbes (115) : chaque fiche a une clé propre, sans espace en trop",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-14b": {
+   "id": "DN-14b",
+   "titre": "adverbes : chaque fiche a une traduction « fr »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-14c": {
+   "id": "DN-14c",
+   "titre": "adverbes : ipa et pr présents",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-14d": {
+   "id": "DN-14d",
+   "titre": "adverbes : au moins un exemple « ex » par fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-14e": {
+   "id": "DN-14e",
+   "titre": "adverbes : exemples = [anglais, français] non vides",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-14f": {
+   "id": "DN-14f",
+   "titre": "adverbes : mot mis en évidence (*mot*) dans les deux langues, étoiles par paires",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-14g": {
+   "id": "DN-14g",
+   "titre": "adverbes : pas de doublon (sans tenir compte de la casse)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-15a": {
+   "id": "DN-15a",
+   "titre": "prépositions (67) : chaque fiche a une clé propre, sans espace en trop",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-15b": {
+   "id": "DN-15b",
+   "titre": "prépositions : chaque fiche a une traduction « fr »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-15c": {
+   "id": "DN-15c",
+   "titre": "prépositions : ipa et pr présents",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-15d": {
+   "id": "DN-15d",
+   "titre": "prépositions : au moins un exemple « ex » par fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-15e": {
+   "id": "DN-15e",
+   "titre": "prépositions : exemples = [anglais, français] non vides",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-15f": {
+   "id": "DN-15f",
+   "titre": "prépositions : mot mis en évidence (*mot*) dans les deux langues, étoiles par paires",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-15g": {
+   "id": "DN-15g",
+   "titre": "prépositions : pas de doublon (sans tenir compte de la casse)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-16a": {
+   "id": "DN-16a",
+   "titre": "verbes à particule (44) : chaque fiche a une clé propre, sans espace en trop",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-16b": {
+   "id": "DN-16b",
+   "titre": "verbes à particule : chaque fiche a une traduction « fr »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-16c": {
+   "id": "DN-16c",
+   "titre": "verbes à particule : ipa et pr présents",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-16d": {
+   "id": "DN-16d",
+   "titre": "verbes à particule : au moins un exemple « ex » par fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-16e": {
+   "id": "DN-16e",
+   "titre": "verbes à particule : exemples = [anglais, français] non vides",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-16f": {
+   "id": "DN-16f",
+   "titre": "verbes à particule : mot mis en évidence (*mot*) dans les deux langues, étoiles par paires",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-16g": {
+   "id": "DN-16g",
+   "titre": "verbes à particule : pas de doublon (sans tenir compte de la casse)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-17a": {
+   "id": "DN-17a",
+   "titre": "quantificateurs (27) : chaque fiche a une clé propre, sans espace en trop",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-17b": {
+   "id": "DN-17b",
+   "titre": "quantificateurs : chaque fiche a une traduction « fr »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-17c": {
+   "id": "DN-17c",
+   "titre": "quantificateurs : ipa et pr présents",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-17d": {
+   "id": "DN-17d",
+   "titre": "quantificateurs : au moins un exemple « ex » par fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-17e": {
+   "id": "DN-17e",
+   "titre": "quantificateurs : exemples = [anglais, français] non vides",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-17f": {
+   "id": "DN-17f",
+   "titre": "quantificateurs : mot mis en évidence (*mot*) dans les deux langues, étoiles par paires",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-17g": {
+   "id": "DN-17g",
+   "titre": "quantificateurs : pas de doublon (sans tenir compte de la casse)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-18a": {
+   "id": "DN-18a",
+   "titre": "connecteurs (69) : chaque fiche a une clé propre, sans espace en trop",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-18b": {
+   "id": "DN-18b",
+   "titre": "connecteurs : chaque fiche a une traduction « fr »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-18c": {
+   "id": "DN-18c",
+   "titre": "connecteurs : ipa et pr présents ensemble ou absents ensemble",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-18d": {
+   "id": "DN-18d",
+   "titre": "connecteurs : au moins un exemple « ex » par fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-18e": {
+   "id": "DN-18e",
+   "titre": "connecteurs : exemples = [anglais, français] non vides",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-18f": {
+   "id": "DN-18f",
+   "titre": "connecteurs : mot mis en évidence (*mot*) dans les deux langues, étoiles par paires",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-18g": {
+   "id": "DN-18g",
+   "titre": "connecteurs : pas de doublon (sans tenir compte de la casse)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-18h": {
+   "id": "DN-18h",
+   "titre": "connecteurs : fiches sans prononciation (choix actuel, à confirmer par Matt)",
+   "statut": "Note",
+   "detail": "68 sur 69"
+  },
+  "donnees:DN-19a": {
+   "id": "DN-19a",
+   "titre": "expressions (27) : chaque fiche a une clé propre, sans espace en trop",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-19b": {
+   "id": "DN-19b",
+   "titre": "expressions : chaque fiche a une traduction « fr »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-19c": {
+   "id": "DN-19c",
+   "titre": "expressions : ipa et pr présents ensemble ou absents ensemble",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-19d": {
+   "id": "DN-19d",
+   "titre": "expressions : au moins un exemple « ex » par fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-19e": {
+   "id": "DN-19e",
+   "titre": "expressions : exemples = [anglais, français] non vides",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-19f": {
+   "id": "DN-19f",
+   "titre": "expressions : mot mis en évidence (*mot*) dans les deux langues, étoiles par paires",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-19g": {
+   "id": "DN-19g",
+   "titre": "expressions : pas de doublon (sans tenir compte de la casse)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-19h": {
+   "id": "DN-19h",
+   "titre": "expressions : fiches sans prononciation (choix actuel, à confirmer par Matt)",
+   "statut": "Note",
+   "detail": "27 sur 27"
+  },
+  "donnees:DN-21": {
+   "id": "DN-21",
+   "titre": "Chaque verbe a un prétérit et un participe passé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-22": {
+   "id": "DN-22",
+   "titre": "Les 100 verbes irréguliers (IRR100) existent, sont marqués irréguliers et ont pt/pp",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-23": {
+   "id": "DN-23",
+   "titre": "Listes de contrôle de classe (T6) : id, titre, date ISO, mots [en, fr] sans doublon",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-24": {
+   "id": "DN-24",
+   "titre": "« Let's talk English » : chaque image a description, question, mots-clés, vocabulaire et modèles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-25": {
+   "id": "DN-25",
+   "titre": "Humeurs (MOODS) complètes",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-30": {
+   "id": "DN-30",
+   "titre": "Volume d'exercices",
+   "statut": "Note",
+   "detail": "2416 questions brutes dans 33 leçons ; banque (après dédoublonnage de l'app) : mini 50, maxi 133"
+  },
+  "donnees:DN-31": {
+   "id": "DN-31",
+   "titre": "LORDER, LESSONS, LBANK et TTYPE sont cohérents (aucune leçon orpheline ou sans questions à écrire)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-32": {
+   "id": "DN-32",
+   "titre": "Chaque leçon a titre, traduction, phrase de Kai, introduction et sections",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-33": {
+   "id": "DN-33",
+   "titre": "Chaque question à choix a ≥ 2 options non vides, une explication, un trou ou une consigne connue",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-34": {
+   "id": "DN-34",
+   "titre": "Chaque question à choix : la bonne réponse figure dans les options",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-35": {
+   "id": "DN-35",
+   "titre": "Aucune question n'a deux options identiques (sinon deux « bonnes » réponses)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-36": {
+   "id": "DN-36",
+   "titre": "Pas de question en double dans une même leçon (leçon + banque)",
+   "statut": "KO",
+   "detail": "have : I ___ a cat. -> have; cond : ___ you like some cake? -> Would; articles : My cousin goes to ___ university in London. -> a; articles : I love ___ chocolate. -> —; order : ___ are three apples on the table. -> There"
+  },
+  "donnees:DN-37": {
+   "id": "DN-37",
+   "titre": "Chaque leçon propose au moins 50 questions (annonce du code)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-38": {
+   "id": "DN-38",
+   "titre": "Questions à écrire (TTYPE) : forme complète et réponse acceptée par le correcteur de l'application",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-39": {
+   "id": "DN-39",
+   "titre": "Traductions françaises (FRT) manquantes pour des questions à trou",
+   "statut": "Note",
+   "detail": "242 sur 2416"
+  },
+  "donnees:DN-41": {
+   "id": "DN-41",
+   "titre": "Quiz : 272 séries générées (6 types x thèmes), aucune vide",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-42": {
+   "id": "DN-42",
+   "titre": "Quiz : bonne réponse dans les options, libellés distincts, mots non répétés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-43": {
+   "id": "DN-43",
+   "titre": "Mots du jour (pickMix) : 10 mots distincts, questions bien formées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-51": {
+   "id": "DN-51",
+   "titre": "Les paquets de voix référencés ([1, 2, 3, 4]) existent et sont du JSON valide",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-52": {
+   "id": "DN-52",
+   "titre": "Chaque son référencé dans KV (764) existe dans voice/",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-53": {
+   "id": "DN-53",
+   "titre": "Chaque son est un MP3 en base64 plausible (ID3 ou trame MPEG, > 500 octets)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-54": {
+   "id": "DN-54",
+   "titre": "Enregistrements de voix présents mais jamais demandés par KV",
+   "statut": "Note",
+   "detail": "0"
+  },
+  "donnees:DN-61": {
+   "id": "DN-61",
+   "titre": "Chaque image référencée (99) existe dans img/ et se charge en HTTP",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-62": {
+   "id": "DN-62",
+   "titre": "Origine des références d'images",
+   "statut": "Note",
+   "detail": "30 écrites en toutes lettres, 91 construites par le code (2 visages)"
+  },
+  "donnees:DN-64": {
+   "id": "DN-64",
+   "titre": "Le manifeste est un JSON valide et ses icônes existent",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-65": {
+   "id": "DN-65",
+   "titre": "Chaque police locale déclarée par @font-face (0) existe",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:DN-66": {
+   "id": "DN-66",
+   "titre": "Compteurs réels (le README annonce 13 leçons de conjugaison, 19 de grammaire, 100 verbes irréguliers, 44 phrasal verbs, 27 expressions)",
+   "statut": "Note",
+   "detail": "{\"verbes\": 510, \"irr\": 100, \"phr\": 44, \"idi\": 27, \"conj\": 13, \"gram\": 20, \"noms\": 1224, \"adj\": 202, \"adv\": 115, \"con\": 69, \"prep\": 67}"
+  },
+  "donnees:DN-99": {
+   "id": "DN-99",
+   "titre": "Aucune erreur console / requête en échec pendant le chargement et l'analyse",
+   "statut": "OK",
+   "detail": ""
+  },
+  "donnees:TIERS": {
+   "id": "TIERS",
+   "titre": "sites tiers contactés par l'application",
+   "statut": "Note",
+   "detail": "requêtes vers des sites tiers (neutralisées pendant le test) : fonts.googleapis.com"
+  },
+  "persistance:PE-1.1@pers": {
+   "id": "PE-1.1@pers",
+   "titre": "Quiz partie 1, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.2@pers": {
+   "id": "PE-1.2@pers",
+   "titre": "Erreur volontaire : le verdict dit « OOPS » et donne la bonne réponse",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.3@pers": {
+   "id": "PE-1.3@pers",
+   "titre": "Erreur volontaire : la bonne option est surlignée en vert",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.4@pers": {
+   "id": "PE-1.4@pers",
+   "titre": "Erreur volontaire : l'option choisie est marquée fausse",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.5@pers": {
+   "id": "PE-1.5@pers",
+   "titre": "Quiz partie 1, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.6@pers": {
+   "id": "PE-1.6@pers",
+   "titre": "Quiz partie 1, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.7@pers": {
+   "id": "PE-1.7@pers",
+   "titre": "Quiz partie 1, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.8@pers": {
+   "id": "PE-1.8@pers",
+   "titre": "Quiz partie 1, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.9@pers": {
+   "id": "PE-1.9@pers",
+   "titre": "Quiz partie 1, question 6 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.10@pers": {
+   "id": "PE-1.10@pers",
+   "titre": "Quiz partie 1, question 7 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.11@pers": {
+   "id": "PE-1.11@pers",
+   "titre": "Quiz partie 1, question 8 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.12@pers": {
+   "id": "PE-1.12@pers",
+   "titre": "Quiz partie 1, question 9 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.13@pers": {
+   "id": "PE-1.13@pers",
+   "titre": "Quiz partie 1, question 10 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.14@pers": {
+   "id": "PE-1.14@pers",
+   "titre": "Quiz partie 2, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.15@pers": {
+   "id": "PE-1.15@pers",
+   "titre": "Quiz partie 2, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.16@pers": {
+   "id": "PE-1.16@pers",
+   "titre": "Quiz partie 2, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.17@pers": {
+   "id": "PE-1.17@pers",
+   "titre": "Quiz partie 2, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.18@pers": {
+   "id": "PE-1.18@pers",
+   "titre": "Quiz partie 2, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.19@pers": {
+   "id": "PE-1.19@pers",
+   "titre": "Quiz partie 2, question 6 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.20@pers": {
+   "id": "PE-1.20@pers",
+   "titre": "Quiz partie 2, question 7 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.21@pers": {
+   "id": "PE-1.21@pers",
+   "titre": "Quiz partie 2, question 8 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.22@pers": {
+   "id": "PE-1.22@pers",
+   "titre": "Quiz partie 2, question 9 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.23@pers": {
+   "id": "PE-1.23@pers",
+   "titre": "Quiz partie 2, question 10 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.24@pers": {
+   "id": "PE-1.24@pers",
+   "titre": "Partie 3 « Type it » proposée après une erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.25@pers": {
+   "id": "PE-1.25@pers",
+   "titre": "Partie 3 : valider un champ vide ne fait rien (le champ reste actif)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.26@pers": {
+   "id": "PE-1.26@pers",
+   "titre": "Partie 3 : mot juste accepté (casse ignorée)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.27@pers": {
+   "id": "PE-1.27@pers",
+   "titre": "Entraînement : 10 questions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.28@pers": {
+   "id": "PE-1.28@pers",
+   "titre": "Question 1 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.29@pers": {
+   "id": "PE-1.29@pers",
+   "titre": "Après la réponse : une explication non vide est affichée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.30@pers": {
+   "id": "PE-1.30@pers",
+   "titre": "Après la réponse : le verdict correspond",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.31@pers": {
+   "id": "PE-1.31@pers",
+   "titre": "Question 2 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.32@pers": {
+   "id": "PE-1.32@pers",
+   "titre": "Question 3 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.33@pers": {
+   "id": "PE-1.33@pers",
+   "titre": "Question 4 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.34@pers": {
+   "id": "PE-1.34@pers",
+   "titre": "Question 5 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.35@pers": {
+   "id": "PE-1.35@pers",
+   "titre": "Question 6 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.36@pers": {
+   "id": "PE-1.36@pers",
+   "titre": "Question 7 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.37@pers": {
+   "id": "PE-1.37@pers",
+   "titre": "Question 8 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.38@pers": {
+   "id": "PE-1.38@pers",
+   "titre": "Question 9 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.39@pers": {
+   "id": "PE-1.39@pers",
+   "titre": "Question 10 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.40@pers": {
+   "id": "PE-1.40@pers",
+   "titre": "Test : un point de progression par question",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.41@pers": {
+   "id": "PE-1.41@pers",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.42@pers": {
+   "id": "PE-1.42@pers",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.43@pers": {
+   "id": "PE-1.43@pers",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-1.44@pers": {
+   "id": "PE-1.44@pers",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-11": {
+   "id": "PE-11",
+   "titre": "Après rechargement, l'élève revient directement sur « My daily work »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-12": {
+   "id": "PE-12",
+   "titre": "Stockage kai.* identique avant / après rechargement (clés et valeurs)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-13": {
+   "id": "PE-13",
+   "titre": "État calculé identique (profils, journal, étoiles, série, rang, niveau, mémoire des mots, semaines de tests)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-14": {
+   "id": "PE-14",
+   "titre": "Écrans identiques (menu, My daily work, calendrier, tests, Me, listes de leçons)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-15": {
+   "id": "PE-15",
+   "titre": "Le test interrompu est toujours proposé à la reprise après rechargement",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-21": {
+   "id": "PE-21",
+   "titre": "Deux élèves enregistrés : l'application demande « Who's learning today? »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-22": {
+   "id": "PE-22",
+   "titre": "Les 7 jours de progression sont relus sans perte (clés kai.* toutes présentes)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-23": {
+   "id": "PE-23",
+   "titre": "Les valeurs stockées n'ont pas été réécrites au démarrage",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-24": {
+   "id": "PE-24",
+   "titre": "voix_enregistree",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-25": {
+   "id": "PE-25",
+   "titre": "écran « liste_grammaire » identique à l'original",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-26": {
+   "id": "PE-26",
+   "titre": "Tour interrompu retrouvé : « 3 questions out of 20 » et « Continue · 4/20 »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-27": {
+   "id": "PE-27",
+   "titre": "La reprise redémarre à la question 4 de la partie 1",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-28": {
+   "id": "PE-28",
+   "titre": "Test de grammaire interrompu retrouvé (5/20)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-29": {
+   "id": "PE-29",
+   "titre": "La reprise du test propose « Finish the test · 6/20 »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-2a": {
+   "id": "PE-2a",
+   "titre": "Test repris et terminé : note 20/20, 2 passages (la note précédente est conservée dans l'historique)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-2b": {
+   "id": "PE-2b",
+   "titre": "Code parent de l'ancien format : un mauvais code est refusé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-2c": {
+   "id": "PE-2c",
+   "titre": "Code parent de l'ancien format (« 1234 », enregistré par l'original) : le bon code est accepté après le changement de version",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-31": {
+   "id": "PE-31",
+   "titre": "Import de la sauvegarde de référence : « 2 new learners added » et tous les jours fusionnés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-32": {
+   "id": "PE-32",
+   "titre": "Import : les profils importés sont identiques à l'original",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-33": {
+   "id": "PE-33",
+   "titre": "Import : le journal de chaque élève importé est identique à l'original",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-34": {
+   "id": "PE-34",
+   "titre": "Import : les tests et tours interrompus (kai.tsave / kai.qsave) sont repris tels quels",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-35": {
+   "id": "PE-35",
+   "titre": "Import : le code parent de l'appareil n'est pas écrasé et celui du fichier n'est pas exporté",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-41": {
+   "id": "PE-41",
+   "titre": "Progression d'avant les profils (clé kai.daily.v1) sans profil : l'accueil s'affiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-42": {
+   "id": "PE-42",
+   "titre": "La progression d'avant les profils revient au premier élève créé, la clé ancienne est retirée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-43": {
+   "id": "PE-43",
+   "titre": "La clé ancienne kai.daily.v1 a été déplacée, pas dupliquée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-51": {
+   "id": "PE-51",
+   "titre": "Données corrompues « profils illisibles (pas du JSON) » : l'application démarre et reste utilisable, sans erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-52": {
+   "id": "PE-52",
+   "titre": "Données corrompues « profils = nombre » : l'application démarre et reste utilisable, sans erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-53": {
+   "id": "PE-53",
+   "titre": "Données corrompues « profils sans liste » : l'application démarre et reste utilisable, sans erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-54": {
+   "id": "PE-54",
+   "titre": "Données corrompues « journal illisible » : l'application démarre et reste utilisable, sans erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-55": {
+   "id": "PE-55",
+   "titre": "Données corrompues « journal = tableau » : l'application démarre et reste utilisable, sans erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-56": {
+   "id": "PE-56",
+   "titre": "Données corrompues « niveau hors limites » : l'application démarre et reste utilisable, sans erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-57": {
+   "id": "PE-57",
+   "titre": "Données corrompues « réglages absurdes » : l'application démarre et reste utilisable, sans erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:PE-58": {
+   "id": "PE-58",
+   "titre": "Données corrompues « tour sauvegardé illisible » : l'application démarre et reste utilisable, sans erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "persistance:TIERS": {
+   "id": "TIERS",
+   "titre": "sites tiers contactés par l'application",
+   "statut": "Note",
+   "detail": "requêtes vers des sites tiers (neutralisées pendant le test) : fonts.googleapis.com"
+  },
+  "visuel:VI-accueil@390": {
+   "id": "VI-accueil@390",
+   "titre": "écran « accueil » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-hello-premier-lancement@390": {
+   "id": "VI-hello-premier-lancement@390",
+   "titre": "écran « hello-premier-lancement » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-err-vierge@390": {
+   "id": "VI-err-vierge@390",
+   "titre": "vierge 390 px : aucune erreur console / JS pendant la prise de vues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-qui-apprend@390": {
+   "id": "VI-qui-apprend@390",
+   "titre": "écran « qui-apprend » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-daily-today@390": {
+   "id": "VI-daily-today@390",
+   "titre": "écran « daily-today » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-daily-calendrier@390": {
+   "id": "VI-daily-calendrier@390",
+   "titre": "écran « daily-calendrier » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-menu@390": {
+   "id": "VI-menu@390",
+   "titre": "écran « menu » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-words@390": {
+   "id": "VI-words@390",
+   "titre": "écran « words » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-words-recherche-go@390": {
+   "id": "VI-words-recherche-go@390",
+   "titre": "écran « words-recherche-go » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-verbes@390": {
+   "id": "VI-verbes@390",
+   "titre": "écran « verbes » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-noms@390": {
+   "id": "VI-noms@390",
+   "titre": "écran « noms » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-prepositions@390": {
+   "id": "VI-prepositions@390",
+   "titre": "écran « prepositions » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-idioms@390": {
+   "id": "VI-idioms@390",
+   "titre": "écran « idioms » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-conjugaison@390": {
+   "id": "VI-conjugaison@390",
+   "titre": "écran « conjugaison » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-lecon-be@390": {
+   "id": "VI-lecon-be@390",
+   "titre": "écran « lecon-be » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-grammaire@390": {
+   "id": "VI-grammaire@390",
+   "titre": "écran « grammaire » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-mes-tests@390": {
+   "id": "VI-mes-tests@390",
+   "titre": "écran « mes-tests » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-test-yourself@390": {
+   "id": "VI-test-yourself@390",
+   "titre": "écran « test-yourself » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-quiz-liste@390": {
+   "id": "VI-quiz-liste@390",
+   "titre": "écran « quiz-liste » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-quiz-themes@390": {
+   "id": "VI-quiz-themes@390",
+   "titre": "écran « quiz-themes » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-controles-6e@390": {
+   "id": "VI-controles-6e@390",
+   "titre": "écran « controles-6e » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-me@390": {
+   "id": "VI-me@390",
+   "titre": "écran « me » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-fenetre-code-parent@390": {
+   "id": "VI-fenetre-code-parent@390",
+   "titre": "écran « fenetre-code-parent » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-aide-recompenses@390": {
+   "id": "VI-aide-recompenses@390",
+   "titre": "écran « aide-recompenses » (390 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-err-eleve@390": {
+   "id": "VI-err-eleve@390",
+   "titre": "eleve 390 px : aucune erreur console / JS pendant la prise de vues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-accueil@1280": {
+   "id": "VI-accueil@1280",
+   "titre": "écran « accueil » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-hello-premier-lancement@1280": {
+   "id": "VI-hello-premier-lancement@1280",
+   "titre": "écran « hello-premier-lancement » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-err-vierge@1280": {
+   "id": "VI-err-vierge@1280",
+   "titre": "vierge 1280 px : aucune erreur console / JS pendant la prise de vues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-qui-apprend@1280": {
+   "id": "VI-qui-apprend@1280",
+   "titre": "écran « qui-apprend » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-daily-today@1280": {
+   "id": "VI-daily-today@1280",
+   "titre": "écran « daily-today » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-daily-calendrier@1280": {
+   "id": "VI-daily-calendrier@1280",
+   "titre": "écran « daily-calendrier » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-menu@1280": {
+   "id": "VI-menu@1280",
+   "titre": "écran « menu » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-words@1280": {
+   "id": "VI-words@1280",
+   "titre": "écran « words » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-words-recherche-go@1280": {
+   "id": "VI-words-recherche-go@1280",
+   "titre": "écran « words-recherche-go » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-verbes@1280": {
+   "id": "VI-verbes@1280",
+   "titre": "écran « verbes » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-noms@1280": {
+   "id": "VI-noms@1280",
+   "titre": "écran « noms » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-prepositions@1280": {
+   "id": "VI-prepositions@1280",
+   "titre": "écran « prepositions » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-idioms@1280": {
+   "id": "VI-idioms@1280",
+   "titre": "écran « idioms » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-conjugaison@1280": {
+   "id": "VI-conjugaison@1280",
+   "titre": "écran « conjugaison » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-lecon-be@1280": {
+   "id": "VI-lecon-be@1280",
+   "titre": "écran « lecon-be » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-grammaire@1280": {
+   "id": "VI-grammaire@1280",
+   "titre": "écran « grammaire » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-mes-tests@1280": {
+   "id": "VI-mes-tests@1280",
+   "titre": "écran « mes-tests » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-test-yourself@1280": {
+   "id": "VI-test-yourself@1280",
+   "titre": "écran « test-yourself » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-quiz-liste@1280": {
+   "id": "VI-quiz-liste@1280",
+   "titre": "écran « quiz-liste » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-quiz-themes@1280": {
+   "id": "VI-quiz-themes@1280",
+   "titre": "écran « quiz-themes » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-controles-6e@1280": {
+   "id": "VI-controles-6e@1280",
+   "titre": "écran « controles-6e » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-me@1280": {
+   "id": "VI-me@1280",
+   "titre": "écran « me » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-fenetre-code-parent@1280": {
+   "id": "VI-fenetre-code-parent@1280",
+   "titre": "écran « fenetre-code-parent » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-aide-recompenses@1280": {
+   "id": "VI-aide-recompenses@1280",
+   "titre": "écran « aide-recompenses » (1280 px) identique à la référence",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:VI-err-eleve@1280": {
+   "id": "VI-err-eleve@1280",
+   "titre": "eleve 1280 px : aucune erreur console / JS pendant la prise de vues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "visuel:TIERS": {
+   "id": "TIERS",
+   "titre": "sites tiers contactés par l'application",
+   "statut": "Note",
+   "detail": "requêtes vers des sites tiers (neutralisées pendant le test) : fonts.googleapis.com"
+  },
+  "parcours:P01.1@390": {
+   "id": "P01.1@390",
+   "titre": "Les globales JS dont les tests ont besoin existent",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.2@390": {
+   "id": "P01.2@390",
+   "titre": "Premier lancement : l'écran d'accueil est affiché",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.3@390": {
+   "id": "P01.3@390",
+   "titre": "Le titre de l'onglet est « Learning English with Kai »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.4@390": {
+   "id": "P01.4@390",
+   "titre": "L'accueil invite à toucher Kai",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.5@390": {
+   "id": "P01.5@390",
+   "titre": "Aucune donnée d'élève avant le premier lancement",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.6@390": {
+   "id": "P01.6@390",
+   "titre": "Les deux bulles de Kai sont présentes (rôle bouton, au clavier)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.7@390": {
+   "id": "P01.7@390",
+   "titre": "Kai est affiché (image chargée)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.8@390": {
+   "id": "P01.8@390",
+   "titre": "Pas de défilement horizontal : accueil",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.9@390": {
+   "id": "P01.9@390",
+   "titre": "Clavier : premier élément atteint par Tab sur l'accueil",
+   "statut": "Note",
+   "detail": "bb b1"
+  },
+  "parcours:P01.10@390": {
+   "id": "P01.10@390",
+   "titre": "Sans profil, toucher Kai ouvre « Hello! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.err@390": {
+   "id": "P01.err@390",
+   "titre": "P01 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.1@390": {
+   "id": "P02.1@390",
+   "titre": "Le champ prénom a le focus à l'arrivée (ordinateur) ou n'est pas forcé (téléphone)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.2@390": {
+   "id": "P02.2@390",
+   "titre": "Prénom vide : message d'aide, on reste sur « Hello! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.3@390": {
+   "id": "P02.3@390",
+   "titre": "Prénom fait d'espaces : même message",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.4@390": {
+   "id": "P02.4@390",
+   "titre": "Prénom trop long : le champ s'arrête à 16 caractères",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.5@390": {
+   "id": "P02.5@390",
+   "titre": "Les 4 niveaux sont proposés, « Beginner » est choisi par défaut",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.6@390": {
+   "id": "P02.6@390",
+   "titre": "Espaces superflus nettoyés : prénom enregistré « Léa Dupont »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.7@390": {
+   "id": "P02.7@390",
+   "titre": "Niveau Beginner, premier élève marqué « first »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.8@390": {
+   "id": "P02.8@390",
+   "titre": "Le profil est écrit dans localStorage (kai.profiles.v1)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.9@390": {
+   "id": "P02.9@390",
+   "titre": "Le menu accueille l'élève par son prénom",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.10@390": {
+   "id": "P02.10@390",
+   "titre": "La pastille « Me » affiche l'initiale",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.11@390": {
+   "id": "P02.11@390",
+   "titre": "Les six tuiles du menu sont là",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.12@390": {
+   "id": "P02.12@390",
+   "titre": "Pas de défilement horizontal : menu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.err@390": {
+   "id": "P02.err@390",
+   "titre": "P02 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.1@390": {
+   "id": "P03.1@390",
+   "titre": "« My daily work » : objectif du niveau Beginner = 0/10",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.2@390": {
+   "id": "P03.2@390",
+   "titre": "Les 6 humeurs sont proposées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.3@390": {
+   "id": "P03.3@390",
+   "titre": "Humeur choisie : affichée et enregistrée pour aujourd'hui",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.4@390": {
+   "id": "P03.4@390",
+   "titre": "Kai répond à l'humeur par une bulle",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.5@390": {
+   "id": "P03.5@390",
+   "titre": "Pas de défilement horizontal : My daily work",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.6@390": {
+   "id": "P03.6@390",
+   "titre": "Le bouton « Start » lance un tour de mots du jour (kind = mix)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.7@390": {
+   "id": "P03.7@390",
+   "titre": "Titre de la partie : Words of the day · Part 1 · French → English",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.8@390": {
+   "id": "P03.8@390",
+   "titre": "Quiz partie 1, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.9@390": {
+   "id": "P03.9@390",
+   "titre": "Bonne réponse : verdict positif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.10@390": {
+   "id": "P03.10@390",
+   "titre": "Quiz partie 1, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.11@390": {
+   "id": "P03.11@390",
+   "titre": "Quiz partie 1, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.12@390": {
+   "id": "P03.12@390",
+   "titre": "Quiz partie 1, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.13@390": {
+   "id": "P03.13@390",
+   "titre": "Quiz partie 1, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.14@390": {
+   "id": "P03.14@390",
+   "titre": "Quiz partie 1, question 6 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.15@390": {
+   "id": "P03.15@390",
+   "titre": "Quiz partie 1, question 7 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.16@390": {
+   "id": "P03.16@390",
+   "titre": "Quiz partie 1, question 8 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.17@390": {
+   "id": "P03.17@390",
+   "titre": "Quiz partie 1, question 9 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.18@390": {
+   "id": "P03.18@390",
+   "titre": "Quiz partie 1, question 10 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.19@390": {
+   "id": "P03.19@390",
+   "titre": "Quiz partie 2, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.20@390": {
+   "id": "P03.20@390",
+   "titre": "Quiz partie 2, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.21@390": {
+   "id": "P03.21@390",
+   "titre": "Quiz partie 2, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.22@390": {
+   "id": "P03.22@390",
+   "titre": "Quiz partie 2, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.23@390": {
+   "id": "P03.23@390",
+   "titre": "Quiz partie 2, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.24@390": {
+   "id": "P03.24@390",
+   "titre": "Quiz partie 2, question 6 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.25@390": {
+   "id": "P03.25@390",
+   "titre": "Quiz partie 2, question 7 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.26@390": {
+   "id": "P03.26@390",
+   "titre": "Quiz partie 2, question 8 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.27@390": {
+   "id": "P03.27@390",
+   "titre": "Quiz partie 2, question 9 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.28@390": {
+   "id": "P03.28@390",
+   "titre": "Quiz partie 2, question 10 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.29@390": {
+   "id": "P03.29@390",
+   "titre": "Un tour de mots du jour = 10 mots pour Beginner",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.30@390": {
+   "id": "P03.30@390",
+   "titre": "Fin du tour : « 100% » et « PERFECT! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.31@390": {
+   "id": "P03.31@390",
+   "titre": "Fin du tour : l'objectif du jour est annoncé atteint (10 mots)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.32@390": {
+   "id": "P03.32@390",
+   "titre": "Fin du tour : 10 lignes dans le récapitulatif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.33@390": {
+   "id": "P03.33@390",
+   "titre": "Kai félicite (« Congrats! — Today's goal reached! ») une fois l'objectif atteint",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.34@390": {
+   "id": "P03.34@390",
+   "titre": "La félicitation est un dialogue étiqueté et a un bouton « Thanks, Kai! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.35@390": {
+   "id": "P03.35@390",
+   "titre": "« Thanks, Kai! » ferme la félicitation",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.36@390": {
+   "id": "P03.36@390",
+   "titre": "Enregistrement du jour : 10 mots maîtrisés, 1 tour à 100 %",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.37@390": {
+   "id": "P03.37@390",
+   "titre": "Enregistrement du jour : date, objectif et niveau mémorisés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.38@390": {
+   "id": "P03.38@390",
+   "titre": "Le tour porte ses mots dans les 6 natures (verbes, noms…) : au moins 3 natures différentes",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.39@390": {
+   "id": "P03.39@390",
+   "titre": "Retour sur « My daily work » : 10/10",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.40@390": {
+   "id": "P03.40@390",
+   "titre": "Le bouton « Other quizzes » apparaît quand l'objectif est atteint",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.41@390": {
+   "id": "P03.41@390",
+   "titre": "Le trophée du jour est célébré une seule fois (marque cel)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.42@390": {
+   "id": "P03.42@390",
+   "titre": "Les mots du jour sont listés (10)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.err@390": {
+   "id": "P03.err@390",
+   "titre": "P03 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.1@390": {
+   "id": "P04.1@390",
+   "titre": "« Words » : 8 familles de mots proposées (tuiles)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.2@390": {
+   "id": "P04.2@390",
+   "titre": "Pas de défilement horizontal : Words",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.3@390": {
+   "id": "P04.3@390",
+   "titre": "Recherche « go » : compteur « words found »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.4@390": {
+   "id": "P04.4@390",
+   "titre": "Recherche « go » : les tuiles sont masquées, les résultats affichés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.5@390": {
+   "id": "P04.5@390",
+   "titre": "Recherche « go » : le verbe « go » est dans le groupe Verbs",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.6@390": {
+   "id": "P04.6@390",
+   "titre": "Espace final ignoré (« go » = « go  »)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.7@390": {
+   "id": "P04.7@390",
+   "titre": "Recherche sans accent ni casse : « ECOLE » trouve « school »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.8@390": {
+   "id": "P04.8@390",
+   "titre": "Recherche en français : « chien » trouve « dog »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.9@390": {
+   "id": "P04.9@390",
+   "titre": "Aucun résultat : message clair avec le mot cherché",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.10@390": {
+   "id": "P04.10@390",
+   "titre": "Caractères spéciaux : la recherche est affichée telle quelle, sans HTML injecté",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.11@390": {
+   "id": "P04.11@390",
+   "titre": "Fiche ouverte : prononciation, trois formes et exemples",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.12@390": {
+   "id": "P04.12@390",
+   "titre": "Fiche « run » : /rʌn/, ran, run",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.13@390": {
+   "id": "P04.13@390",
+   "titre": "Le bouton +/- de la fiche annonce son état (aria-expanded)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.14@390": {
+   "id": "P04.14@390",
+   "titre": "Un second clic referme la fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.15@390": {
+   "id": "P04.15@390",
+   "titre": "Il existe au moins un verbe dont le son est enregistré (KV)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.16@390": {
+   "id": "P04.16@390",
+   "titre": "Son d'un mot enregistré (« to be ») : la voix de Kai est jouée (MP3 du paquet voice/)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.17@390": {
+   "id": "P04.17@390",
+   "titre": "Pas de message « No sound? » quand le son est lancé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.18@390": {
+   "id": "P04.18@390",
+   "titre": "Son d'une phrase d'exemple : lue (voix enregistrée ou voix de l'appareil)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.19@390": {
+   "id": "P04.19@390",
+   "titre": "Bouton ✕ : champ vidé, tuiles revenues, focus dans le champ",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.20@390": {
+   "id": "P04.20@390",
+   "titre": "« Verbs » : le compteur annonce tous les verbes du dictionnaire",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.21@390": {
+   "id": "P04.21@390",
+   "titre": "« Verbs » : « to go » trouve « go » en premier",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.22@390": {
+   "id": "P04.22@390",
+   "titre": "« Verbs » : compteur = nombre de cartes",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.23@390": {
+   "id": "P04.23@390",
+   "titre": "Page nouns : 1224 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.24@390": {
+   "id": "P04.24@390",
+   "titre": "Pas de défilement horizontal : nouns",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.25@390": {
+   "id": "P04.25@390",
+   "titre": "Page nouns : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.26@390": {
+   "id": "P04.26@390",
+   "titre": "Page adjectives : 202 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.27@390": {
+   "id": "P04.27@390",
+   "titre": "Pas de défilement horizontal : adjectives",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.28@390": {
+   "id": "P04.28@390",
+   "titre": "Page adjectives : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.29@390": {
+   "id": "P04.29@390",
+   "titre": "Page adverbs : 115 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.30@390": {
+   "id": "P04.30@390",
+   "titre": "Pas de défilement horizontal : adverbs",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.31@390": {
+   "id": "P04.31@390",
+   "titre": "Page adverbs : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.32@390": {
+   "id": "P04.32@390",
+   "titre": "Page connectors : 69 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.33@390": {
+   "id": "P04.33@390",
+   "titre": "Pas de défilement horizontal : connectors",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.34@390": {
+   "id": "P04.34@390",
+   "titre": "Page connectors : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.35@390": {
+   "id": "P04.35@390",
+   "titre": "Page prepositions : 67 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.36@390": {
+   "id": "P04.36@390",
+   "titre": "Pas de défilement horizontal : prepositions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.37@390": {
+   "id": "P04.37@390",
+   "titre": "Page prepositions : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.38@390": {
+   "id": "P04.38@390",
+   "titre": "Page phrasals : 44 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.39@390": {
+   "id": "P04.39@390",
+   "titre": "Pas de défilement horizontal : phrasals",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.40@390": {
+   "id": "P04.40@390",
+   "titre": "Page phrasals : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.41@390": {
+   "id": "P04.41@390",
+   "titre": "Page idioms : 27 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.42@390": {
+   "id": "P04.42@390",
+   "titre": "Pas de défilement horizontal : idioms",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.43@390": {
+   "id": "P04.43@390",
+   "titre": "Page idioms : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.44@390": {
+   "id": "P04.44@390",
+   "titre": "Page quantifiers : 27 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.45@390": {
+   "id": "P04.45@390",
+   "titre": "Pas de défilement horizontal : quantifiers",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.46@390": {
+   "id": "P04.46@390",
+   "titre": "Page quantifiers : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.err@390": {
+   "id": "P04.err@390",
+   "titre": "P04 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.1@390": {
+   "id": "P05.1@390",
+   "titre": "Conjugaison : 13 leçons listées (= LORDER)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.2@390": {
+   "id": "P05.2@390",
+   "titre": "« Lesson of the week » proposée : To be",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.3@390": {
+   "id": "P05.3@390",
+   "titre": "Leçon « To be » : titre et sections",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.4@390": {
+   "id": "P05.4@390",
+   "titre": "Leçon : le tableau des formes est affiché",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.5@390": {
+   "id": "P05.5@390",
+   "titre": "Pas de défilement horizontal : leçon To be",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.6@390": {
+   "id": "P05.6@390",
+   "titre": "Leçon : le haut-parleur d'un exemple demande un son",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.7@390": {
+   "id": "P05.7@390",
+   "titre": "Entraînement : 10 questions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.8@390": {
+   "id": "P05.8@390",
+   "titre": "Question 1 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.9@390": {
+   "id": "P05.9@390",
+   "titre": "Après la réponse : une explication non vide est affichée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.10@390": {
+   "id": "P05.10@390",
+   "titre": "Après la réponse : le verdict correspond",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.11@390": {
+   "id": "P05.11@390",
+   "titre": "Question 2 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.12@390": {
+   "id": "P05.12@390",
+   "titre": "Question 3 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.13@390": {
+   "id": "P05.13@390",
+   "titre": "Question 4 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.14@390": {
+   "id": "P05.14@390",
+   "titre": "Question 5 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.15@390": {
+   "id": "P05.15@390",
+   "titre": "Question 6 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.16@390": {
+   "id": "P05.16@390",
+   "titre": "Question 7 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.17@390": {
+   "id": "P05.17@390",
+   "titre": "Question 8 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.18@390": {
+   "id": "P05.18@390",
+   "titre": "Question 9 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.19@390": {
+   "id": "P05.19@390",
+   "titre": "Question 10 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.20@390": {
+   "id": "P05.20@390",
+   "titre": "Fin de l'entraînement 1 : 9 sur 10 (90 %), leçon réussie",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.21@390": {
+   "id": "P05.21@390",
+   "titre": "Progression de la leçon enregistrée (best 90, 1 essai)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.22@390": {
+   "id": "P05.22@390",
+   "titre": "Le récapitulatif liste 10 phrases dont 1 erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.23@390": {
+   "id": "P05.23@390",
+   "titre": "Entraînement : 10 questions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.24@390": {
+   "id": "P05.24@390",
+   "titre": "Question 1 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.25@390": {
+   "id": "P05.25@390",
+   "titre": "Après la réponse : une explication non vide est affichée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.26@390": {
+   "id": "P05.26@390",
+   "titre": "Après la réponse : le verdict correspond",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.27@390": {
+   "id": "P05.27@390",
+   "titre": "Question 2 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.28@390": {
+   "id": "P05.28@390",
+   "titre": "Question 3 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.29@390": {
+   "id": "P05.29@390",
+   "titre": "Question 4 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.30@390": {
+   "id": "P05.30@390",
+   "titre": "Question 5 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.31@390": {
+   "id": "P05.31@390",
+   "titre": "Question 6 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.32@390": {
+   "id": "P05.32@390",
+   "titre": "Question 7 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.33@390": {
+   "id": "P05.33@390",
+   "titre": "Question 8 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.34@390": {
+   "id": "P05.34@390",
+   "titre": "Question 9 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.35@390": {
+   "id": "P05.35@390",
+   "titre": "Question 10 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.36@390": {
+   "id": "P05.36@390",
+   "titre": "Essai 2 sans faute : 10 sur 10, « 100% »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.37@390": {
+   "id": "P05.37@390",
+   "titre": "best = 100 et 2 essais",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.38@390": {
+   "id": "P05.38@390",
+   "titre": "La bannière « lesson of the week done » est affichée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.39@390": {
+   "id": "P05.39@390",
+   "titre": "Conjugaison : la leçon réussie est cochée et la semaine validée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.err@390": {
+   "id": "P05.err@390",
+   "titre": "P05 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.1@390": {
+   "id": "P06.1@390",
+   "titre": "Grammaire : 20 leçons listées (= LORDER)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.2@390": {
+   "id": "P06.2@390",
+   "titre": "Bouton FR : la fenêtre « En français » s'ouvre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.3@390": {
+   "id": "P06.3@390",
+   "titre": "Fenêtre : le focus passe sur la croix de fermeture",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.4@390": {
+   "id": "P06.4@390",
+   "titre": "Échap ferme la fenêtre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.5@390": {
+   "id": "P06.5@390",
+   "titre": "Après la fenêtre, le focus revient sur le bouton FR",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.6@390": {
+   "id": "P06.6@390",
+   "titre": "Entraînement : 10 questions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.7@390": {
+   "id": "P06.7@390",
+   "titre": "Question 1 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.8@390": {
+   "id": "P06.8@390",
+   "titre": "Après la réponse : une explication non vide est affichée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.9@390": {
+   "id": "P06.9@390",
+   "titre": "Après la réponse : le verdict correspond",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.10@390": {
+   "id": "P06.10@390",
+   "titre": "Question 2 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.11@390": {
+   "id": "P06.11@390",
+   "titre": "Question 3 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.12@390": {
+   "id": "P06.12@390",
+   "titre": "Question 4 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.13@390": {
+   "id": "P06.13@390",
+   "titre": "Question 5 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.14@390": {
+   "id": "P06.14@390",
+   "titre": "Question 6 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.15@390": {
+   "id": "P06.15@390",
+   "titre": "Question 7 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.16@390": {
+   "id": "P06.16@390",
+   "titre": "Question 8 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.17@390": {
+   "id": "P06.17@390",
+   "titre": "Question 9 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.18@390": {
+   "id": "P06.18@390",
+   "titre": "Question 10 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.19@390": {
+   "id": "P06.19@390",
+   "titre": "Leçon « articles » : 10 sur 10",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.20@390": {
+   "id": "P06.20@390",
+   "titre": "Leçon de grammaire enregistrée (best 100)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.21@390": {
+   "id": "P06.21@390",
+   "titre": "Bannière « Grammar lesson of the week done »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.22@390": {
+   "id": "P06.22@390",
+   "titre": "« Read the lesson again » ramène au cours",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.23@390": {
+   "id": "P06.23@390",
+   "titre": "Grammaire : leçon cochée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.err@390": {
+   "id": "P06.err@390",
+   "titre": "P06 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.1@390": {
+   "id": "P07.1@390",
+   "titre": "« My weekly review » : 3 tests proposés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.2@390": {
+   "id": "P07.2@390",
+   "titre": "Test : un point de progression par question",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.3@390": {
+   "id": "P07.3@390",
+   "titre": "Test, question 1 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.4@390": {
+   "id": "P07.4@390",
+   "titre": "Test, question 2 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.5@390": {
+   "id": "P07.5@390",
+   "titre": "Test, question 3 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.6@390": {
+   "id": "P07.6@390",
+   "titre": "Test de grammaire : 20 questions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.7@390": {
+   "id": "P07.7@390",
+   "titre": "Test de grammaire : note 20/20 et « EXCELLENT! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.8@390": {
+   "id": "P07.8@390",
+   "titre": "Note enregistrée : last = best = 20, 1 passage",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.9@390": {
+   "id": "P07.9@390",
+   "titre": "Le récapitulatif liste 20 lignes",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.10@390": {
+   "id": "P07.10@390",
+   "titre": "Aucune erreur → « No mistakes in any lesson »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.11@390": {
+   "id": "P07.11@390",
+   "titre": "Test : un point de progression par question",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.12@390": {
+   "id": "P07.12@390",
+   "titre": "Test, question 1 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.13@390": {
+   "id": "P07.13@390",
+   "titre": "Test, question 2 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.14@390": {
+   "id": "P07.14@390",
+   "titre": "Test, question 3 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.15@390": {
+   "id": "P07.15@390",
+   "titre": "Quitter en cours de test : « Stop for now? » avec le nombre de réponses sauvées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.16@390": {
+   "id": "P07.16@390",
+   "titre": "Le test interrompu est signalé « Not finished · 3/20 answered »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.17@390": {
+   "id": "P07.17@390",
+   "titre": "Le test interrompu est gardé sur l'appareil (kai.tsave.*)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.18@390": {
+   "id": "P07.18@390",
+   "titre": "Rechargement : l'élève revient directement sur « My daily work »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.19@390": {
+   "id": "P07.19@390",
+   "titre": "Reprise proposée après rechargement : « Finish the test · 4/20 »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.20@390": {
+   "id": "P07.20@390",
+   "titre": "La reprise commence à la question 4",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.21@390": {
+   "id": "P07.21@390",
+   "titre": "Test de conjugaison avec 1 erreur : note 19/20",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.22@390": {
+   "id": "P07.22@390",
+   "titre": "La leçon à revoir est proposée (« To review »)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.23@390": {
+   "id": "P07.23@390",
+   "titre": "Le test terminé n'est plus « en pause »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.24@390": {
+   "id": "P07.24@390",
+   "titre": "Test : un point de progression par question",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.25@390": {
+   "id": "P07.25@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.26@390": {
+   "id": "P07.26@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.27@390": {
+   "id": "P07.27@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.28@390": {
+   "id": "P07.28@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.29@390": {
+   "id": "P07.29@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.30@390": {
+   "id": "P07.30@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.31@390": {
+   "id": "P07.31@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.32@390": {
+   "id": "P07.32@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.33@390": {
+   "id": "P07.33@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.34@390": {
+   "id": "P07.34@390",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.35@390": {
+   "id": "P07.35@390",
+   "titre": "Test des verbes irréguliers : 20 points sur 20",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.36@390": {
+   "id": "P07.36@390",
+   "titre": "Les trois tests sont enregistrés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.37@390": {
+   "id": "P07.37@390",
+   "titre": "« My tests » : tuiles de la semaine avec les notes",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.38@390": {
+   "id": "P07.38@390",
+   "titre": "Correcteur : casse et ponctuation tolérées, contractions comprises, mauvaise réponse refusée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.err@390": {
+   "id": "P07.err@390",
+   "titre": "P07 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.1@390": {
+   "id": "P08.1@390",
+   "titre": "« Test yourself » : 4 tuiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.2@390": {
+   "id": "P08.2@390",
+   "titre": "Quiz : 6 types de mots + dictée + phrasal verbs + idioms",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.3@390": {
+   "id": "P08.3@390",
+   "titre": "Choix du nombre de mots : 5, 10, 20 (10 par défaut)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.4@390": {
+   "id": "P08.4@390",
+   "titre": "Choisir 5 mots est mémorisé (kai.qnum)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.5@390": {
+   "id": "P08.5@390",
+   "titre": "Quiz partie 1, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.6@390": {
+   "id": "P08.6@390",
+   "titre": "Erreur volontaire : le verdict dit « OOPS » et donne la bonne réponse",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.7@390": {
+   "id": "P08.7@390",
+   "titre": "Erreur volontaire : la bonne option est surlignée en vert",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.8@390": {
+   "id": "P08.8@390",
+   "titre": "Erreur volontaire : l'option choisie est marquée fausse",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.9@390": {
+   "id": "P08.9@390",
+   "titre": "Quiz partie 1, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.10@390": {
+   "id": "P08.10@390",
+   "titre": "Quiz partie 1, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.11@390": {
+   "id": "P08.11@390",
+   "titre": "Quiz partie 1, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.12@390": {
+   "id": "P08.12@390",
+   "titre": "Quiz partie 1, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.13@390": {
+   "id": "P08.13@390",
+   "titre": "Quiz partie 2, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.14@390": {
+   "id": "P08.14@390",
+   "titre": "Quiz partie 2, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.15@390": {
+   "id": "P08.15@390",
+   "titre": "Quiz partie 2, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.16@390": {
+   "id": "P08.16@390",
+   "titre": "Quiz partie 2, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.17@390": {
+   "id": "P08.17@390",
+   "titre": "Quiz partie 2, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.18@390": {
+   "id": "P08.18@390",
+   "titre": "Partie 3 « Type it » proposée après une erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.19@390": {
+   "id": "P08.19@390",
+   "titre": "Partie 3 : valider un champ vide ne fait rien (le champ reste actif)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.20@390": {
+   "id": "P08.20@390",
+   "titre": "Partie 3 : mot juste accepté (casse ignorée)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.21@390": {
+   "id": "P08.21@390",
+   "titre": "Quiz de verbes : 5 mots",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.22@390": {
+   "id": "P08.22@390",
+   "titre": "Fin avec une erreur : 90 % (9/10) et « GREAT JOB! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.23@390": {
+   "id": "P08.23@390",
+   "titre": "Fin avec une erreur : « Do it again » proposé, pas « New words »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.24@390": {
+   "id": "P08.24@390",
+   "titre": "Récapitulatif : 5 mots dont au moins une croix",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.25@390": {
+   "id": "P08.25@390",
+   "titre": "Deuxième essai avec les mêmes mots : « Try 2 »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.26@390": {
+   "id": "P08.26@390",
+   "titre": "Quiz partie 1, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.27@390": {
+   "id": "P08.27@390",
+   "titre": "Bonne réponse : verdict positif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.28@390": {
+   "id": "P08.28@390",
+   "titre": "Quiz partie 1, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.29@390": {
+   "id": "P08.29@390",
+   "titre": "Quiz partie 1, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.30@390": {
+   "id": "P08.30@390",
+   "titre": "Quiz partie 1, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.31@390": {
+   "id": "P08.31@390",
+   "titre": "Quiz partie 1, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.32@390": {
+   "id": "P08.32@390",
+   "titre": "Quiz partie 2, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.33@390": {
+   "id": "P08.33@390",
+   "titre": "Quiz partie 2, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.34@390": {
+   "id": "P08.34@390",
+   "titre": "Quiz partie 2, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.35@390": {
+   "id": "P08.35@390",
+   "titre": "Quiz partie 2, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.36@390": {
+   "id": "P08.36@390",
+   "titre": "Quiz partie 2, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.37@390": {
+   "id": "P08.37@390",
+   "titre": "Deuxième essai sans faute : « PERFECT! » et « New words »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.38@390": {
+   "id": "P08.38@390",
+   "titre": "« New words » relance un quiz neuf (essai 1)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.39@390": {
+   "id": "P08.39@390",
+   "titre": "Quiz de noms, thème animaux : « Which animal is it? »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.40@390": {
+   "id": "P08.40@390",
+   "titre": "Quiz partie 1, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.41@390": {
+   "id": "P08.41@390",
+   "titre": "Bonne réponse : verdict positif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.42@390": {
+   "id": "P08.42@390",
+   "titre": "Quiz partie 1, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.43@390": {
+   "id": "P08.43@390",
+   "titre": "Quiz partie 1, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.44@390": {
+   "id": "P08.44@390",
+   "titre": "Quiz partie 1, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.45@390": {
+   "id": "P08.45@390",
+   "titre": "Quiz partie 1, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.46@390": {
+   "id": "P08.46@390",
+   "titre": "Quiz partie 2, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.47@390": {
+   "id": "P08.47@390",
+   "titre": "Quiz partie 2, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.48@390": {
+   "id": "P08.48@390",
+   "titre": "Quiz partie 2, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.49@390": {
+   "id": "P08.49@390",
+   "titre": "Quiz partie 2, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.50@390": {
+   "id": "P08.50@390",
+   "titre": "Quiz partie 2, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.51@390": {
+   "id": "P08.51@390",
+   "titre": "Quiz d'animaux terminé sans faute",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.52@390": {
+   "id": "P08.52@390",
+   "titre": "Le journal du jour contient les tours, quiz, leçons et tests faits",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.err@390": {
+   "id": "P08.err@390",
+   "titre": "P08 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.1@390": {
+   "id": "P09.1@390",
+   "titre": "Récompenses : « Stars today » = 27 (recalculé hors application d'après la règle de l'aide)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.2@390": {
+   "id": "P09.2@390",
+   "titre": "Récompenses : rang attendu « Rank 2 · Explorer » pour 27 étoiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.3@390": {
+   "id": "P09.3@390",
+   "titre": "Récompenses : le total d'étoiles affiché est exact",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.4@390": {
+   "id": "P09.4@390",
+   "titre": "Série : 1 jour",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.5@390": {
+   "id": "P09.5@390",
+   "titre": "Trophée du jour acquis (badge allumé)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.6@390": {
+   "id": "P09.6@390",
+   "titre": "Graphique de la semaine : 7 jours, aujourd'hui souligné",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.7@390": {
+   "id": "P09.7@390",
+   "titre": "Mes notes : graphique des tests",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.8@390": {
+   "id": "P09.8@390",
+   "titre": "Cette semaine : 2 leçons sur 2",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.9@390": {
+   "id": "P09.9@390",
+   "titre": "Pas de défilement horizontal : My daily work complet",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.10@390": {
+   "id": "P09.10@390",
+   "titre": "Aide « ? » : la fenêtre « Stars, trophy & medals » s'ouvre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.11@390": {
+   "id": "P09.11@390",
+   "titre": "La fenêtre est un dialogue modal étiqueté (role, aria-modal, aria-labelledby)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.12@390": {
+   "id": "P09.12@390",
+   "titre": "Échap ferme l'aide",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.13@390": {
+   "id": "P09.13@390",
+   "titre": "Après l'aide, le focus revient sur le bouton « ? »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.14@390": {
+   "id": "P09.14@390",
+   "titre": "Calendrier : mois courant, aujourd'hui repéré, objectif atteint marqué",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.15@390": {
+   "id": "P09.15@390",
+   "titre": "Calendrier : « Next month » désactivé sur le mois courant",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.16@390": {
+   "id": "P09.16@390",
+   "titre": "Calendrier : le détail du jour liste le mot, la leçon et les tests",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.17@390": {
+   "id": "P09.17@390",
+   "titre": "Mois précédent : « Next month » devient actif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.18@390": {
+   "id": "P09.18@390",
+   "titre": "Retour sur l'onglet « Today »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.err@390": {
+   "id": "P09.err@390",
+   "titre": "P09 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.1@390": {
+   "id": "P10.1@390",
+   "titre": "« Me » : section « Save & move » avec deux boutons",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.2@390": {
+   "id": "P10.2@390",
+   "titre": "Pas de défilement horizontal : Me",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.3@390": {
+   "id": "P10.3@390",
+   "titre": "Le fichier téléchargé s'appelle kai-english-AAAA-MM-JJ.json (date du jour)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.4@390": {
+   "id": "P10.4@390",
+   "titre": "Contenu : application, version 1, date ISO",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.5@390": {
+   "id": "P10.5@390",
+   "titre": "Contenu : profils + journal de l'élève + tests en pause/leçons vues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.6@390": {
+   "id": "P10.6@390",
+   "titre": "Contenu : aucun code parent ni voix en base64 (kai.pcode, kai.kv*)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.7@390": {
+   "id": "P10.7@390",
+   "titre": "Contenu : toutes les clés commencent par « kai. »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.8@390": {
+   "id": "P10.8@390",
+   "titre": "Toast de confirmation « Saved: … »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.9@390": {
+   "id": "P10.9@390",
+   "titre": "Autre appareil : rien en mémoire, écran d'accueil",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.10@390": {
+   "id": "P10.10@390",
+   "titre": "Fichier invalide (texte quelconque) : message « not a Kai save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.11@390": {
+   "id": "P10.11@390",
+   "titre": "Fichier invalide (fichier vide) : message « not a Kai save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.12@390": {
+   "id": "P10.12@390",
+   "titre": "Fichier invalide (JSON d'une autre application) : message « not a Kai save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.13@390": {
+   "id": "P10.13@390",
+   "titre": "Fichier invalide (sauvegarde sans élèves) : message « not a Kai save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.14@390": {
+   "id": "P10.14@390",
+   "titre": "Fichiers invalides : aucune donnée modifiée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.15@390": {
+   "id": "P10.15@390",
+   "titre": "Restauration : « 1 new learner added. 1 day of work merged. »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.16@390": {
+   "id": "P10.16@390",
+   "titre": "Après redémarrage, deux élèves → on demande « Who's learning today? »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.17@390": {
+   "id": "P10.17@390",
+   "titre": "Les deux élèves sont proposés, avec leurs étoiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.18@390": {
+   "id": "P10.18@390",
+   "titre": "Restauration : la progression est identique (jours, étoiles)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.19@390": {
+   "id": "P10.19@390",
+   "titre": "Restauration : le profil (niveau, leçons, tests) est identique",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.20@390": {
+   "id": "P10.20@390",
+   "titre": "Restauration : même affichage « 10/10 » et mêmes étoiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.21@390": {
+   "id": "P10.21@390",
+   "titre": "Second chargement du même fichier : rien de nouveau (0 jour fusionné)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.22@390": {
+   "id": "P10.22@390",
+   "titre": "Second chargement : toujours 2 élèves, pas de doublon",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.err@390": {
+   "id": "P10.err@390",
+   "titre": "P10 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.1@390": {
+   "id": "P11.1@390",
+   "titre": "Second élève créé avec niveau Practicer",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.2@390": {
+   "id": "P11.2@390",
+   "titre": "Prénom avec <, >, & et guillemets : aucun HTML injecté dans le menu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.3@390": {
+   "id": "P11.3@390",
+   "titre": "Il y a maintenant 2 élèves",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.4@390": {
+   "id": "P11.4@390",
+   "titre": "Autre élève : objectif 0/15 (Practicer), rien de la progression de Léa",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.5@390": {
+   "id": "P11.5@390",
+   "titre": "Autre élève : pas d'étoile ni de série héritées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.6@390": {
+   "id": "P11.6@390",
+   "titre": "« Me » montre le prénom courant sans HTML injecté",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.7@390": {
+   "id": "P11.7@390",
+   "titre": "« Who's learning » : 2 élèves + « New learner »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.8@390": {
+   "id": "P11.8@390",
+   "titre": "Les cartes d'élèves montrent niveau, rang et étoiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.9@390": {
+   "id": "P11.9@390",
+   "titre": "Pas de défilement horizontal : Who's learning",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.10@390": {
+   "id": "P11.10@390",
+   "titre": "Retour sur Léa : bienvenue personnalisé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.11@390": {
+   "id": "P11.11@390",
+   "titre": "La progression de Léa est intacte (10/10)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.12@390": {
+   "id": "P11.12@390",
+   "titre": "Prénom déjà connu (casse différente) : on retrouve l'élève, pas de doublon",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.13@390": {
+   "id": "P11.13@390",
+   "titre": "Renommer : le champ est prêt et sélectionné",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.14@390": {
+   "id": "P11.14@390",
+   "titre": "Renommer : espaces nettoyés (« Léa D. »)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.err@390": {
+   "id": "P11.err@390",
+   "titre": "P11 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.1@390": {
+   "id": "P12.1@390",
+   "titre": "Sans code : « Set a parent code » proposé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.2@390": {
+   "id": "P12.2@390",
+   "titre": "Fenêtre « Set a parent code » : deux champs masqués (password), focus dans le premier",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.3@390": {
+   "id": "P12.3@390",
+   "titre": "Code trop court : message « 4 to 8 digits »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.4@390": {
+   "id": "P12.4@390",
+   "titre": "Code trop court : rien n'est enregistré",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.5@390": {
+   "id": "P12.5@390",
+   "titre": "Code fait de lettres : message « 4 to 8 digits »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.6@390": {
+   "id": "P12.6@390",
+   "titre": "Code fait de lettres : rien n'est enregistré",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.7@390": {
+   "id": "P12.7@390",
+   "titre": "Code à deux saisies différentes : message « two codes are different »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.8@390": {
+   "id": "P12.8@390",
+   "titre": "Code à deux saisies différentes : rien n'est enregistré",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.9@390": {
+   "id": "P12.9@390",
+   "titre": "IRRITANT : une erreur de saisie du code ferme la fenêtre ; il faut rouvrir « Set a parent code » et tout retaper (un enfant ou un parent pressé abandonne)",
+   "statut": "Note",
+   "detail": "à proposer à Matt/Ouss : garder la fenêtre ouverte et le message dans la fenêtre"
+  },
+  "parcours:P12.10@390": {
+   "id": "P12.10@390",
+   "titre": "Code : le champ limite la saisie à 8 chiffres",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.11@390": {
+   "id": "P12.11@390",
+   "titre": "Code valide (Entrée dans le 2e champ) : « Parent code saved »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.12@390": {
+   "id": "P12.12@390",
+   "titre": "Le code est enregistré (valeur non vide ; son format est libre : il sera haché par Ani)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.13@390": {
+   "id": "P12.13@390",
+   "titre": "Boutons « Change the code » / « Remove the code » proposés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.14@390": {
+   "id": "P12.14@390",
+   "titre": "Changer de niveau avec un code : la fenêtre « Parent code » s'ouvre, champ masqué (password)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.15@390": {
+   "id": "P12.15@390",
+   "titre": "Le focus est dans le champ du code",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.16@390": {
+   "id": "P12.16@390",
+   "titre": "Mauvais code : « Wrong code »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.17@390": {
+   "id": "P12.17@390",
+   "titre": "Mauvais code : le niveau n'a pas changé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.18@390": {
+   "id": "P12.18@390",
+   "titre": "Bon code : niveau « Confirmed » (20 mots par jour)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.19@390": {
+   "id": "P12.19@390",
+   "titre": "Le niveau est enregistré dans l'historique (lvHist)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.20@390": {
+   "id": "P12.20@390",
+   "titre": "Retour au niveau Beginner avec le code",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.21@390": {
+   "id": "P12.21@390",
+   "titre": "La sauvegarde ne contient jamais le code parent",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.22@390": {
+   "id": "P12.22@390",
+   "titre": "Charger une sauvegarde avec un code : la fenêtre « Parent code » s'ouvre d'abord",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.23@390": {
+   "id": "P12.23@390",
+   "titre": "« Cancel » ferme la fenêtre, rien n'est chargé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.24@390": {
+   "id": "P12.24@390",
+   "titre": "Après « Cancel », le focus revient sur « Load a save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.25@390": {
+   "id": "P12.25@390",
+   "titre": "Supprimer un élève avec un code : le code est demandé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.26@390": {
+   "id": "P12.26@390",
+   "titre": "Suppression, mauvais code : refusée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.27@390": {
+   "id": "P12.27@390",
+   "titre": "« Remove the code » avec le bon code : retiré",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.28@390": {
+   "id": "P12.28@390",
+   "titre": "Sans code : la fenêtre demande de retaper le prénom",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.29@390": {
+   "id": "P12.29@390",
+   "titre": "Mauvais prénom : refusé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.30@390": {
+   "id": "P12.30@390",
+   "titre": "Bon prénom (casse et espaces ignorés) : confirmation « Yes, delete »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.31@390": {
+   "id": "P12.31@390",
+   "titre": "Élève supprimé : il ne reste que Léa",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.32@390": {
+   "id": "P12.32@390",
+   "titre": "Élève supprimé : son journal est effacé de l'appareil",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.33@390": {
+   "id": "P12.33@390",
+   "titre": "Après suppression de l'autre élève, Léa retrouve 10/10",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.34@390": {
+   "id": "P12.34@390",
+   "titre": "Journal de Léa identique à celui d'avant les manipulations de profils",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.err@390": {
+   "id": "P12.err@390",
+   "titre": "P12 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.1@390": {
+   "id": "P13.1@390",
+   "titre": "menu › toDaily : la page daily s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.2@390": {
+   "id": "P13.2@390",
+   "titre": "Pas de défilement horizontal : daily (via toDaily)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.3@390": {
+   "id": "P13.3@390",
+   "titre": "Retour depuis daily : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.4@390": {
+   "id": "P13.4@390",
+   "titre": "menu › toWords : la page words s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.5@390": {
+   "id": "P13.5@390",
+   "titre": "Pas de défilement horizontal : words (via toWords)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.6@390": {
+   "id": "P13.6@390",
+   "titre": "Retour depuis words : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.7@390": {
+   "id": "P13.7@390",
+   "titre": "menu › toGrammar : la page grammar s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.8@390": {
+   "id": "P13.8@390",
+   "titre": "Pas de défilement horizontal : grammar (via toGrammar)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.9@390": {
+   "id": "P13.9@390",
+   "titre": "Retour depuis grammar : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.10@390": {
+   "id": "P13.10@390",
+   "titre": "menu › toConj : la page conj s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.11@390": {
+   "id": "P13.11@390",
+   "titre": "Pas de défilement horizontal : conj (via toConj)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.12@390": {
+   "id": "P13.12@390",
+   "titre": "Retour depuis conj : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.13@390": {
+   "id": "P13.13@390",
+   "titre": "menu › toTests : la page tests s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.14@390": {
+   "id": "P13.14@390",
+   "titre": "Pas de défilement horizontal : tests (via toTests)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.15@390": {
+   "id": "P13.15@390",
+   "titre": "Retour depuis tests : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.16@390": {
+   "id": "P13.16@390",
+   "titre": "menu › toTY : la page ty s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.17@390": {
+   "id": "P13.17@390",
+   "titre": "Pas de défilement horizontal : ty (via toTY)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.18@390": {
+   "id": "P13.18@390",
+   "titre": "Retour depuis ty : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.19@390": {
+   "id": "P13.19@390",
+   "titre": "ty › toT6 : la page t6 s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.20@390": {
+   "id": "P13.20@390",
+   "titre": "Pas de défilement horizontal : t6 (via toT6)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.21@390": {
+   "id": "P13.21@390",
+   "titre": "Test 6th grade : au moins un contrôle listé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.22@390": {
+   "id": "P13.22@390",
+   "titre": "Test 6th grade : le détail d'un contrôle s'ouvre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.23@390": {
+   "id": "P13.23@390",
+   "titre": "Retour depuis t6 : on revient sur « ty »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.24@390": {
+   "id": "P13.24@390",
+   "titre": "ty › toQuizzes : la page quizzes s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.25@390": {
+   "id": "P13.25@390",
+   "titre": "Pas de défilement horizontal : quizzes (via toQuizzes)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.26@390": {
+   "id": "P13.26@390",
+   "titre": "Retour depuis quizzes : on revient sur « ty »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.27@390": {
+   "id": "P13.27@390",
+   "titre": "ty › toDIY : la page diy s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.28@390": {
+   "id": "P13.28@390",
+   "titre": "Pas de défilement horizontal : diy (via toDIY)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.29@390": {
+   "id": "P13.29@390",
+   "titre": "Retour depuis diy : on revient sur « ty »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.30@390": {
+   "id": "P13.30@390",
+   "titre": "ty › toTalk : la page talk s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.31@390": {
+   "id": "P13.31@390",
+   "titre": "Pas de défilement horizontal : talk (via toTalk)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.32@390": {
+   "id": "P13.32@390",
+   "titre": "Let's talk : une image et une question sont proposées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.33@390": {
+   "id": "P13.33@390",
+   "titre": "Retour depuis talk : on revient sur « ty »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.34@390": {
+   "id": "P13.34@390",
+   "titre": "quizzes › toQV : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.35@390": {
+   "id": "P13.35@390",
+   "titre": "Pas de défilement horizontal : quiz (via toQV)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.36@390": {
+   "id": "P13.36@390",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.37@390": {
+   "id": "P13.37@390",
+   "titre": "quizzes › toQN : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.38@390": {
+   "id": "P13.38@390",
+   "titre": "Pas de défilement horizontal : quiz (via toQN)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.39@390": {
+   "id": "P13.39@390",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.40@390": {
+   "id": "P13.40@390",
+   "titre": "quizzes › toQJ : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.41@390": {
+   "id": "P13.41@390",
+   "titre": "Pas de défilement horizontal : quiz (via toQJ)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.42@390": {
+   "id": "P13.42@390",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.43@390": {
+   "id": "P13.43@390",
+   "titre": "quizzes › toQA : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.44@390": {
+   "id": "P13.44@390",
+   "titre": "Pas de défilement horizontal : quiz (via toQA)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.45@390": {
+   "id": "P13.45@390",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.46@390": {
+   "id": "P13.46@390",
+   "titre": "quizzes › toQC : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.47@390": {
+   "id": "P13.47@390",
+   "titre": "Pas de défilement horizontal : quiz (via toQC)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.48@390": {
+   "id": "P13.48@390",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.49@390": {
+   "id": "P13.49@390",
+   "titre": "quizzes › toQP : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.50@390": {
+   "id": "P13.50@390",
+   "titre": "Pas de défilement horizontal : quiz (via toQP)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.51@390": {
+   "id": "P13.51@390",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.52@390": {
+   "id": "P13.52@390",
+   "titre": "quizzes › toQPh : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.53@390": {
+   "id": "P13.53@390",
+   "titre": "Pas de défilement horizontal : quiz (via toQPh)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.54@390": {
+   "id": "P13.54@390",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.55@390": {
+   "id": "P13.55@390",
+   "titre": "quizzes › toQI : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.56@390": {
+   "id": "P13.56@390",
+   "titre": "Pas de défilement horizontal : quiz (via toQI)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.57@390": {
+   "id": "P13.57@390",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.58@390": {
+   "id": "P13.58@390",
+   "titre": "Dictée : la page s'ouvre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.59@390": {
+   "id": "P13.59@390",
+   "titre": "Pas de défilement horizontal : dictée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.err@390": {
+   "id": "P13.err@390",
+   "titre": "P13 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.1@390": {
+   "id": "P14.1@390",
+   "titre": "Un seul élève : le rechargement ouvre directement « My daily work »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.2@390": {
+   "id": "P14.2@390",
+   "titre": "Rechargement : journal identique",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.3@390": {
+   "id": "P14.3@390",
+   "titre": "Rechargement : aucune clé kai.* perdue",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.4@390": {
+   "id": "P14.4@390",
+   "titre": "Rechargement : « 10/10 » toujours affiché",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.err@390": {
+   "id": "P14.err@390",
+   "titre": "P14 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P99.err@390": {
+   "id": "P99.err@390",
+   "titre": "390 : sur tout le parcours, 0 erreur console, 0 exception JS, 0 requête en échec ou en 404",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.1@1280": {
+   "id": "P01.1@1280",
+   "titre": "Les globales JS dont les tests ont besoin existent",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.2@1280": {
+   "id": "P01.2@1280",
+   "titre": "Premier lancement : l'écran d'accueil est affiché",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.3@1280": {
+   "id": "P01.3@1280",
+   "titre": "Le titre de l'onglet est « Learning English with Kai »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.4@1280": {
+   "id": "P01.4@1280",
+   "titre": "L'accueil invite à toucher Kai",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.5@1280": {
+   "id": "P01.5@1280",
+   "titre": "Aucune donnée d'élève avant le premier lancement",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.6@1280": {
+   "id": "P01.6@1280",
+   "titre": "Les deux bulles de Kai sont présentes (rôle bouton, au clavier)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.7@1280": {
+   "id": "P01.7@1280",
+   "titre": "Kai est affiché (image chargée)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.8@1280": {
+   "id": "P01.8@1280",
+   "titre": "Pas de défilement horizontal : accueil",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.9@1280": {
+   "id": "P01.9@1280",
+   "titre": "Clavier : premier élément atteint par Tab sur l'accueil",
+   "statut": "Note",
+   "detail": "bb b1"
+  },
+  "parcours:P01.10@1280": {
+   "id": "P01.10@1280",
+   "titre": "Sans profil, toucher Kai ouvre « Hello! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P01.err@1280": {
+   "id": "P01.err@1280",
+   "titre": "P01 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.1@1280": {
+   "id": "P02.1@1280",
+   "titre": "Le champ prénom a le focus à l'arrivée (ordinateur) ou n'est pas forcé (téléphone)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.2@1280": {
+   "id": "P02.2@1280",
+   "titre": "Prénom vide : message d'aide, on reste sur « Hello! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.3@1280": {
+   "id": "P02.3@1280",
+   "titre": "Prénom fait d'espaces : même message",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.4@1280": {
+   "id": "P02.4@1280",
+   "titre": "Prénom trop long : le champ s'arrête à 16 caractères",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.5@1280": {
+   "id": "P02.5@1280",
+   "titre": "Les 4 niveaux sont proposés, « Beginner » est choisi par défaut",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.6@1280": {
+   "id": "P02.6@1280",
+   "titre": "Espaces superflus nettoyés : prénom enregistré « Léa Dupont »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.7@1280": {
+   "id": "P02.7@1280",
+   "titre": "Niveau Beginner, premier élève marqué « first »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.8@1280": {
+   "id": "P02.8@1280",
+   "titre": "Le profil est écrit dans localStorage (kai.profiles.v1)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.9@1280": {
+   "id": "P02.9@1280",
+   "titre": "Le menu accueille l'élève par son prénom",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.10@1280": {
+   "id": "P02.10@1280",
+   "titre": "La pastille « Me » affiche l'initiale",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.11@1280": {
+   "id": "P02.11@1280",
+   "titre": "Les six tuiles du menu sont là",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.12@1280": {
+   "id": "P02.12@1280",
+   "titre": "Pas de défilement horizontal : menu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P02.err@1280": {
+   "id": "P02.err@1280",
+   "titre": "P02 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.1@1280": {
+   "id": "P03.1@1280",
+   "titre": "« My daily work » : objectif du niveau Beginner = 0/10",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.2@1280": {
+   "id": "P03.2@1280",
+   "titre": "Les 6 humeurs sont proposées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.3@1280": {
+   "id": "P03.3@1280",
+   "titre": "Humeur choisie : affichée et enregistrée pour aujourd'hui",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.4@1280": {
+   "id": "P03.4@1280",
+   "titre": "Kai répond à l'humeur par une bulle",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.5@1280": {
+   "id": "P03.5@1280",
+   "titre": "Pas de défilement horizontal : My daily work",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.6@1280": {
+   "id": "P03.6@1280",
+   "titre": "Le bouton « Start » lance un tour de mots du jour (kind = mix)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.7@1280": {
+   "id": "P03.7@1280",
+   "titre": "Titre de la partie : Words of the day · Part 1 · French → English",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.8@1280": {
+   "id": "P03.8@1280",
+   "titre": "Quiz partie 1, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.9@1280": {
+   "id": "P03.9@1280",
+   "titre": "Bonne réponse : verdict positif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.10@1280": {
+   "id": "P03.10@1280",
+   "titre": "Quiz partie 1, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.11@1280": {
+   "id": "P03.11@1280",
+   "titre": "Quiz partie 1, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.12@1280": {
+   "id": "P03.12@1280",
+   "titre": "Quiz partie 1, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.13@1280": {
+   "id": "P03.13@1280",
+   "titre": "Quiz partie 1, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.14@1280": {
+   "id": "P03.14@1280",
+   "titre": "Quiz partie 1, question 6 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.15@1280": {
+   "id": "P03.15@1280",
+   "titre": "Quiz partie 1, question 7 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.16@1280": {
+   "id": "P03.16@1280",
+   "titre": "Quiz partie 1, question 8 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.17@1280": {
+   "id": "P03.17@1280",
+   "titre": "Quiz partie 1, question 9 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.18@1280": {
+   "id": "P03.18@1280",
+   "titre": "Quiz partie 1, question 10 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.19@1280": {
+   "id": "P03.19@1280",
+   "titre": "Quiz partie 2, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.20@1280": {
+   "id": "P03.20@1280",
+   "titre": "Quiz partie 2, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.21@1280": {
+   "id": "P03.21@1280",
+   "titre": "Quiz partie 2, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.22@1280": {
+   "id": "P03.22@1280",
+   "titre": "Quiz partie 2, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.23@1280": {
+   "id": "P03.23@1280",
+   "titre": "Quiz partie 2, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.24@1280": {
+   "id": "P03.24@1280",
+   "titre": "Quiz partie 2, question 6 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.25@1280": {
+   "id": "P03.25@1280",
+   "titre": "Quiz partie 2, question 7 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.26@1280": {
+   "id": "P03.26@1280",
+   "titre": "Quiz partie 2, question 8 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.27@1280": {
+   "id": "P03.27@1280",
+   "titre": "Quiz partie 2, question 9 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.28@1280": {
+   "id": "P03.28@1280",
+   "titre": "Quiz partie 2, question 10 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.29@1280": {
+   "id": "P03.29@1280",
+   "titre": "Un tour de mots du jour = 10 mots pour Beginner",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.30@1280": {
+   "id": "P03.30@1280",
+   "titre": "Fin du tour : « 100% » et « PERFECT! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.31@1280": {
+   "id": "P03.31@1280",
+   "titre": "Fin du tour : l'objectif du jour est annoncé atteint (10 mots)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.32@1280": {
+   "id": "P03.32@1280",
+   "titre": "Fin du tour : 10 lignes dans le récapitulatif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.33@1280": {
+   "id": "P03.33@1280",
+   "titre": "Kai félicite (« Congrats! — Today's goal reached! ») une fois l'objectif atteint",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.34@1280": {
+   "id": "P03.34@1280",
+   "titre": "La félicitation est un dialogue étiqueté et a un bouton « Thanks, Kai! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.35@1280": {
+   "id": "P03.35@1280",
+   "titre": "« Thanks, Kai! » ferme la félicitation",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.36@1280": {
+   "id": "P03.36@1280",
+   "titre": "Enregistrement du jour : 10 mots maîtrisés, 1 tour à 100 %",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.37@1280": {
+   "id": "P03.37@1280",
+   "titre": "Enregistrement du jour : date, objectif et niveau mémorisés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.38@1280": {
+   "id": "P03.38@1280",
+   "titre": "Le tour porte ses mots dans les 6 natures (verbes, noms…) : au moins 3 natures différentes",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.39@1280": {
+   "id": "P03.39@1280",
+   "titre": "Retour sur « My daily work » : 10/10",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.40@1280": {
+   "id": "P03.40@1280",
+   "titre": "Le bouton « Other quizzes » apparaît quand l'objectif est atteint",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.41@1280": {
+   "id": "P03.41@1280",
+   "titre": "Le trophée du jour est célébré une seule fois (marque cel)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.42@1280": {
+   "id": "P03.42@1280",
+   "titre": "Les mots du jour sont listés (10)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P03.err@1280": {
+   "id": "P03.err@1280",
+   "titre": "P03 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.1@1280": {
+   "id": "P04.1@1280",
+   "titre": "« Words » : 8 familles de mots proposées (tuiles)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.2@1280": {
+   "id": "P04.2@1280",
+   "titre": "Pas de défilement horizontal : Words",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.3@1280": {
+   "id": "P04.3@1280",
+   "titre": "Recherche « go » : compteur « words found »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.4@1280": {
+   "id": "P04.4@1280",
+   "titre": "Recherche « go » : les tuiles sont masquées, les résultats affichés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.5@1280": {
+   "id": "P04.5@1280",
+   "titre": "Recherche « go » : le verbe « go » est dans le groupe Verbs",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.6@1280": {
+   "id": "P04.6@1280",
+   "titre": "Espace final ignoré (« go » = « go  »)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.7@1280": {
+   "id": "P04.7@1280",
+   "titre": "Recherche sans accent ni casse : « ECOLE » trouve « school »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.8@1280": {
+   "id": "P04.8@1280",
+   "titre": "Recherche en français : « chien » trouve « dog »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.9@1280": {
+   "id": "P04.9@1280",
+   "titre": "Aucun résultat : message clair avec le mot cherché",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.10@1280": {
+   "id": "P04.10@1280",
+   "titre": "Caractères spéciaux : la recherche est affichée telle quelle, sans HTML injecté",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.11@1280": {
+   "id": "P04.11@1280",
+   "titre": "Fiche ouverte : prononciation, trois formes et exemples",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.12@1280": {
+   "id": "P04.12@1280",
+   "titre": "Fiche « run » : /rʌn/, ran, run",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.13@1280": {
+   "id": "P04.13@1280",
+   "titre": "Le bouton +/- de la fiche annonce son état (aria-expanded)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.14@1280": {
+   "id": "P04.14@1280",
+   "titre": "Un second clic referme la fiche",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.15@1280": {
+   "id": "P04.15@1280",
+   "titre": "Il existe au moins un verbe dont le son est enregistré (KV)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.16@1280": {
+   "id": "P04.16@1280",
+   "titre": "Son d'un mot enregistré (« to be ») : la voix de Kai est jouée (MP3 du paquet voice/)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.17@1280": {
+   "id": "P04.17@1280",
+   "titre": "Pas de message « No sound? » quand le son est lancé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.18@1280": {
+   "id": "P04.18@1280",
+   "titre": "Son d'une phrase d'exemple : lue (voix enregistrée ou voix de l'appareil)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.19@1280": {
+   "id": "P04.19@1280",
+   "titre": "Bouton ✕ : champ vidé, tuiles revenues, focus dans le champ",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.20@1280": {
+   "id": "P04.20@1280",
+   "titre": "« Verbs » : le compteur annonce tous les verbes du dictionnaire",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.21@1280": {
+   "id": "P04.21@1280",
+   "titre": "« Verbs » : « to go » trouve « go » en premier",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.22@1280": {
+   "id": "P04.22@1280",
+   "titre": "« Verbs » : compteur = nombre de cartes",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.23@1280": {
+   "id": "P04.23@1280",
+   "titre": "Page nouns : 1224 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.24@1280": {
+   "id": "P04.24@1280",
+   "titre": "Pas de défilement horizontal : nouns",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.25@1280": {
+   "id": "P04.25@1280",
+   "titre": "Page nouns : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.26@1280": {
+   "id": "P04.26@1280",
+   "titre": "Page adjectives : 202 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.27@1280": {
+   "id": "P04.27@1280",
+   "titre": "Pas de défilement horizontal : adjectives",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.28@1280": {
+   "id": "P04.28@1280",
+   "titre": "Page adjectives : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.29@1280": {
+   "id": "P04.29@1280",
+   "titre": "Page adverbs : 115 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.30@1280": {
+   "id": "P04.30@1280",
+   "titre": "Pas de défilement horizontal : adverbs",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.31@1280": {
+   "id": "P04.31@1280",
+   "titre": "Page adverbs : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.32@1280": {
+   "id": "P04.32@1280",
+   "titre": "Page connectors : 69 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.33@1280": {
+   "id": "P04.33@1280",
+   "titre": "Pas de défilement horizontal : connectors",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.34@1280": {
+   "id": "P04.34@1280",
+   "titre": "Page connectors : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.35@1280": {
+   "id": "P04.35@1280",
+   "titre": "Page prepositions : 67 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.36@1280": {
+   "id": "P04.36@1280",
+   "titre": "Pas de défilement horizontal : prepositions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.37@1280": {
+   "id": "P04.37@1280",
+   "titre": "Page prepositions : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.38@1280": {
+   "id": "P04.38@1280",
+   "titre": "Page phrasals : 44 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.39@1280": {
+   "id": "P04.39@1280",
+   "titre": "Pas de défilement horizontal : phrasals",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.40@1280": {
+   "id": "P04.40@1280",
+   "titre": "Page phrasals : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.41@1280": {
+   "id": "P04.41@1280",
+   "titre": "Page idioms : 27 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.42@1280": {
+   "id": "P04.42@1280",
+   "titre": "Pas de défilement horizontal : idioms",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.43@1280": {
+   "id": "P04.43@1280",
+   "titre": "Page idioms : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.44@1280": {
+   "id": "P04.44@1280",
+   "titre": "Page quantifiers : 27 fiches affichées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.45@1280": {
+   "id": "P04.45@1280",
+   "titre": "Pas de défilement horizontal : quantifiers",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.46@1280": {
+   "id": "P04.46@1280",
+   "titre": "Page quantifiers : un filtre de thème réduit la liste",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P04.err@1280": {
+   "id": "P04.err@1280",
+   "titre": "P04 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.1@1280": {
+   "id": "P05.1@1280",
+   "titre": "Conjugaison : 13 leçons listées (= LORDER)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.2@1280": {
+   "id": "P05.2@1280",
+   "titre": "« Lesson of the week » proposée : To be",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.3@1280": {
+   "id": "P05.3@1280",
+   "titre": "Leçon « To be » : titre et sections",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.4@1280": {
+   "id": "P05.4@1280",
+   "titre": "Leçon : le tableau des formes est affiché",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.5@1280": {
+   "id": "P05.5@1280",
+   "titre": "Pas de défilement horizontal : leçon To be",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.6@1280": {
+   "id": "P05.6@1280",
+   "titre": "Leçon : le haut-parleur d'un exemple demande un son",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.7@1280": {
+   "id": "P05.7@1280",
+   "titre": "Entraînement : 10 questions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.8@1280": {
+   "id": "P05.8@1280",
+   "titre": "Question 1 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.9@1280": {
+   "id": "P05.9@1280",
+   "titre": "Après la réponse : une explication non vide est affichée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.10@1280": {
+   "id": "P05.10@1280",
+   "titre": "Après la réponse : le verdict correspond",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.11@1280": {
+   "id": "P05.11@1280",
+   "titre": "Question 2 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.12@1280": {
+   "id": "P05.12@1280",
+   "titre": "Question 3 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.13@1280": {
+   "id": "P05.13@1280",
+   "titre": "Question 4 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.14@1280": {
+   "id": "P05.14@1280",
+   "titre": "Question 5 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.15@1280": {
+   "id": "P05.15@1280",
+   "titre": "Question 6 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.16@1280": {
+   "id": "P05.16@1280",
+   "titre": "Question 7 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.17@1280": {
+   "id": "P05.17@1280",
+   "titre": "Question 8 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.18@1280": {
+   "id": "P05.18@1280",
+   "titre": "Question 9 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.19@1280": {
+   "id": "P05.19@1280",
+   "titre": "Question 10 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.20@1280": {
+   "id": "P05.20@1280",
+   "titre": "Fin de l'entraînement 1 : 9 sur 10 (90 %), leçon réussie",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.21@1280": {
+   "id": "P05.21@1280",
+   "titre": "Progression de la leçon enregistrée (best 90, 1 essai)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.22@1280": {
+   "id": "P05.22@1280",
+   "titre": "Le récapitulatif liste 10 phrases dont 1 erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.23@1280": {
+   "id": "P05.23@1280",
+   "titre": "Entraînement : 10 questions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.24@1280": {
+   "id": "P05.24@1280",
+   "titre": "Question 1 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.25@1280": {
+   "id": "P05.25@1280",
+   "titre": "Après la réponse : une explication non vide est affichée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.26@1280": {
+   "id": "P05.26@1280",
+   "titre": "Après la réponse : le verdict correspond",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.27@1280": {
+   "id": "P05.27@1280",
+   "titre": "Question 2 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.28@1280": {
+   "id": "P05.28@1280",
+   "titre": "Question 3 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.29@1280": {
+   "id": "P05.29@1280",
+   "titre": "Question 4 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.30@1280": {
+   "id": "P05.30@1280",
+   "titre": "Question 5 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.31@1280": {
+   "id": "P05.31@1280",
+   "titre": "Question 6 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.32@1280": {
+   "id": "P05.32@1280",
+   "titre": "Question 7 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.33@1280": {
+   "id": "P05.33@1280",
+   "titre": "Question 8 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.34@1280": {
+   "id": "P05.34@1280",
+   "titre": "Question 9 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.35@1280": {
+   "id": "P05.35@1280",
+   "titre": "Question 10 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.36@1280": {
+   "id": "P05.36@1280",
+   "titre": "Essai 2 sans faute : 10 sur 10, « 100% »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.37@1280": {
+   "id": "P05.37@1280",
+   "titre": "best = 100 et 2 essais",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.38@1280": {
+   "id": "P05.38@1280",
+   "titre": "La bannière « lesson of the week done » est affichée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.39@1280": {
+   "id": "P05.39@1280",
+   "titre": "Conjugaison : la leçon réussie est cochée et la semaine validée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P05.err@1280": {
+   "id": "P05.err@1280",
+   "titre": "P05 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.1@1280": {
+   "id": "P06.1@1280",
+   "titre": "Grammaire : 20 leçons listées (= LORDER)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.2@1280": {
+   "id": "P06.2@1280",
+   "titre": "Bouton FR : la fenêtre « En français » s'ouvre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.3@1280": {
+   "id": "P06.3@1280",
+   "titre": "Fenêtre : le focus passe sur la croix de fermeture",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.4@1280": {
+   "id": "P06.4@1280",
+   "titre": "Échap ferme la fenêtre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.5@1280": {
+   "id": "P06.5@1280",
+   "titre": "Après la fenêtre, le focus revient sur le bouton FR",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.6@1280": {
+   "id": "P06.6@1280",
+   "titre": "Entraînement : 10 questions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.7@1280": {
+   "id": "P06.7@1280",
+   "titre": "Question 1 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.8@1280": {
+   "id": "P06.8@1280",
+   "titre": "Après la réponse : une explication non vide est affichée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.9@1280": {
+   "id": "P06.9@1280",
+   "titre": "Après la réponse : le verdict correspond",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.10@1280": {
+   "id": "P06.10@1280",
+   "titre": "Question 2 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.11@1280": {
+   "id": "P06.11@1280",
+   "titre": "Question 3 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.12@1280": {
+   "id": "P06.12@1280",
+   "titre": "Question 4 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.13@1280": {
+   "id": "P06.13@1280",
+   "titre": "Question 5 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.14@1280": {
+   "id": "P06.14@1280",
+   "titre": "Question 6 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.15@1280": {
+   "id": "P06.15@1280",
+   "titre": "Question 7 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.16@1280": {
+   "id": "P06.16@1280",
+   "titre": "Question 8 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.17@1280": {
+   "id": "P06.17@1280",
+   "titre": "Question 9 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.18@1280": {
+   "id": "P06.18@1280",
+   "titre": "Question 10 : les boutons affichent les options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.19@1280": {
+   "id": "P06.19@1280",
+   "titre": "Leçon « articles » : 10 sur 10",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.20@1280": {
+   "id": "P06.20@1280",
+   "titre": "Leçon de grammaire enregistrée (best 100)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.21@1280": {
+   "id": "P06.21@1280",
+   "titre": "Bannière « Grammar lesson of the week done »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.22@1280": {
+   "id": "P06.22@1280",
+   "titre": "« Read the lesson again » ramène au cours",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.23@1280": {
+   "id": "P06.23@1280",
+   "titre": "Grammaire : leçon cochée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P06.err@1280": {
+   "id": "P06.err@1280",
+   "titre": "P06 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.1@1280": {
+   "id": "P07.1@1280",
+   "titre": "« My weekly review » : 3 tests proposés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.2@1280": {
+   "id": "P07.2@1280",
+   "titre": "Test : un point de progression par question",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.3@1280": {
+   "id": "P07.3@1280",
+   "titre": "Test, question 1 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.4@1280": {
+   "id": "P07.4@1280",
+   "titre": "Test, question 2 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.5@1280": {
+   "id": "P07.5@1280",
+   "titre": "Test, question 3 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.6@1280": {
+   "id": "P07.6@1280",
+   "titre": "Test de grammaire : 20 questions",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.7@1280": {
+   "id": "P07.7@1280",
+   "titre": "Test de grammaire : note 20/20 et « EXCELLENT! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.8@1280": {
+   "id": "P07.8@1280",
+   "titre": "Note enregistrée : last = best = 20, 1 passage",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.9@1280": {
+   "id": "P07.9@1280",
+   "titre": "Le récapitulatif liste 20 lignes",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.10@1280": {
+   "id": "P07.10@1280",
+   "titre": "Aucune erreur → « No mistakes in any lesson »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.11@1280": {
+   "id": "P07.11@1280",
+   "titre": "Test : un point de progression par question",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.12@1280": {
+   "id": "P07.12@1280",
+   "titre": "Test, question 1 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.13@1280": {
+   "id": "P07.13@1280",
+   "titre": "Test, question 2 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.14@1280": {
+   "id": "P07.14@1280",
+   "titre": "Test, question 3 : options affichées = options prévues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.15@1280": {
+   "id": "P07.15@1280",
+   "titre": "Quitter en cours de test : « Stop for now? » avec le nombre de réponses sauvées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.16@1280": {
+   "id": "P07.16@1280",
+   "titre": "Le test interrompu est signalé « Not finished · 3/20 answered »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.17@1280": {
+   "id": "P07.17@1280",
+   "titre": "Le test interrompu est gardé sur l'appareil (kai.tsave.*)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.18@1280": {
+   "id": "P07.18@1280",
+   "titre": "Rechargement : l'élève revient directement sur « My daily work »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.19@1280": {
+   "id": "P07.19@1280",
+   "titre": "Reprise proposée après rechargement : « Finish the test · 4/20 »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.20@1280": {
+   "id": "P07.20@1280",
+   "titre": "La reprise commence à la question 4",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.21@1280": {
+   "id": "P07.21@1280",
+   "titre": "Test de conjugaison avec 1 erreur : note 19/20",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.22@1280": {
+   "id": "P07.22@1280",
+   "titre": "La leçon à revoir est proposée (« To review »)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.23@1280": {
+   "id": "P07.23@1280",
+   "titre": "Le test terminé n'est plus « en pause »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.24@1280": {
+   "id": "P07.24@1280",
+   "titre": "Test : un point de progression par question",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.25@1280": {
+   "id": "P07.25@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.26@1280": {
+   "id": "P07.26@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.27@1280": {
+   "id": "P07.27@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.28@1280": {
+   "id": "P07.28@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.29@1280": {
+   "id": "P07.29@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.30@1280": {
+   "id": "P07.30@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.31@1280": {
+   "id": "P07.31@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.32@1280": {
+   "id": "P07.32@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.33@1280": {
+   "id": "P07.33@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.34@1280": {
+   "id": "P07.34@1280",
+   "titre": "Verbes irréguliers : Entrée dans le 1er champ passe au 2e",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.35@1280": {
+   "id": "P07.35@1280",
+   "titre": "Test des verbes irréguliers : 20 points sur 20",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.36@1280": {
+   "id": "P07.36@1280",
+   "titre": "Les trois tests sont enregistrés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.37@1280": {
+   "id": "P07.37@1280",
+   "titre": "« My tests » : tuiles de la semaine avec les notes",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.38@1280": {
+   "id": "P07.38@1280",
+   "titre": "Correcteur : casse et ponctuation tolérées, contractions comprises, mauvaise réponse refusée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P07.err@1280": {
+   "id": "P07.err@1280",
+   "titre": "P07 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.1@1280": {
+   "id": "P08.1@1280",
+   "titre": "« Test yourself » : 4 tuiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.2@1280": {
+   "id": "P08.2@1280",
+   "titre": "Quiz : 6 types de mots + dictée + phrasal verbs + idioms",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.3@1280": {
+   "id": "P08.3@1280",
+   "titre": "Choix du nombre de mots : 5, 10, 20 (10 par défaut)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.4@1280": {
+   "id": "P08.4@1280",
+   "titre": "Choisir 5 mots est mémorisé (kai.qnum)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.5@1280": {
+   "id": "P08.5@1280",
+   "titre": "Quiz partie 1, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.6@1280": {
+   "id": "P08.6@1280",
+   "titre": "Erreur volontaire : le verdict dit « OOPS » et donne la bonne réponse",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.7@1280": {
+   "id": "P08.7@1280",
+   "titre": "Erreur volontaire : la bonne option est surlignée en vert",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.8@1280": {
+   "id": "P08.8@1280",
+   "titre": "Erreur volontaire : l'option choisie est marquée fausse",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.9@1280": {
+   "id": "P08.9@1280",
+   "titre": "Quiz partie 1, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.10@1280": {
+   "id": "P08.10@1280",
+   "titre": "Quiz partie 1, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.11@1280": {
+   "id": "P08.11@1280",
+   "titre": "Quiz partie 1, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.12@1280": {
+   "id": "P08.12@1280",
+   "titre": "Quiz partie 1, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.13@1280": {
+   "id": "P08.13@1280",
+   "titre": "Quiz partie 2, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.14@1280": {
+   "id": "P08.14@1280",
+   "titre": "Quiz partie 2, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.15@1280": {
+   "id": "P08.15@1280",
+   "titre": "Quiz partie 2, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.16@1280": {
+   "id": "P08.16@1280",
+   "titre": "Quiz partie 2, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.17@1280": {
+   "id": "P08.17@1280",
+   "titre": "Quiz partie 2, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.18@1280": {
+   "id": "P08.18@1280",
+   "titre": "Partie 3 « Type it » proposée après une erreur",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.19@1280": {
+   "id": "P08.19@1280",
+   "titre": "Partie 3 : valider un champ vide ne fait rien (le champ reste actif)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.20@1280": {
+   "id": "P08.20@1280",
+   "titre": "Partie 3 : mot juste accepté (casse ignorée)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.21@1280": {
+   "id": "P08.21@1280",
+   "titre": "Quiz de verbes : 5 mots",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.22@1280": {
+   "id": "P08.22@1280",
+   "titre": "Fin avec une erreur : 90 % (9/10) et « GREAT JOB! »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.23@1280": {
+   "id": "P08.23@1280",
+   "titre": "Fin avec une erreur : « Do it again » proposé, pas « New words »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.24@1280": {
+   "id": "P08.24@1280",
+   "titre": "Récapitulatif : 5 mots dont au moins une croix",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.25@1280": {
+   "id": "P08.25@1280",
+   "titre": "Deuxième essai avec les mêmes mots : « Try 2 »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.26@1280": {
+   "id": "P08.26@1280",
+   "titre": "Quiz partie 1, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.27@1280": {
+   "id": "P08.27@1280",
+   "titre": "Bonne réponse : verdict positif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.28@1280": {
+   "id": "P08.28@1280",
+   "titre": "Quiz partie 1, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.29@1280": {
+   "id": "P08.29@1280",
+   "titre": "Quiz partie 1, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.30@1280": {
+   "id": "P08.30@1280",
+   "titre": "Quiz partie 1, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.31@1280": {
+   "id": "P08.31@1280",
+   "titre": "Quiz partie 1, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.32@1280": {
+   "id": "P08.32@1280",
+   "titre": "Quiz partie 2, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.33@1280": {
+   "id": "P08.33@1280",
+   "titre": "Quiz partie 2, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.34@1280": {
+   "id": "P08.34@1280",
+   "titre": "Quiz partie 2, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.35@1280": {
+   "id": "P08.35@1280",
+   "titre": "Quiz partie 2, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.36@1280": {
+   "id": "P08.36@1280",
+   "titre": "Quiz partie 2, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.37@1280": {
+   "id": "P08.37@1280",
+   "titre": "Deuxième essai sans faute : « PERFECT! » et « New words »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.38@1280": {
+   "id": "P08.38@1280",
+   "titre": "« New words » relance un quiz neuf (essai 1)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.39@1280": {
+   "id": "P08.39@1280",
+   "titre": "Quiz de noms, thème animaux : « Which animal is it? »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.40@1280": {
+   "id": "P08.40@1280",
+   "titre": "Quiz partie 1, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.41@1280": {
+   "id": "P08.41@1280",
+   "titre": "Bonne réponse : verdict positif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.42@1280": {
+   "id": "P08.42@1280",
+   "titre": "Quiz partie 1, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.43@1280": {
+   "id": "P08.43@1280",
+   "titre": "Quiz partie 1, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.44@1280": {
+   "id": "P08.44@1280",
+   "titre": "Quiz partie 1, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.45@1280": {
+   "id": "P08.45@1280",
+   "titre": "Quiz partie 1, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.46@1280": {
+   "id": "P08.46@1280",
+   "titre": "Quiz partie 2, question 1 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.47@1280": {
+   "id": "P08.47@1280",
+   "titre": "Quiz partie 2, question 2 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.48@1280": {
+   "id": "P08.48@1280",
+   "titre": "Quiz partie 2, question 3 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.49@1280": {
+   "id": "P08.49@1280",
+   "titre": "Quiz partie 2, question 4 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.50@1280": {
+   "id": "P08.50@1280",
+   "titre": "Quiz partie 2, question 5 : les boutons affichent les libellés prévus",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.51@1280": {
+   "id": "P08.51@1280",
+   "titre": "Quiz d'animaux terminé sans faute",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.52@1280": {
+   "id": "P08.52@1280",
+   "titre": "Le journal du jour contient les tours, quiz, leçons et tests faits",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P08.err@1280": {
+   "id": "P08.err@1280",
+   "titre": "P08 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.1@1280": {
+   "id": "P09.1@1280",
+   "titre": "Récompenses : « Stars today » = 27 (recalculé hors application d'après la règle de l'aide)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.2@1280": {
+   "id": "P09.2@1280",
+   "titre": "Récompenses : rang attendu « Rank 2 · Explorer » pour 27 étoiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.3@1280": {
+   "id": "P09.3@1280",
+   "titre": "Récompenses : le total d'étoiles affiché est exact",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.4@1280": {
+   "id": "P09.4@1280",
+   "titre": "Série : 1 jour",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.5@1280": {
+   "id": "P09.5@1280",
+   "titre": "Trophée du jour acquis (badge allumé)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.6@1280": {
+   "id": "P09.6@1280",
+   "titre": "Graphique de la semaine : 7 jours, aujourd'hui souligné",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.7@1280": {
+   "id": "P09.7@1280",
+   "titre": "Mes notes : graphique des tests",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.8@1280": {
+   "id": "P09.8@1280",
+   "titre": "Cette semaine : 2 leçons sur 2",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.9@1280": {
+   "id": "P09.9@1280",
+   "titre": "Pas de défilement horizontal : My daily work complet",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.10@1280": {
+   "id": "P09.10@1280",
+   "titre": "Aide « ? » : la fenêtre « Stars, trophy & medals » s'ouvre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.11@1280": {
+   "id": "P09.11@1280",
+   "titre": "La fenêtre est un dialogue modal étiqueté (role, aria-modal, aria-labelledby)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.12@1280": {
+   "id": "P09.12@1280",
+   "titre": "Échap ferme l'aide",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.13@1280": {
+   "id": "P09.13@1280",
+   "titre": "Après l'aide, le focus revient sur le bouton « ? »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.14@1280": {
+   "id": "P09.14@1280",
+   "titre": "Calendrier : mois courant, aujourd'hui repéré, objectif atteint marqué",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.15@1280": {
+   "id": "P09.15@1280",
+   "titre": "Calendrier : « Next month » désactivé sur le mois courant",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.16@1280": {
+   "id": "P09.16@1280",
+   "titre": "Calendrier : le détail du jour liste le mot, la leçon et les tests",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.17@1280": {
+   "id": "P09.17@1280",
+   "titre": "Mois précédent : « Next month » devient actif",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.18@1280": {
+   "id": "P09.18@1280",
+   "titre": "Retour sur l'onglet « Today »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P09.err@1280": {
+   "id": "P09.err@1280",
+   "titre": "P09 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.1@1280": {
+   "id": "P10.1@1280",
+   "titre": "« Me » : section « Save & move » avec deux boutons",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.2@1280": {
+   "id": "P10.2@1280",
+   "titre": "Pas de défilement horizontal : Me",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.3@1280": {
+   "id": "P10.3@1280",
+   "titre": "Le fichier téléchargé s'appelle kai-english-AAAA-MM-JJ.json (date du jour)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.4@1280": {
+   "id": "P10.4@1280",
+   "titre": "Contenu : application, version 1, date ISO",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.5@1280": {
+   "id": "P10.5@1280",
+   "titre": "Contenu : profils + journal de l'élève + tests en pause/leçons vues",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.6@1280": {
+   "id": "P10.6@1280",
+   "titre": "Contenu : aucun code parent ni voix en base64 (kai.pcode, kai.kv*)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.7@1280": {
+   "id": "P10.7@1280",
+   "titre": "Contenu : toutes les clés commencent par « kai. »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.8@1280": {
+   "id": "P10.8@1280",
+   "titre": "Toast de confirmation « Saved: … »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.9@1280": {
+   "id": "P10.9@1280",
+   "titre": "Autre appareil : rien en mémoire, écran d'accueil",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.10@1280": {
+   "id": "P10.10@1280",
+   "titre": "Fichier invalide (texte quelconque) : message « not a Kai save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.11@1280": {
+   "id": "P10.11@1280",
+   "titre": "Fichier invalide (fichier vide) : message « not a Kai save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.12@1280": {
+   "id": "P10.12@1280",
+   "titre": "Fichier invalide (JSON d'une autre application) : message « not a Kai save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.13@1280": {
+   "id": "P10.13@1280",
+   "titre": "Fichier invalide (sauvegarde sans élèves) : message « not a Kai save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.14@1280": {
+   "id": "P10.14@1280",
+   "titre": "Fichiers invalides : aucune donnée modifiée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.15@1280": {
+   "id": "P10.15@1280",
+   "titre": "Restauration : « 1 new learner added. 1 day of work merged. »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.16@1280": {
+   "id": "P10.16@1280",
+   "titre": "Après redémarrage, deux élèves → on demande « Who's learning today? »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.17@1280": {
+   "id": "P10.17@1280",
+   "titre": "Les deux élèves sont proposés, avec leurs étoiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.18@1280": {
+   "id": "P10.18@1280",
+   "titre": "Restauration : la progression est identique (jours, étoiles)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.19@1280": {
+   "id": "P10.19@1280",
+   "titre": "Restauration : le profil (niveau, leçons, tests) est identique",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.20@1280": {
+   "id": "P10.20@1280",
+   "titre": "Restauration : même affichage « 10/10 » et mêmes étoiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.21@1280": {
+   "id": "P10.21@1280",
+   "titre": "Second chargement du même fichier : rien de nouveau (0 jour fusionné)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.22@1280": {
+   "id": "P10.22@1280",
+   "titre": "Second chargement : toujours 2 élèves, pas de doublon",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P10.err@1280": {
+   "id": "P10.err@1280",
+   "titre": "P10 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.1@1280": {
+   "id": "P11.1@1280",
+   "titre": "Second élève créé avec niveau Practicer",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.2@1280": {
+   "id": "P11.2@1280",
+   "titre": "Prénom avec <, >, & et guillemets : aucun HTML injecté dans le menu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.3@1280": {
+   "id": "P11.3@1280",
+   "titre": "Il y a maintenant 2 élèves",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.4@1280": {
+   "id": "P11.4@1280",
+   "titre": "Autre élève : objectif 0/15 (Practicer), rien de la progression de Léa",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.5@1280": {
+   "id": "P11.5@1280",
+   "titre": "Autre élève : pas d'étoile ni de série héritées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.6@1280": {
+   "id": "P11.6@1280",
+   "titre": "« Me » montre le prénom courant sans HTML injecté",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.7@1280": {
+   "id": "P11.7@1280",
+   "titre": "« Who's learning » : 2 élèves + « New learner »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.8@1280": {
+   "id": "P11.8@1280",
+   "titre": "Les cartes d'élèves montrent niveau, rang et étoiles",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.9@1280": {
+   "id": "P11.9@1280",
+   "titre": "Pas de défilement horizontal : Who's learning",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.10@1280": {
+   "id": "P11.10@1280",
+   "titre": "Retour sur Léa : bienvenue personnalisé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.11@1280": {
+   "id": "P11.11@1280",
+   "titre": "La progression de Léa est intacte (10/10)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.12@1280": {
+   "id": "P11.12@1280",
+   "titre": "Prénom déjà connu (casse différente) : on retrouve l'élève, pas de doublon",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.13@1280": {
+   "id": "P11.13@1280",
+   "titre": "Renommer : le champ est prêt et sélectionné",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.14@1280": {
+   "id": "P11.14@1280",
+   "titre": "Renommer : espaces nettoyés (« Léa D. »)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P11.err@1280": {
+   "id": "P11.err@1280",
+   "titre": "P11 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.1@1280": {
+   "id": "P12.1@1280",
+   "titre": "Sans code : « Set a parent code » proposé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.2@1280": {
+   "id": "P12.2@1280",
+   "titre": "Fenêtre « Set a parent code » : deux champs masqués (password), focus dans le premier",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.3@1280": {
+   "id": "P12.3@1280",
+   "titre": "Code trop court : message « 4 to 8 digits »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.4@1280": {
+   "id": "P12.4@1280",
+   "titre": "Code trop court : rien n'est enregistré",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.5@1280": {
+   "id": "P12.5@1280",
+   "titre": "Code fait de lettres : message « 4 to 8 digits »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.6@1280": {
+   "id": "P12.6@1280",
+   "titre": "Code fait de lettres : rien n'est enregistré",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.7@1280": {
+   "id": "P12.7@1280",
+   "titre": "Code à deux saisies différentes : message « two codes are different »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.8@1280": {
+   "id": "P12.8@1280",
+   "titre": "Code à deux saisies différentes : rien n'est enregistré",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.9@1280": {
+   "id": "P12.9@1280",
+   "titre": "IRRITANT : une erreur de saisie du code ferme la fenêtre ; il faut rouvrir « Set a parent code » et tout retaper (un enfant ou un parent pressé abandonne)",
+   "statut": "Note",
+   "detail": "à proposer à Matt/Ouss : garder la fenêtre ouverte et le message dans la fenêtre"
+  },
+  "parcours:P12.10@1280": {
+   "id": "P12.10@1280",
+   "titre": "Code : le champ limite la saisie à 8 chiffres",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.11@1280": {
+   "id": "P12.11@1280",
+   "titre": "Code valide (Entrée dans le 2e champ) : « Parent code saved »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.12@1280": {
+   "id": "P12.12@1280",
+   "titre": "Le code est enregistré (valeur non vide ; son format est libre : il sera haché par Ani)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.13@1280": {
+   "id": "P12.13@1280",
+   "titre": "Boutons « Change the code » / « Remove the code » proposés",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.14@1280": {
+   "id": "P12.14@1280",
+   "titre": "Changer de niveau avec un code : la fenêtre « Parent code » s'ouvre, champ masqué (password)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.15@1280": {
+   "id": "P12.15@1280",
+   "titre": "Le focus est dans le champ du code",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.16@1280": {
+   "id": "P12.16@1280",
+   "titre": "Mauvais code : « Wrong code »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.17@1280": {
+   "id": "P12.17@1280",
+   "titre": "Mauvais code : le niveau n'a pas changé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.18@1280": {
+   "id": "P12.18@1280",
+   "titre": "Bon code : niveau « Confirmed » (20 mots par jour)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.19@1280": {
+   "id": "P12.19@1280",
+   "titre": "Le niveau est enregistré dans l'historique (lvHist)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.20@1280": {
+   "id": "P12.20@1280",
+   "titre": "Retour au niveau Beginner avec le code",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.21@1280": {
+   "id": "P12.21@1280",
+   "titre": "La sauvegarde ne contient jamais le code parent",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.22@1280": {
+   "id": "P12.22@1280",
+   "titre": "Charger une sauvegarde avec un code : la fenêtre « Parent code » s'ouvre d'abord",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.23@1280": {
+   "id": "P12.23@1280",
+   "titre": "« Cancel » ferme la fenêtre, rien n'est chargé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.24@1280": {
+   "id": "P12.24@1280",
+   "titre": "Après « Cancel », le focus revient sur « Load a save »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.25@1280": {
+   "id": "P12.25@1280",
+   "titre": "Supprimer un élève avec un code : le code est demandé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.26@1280": {
+   "id": "P12.26@1280",
+   "titre": "Suppression, mauvais code : refusée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.27@1280": {
+   "id": "P12.27@1280",
+   "titre": "« Remove the code » avec le bon code : retiré",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.28@1280": {
+   "id": "P12.28@1280",
+   "titre": "Sans code : la fenêtre demande de retaper le prénom",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.29@1280": {
+   "id": "P12.29@1280",
+   "titre": "Mauvais prénom : refusé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.30@1280": {
+   "id": "P12.30@1280",
+   "titre": "Bon prénom (casse et espaces ignorés) : confirmation « Yes, delete »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.31@1280": {
+   "id": "P12.31@1280",
+   "titre": "Élève supprimé : il ne reste que Léa",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.32@1280": {
+   "id": "P12.32@1280",
+   "titre": "Élève supprimé : son journal est effacé de l'appareil",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.33@1280": {
+   "id": "P12.33@1280",
+   "titre": "Après suppression de l'autre élève, Léa retrouve 10/10",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.34@1280": {
+   "id": "P12.34@1280",
+   "titre": "Journal de Léa identique à celui d'avant les manipulations de profils",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P12.err@1280": {
+   "id": "P12.err@1280",
+   "titre": "P12 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.1@1280": {
+   "id": "P13.1@1280",
+   "titre": "menu › toDaily : la page daily s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.2@1280": {
+   "id": "P13.2@1280",
+   "titre": "Pas de défilement horizontal : daily (via toDaily)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.3@1280": {
+   "id": "P13.3@1280",
+   "titre": "Retour depuis daily : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.4@1280": {
+   "id": "P13.4@1280",
+   "titre": "menu › toWords : la page words s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.5@1280": {
+   "id": "P13.5@1280",
+   "titre": "Pas de défilement horizontal : words (via toWords)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.6@1280": {
+   "id": "P13.6@1280",
+   "titre": "Retour depuis words : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.7@1280": {
+   "id": "P13.7@1280",
+   "titre": "menu › toGrammar : la page grammar s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.8@1280": {
+   "id": "P13.8@1280",
+   "titre": "Pas de défilement horizontal : grammar (via toGrammar)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.9@1280": {
+   "id": "P13.9@1280",
+   "titre": "Retour depuis grammar : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.10@1280": {
+   "id": "P13.10@1280",
+   "titre": "menu › toConj : la page conj s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.11@1280": {
+   "id": "P13.11@1280",
+   "titre": "Pas de défilement horizontal : conj (via toConj)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.12@1280": {
+   "id": "P13.12@1280",
+   "titre": "Retour depuis conj : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.13@1280": {
+   "id": "P13.13@1280",
+   "titre": "menu › toTests : la page tests s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.14@1280": {
+   "id": "P13.14@1280",
+   "titre": "Pas de défilement horizontal : tests (via toTests)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.15@1280": {
+   "id": "P13.15@1280",
+   "titre": "Retour depuis tests : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.16@1280": {
+   "id": "P13.16@1280",
+   "titre": "menu › toTY : la page ty s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.17@1280": {
+   "id": "P13.17@1280",
+   "titre": "Pas de défilement horizontal : ty (via toTY)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.18@1280": {
+   "id": "P13.18@1280",
+   "titre": "Retour depuis ty : on revient sur « menu »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.19@1280": {
+   "id": "P13.19@1280",
+   "titre": "ty › toT6 : la page t6 s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.20@1280": {
+   "id": "P13.20@1280",
+   "titre": "Pas de défilement horizontal : t6 (via toT6)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.21@1280": {
+   "id": "P13.21@1280",
+   "titre": "Test 6th grade : au moins un contrôle listé",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.22@1280": {
+   "id": "P13.22@1280",
+   "titre": "Test 6th grade : le détail d'un contrôle s'ouvre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.23@1280": {
+   "id": "P13.23@1280",
+   "titre": "Retour depuis t6 : on revient sur « ty »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.24@1280": {
+   "id": "P13.24@1280",
+   "titre": "ty › toQuizzes : la page quizzes s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.25@1280": {
+   "id": "P13.25@1280",
+   "titre": "Pas de défilement horizontal : quizzes (via toQuizzes)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.26@1280": {
+   "id": "P13.26@1280",
+   "titre": "Retour depuis quizzes : on revient sur « ty »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.27@1280": {
+   "id": "P13.27@1280",
+   "titre": "ty › toDIY : la page diy s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.28@1280": {
+   "id": "P13.28@1280",
+   "titre": "Pas de défilement horizontal : diy (via toDIY)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.29@1280": {
+   "id": "P13.29@1280",
+   "titre": "Retour depuis diy : on revient sur « ty »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.30@1280": {
+   "id": "P13.30@1280",
+   "titre": "ty › toTalk : la page talk s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.31@1280": {
+   "id": "P13.31@1280",
+   "titre": "Pas de défilement horizontal : talk (via toTalk)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.32@1280": {
+   "id": "P13.32@1280",
+   "titre": "Let's talk : une image et une question sont proposées",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.33@1280": {
+   "id": "P13.33@1280",
+   "titre": "Retour depuis talk : on revient sur « ty »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.34@1280": {
+   "id": "P13.34@1280",
+   "titre": "quizzes › toQV : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.35@1280": {
+   "id": "P13.35@1280",
+   "titre": "Pas de défilement horizontal : quiz (via toQV)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.36@1280": {
+   "id": "P13.36@1280",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.37@1280": {
+   "id": "P13.37@1280",
+   "titre": "quizzes › toQN : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.38@1280": {
+   "id": "P13.38@1280",
+   "titre": "Pas de défilement horizontal : quiz (via toQN)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.39@1280": {
+   "id": "P13.39@1280",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.40@1280": {
+   "id": "P13.40@1280",
+   "titre": "quizzes › toQJ : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.41@1280": {
+   "id": "P13.41@1280",
+   "titre": "Pas de défilement horizontal : quiz (via toQJ)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.42@1280": {
+   "id": "P13.42@1280",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.43@1280": {
+   "id": "P13.43@1280",
+   "titre": "quizzes › toQA : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.44@1280": {
+   "id": "P13.44@1280",
+   "titre": "Pas de défilement horizontal : quiz (via toQA)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.45@1280": {
+   "id": "P13.45@1280",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.46@1280": {
+   "id": "P13.46@1280",
+   "titre": "quizzes › toQC : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.47@1280": {
+   "id": "P13.47@1280",
+   "titre": "Pas de défilement horizontal : quiz (via toQC)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.48@1280": {
+   "id": "P13.48@1280",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.49@1280": {
+   "id": "P13.49@1280",
+   "titre": "quizzes › toQP : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.50@1280": {
+   "id": "P13.50@1280",
+   "titre": "Pas de défilement horizontal : quiz (via toQP)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.51@1280": {
+   "id": "P13.51@1280",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.52@1280": {
+   "id": "P13.52@1280",
+   "titre": "quizzes › toQPh : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.53@1280": {
+   "id": "P13.53@1280",
+   "titre": "Pas de défilement horizontal : quiz (via toQPh)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.54@1280": {
+   "id": "P13.54@1280",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.55@1280": {
+   "id": "P13.55@1280",
+   "titre": "quizzes › toQI : la page quiz s'ouvre avec du contenu",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.56@1280": {
+   "id": "P13.56@1280",
+   "titre": "Pas de défilement horizontal : quiz (via toQI)",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.57@1280": {
+   "id": "P13.57@1280",
+   "titre": "Retour depuis quiz : on revient sur « quizzes »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.58@1280": {
+   "id": "P13.58@1280",
+   "titre": "Dictée : la page s'ouvre",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.59@1280": {
+   "id": "P13.59@1280",
+   "titre": "Pas de défilement horizontal : dictée",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P13.err@1280": {
+   "id": "P13.err@1280",
+   "titre": "P13 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.1@1280": {
+   "id": "P14.1@1280",
+   "titre": "Un seul élève : le rechargement ouvre directement « My daily work »",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.2@1280": {
+   "id": "P14.2@1280",
+   "titre": "Rechargement : journal identique",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.3@1280": {
+   "id": "P14.3@1280",
+   "titre": "Rechargement : aucune clé kai.* perdue",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.4@1280": {
+   "id": "P14.4@1280",
+   "titre": "Rechargement : « 10/10 » toujours affiché",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P14.err@1280": {
+   "id": "P14.err@1280",
+   "titre": "P14 : aucune erreur console, exception JS ni requête en échec",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:P99.err@1280": {
+   "id": "P99.err@1280",
+   "titre": "1280 : sur tout le parcours, 0 erreur console, 0 exception JS, 0 requête en échec ou en 404",
+   "statut": "OK",
+   "detail": ""
+  },
+  "parcours:TIERS": {
+   "id": "TIERS",
+   "titre": "sites tiers contactés par l'application",
+   "statut": "Note",
+   "detail": "requêtes vers des sites tiers (neutralisées pendant le test) : fonts.googleapis.com"
+  }
+ }
+}
