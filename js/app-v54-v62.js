@@ -139,6 +139,22 @@ function t3Close(v, it) {
         return false;
     }
 }
+/* S-08 : une coquille d'une lettre est acceptée (avec l'orthographe affichée) seulement si la réponse attendue a au
+   moins T3TYPO_MIN lettres, et si ce que l'élève a tapé n'est PAS un mot anglais connu (« skirt » pour « shirt » reste faux :
+   c'est un autre mot, pas une faute de frappe). Réservé à « Type it » : ni les tests notés sur 20, ni la dictée. */
+const T3TYPO_MIN = 5;
+function t3Typo(v, it) {
+    const e = t3Norm(t3Ans(it));
+    if (e.replace(/[^a-z]/g, "").length < T3TYPO_MIN)
+        return false;
+    try {
+        if (t3Norm(v).split(" ").every(w => tkKnown(w)))
+            return false;
+    }
+    catch (err) {
+    }
+    return t3Close(v, it);
+}
 let XMODE = null; /* "t3" ou "dz" quand la page du quiz sert à écrire */
 function startT3() {
     const it = [];
@@ -192,12 +208,15 @@ function xCheck() {
         setTimeout(() => inp.classList.remove("shake"), 400);
         return;
     }
-    const ok = t3Ok(v, it), ans = t3Ans(it), close = !ok && t3Close(v, it), last = X.i === X.items.length - 1;
+    const exact = t3Ok(v, it), typo = !exact && !dz && t3Typo(v, it), ok = exact || typo, ans = t3Ans(it), close = !ok && t3Close(v, it), last = X.i === X.items.length - 1;
     X.res[X.i] = ok;
     inp.disabled = true;
+    const cb = document.getElementById("xcheck");
+    if (cb)
+        cb.remove(); /* S-08 : plus de bouton CHECK une fois la réponse donnée */
     inp.classList.add(ok ? "right" : "wrong");
     document.querySelector("#qwrap .dots").outerHTML = xDots(X);
-    document.getElementById("xfb").innerHTML = `<p class="verdict ${ok ? "ok" : "ko"}">${ok ? ["YES!", "PERFECT!", "WELL DONE!"][X.i % 3] : close ? `ALMOST! IT'S <b>${esc(ans.toUpperCase())}</b>` : `IT'S <b>${esc(ans.toUpperCase())}</b>`}</p>
+    document.getElementById("xfb").innerHTML = `<p class="verdict ${ok ? "ok" : "ko"}">${ok ? ["YES!", "PERFECT!", "WELL DONE!"][X.i % 3] : close ? `ALMOST! IT'S <b>${esc(ans.toUpperCase())}</b>` : `IT'S <b>${esc(ans.toUpperCase())}</b>`}</p>${typo ? `<p class="tright">Watch the spelling: <b>${esc(ans)}</b></p>` : ""}
 <div class="ex"><button class="snd sm" id="xsay2" aria-label="Listen to the sentence">${SPK}</button><div><p class="en">${hl(it.en)}</p><p class="fr">${hl(it.fr)}</p></div></div>
 <button class="listen next" id="xnext">${last ? "See my score" : "Next"}${GOSVG}</button>`;
     sayOne(plain(it.en), document.getElementById("xsay2"));
