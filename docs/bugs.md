@@ -70,3 +70,6 @@ Les polices Google échouent dans le bac à sable (pas de réseau) : ce n'est pa
 ## Non couvert (à tester ensuite)
 Dictée, « Let's talk English » (micro), Test 6th grade (réponses écrites), Do it yourself, tests hebdomadaires, sauvegarde/chargement
 d'un fichier, code parent, navigation au clavier (Tab/focus), zoom 150 %.
+
+## À investiguer (30/10, scrum master)
+- **img/kai-fr.webp** : le test DN-61 déduit cette image de l'analyse du code, mais elle n'existe pas dans `img/`. Aucun écran testé ne l'affiche. À vérifier : origine de la référence, image à ajouter ou référence à retirer.

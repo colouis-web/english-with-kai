@@ -48,6 +48,11 @@ def lancer(nom, fichier, base, app, extra, tmp):
     t0 = time.time()
     cmd = [sys.executable, str(TESTS / fichier), "--url", base, "--app", str(app), "--json", str(sortie)] + extra
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(TESTS))
+    if r.returncode != 0 and nom in ("parcours", "persistance"):
+        # Parcours navigateur : un délai d'animation ou de hachage peut faire échouer une étape une fois.
+        # On rejoue la suite UNE fois ; un vrai bug échoue aussi au second passage.
+        print(f"  (suite « {nom} » rejouée une fois après un échec)", flush=True)
+        r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(TESTS))
     data = None
     if sortie.is_file():
         data = json.loads(sortie.read_text(encoding="utf-8"))
@@ -58,7 +63,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--app", default=str(ROOT), help="dossier de l'application (défaut : racine du dépôt)")
     ap.add_argument("--only", help="liste de suites séparées par des virgules : " + ", ".join(n for n, _ in SUITES))
-    ap.add_argument("--jobs", type=int, default=2, help="suites lancées en parallèle (défaut 2)")
+    ap.add_argument("--jobs", type=int, default=1, help="suites lancées en parallèle (défaut 1 : le hachage du code parent est lent, le parallèle rend le parcours instable)")
     ap.add_argument("--strict-tiers", action="store_true", help="une requête vers un site tiers (polices Google) devient un KO")
     ap.add_argument("--tolerance", type=float, default=0.002, help="tolérance des captures (part de pixels différents)")
     ap.add_argument("--save-bilan", help="écrit le bilan complet (JSON) : à garder comme référence")

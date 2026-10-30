@@ -374,9 +374,12 @@ def bloc_reference(args, base, browser, bilan, collector, ck, ref):
                        ("stats_profil", "ligne « niveau · rang · étoiles » de l'élève"), ("meilleures_lecons", "meilleur score de chaque leçon"),
                        ("nb_par_quiz", "nombre de mots par quiz choisi"), ("vitesse", "vitesse de la voix choisie"), ("voix_enregistree", "choix « voix de Kai / voix du téléphone »")):
         ck(f"PE-24 {cle}", got["app"][cle] == att["app"][cle], premiere_difference(att["app"][cle], got["app"][cle], cle))
+    # Depuis S-05, les titres ne sont plus forcés en MAJUSCULES : on compare le texte sans tenir compte de la casse ni des espaces
+    _n = lambda t: re.sub(r"\s+", "", str(t)).lower()
     for cle in att["rendus"]:
-        ck(f"PE-25 écran « {cle} » identique à l'original", got["rendus"][cle] == att["rendus"][cle],
-                    premiere_difference(att["rendus"][cle], got["rendus"][cle], cle)[:600] if got["rendus"][cle] != att["rendus"][cle] else "")
+        ok = _n(got["rendus"][cle]) == _n(att["rendus"][cle])
+        ck(f"PE-25 écran « {cle} » identique à l'original", ok,
+                    premiere_difference(att["rendus"][cle], got["rendus"][cle], cle)[:600] if not ok else "")
     # reprise des états interrompus
     p = P.page
     P.to_menu()

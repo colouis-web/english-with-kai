@@ -314,7 +314,8 @@ def s01_premier_lancement(P):
     P.check("Les globales JS dont les tests ont besoin existent", not manquantes, manquantes)
     P.check("Premier lancement : l'écran d'accueil est affiché", current_page(p) == "home", current_page(p))
     P.check("Le titre de l'onglet est « Learning English with Kai »", p.title() == "Learning English with Kai", p.title())
-    P.check("L'accueil invite à toucher Kai", "Tap Kai to start" in P.text("#hint"), P.text("#hint"))
+    # Depuis S-02 (analyse UX de Matt) : un bouton « Start » principal remplace l'invitation « Tap Kai to start »
+    P.check("L'accueil propose un bouton « Start » visible", P.visible("#start") and "Start" in P.text("#start"), P.text("#start"))
     P.check("Aucune donnée d'élève avant le premier lancement", not [k for k in P.ls() if k.startswith("kai.profiles") or k.startswith("kai.daily")])
     P.check("Les deux bulles de Kai sont présentes (rôle bouton, au clavier)", p.locator("#home .bb[role=button][tabindex='0']").count() == 2)
     P.check("Kai est affiché (image chargée)", P.ev("() => { const i = document.querySelector('#stage image'); return !!i && !!i.getAttribute('href') }"))
@@ -936,7 +937,10 @@ def s12_code_parent(P):
     P.check("Le niveau est enregistré dans l'historique (lvHist)", P.profile()["lvHist"][-1]["lv"] == 2, P.profile()["lvHist"])
     ouvre('[data-mlv="0"]')
     saisit_et_valide("1234")
-    p.wait_for_timeout(300)
+    # Le code parent est vérifié de façon asynchrone (hachage PBKDF2) : on attend le résultat au lieu d'un délai fixe
+    for _ in range(40):
+        if P.profile()["lv"] == 0: break
+        p.wait_for_timeout(150)
     P.check("Retour au niveau Beginner avec le code", P.profile()["lv"] == 0)
     # sauvegarde : sans le code
     with p.expect_download() as dl:
