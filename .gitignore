@@ -33,3 +33,4 @@ kai-english-*.json
 node_modules/
 .vscode/
 .idea/
+__pycache__/

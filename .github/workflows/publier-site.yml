@@ -1,8 +1,10 @@
 # Livraison automatique de Learning English with Kai.
 #
-# - Pull request  : vérification seulement (rien n'est publié).
-# - Envoi sur main : vérification, PUIS publication sur GitHub Pages, PUIS étiquette de version.
-#   Si la vérification échoue, le site en ligne NE CHANGE PAS (croix rouge + e-mail).
+# - Pull request  : vérifications + tests (Playwright), rien n'est publié, un commentaire résume le résultat.
+# - Envoi sur main : vérifications ET tests, PUIS publication sur GitHub Pages, PUIS étiquette de version.
+#   Si l'un des deux échoue, le site en ligne NE CHANGE PAS (croix rouge + e-mail).
+# - Tests : `python3 tests/run_all.py` (écrit par Dédé). Tant que le fichier n'existe pas, la tâche passe
+#   en vert sans rien lancer ; elle s'active toute seule dès qu'il est présent.
 #
 # Réglage à faire UNE fois : Settings > Pages > Build and deployment > Source = « GitHub Actions ».
 # Gratuit sur un dépôt public. Actions officielles GitHub uniquement, épinglées par leur empreinte.
@@ -17,8 +19,9 @@ on:
 permissions: {}        # aucun droit par défaut ; chaque tâche demande seulement ce qu'il lui faut
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  # Publication : jamais deux à la fois, jamais interrompue. Pull request : un nouvel envoi remplace le précédent.
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.ref) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   verifier:
@@ -49,7 +52,7 @@ jobs:
           # Ce qui n'est pas l'application ne part pas en ligne (revue, scripts, guide, fichiers git).
           for f in *; do
             case "$f" in
-              _site|.git|.github|.gitignore|.gitattributes|docs|publier.bat|publier.ps1|PUBLIER.md|README.md) ;;
+              _site|.git|.github|.gitignore|.gitattributes|docs|scripts|tests|publier.bat|publier.ps1|PUBLIER.md|README.md) ;;
               *) cp -R "$f" _site/ ;;
             esac
           done
@@ -71,10 +74,68 @@ jobs:
     outputs:
       version: ${{ steps.preparer.outputs.version }}
 
+  tests:
+    name: Tests (Playwright + Chromium)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    outputs:
+      lances: ${{ steps.presence.outputs.lances }}
+    steps:
+      - name: Récupérer le code (git seul, sans action tierce)
+        run: |
+          git init -q .
+          git fetch -q --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA"
+          git checkout -q FETCH_HEAD
+
+      - name: Les tests existent-ils déjà ?
+        id: presence
+        run: |
+          if [ -f tests/run_all.py ]; then
+            echo "lances=oui" >> "$GITHUB_OUTPUT"
+          else
+            echo "lances=non" >> "$GITHUB_OUTPUT"
+            echo "::notice::tests/run_all.py absent : tâche ignorée (elle s'activera dès que le fichier existera)."
+            echo "Tests : tests/run_all.py absent, rien lancé." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # Version de Playwright épinglée (reproductible) ; tests/requirements.txt, s'il existe, a priorité.
+      - name: Choisir la version de Playwright
+        if: steps.presence.outputs.lances == 'oui'
+        run: |
+          if [ -f tests/requirements.txt ]; then cp tests/requirements.txt _exigences.txt
+          else echo "playwright==1.63.0" > _exigences.txt; fi
+          echo "Exigences :"; cat _exigences.txt
+
+      - name: Cache de Chromium (Playwright)
+        if: steps.presence.outputs.lances == 'oui'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('tests/requirements.txt') }}-1.63.0
+
+      - name: Installer Playwright et Chromium
+        if: steps.presence.outputs.lances == 'oui'
+        run: |
+          python3 -m venv _venv
+          _venv/bin/pip install --quiet --disable-pip-version-check -r _exigences.txt
+          # Les bibliothèques système sont à réinstaller à chaque fois ; le navigateur, lui, vient du cache s'il y est.
+          sudo _venv/bin/python -m playwright install-deps chromium
+          _venv/bin/python -m playwright install chromium
+
+      - name: Lancer les tests
+        if: steps.presence.outputs.lances == 'oui'
+        run: |
+          set -o pipefail
+          _venv/bin/python tests/run_all.py 2>&1 | tee _tests.log
+          echo '### Tests' >> "$GITHUB_STEP_SUMMARY"
+          tail -n 30 _tests.log | sed 's/^/    /' >> "$GITHUB_STEP_SUMMARY"
+
   publier:
     name: Publier sur GitHub Pages
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: verifier
+    needs: [verifier, tests]   # publication seulement si vérifications ET tests sont verts
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -108,3 +169,31 @@ jobs:
           git -c http.extraheader="$AUTH" fetch -q --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA"
           git -c http.extraheader="$AUTH" push -q "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "$GITHUB_SHA:refs/tags/$VERSION"
           echo "Étiquette $VERSION posée sur ${GITHUB_SHA:0:7}"
+
+  commentaire:
+    name: Résumé sur la pull request
+    if: always() && github.event_name == 'pull_request'
+    needs: [verifier, tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Commenter (un seul commentaire, mis à jour à chaque envoi)
+        continue-on-error: true   # PR venant d'un fork : le jeton est en lecture seule, ce n'est pas grave
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          VERIF: ${{ needs.verifier.result }}
+          TESTS: ${{ needs.tests.result }}
+          LANCES: ${{ needs.tests.outputs.lances }}
+          LIEN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -eu
+          ico() { if [ "$1" = success ]; then echo "OK"; else echo "ECHEC ($1)"; fi; }
+          T="$(ico "$TESTS")"; [ "$LANCES" = non ] && T="pas encore de tests (tests/run_all.py absent)"
+          printf '%s\n' "**Contrôles automatiques** (rien n'est publié depuis une pull request)" \
+            "" "- Vérifications (secrets, liens, manifest, tailles) : $(ico "$VERIF")" "- Tests : $T" "" \
+            "[Détails]($LIEN)" > _commentaire.md
+          gh pr comment "$PR" --edit-last --create-if-none --body-file _commentaire.md
