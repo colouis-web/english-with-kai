@@ -149,7 +149,7 @@ body.navlock .page{pointer-events:none}
 .tag.cat-animals{background:#e4f6e7;color:#2b7a3b}.tag.cat-sports{background:#ffedd9;color:#9a4507}.tag.cat-clothes{background:#fde8f1;color:#b0306b}.tag.cat-body{background:#fde7e7;color:#b42318}
 .tag.cat-house{background:#f5eee3;color:#8a5a1b}.tag.cat-places{background:#e3efff;color:#1d5fbf}.tag.cat-feelings{background:#efe8ff;color:#6941c6}.tag.cat-school{background:#e1f5f6;color:#0a6e77}.tag.cat-history{background:#f3ecdf;color:#7a5520}.tag.cat-war{background:#e9ece4;color:#4b5a2a}.tag.cat-travel{background:#e0f2fe;color:#0369a1}.cat-textiles{background:#f6eefc;color:#7a2fa3}.cat-linen{background:#eaf3fb;color:#2c5f8a}.cat-finance{background:#fdf3d0;color:#8a5a00}.cat-studies{background:#e8efff;color:#2f4fb0}.cat-flowers{background:#ffe8f1;color:#c2185b}.cat-transport{background:#ffe9e3;color:#c2381b}.cat-arts{background:#ffe4ec;color:#b5174d}.cat-music{background:#e0e7ff;color:#3842b0}.cat-table{background:#e7f6f0;color:#11735a}.cat-endoflife{background:#eef0f5;color:#4a5068}.cat-justice{background:#efe9fb;color:#5b34c4}.cat-countries{background:#e3f6ec;color:#1f7a45}.cat-identity{background:#fff0e0;color:#a35200}
 .chips{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;margin:12px -16px 0;padding:2px 16px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.chips::-webkit-scrollbar{display:none}.chip{flex:none}
-.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:2px solid var(--ink);border-radius:99px;background:#fff;color:var(--ink);font:700 14px var(--claude);letter-spacing:.5px;text-transform:uppercase;cursor:pointer}
+.chip{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px;border:2px solid var(--ink);border-radius:99px;background:#fff;color:var(--ink);font:700 14px var(--claude);letter-spacing:.5px;text-transform:uppercase;cursor:pointer}
 .chip i{font-style:normal;font-weight:500;color:var(--mut)}
 .chip.on{background:var(--ink);color:#fff}.chip.on i{color:#c9cbe0}
 .chip:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
@@ -395,7 +395,7 @@ html.emo-ok .emo{visibility:visible}html.emo-no .emo{display:none}
 .traps{display:grid;gap:8px}
 .trap{display:grid;gap:4px;padding:10px 12px;border:2.5px solid var(--line);border-radius:14px}
 .tfr{margin:0;font:600 14px var(--claude);color:var(--mut)}
-.tok{display:flex;align-items:center;gap:8px;padding:0;border:0;background:none;color:var(--ink);font:700 18px var(--claude);text-align:left;cursor:pointer;border-radius:8px}
+.tok{display:flex;align-items:center;gap:8px;min-height:44px;padding:0;border:0;background:none;color:var(--ink);font:700 18px var(--claude);text-align:left;cursor:pointer;border-radius:8px}
 .tok .stamp,.tko .stamp{width:20px;height:20px;flex:none}
 .tko{display:flex;align-items:center;gap:8px;margin:0;font:400 15px var(--claude);color:#a12a2a}
 .tko s{text-decoration-thickness:2px}
@@ -522,10 +522,12 @@ html.mlock,html.mlock body{overflow:hidden}
 .frb{position:absolute;top:-16px;right:10px;min-width:48px;height:32px;padding:0 10px;border:2.5px solid var(--ink);border-radius:99px;background:#fff;color:var(--ink);font:800 14px var(--claude);letter-spacing:.8px;box-shadow:0 2px 0 var(--ink);cursor:pointer}
 .frb:active{transform:translateY(2px);box-shadow:0 0 0 var(--ink)}
 .frb:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
-.qhelp{flex:none;align-self:center;width:34px;height:34px;border-radius:50%;border:2.5px solid var(--ink);background:#fff;color:var(--ink);font:800 18px/1 var(--claude);display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 0 var(--ink);padding:0}
+.qhelp{flex:none;align-self:center;width:44px;height:44px;border-radius:50%;border:2.5px solid var(--ink);background:#fff;color:var(--ink);font:800 18px/1 var(--claude);display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 0 var(--ink);padding:0}
+/* S-10 : la petite aide « ? » dans une phrase garde 26 px à l'écran mais une zone tactile de 44 px */
+.qhelp.sm::after{content:"";position:absolute;inset:-9px}
 .qhelp:active{transform:translateY(2px);box-shadow:0 0 0 var(--ink)}
 .qhelp:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
-.qhelp.sm{display:inline-grid;width:26px;height:26px;font-size:14px;vertical-align:middle;margin-left:4px;box-shadow:0 1px 0 var(--ink)}
+.qhelp.sm{position:relative;display:inline-grid;width:26px;height:26px;font-size:14px;vertical-align:middle;margin-left:4px;box-shadow:0 1px 0 var(--ink)}
 .hlp{display:grid;gap:14px}
 .hrow{display:grid;grid-template-columns:46px minmax(0,1fr);gap:10px;align-items:start}
 .hico{display:grid;place-items:center;min-height:40px}
@@ -666,7 +668,7 @@ html.mlock,html.mlock body{overflow:hidden}
 #wres .wgrp .dsec{margin-top:10px}
 #wres .wmore{display:flex;align-items:center;margin:14px auto 4px}
 #wtiles[hidden],#wres[hidden],#wcount[hidden]{display:none}
-.vh .w .use{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin:6px 0 0;padding:0;border:0;background:none;font:600 12px/1.2 var(--claude);color:var(--mut);cursor:pointer;text-align:left}
+.vh .w .use{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin:6px 0 0;padding:0;min-height:28px;border:0;background:none;font:600 12px/1.2 var(--claude);color:var(--mut);cursor:pointer;text-align:left}
 .vh .w .use:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:6px}
 .fq{display:inline-flex;align-items:flex-end;gap:2px;height:12px;vertical-align:middle}
 .fq b{display:block;width:4px;border-radius:1px;background:#d6d9e3}

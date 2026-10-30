@@ -154,11 +154,12 @@ function rowTok(row) {
 /* S-09 : une erreur reste normale, Kai ne pleure plus (« cry » est réservé à l'humeur « Sad » de My daily work) */
 const ROT = { good: ["smile", "joy"], bad: ["head", "grumpy", "head", "bored"] }, ROTI = { good: 0, bad: 0 };
 const nextFace = k => ROT[k][ROTI[k]++ % ROT[k].length];
-function headSvg(sentence, face, mood) {
+/* lang : "fr" quand la bulle porte une phrase française (S-10), pour que le lecteur d'écran la lise avec le bon accent */
+function headSvg(sentence, face, mood, lang) {
     const rows = wrapRows(sentence, 168), n = rows.length, lh = 18, ry = Math.max(44, n * lh / 2 + 22), cx = 238, H = Math.max(176, 2 * ry + 26), cy = H / 2, rx = 116;
     return `<svg viewBox="0 0 360 ${f1(H)}" role="img" aria-label="Kai : ${esc(plain(sentence))}">
 <image class="kai qface${mood ? " " + mood : ""}" href="img/kai-${face}.webp" x="2" y="${f1(H - 150)}" width="122" height="150" preserveAspectRatio="xMidYMax meet"/>
-<g class="bb b1 qb"><path d="${bubblePath([cx, cy], [rx, ry], [108, H - 62])}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${rows.map((r, j) => `<tspan x="${cx}" y="${f1(cy - (n - 1) * lh / 2 + 5 + j * lh)}">${rowTok(r)}</tspan>`).join("")}</text></g></svg>`;
+<g class="bb b1 qb"><path d="${bubblePath([cx, cy], [rx, ry], [108, H - 62])}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle"${lang ? ` lang="${lang}"` : ""}>${rows.map((r, j) => `<tspan x="${cx}" y="${f1(cy - (n - 1) * lh / 2 + 5 + j * lh)}">${rowTok(r)}</tspan>`).join("")}</text></g></svg>`;
 }
 const QW = () => document.getElementById("qwrap");
 const GOSVG = '<svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -171,7 +172,7 @@ function renderQ() {
     document.getElementById("qn").textContent = `${QZ.i + 1}/${list.length}`;
     const ask = ph ? "What does it mean in French?" : typeof x.ask === "function" ? x.ask((q.k && q.k !== QZ.kind) || QZ.tag === "all" ? (q.d && q.d.cat) || "all" : QZ.tag) : x.ask;
     QW().innerHTML = `<p class="qpart">${partLab(ph)}</p><div class="dots${QZ.qs[QZ.ph].length > 10 ? " many" : ""}" aria-hidden="true">${dotsHtml()}</div>
-<div class="qhead" id="qhead">${headSvg(ph ? q.en : q.fr, "head")}</div>
+<div class="qhead" id="qhead">${headSvg(ph ? q.en : q.fr, "head", "", ph ? "" : "fr")}</div>
 <p class="qask" id="qask">${ask}</p>
 <div class="opts" id="opts">${q.labels.map((l, k) => `<button class="opt${ph ? " fr" : ""}" data-k="${k}">${esc(l)}</button>`).join("")}</div>
 <div class="fb" id="fb" aria-live="polite"></div>`;
@@ -194,7 +195,7 @@ function answer(k) {
         else
             b.classList.add("dim");
     });
-    document.getElementById("qhead").innerHTML = headSvg(ph ? q.en : q.fr, nextFace(good ? "good" : "bad"), good ? "joy" : "sad");
+    document.getElementById("qhead").innerHTML = headSvg(ph ? q.en : q.fr, nextFace(good ? "good" : "bad"), good ? "joy" : "sad", ph ? "" : "fr");
     document.querySelector(".qhead .bb").style.animation = "none";
     document.querySelector(".dots").innerHTML = dotsHtml();
     const PR = ["GREAT!", "WELL DONE!", "YES! PERFECT!", "AWESOME!"], last = QZ.i === list.length - 1;

@@ -882,7 +882,7 @@ function dyRender() {
     document.getElementById("dyqn").textContent = `${R.i + 1}/${N}`;
     let h = `<p class="qpart">Do it yourself · ${esc(dyLab(q.src, 1))}</p><div class="dots${N > 10 ? " many" : ""}" aria-hidden="true">${dyDots()}</div>`;
     if (q.type === "wm")
-        h += `<div class="qhead" id="dyhead">${headSvg(q.dir ? q.en : q.fr, "head")}</div><p class="qask">${dyAsk(q)}</p>
+        h += `<div class="qhead" id="dyhead">${headSvg(q.dir ? q.en : q.fr, "head", "", q.dir ? "" : "fr")}</div><p class="qask">${dyAsk(q)}</p>
 <div class="opts" id="dyopts">${q.labels.map((l, k) => `<button class="opt${q.dir ? " fr" : ""}" data-k="${k}">${esc(l)}</button>`).join("")}</div>`;
     else if (q.type === "wt")
         h += `<div class="qhead">${headSvg(R.i === 0 ? "Type the *missing* word!" : "Write the *English* word!", "head")}</div>
@@ -936,7 +936,7 @@ function dyPick(k) {
             else
                 b.classList.add("dim");
         });
-        document.getElementById("dyhead").innerHTML = headSvg(q.dir ? q.en : q.fr, nextFace(good ? "good" : "bad"), good ? "joy" : "sad");
+        document.getElementById("dyhead").innerHTML = headSvg(q.dir ? q.en : q.fr, nextFace(good ? "good" : "bad"), good ? "joy" : "sad", q.dir ? "" : "fr");
         dyFeedback(good, `<p class="verdict ${good ? "ok" : "ko"}">${good ? DYPR[R.i % 4] : `OOPS! IT'S <b>${esc(String(q.dir ? q.labels[q.opts.indexOf(q.d)] : q.ans).toUpperCase())}</b>`}</p>${dyEx(q)}`, q.dir ? null : plain(q.en));
         return;
     }
