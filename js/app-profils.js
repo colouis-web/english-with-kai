@@ -264,6 +264,10 @@ document.getElementById("mebody").addEventListener("submit", e => {
         pPush(p);
         renderMenuHead();
     }
+    else if (p) {
+        // Champ vidé : on referme le formulaire (c'est la seule façon d'annuler), mais on le dit
+        toast("The first name did not change", 2200);
+    }
     RENAME = false;
     renderMe();
 });
