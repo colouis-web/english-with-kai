@@ -62,3 +62,4 @@ Rappel : double authentification à activer sur le compte GitHub du PO.
 ## Tour de table Ludo / Ouss / Dédé / Ani (31/10)
 - **T1 (Ludo)** : certificats rangés avec la progression de chaque élève et inclus dans « Save & move » ✅ ; modification manuelle possible acceptée (outil familial) ✅.
 - **T2 (Ludo)** : vocabulaire B1 maison (pas de recopie des listes protégées), **300 mots** sur les 8 thèmes de 1re, format existant, exemples adaptés à un lycéen, relus par le scrum master ✅ (≈ 1,5 dj).
+- **T3 (Ouss)** : réglage « Taille du texte : normale / grande / très grande », mémorisé par élève ✅ (≈ 0,25 dj).
