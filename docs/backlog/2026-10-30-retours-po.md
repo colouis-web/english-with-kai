@@ -79,3 +79,8 @@ Ajouts au backlog : taille du texte (0,25 dj), tuile Certificates, vérification
   - **Sprint B** : Ouss — tuile « Certificates », écrans d'épreuve, badge daté, page imprimable ; Ludo — fin du moteur, rappel une semaine avant ; Dédé — tests des certificats, tests remis en bloquant ; Matt — questions des premiers thèmes.
 - **Contrôle a posteriori par Ani** (Sonnet, ≈ 10 min) : relecture sécurité indépendante avant la pull request v1.1.
 - Livraison : pull request `sprint-kai-2` → `main`, le PO fusionne → publication automatique (v1.1).
+
+## Ajout du PO (31/10, 11:14) — réorganiser « My daily work »
+L'écran est trop chargé (≈ 2 900 px de haut sur téléphone, cf. analyse UX I-04). Le réorganiser par **Jour / Semaine / My level / Rewards**.
+- **Sprint A, Matt (Opus)** : 2–3 maquettes cliquables en page Claude (lisibles sur téléphone, données réalistes), à faire valider par le PO **avant tout code**. Pistes : (A) onglets en haut de l'écran *Today · Week · My level · Rewards*, « Today » réduit à l'objectif du jour + Start ; (B) écran « Today » épuré + 3 tuiles vers Semaine / Niveau / Récompenses ; (C) tableau de bord façon Duolingo : carte objectif du jour, bande des 7 jours, sections repliables mémorisées.
+- **Sprint B, Ouss** : code de l'option choisie (sinon reporté au sprint Kai 3). Contrainte : la tuile Certificates (T4) doit trouver sa place dans la même logique.
