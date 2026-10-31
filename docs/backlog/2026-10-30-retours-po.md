@@ -58,3 +58,6 @@ Aucun sprint lancé : le PO prend les questions de l'équipe une par une dans le
 | Après les certificats | Écran parent des contrôles (≈ 2 dj) ; certificats de grammaire (sprint suivant) | — | — |
 Rappel : double authentification à activer sur le compte GitHub du PO.
 - **31/10, 10:06** : double authentification activée sur le compte GitHub du PO ✅
+
+## Tour de table Ludo / Ouss / Dédé / Ani (31/10)
+- **T1 (Ludo)** : certificats rangés avec la progression de chaque élève et inclus dans « Save & move » ✅ ; modification manuelle possible acceptée (outil familial) ✅.
