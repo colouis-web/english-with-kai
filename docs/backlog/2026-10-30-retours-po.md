@@ -66,3 +66,4 @@ Rappel : double authentification à activer sur le compte GitHub du PO.
 - **T4 (Ouss)** : nouvelle tuile « Certificates » dans le menu principal (badges, expirations proches, « Passer un certificat ») ✅
 - **T5 (Dédé)** : simulation petits iPhone et Safari (WebKit) dans les tests automatiques + vérification de 5 min par le fils sur son iPhone à chaque version, liste à cocher fournie par Dédé ✅
 - **T6 (Dédé)** : stabiliser les tests de parcours puis les rendre de nouveau bloquants ✅ — **focus de la semaine prochaine** (demande du PO) (≈ 0,5 dj).
+- **T7 (Ani)** : mode hors ligne — tout est copié dès la première ouverture, voix comprises (≈ 10 Mo) ✅
