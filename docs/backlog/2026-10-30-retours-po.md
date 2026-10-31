@@ -57,3 +57,4 @@ Aucun sprint lancé : le PO prend les questions de l'équipe une par une dans le
 | Sécurité et confort | Crédits ; délai après mauvais codes ; CSP ; mode hors ligne | Ani | ≈ 2,1 dj |
 | Après les certificats | Écran parent des contrôles (≈ 2 dj) ; certificats de grammaire (sprint suivant) | — | — |
 Rappel : double authentification à activer sur le compte GitHub du PO.
+- **31/10, 10:06** : double authentification activée sur le compte GitHub du PO ✅
