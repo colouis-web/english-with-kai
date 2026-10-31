@@ -71,3 +71,11 @@ Rappel : double authentification à activer sur le compte GitHub du PO.
 
 ## Synthèse après le tour de table (31/10, 10:11)
 Ajouts au backlog : taille du texte (0,25 dj), tuile Certificates, vérification iPhone par le fils, tests bloquants (focus semaine prochaine), hors ligne complet, « Code oublié ? ». Total estimé ≈ 9 dj → 2 sprints : **sprint Kai 2 = tests bloquants + lisibilité + certificats v1** ; **sprint Kai 3 = contenu (2 leçons 6e, 300 mots B1, relecture des exemples) + sécurité et confort + rattrapage**.
+
+## Plan de lundi (décision du PO, 31/10, 10:19)
+- **Nouvelle conversation** (pour économiser l'usage) : repartir de `CLAUDE.md` et de ce fichier.
+- **2 gros sprints de 15–20 min, 4 agents** : Ludo (Opus), Matt (Opus), Ouss (Sonnet, effort élevé), Dédé (Sonnet, effort élevé). Le scrum master reprend les tâches légères d'Ani (page Crédits, tests de nouveau bloquants dans le workflow) avec son état d'esprit.
+  - **Sprint A** : Dédé — tests de parcours stabilisés (attentes d'état, plus de délais fixes) + simulation petits iPhone / WebKit + liste à cocher iPhone pour le fils ; Ouss — lisibilité (R1 police des bulles, R2 cadrage petits iPhone, R3 désélection d'un thème, T3 taille du texte) ; Matt — conception des épreuves de certificat (formats sans QCM, mode sans son, banque de questions par thème) ; Ludo — moteur des certificats (stockage par élève + Save & move, validité 3/6 mois, sortie des mots du jour, renouvellement 8 questions à 80 % pondéré mots rares/ratés).
+  - **Sprint B** : Ouss — tuile « Certificates », écrans d'épreuve, badge daté, page imprimable ; Ludo — fin du moteur, rappel une semaine avant ; Dédé — tests des certificats, tests remis en bloquant ; Matt — questions des premiers thèmes.
+- **Contrôle a posteriori par Ani** (Sonnet, ≈ 10 min) : relecture sécurité indépendante avant la pull request v1.1.
+- Livraison : pull request `sprint-kai-2` → `main`, le PO fusionne → publication automatique (v1.1).
