@@ -67,3 +67,7 @@ Rappel : double authentification à activer sur le compte GitHub du PO.
 - **T5 (Dédé)** : simulation petits iPhone et Safari (WebKit) dans les tests automatiques + vérification de 5 min par le fils sur son iPhone à chaque version, liste à cocher fournie par Dédé ✅
 - **T6 (Dédé)** : stabiliser les tests de parcours puis les rendre de nouveau bloquants ✅ — **focus de la semaine prochaine** (demande du PO) (≈ 0,5 dj).
 - **T7 (Ani)** : mode hors ligne — tout est copié dès la première ouverture, voix comprises (≈ 10 Mo) ✅
+- **T8 (Ani)** : « Code oublié ? » dans l'app ✅ — parcours très simple pour un adulte peu à l'aise avec un téléphone : un bouton, une phrase d'explication, on tape PARENT, le code est effacé, la progression est conservée ; notice pas-à-pas dans l'aide (FR), testée par Dédé.
+
+## Synthèse après le tour de table (31/10, 10:11)
+Ajouts au backlog : taille du texte (0,25 dj), tuile Certificates, vérification iPhone par le fils, tests bloquants (focus semaine prochaine), hors ligne complet, « Code oublié ? ». Total estimé ≈ 9 dj → 2 sprints : **sprint Kai 2 = tests bloquants + lisibilité + certificats v1** ; **sprint Kai 3 = contenu (2 leçons 6e, 300 mots B1, relecture des exemples) + sécurité et confort + rattrapage**.
