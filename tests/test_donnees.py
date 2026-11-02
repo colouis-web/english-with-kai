@@ -194,6 +194,75 @@ async () => {
 """
 
 
+def _fin_chaine(s, i):
+    """Index qui suit la chaîne JavaScript ouverte en s[i] (guillemets, apostrophes ou accent grave avec ${…})."""
+    q, i = s[i], i + 1
+    while i < len(s):
+        c = s[i]
+        if c == "\\":
+            i += 2
+            continue
+        if q == "`" and s[i:i + 2] == "${":
+            i = _fin_bloc(s, i + 1)
+            continue
+        if c == q:
+            return i + 1
+        i += 1
+    return i
+
+
+def _fin_bloc(s, i):
+    """Index qui suit l'accolade fermante qui correspond à l'accolade ouverte en s[i]."""
+    depth = 0
+    while i < len(s):
+        c = s[i]
+        if c in "\"'`":
+            i = _fin_chaine(s, i)
+            continue
+        if c == "{":
+            depth += 1
+        elif c == "}":
+            depth -= 1
+            if depth == 0:
+                return i + 1
+        i += 1
+    return i
+
+
+def sans_commentaires(src):
+    """Texte JavaScript sans ses commentaires (/* … */ et // …) : un commentaire n'est pas un appel."""
+    src = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
+    return re.sub(r"(?m)(?<![:\"'\w])//[^\n]*", "", src)
+
+
+def visages_headsvg(src):
+    """Visages de Kai passés à headSvg(phrase, VISAGE, humeur, langue) : le DEUXIÈME argument seulement, quand c'est un texte
+    (ou une alternative « a ? "x" : "y" »). Le quatrième, « fr », est la langue de la bulle, pas une image (faux positif kai-fr.webp)."""
+    visages = set()
+    code = sans_commentaires(src)
+    for m in re.finditer(r"\bheadSvg\(", code):
+        i, depth, args, debut = m.end(), 0, [], m.end()
+        while i < len(code):
+            c = code[i]
+            if c in "\"'`":
+                i = _fin_chaine(code, i)
+                continue
+            if c in "([{":
+                depth += 1
+            elif c in ")]}":
+                if depth == 0:
+                    args.append(code[debut:i])
+                    break
+                depth -= 1
+            elif c == "," and depth == 0:
+                args.append(code[debut:i])
+                debut = i + 1
+            i += 1
+        if len(args) >= 2 and "(" not in args[1]:
+            visages |= set(re.findall(r"""["']([a-z][a-z0-9-]*)["']""", args[1]))
+    return visages
+
+
 def premiers(liste, n=6):
     liste = list(liste)
     return "; ".join(str(x) for x in liste[:n]) + (f" … (+{len(liste) - n})" if len(liste) > n else "")
@@ -299,16 +368,12 @@ def run(args, base, browser, bilan, collector):
     statiques = set(re.findall(r"""["'`(=]\s*(?:\./)?(img/[A-Za-z0-9._-]+\.(?:webp|png|jpg|jpeg|svg|gif))""", sources))
     dynamiques = set(page.evaluate(JS_IMAGES))
     # Visages passés en 2e argument de headSvg("…", "visage")
-    visages = set(re.findall(r"""headSvg\((?:[^()]|\([^()]*\))*?,\s*["']([a-z0-9-]+)["']\s*[,)]""", sources))
+    # (analyse du 2e argument seulement et sans les commentaires : le 4e argument « fr » est la langue, jamais une image ;
+    #  voir docs/tests/kai-fr-webp-enquete-2026-11-02.md)
+    visages = visages_headsvg(sources)
     dynamiques |= {f"img/kai-{v}.webp" for v in visages}
     toutes = sorted(statiques | dynamiques)
     absentes = [f for f in toutes if http_status(base + f) != 200]
-    # Connu (30/10) : « img/kai-fr.webp » est déduit par l'analyse statique du code, mais aucun écran ne l'affiche
-    # dans les parcours testés. Suivi dans docs/bugs.md (à investiguer) ; on ne bloque pas la publication dessus.
-    CONNUES = {"img/kai-fr.webp"}
-    for a in [x for x in absentes if x in CONNUES]:
-        bilan.note("DN-61b", "Image déduite du code mais absente (connue, à investiguer)", a)
-    absentes = [x for x in absentes if x not in CONNUES]
     bilan.check("DN-61", f"Chaque image référencée ({len(toutes)}) existe dans img/ et se charge en HTTP",
                 not absentes and len(toutes) > 60, premiers(absentes) or f"seulement {len(toutes)} images repérées")
     bilan.note("DN-62", "Origine des références d'images", f"{len(statiques)} écrites en toutes lettres, {len(dynamiques)} construites par le code ({len(visages)} visages)")
