@@ -306,6 +306,21 @@ def wait_js(page, expr, arg=None, timeout=5000):
         return False
 
 
+def frames(page, n=2):
+    """Attend n images affichées (requestAnimationFrame) : la mise en page et la peinture sont à jour. Ce n'est pas un délai."""
+    page.evaluate("n => new Promise(r => { const f = () => (--n > 0 ? requestAnimationFrame(f) : r()); requestAnimationFrame(f) })", n)
+
+
+def stable(page, timeout=10000):
+    """Écran prêt à être photographié ou mesuré : polices chargées, images visibles décodées, mises en page appliquées."""
+    page.evaluate("""async () => {
+      try { await document.fonts.ready } catch (e) {}
+      const imgs = [...document.images].filter(i => i.offsetParent !== null);
+      await Promise.all(imgs.map(i => (i.decode ? i.decode().catch(() => {}) : Promise.resolve())));
+    }""")
+    frames(page, 2)
+
+
 def toast_gone(page, timeout=6000):
     """Le message éphémère a disparu (classe .show retirée)."""
     return wait_js(page, "() => !document.getElementById('toast').classList.contains('show')", timeout=timeout)
@@ -346,6 +361,37 @@ def js_available(page, names):
     return [n for n, t in page.evaluate(js) if t == "undefined"]
 
 
+# --------------------------------------------------------------------------- appareils et moteurs
+
+# Petits iPhone du fils (T5/R2) : taille d'écran PLEIN ÉCRAN en points CSS. Le descripteur Playwright donne l'agent, le ratio de pixels
+# et le tactile ; la fenêtre visible de Safari (barres comprises) est plus basse : « Safari » = hauteur du descripteur.
+APPAREILS = {
+    "se":          {"descripteur": "iPhone SE (3rd gen)", "viewport": (375, 667), "titre": "iPhone SE (375×667)"},
+    "mini":        {"descripteur": "iPhone 13 Mini",      "viewport": (375, 812), "titre": "iPhone mini (375×812)"},
+    "mini-safari": {"descripteur": "iPhone 13 Mini",      "viewport": None,        "titre": "iPhone mini avec les barres de Safari (375×629)"},
+    "ref390":      {"descripteur": "iPhone 13",           "viewport": (390, 844), "titre": "iPhone 13/14 (390×844, référence)"},
+}
+
+
+def appareil(pw, cle):
+    """(viewport, kwargs de new_context) d'un petit iPhone, d'après les descripteurs de Playwright."""
+    a = APPAREILS[cle]
+    d = dict(pw.devices[a["descripteur"]])
+    d.pop("default_browser_type", None)
+    vp = a["viewport"] or (d["viewport"]["width"], d["viewport"]["height"])
+    d.pop("viewport", None)
+    d.pop("screen", None)
+    return vp, d
+
+
+def lancer_moteur(pw, nom):
+    """Lance un autre moteur que Chromium (« webkit » = Safari). Renvoie (navigateur, '') ou (None, raison) s'il n'est pas installé."""
+    try:
+        return getattr(pw, nom).launch(), ""
+    except Exception as ex:   # noqa: BLE001
+        return None, (str(ex).strip().splitlines() or ["lancement impossible"])[0][:200]
+
+
 # --------------------------------------------------------------------------- ligne de commande
 
 
@@ -373,6 +419,7 @@ def run_suite(suite, description, run, extra=None):
         collector = Collector(base)
         try:
             with sync_playwright() as p:
+                args.pw = p          # pour les suites qui ont besoin de p.devices (iPhone) ou d'un autre moteur (WebKit)
                 browser = p.chromium.launch()
                 try:
                     run(args, base, browser, bilan, collector)
