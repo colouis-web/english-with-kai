@@ -23,7 +23,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from kai_common import FIXED_NOW, OUT, REFERENCE, Bilan, new_context, open_app, run_suite, wait_page
+from kai_common import FIXED_NOW, OUT, REFERENCE, Bilan, new_context, open_app, run_suite, wait_page, stable, frames, wait_js
 from test_persistance import FIXTURE, SEED, fabrique_parcours
 
 VIEWPORTS = {"390": (390, 844), "1280": (1280, 800)}
@@ -34,17 +34,17 @@ def neutraliser(ctx):
     ctx.route(re.compile(r".*/voice/kai-\d+\.json$"), lambda r: r.fulfill(status=200, content_type="application/json", body="{}"))
 
 
-def prete(P):
+def prete(P, blur=True):
     p = P.page
     p.wait_for_load_state("networkidle", timeout=15000)
     p.wait_for_function("document.documentElement.classList.contains('emo-no') || document.documentElement.classList.contains('emo-ok')", timeout=9000)
-    p.evaluate("() => { document.activeElement && document.activeElement.blur && document.activeElement.blur(); scrollTo(0, 0) }")
-    p.wait_for_timeout(250)
+    p.evaluate("(blur) => { if (blur && document.activeElement && document.activeElement.blur) document.activeElement.blur(); scrollTo(0, 0) }", blur)
+    stable(p)      # polices et images décodées, deux images affichées : l'écran est posé (plus de délai fixe)
 
 
 def photo(P, nom, taille, full=False):
     P.page.evaluate("() => scrollTo(0, 0)")
-    P.page.wait_for_timeout(120)
+    frames(P.page, 2)
     chemin = Path(P.tmpdir) / f"{nom}-{taille}.png"
     P.page.screenshot(path=str(chemin), full_page=full, animations="disabled", caret="hide")
     return chemin
@@ -91,7 +91,9 @@ def ecrans_vierges(P, cap):
     cap("accueil")
     p.locator("#kaitap").click()
     wait_page(p, "hello")
-    prete(P)
+    # L'application donne le focus au champ prénom après 400 ms : la référence le montre focalisé ; on attend CET état (pas un délai)
+    wait_js(p, "() => document.activeElement && document.activeElement.id === 'pname'")
+    prete(P, blur=False)
     cap("hello-premier-lancement")
 
 
@@ -150,12 +152,12 @@ def ecrans_eleve(P, cap):
     P.back("ty"); P.back("menu")
     P.click("#toMe"); P.on("me"); prete(P); cap("me", full=True)
     P.click("#mePcChg")
-    p.locator("#modal.on").wait_for(); p.wait_for_timeout(300); prete(P); cap("fenetre-code-parent")
+    p.locator("#modal.on").wait_for(); wait_js(p, "() => !!document.activeElement && document.activeElement.id === 'pcin'"); prete(P); cap("fenetre-code-parent")
     p.keyboard.press("Escape")
     P.back("menu")
     P.click("#toDaily"); P.on("daily")
     p.locator('#dailybody [data-help="rewards"]').first.click()
-    p.locator("#modal.on").wait_for(); p.wait_for_timeout(300); prete(P); cap("aide-recompenses")
+    p.locator("#modal.on").wait_for(); wait_js(p, "() => !!document.activeElement && document.activeElement.className === 'mx'"); prete(P); cap("aide-recompenses")
 
 
 def run(args, base, browser, bilan, collector):

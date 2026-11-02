@@ -23,7 +23,8 @@ import re
 import tempfile
 from pathlib import Path
 
-from kai_common import (APP_ID, FIXED_NOW, FIXTURES, Bilan, Collector, open_app, current_page, wait_page, run_suite)
+from kai_common import (APP_ID, FIXED_NOW, FIXTURES, Bilan, Collector, open_app, current_page, wait_page, run_suite,
+                        reload_app, settle, wait_js, next_toast, toast_reset, modal_prete)
 from kai_common import new_context as _new_context
 from test_parcours import Parcours
 
@@ -148,8 +149,8 @@ def generer_reference(P):
             P.click("#backQ")
             P.on("daily")
         else:
-            p.wait_for_timeout(1500)     # laisse « Congrats! » apparaître (le gestionnaire le ferme)
-            if p.locator("#qday").count():
+            # fin du tour : le bouton « My day » est là (« Congrats! » éventuel est fermé par le gestionnaire au premier clic)
+            if wait_js(p, "() => !!document.getElementById('qday')", timeout=4000):
                 P.click("#qday")
                 P.on("daily")
         return r
@@ -228,10 +229,12 @@ def generer_reference(P):
     P.click('[data-krec="0"]')
     P.click("#mePcSet")
     p.locator("#modal.on").wait_for()
+    modal_prete(p)
     p.locator("#pcin").fill("1234")
     p.locator("#pcin2").fill("1234")
+    toast_reset(p)
     p.locator("#pcin2").press("Enter")
-    p.wait_for_timeout(300)
+    next_toast(p, "Parent code saved")      # le code est haché de façon asynchrone : on attend le message, pas un délai
     # 2e élève : un tour de leçon, puis retour sur Camille comme élève courant
     P.click("#meNew")
     P.on("hello")
@@ -309,6 +312,22 @@ def run(args, base, browser, bilan, collector):
             print("  erreurs :", collector.errors[:5])
         return
 
+    if args.update_rendus:
+        # Ré-étalonne UNIQUEMENT le texte des écrans attendu (PE-25) sur la version actuelle ; les données (ls) et l'état calculé
+        # (app) restent ceux de l'original. À utiliser après une évolution VOULUE des textes de l'interface (validée par le PO).
+        ref = json.loads(FIXTURE.read_text(encoding="utf-8"))
+        ctx = contexte_avec_stockage(args, base, browser, collector, ref["ls"], "rendus")
+        P = fabrique_parcours(base, browser, Bilan("x"), collector, ctx)
+        open_app(P.page, base)
+        P.page.wait_for_selector("#plist", state="attached")
+        got = choisir_eleve_et_capturer(P)
+        ctx.close()
+        ref["attendu"]["rendus"] = got["rendus"]
+        ref["rendus_etalonnes_sur"] = args.etalon or "version actuelle"
+        FIXTURE.write_text(json.dumps(ref, ensure_ascii=False, indent=1), encoding="utf-8")
+        print(f"textes d'écran ré-étalonnés dans {FIXTURE} ({ref['rendus_etalonnes_sur']})")
+        return
+
     blocs(args, base, browser, bilan, collector, ck)
 
 
@@ -326,16 +345,13 @@ def bloc_direct(args, base, browser, bilan, collector, ck, ref):
     wait_page(P.page, "menu")
     P.click("#toDaily"); P.on("daily"); P.click("#dround"); P.on("quiz")
     P.answer_quiz(wrong_n=2)
-    P.page.wait_for_timeout(1200)
     P.to_menu()
     P.click("#toGrammar"); P.click('[data-lesson="plurals"]'); P.on("lesson"); P.click("#lpractice"); P.practice(wrong_first=True)
     P.to_menu()
     P.click("#toTests"); P.on("tests"); P.click('[data-test="irr"]'); P.on("test"); P.test_loop("irr", count=4)
     P.click("#backT"); P.page.locator('[data-mact="yes"]').click()
     avant = capture(P)
-    P.page.reload()
-    P.page.wait_for_function("typeof PROFS !== 'undefined'")
-    P.page.wait_for_timeout(250)
+    reload_app(P.page)
     ck("PE-11 Après rechargement, l'élève revient directement sur « My daily work »", current_page(P.page) == "daily", current_page(P.page))
     apres = capture(P)
     ck("PE-12 Stockage kai.* identique avant / après rechargement (clés et valeurs)", avant["ls"] == apres["ls"], premiere_difference(avant["ls"], apres["ls"], "ls"))
@@ -406,14 +422,17 @@ def bloc_reference(args, base, browser, bilan, collector, ck, ref):
     P.click("#toMe"); P.on("me")
     P.click('[data-mlv="1"]') if P.profile()["lv"] != 1 else P.click('[data-mlv="2"]')
     p.locator("#modal.on").wait_for()
+    modal_prete(p)
+    toast_reset(p)
     p.locator("#pcin").fill("0000"); p.locator("#pcin").press("Enter")
-    ck("PE-2b Code parent de l'ancien format : un mauvais code est refusé", "Wrong code" in P.toast())
-    p.wait_for_timeout(1800)
+    t = next_toast(p, "Wrong code")
+    ck("PE-2b Code parent de l'ancien format : un mauvais code est refusé", "Wrong code" in t, t)
     lv0 = P.profile()["lv"]
     P.click('[data-mlv="1"]') if lv0 != 1 else P.click('[data-mlv="2"]')
     p.locator("#modal.on").wait_for()
+    modal_prete(p)
     p.locator("#pcin").fill("1234"); p.locator("#pcin").press("Enter")
-    p.wait_for_timeout(400)
+    wait_js(p, "n => curProf().lv !== n", arg=lv0, timeout=15000)      # vérification asynchrone du code : on attend l'état
     ck("PE-2c Code parent de l'ancien format (« 1234 », enregistré par l'original) : le bon code est accepté après le changement de version",
                 P.profile()["lv"] != lv0, f"niveau avant {lv0}, après {P.profile()['lv']}")
     ctx.close()
@@ -439,9 +458,10 @@ def bloc_import(args, base, browser, bilan, collector, ck, ref):
     ids = [x["id"] for x in json.loads(ref["ls"]["kai.profiles.v1"])["list"]]
     nb_jours = sum(len(json.loads(v)) for k, v in ref["ls"].items() if k.startswith("kai.daily.v1."))
     ck("PE-31 Import de la sauvegarde de référence : « 2 new learners added » et tous les jours fusionnés", "2 new learners added" in msg and f"{nb_jours} days of work merged" in msg, msg)
-    p.locator('[data-mact="ok"]').click()
-    p.wait_for_function("typeof PROFS !== 'undefined' && PROFS.list.length === 3")
-    p.wait_for_timeout(250)
+    with p.expect_navigation():      # « OK » redémarre l'application (location.reload)
+        p.locator('[data-mact="ok"]').click()
+    settle(p)
+    wait_js(p, "() => PROFS.list.length === 3")
     got = P.ev("() => ({ profs: JSON.parse(JSON.stringify(PROFS.list)), days: Object.fromEntries(PROFS.list.map(p => [p.id, JSON.parse(localStorage.getItem('kai.daily.v1.' + p.id) || '{}')])) })")
     ref_profs = {x["id"]: x for x in json.loads(ref["ls"]["kai.profiles.v1"])["list"]}
     ok_profs = all(next((q for q in got["profs"] if q["id"] == i), None) == ref_profs[i] for i in ids)
@@ -497,7 +517,7 @@ def bloc_anciennes(args, base, browser, bilan, collector, ck, ref):
             vit = pid in ("home", "daily", "who", "menu")
             if pid == "home":
                 p.locator("#kaitap").click()
-                p.wait_for_timeout(300)
+                wait_js(p, "() => document.querySelector('.page.on').id !== 'home'", timeout=4000)
                 vit = vit and current_page(p) in ("hello", "who", "menu", "daily")
             elif pid == "daily":
                 P.click(".dsec span") if False else None
@@ -532,6 +552,8 @@ def choisir_eleve_et_capturer(P):
 
 
 def extra(ap):
+    ap.add_argument("--update-rendus", action="store_true", help="ré-étalonne les textes d'écran attendus (PE-25) sur la version actuelle, après une évolution VOULUE de l'interface")
+    ap.add_argument("--etalon", help="libellé noté dans la référence avec --update-rendus (ex. « v1.0 sprint-kai-1 »)")
     ap.add_argument("--update-fixture", action="store_true", help="régénère tests/fixtures/progression-reference.json (version d'ORIGINE uniquement)")
 
 

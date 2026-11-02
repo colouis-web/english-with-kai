@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Parcours de bout en bout de « Learning English with Kai » (390x844 « téléphone » et 1280x800 « ordinateur »).
 
-  python3 tests/test_parcours.py [--app <dossier>] [--only 390|1280] [--keep-going]
+  python3 tests/test_parcours.py [--app <dossier>] [--only 390|1280|se|mini|wk-se] [--sans-appareils]
+
+Parcours COMPLET à 390 (téléphone) et 1280 (ordinateur), puis passes COURTES (premier lancement, profil, mots du jour,
+vocabulaire, leçon, toutes les tuiles) sur iPhone SE (375×667), iPhone mini (375×812) et WebKit/Safari (si le moteur est installé).
+Aucun délai fixe : chaque étape attend un ÉTAT (écran affiché, message, focus, niveau enregistré, fin du démarrage…).
 
 Un élève qui découvre l'application : premier lancement et création du profil, mots du jour (tour complet),
 vocabulaire (recherche, fiche, son), une leçon de conjugaison et une de grammaire jusqu'au bout, trois tests
@@ -19,7 +23,7 @@ import tempfile
 from pathlib import Path
 
 from kai_common import (APP_ID, OUT, Bilan, Collector, KO, OK, BLOQUE, new_context, open_app, current_page, wait_page,
-                        js_available, run_suite)
+                        js_available, run_suite, reload_app, settle, wait_js, toast_gone, next_toast, toast_reset, appareil, lancer_moteur, modal_prete, question_prete)
 
 VIEWPORTS = {"390": (390, 844), "1280": (1280, 800)}
 GLOBALES = ["PROFS", "DST", "QZ", "LQ", "TQ", "LESSONS", "LORDER", "LV", "RANKS", "totalStars", "starsOf", "streak",
@@ -65,11 +69,11 @@ def short(x, n=700):
 
 
 class Parcours:
-    def __init__(self, label, viewport, base, browser, bilan, collector, seed):
+    def __init__(self, label, viewport, base, browser, bilan, collector, seed, ctx_kw=None):
         self.label, self.vp, self.base, self.browser = label, viewport, base, browser
         self.bilan, self.collector, self.seed = bilan, collector, seed
         self.mobile = viewport[0] < 600
-        self.ctx = new_context(browser, base, viewport, collector, seed=seed, mobile=self.mobile)
+        self.ctx = new_context(browser, base, viewport, collector, seed=seed, mobile=self.mobile, **(ctx_kw or {}))
         self.page = self.ctx.new_page()
         # « Congrats! » (Kai félicite) recouvre l'écran jusqu'à « Thanks, Kai! » : l'élève le ferme, le test aussi.
         self.congrats = 0
@@ -112,19 +116,17 @@ class Parcours:
     def on(self, pid, timeout=8000):
         wait_page(self.page, pid, timeout)
 
-    def toast(self, contient=None):
-        """Texte du message éphémère. Avec `contient`, on attend CE message (un message précédent peut encore être affiché ;
-        et le code parent est maintenant haché de façon asynchrone : le message arrive un peu plus tard)."""
-        try:
-            if contient:
-                self.page.wait_for_function(
-                    "s => { const t = document.getElementById('toast'); return t.classList.contains('show') && (t.textContent || '').includes(s) }",
-                    arg=contient, timeout=6000)
-            else:
-                self.page.locator("#toast.show").wait_for(timeout=4000)
-        except Exception:   # noqa: BLE001 - le contrôle qui suit constatera et affichera ce qui est réellement à l'écran
-            pass
-        return (self.page.locator("#toast").text_content() or "").strip()
+    def toast(self, contient=None, timeout=15000):
+        """Texte du prochain message éphémère (contenant `contient`) : voir kai_common.next_toast (journal de la page, pas de délai fixe).
+        Le code parent est haché de façon asynchrone (PBKDF2) : le message arrive plus ou moins tard."""
+        return next_toast(self.page, contient or "", timeout)
+
+    def toast_reset(self):
+        toast_reset(self.page)
+
+    def focus_is(self, expr, timeout=5000):
+        """Attend que l'élément qui a le focus vérifie `expr` (ex. « a.id === 'pcin' ») ; True/False."""
+        return wait_js(self.page, f"() => {{ const a = document.activeElement; return !!a && ({expr}) }}", timeout=timeout)
 
     def no_overflow(self, what):
         w = self.ev("() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]")
@@ -161,6 +163,7 @@ class Parcours:
         mark = self.collector.mark()
         interrompu = False
         try:
+            self.toast_reset()
             if from_menu and sid != "P01" and self.status.get("P02") == OK:
                 self.to_menu()
             fn(self)
@@ -277,6 +280,7 @@ class Parcours:
                     self.check(f"Test, question {i + 1} : options affichées = options prévues", labels == [opt_lab(o) for o in info["opts"]], labels)
                 self.page.locator("#testbody .lopts .opt").nth(idx).click()
             elif info["t"] == "typed":
+                question_prete(self.page, self.mobile, "tans")
                 self.page.locator("#tans").fill("zzz" if wrong else info["a"][0])
                 if i % 2 == 0:
                     self.page.locator("#tans").press("Enter")      # au clavier : Entrée valide
@@ -285,8 +289,10 @@ class Parcours:
             else:
                 pt = info["pt"].split("/")[0].strip()
                 pp = info["pp"].split("/")[0].strip()
+                question_prete(self.page, self.mobile, "ipt")      # on attend le focus que l'application donne au 1er champ
                 self.page.locator("#ipt").fill("zzz" if wrong else pt)
                 self.page.locator("#ipt").press("Enter")           # Entrée passe au champ suivant
+                self.focus_is("a.id === 'ipp'")
                 self.check("Verbes irréguliers : Entrée dans le 1er champ passe au 2e", self.ev("() => document.activeElement && document.activeElement.id") == "ipp")
                 self.page.locator("#ipp").fill(pp)
                 self.page.locator("#ipp").press("Enter")           # Entrée valide
@@ -316,22 +322,43 @@ def s01_premier_lancement(P):
     P.check("Le titre de l'onglet est « Learning English with Kai »", p.title() == "Learning English with Kai", p.title())
     # Depuis S-02 (analyse UX de Matt) : un bouton « Start » principal remplace l'invitation « Tap Kai to start »
     P.check("L'accueil propose un bouton « Start » visible", P.visible("#start") and "Start" in P.text("#start"), P.text("#start"))
+    # Hiérarchie actuelle (S-02) : « Start » est le bouton PRINCIPAL, « Listen to Kai » le bouton SECONDAIRE (discret, icône haut-parleur)
+    P.check("« Start » est le bouton principal (style .listen) et « Listen to Kai » le secondaire (style .ghost)",
+            P.ev("() => document.getElementById('start').classList.contains('listen') && document.getElementById('listen').classList.contains('ghost')"))
+    P.check("« Listen to Kai » est visible et porte un nom accessible (bouton à icône)",
+            P.visible("#listen") and P.ev("() => document.getElementById('listen').getAttribute('aria-label')") == "Listen to Kai",
+            P.ev("() => document.getElementById('listen').getAttribute('aria-label')"))
+    ordre = P.ev("() => !!(document.getElementById('start').compareDocumentPosition(document.getElementById('listen')) & Node.DOCUMENT_POSITION_FOLLOWING)")
+    P.check("Ordre de lecture et de tabulation : « Start » avant « Listen to Kai »", ordre)
     P.check("Aucune donnée d'élève avant le premier lancement", not [k for k in P.ls() if k.startswith("kai.profiles") or k.startswith("kai.daily")])
     P.check("Les deux bulles de Kai sont présentes (rôle bouton, au clavier)", p.locator("#home .bb[role=button][tabindex='0']").count() == 2)
     P.check("Kai est affiché (image chargée)", P.ev("() => { const i = document.querySelector('#stage image'); return !!i && !!i.getAttribute('href') }"))
     P.no_overflow("accueil")
-    # Clavier : Tab arrive sur le bouton de Kai, Entrée ouvre l'application
+    # « Listen to Kai » : Kai lit ses deux bulles à voix haute ; on reste sur l'accueil (ce n'est pas un bouton de navigation)
+    P.ev("() => { window.__snd.length = 0 }")
+    P.click("#listen")
+    P.check("« Listen to Kai » demande du son (voix de Kai ou voix de l'appareil)", wait_js(p, "() => window.__snd.length > 0"), P.ev("() => window.__snd.length"))
+    P.check("« Listen to Kai » ne quitte pas l'accueil", current_page(p) == "home", current_page(p))
+    # Clavier : Tab arrive sur un bouton de l'accueil
     p.keyboard.press("Tab")
     foc = P.ev("() => { const a = document.activeElement; return a ? (a.id || a.getAttribute('class') || a.tagName) : '' }")
     P.note("Clavier : premier élément atteint par Tab sur l'accueil", foc)
+    # « Start » sans profil : ouvre « Hello! » (prénom) ; Retour ramène à l'accueil ; toucher Kai fait de même
+    P.click("#start")
+    P.on("hello")
+    P.check("Sans profil, « Start » ouvre « Hello! »", True)
+    P.click("#backH")
+    P.on("home")
     P.click("#kaitap")
     P.on("hello")
-    P.check("Sans profil, toucher Kai ouvre « Hello! »", True)
+    P.check("Sans profil, toucher Kai ouvre aussi « Hello! »", True)
 
 
 def s02_creation_profil(P):
     p = P.page
-    p.wait_for_timeout(600)      # l'application donne le focus au champ après 400 ms
+    # (l'application donne le focus au champ prénom un peu après l'arrivée : on attend l'état, pas un délai)
+    if not P.mobile:
+        P.focus_is("a.id === 'pname'")
     P.check("Le champ prénom a le focus à l'arrivée (ordinateur) ou n'est pas forcé (téléphone)",
             P.mobile or P.ev("() => document.activeElement.id") == "pname", P.ev("() => document.activeElement.id"))
     P.click("#nameform .listen")
@@ -465,6 +492,7 @@ def s04_vocabulaire(P):
         ev = P.ev("() => window.__snd[0]")
         P.check("Son d'une phrase d'exemple : lue (voix enregistrée ou voix de l'appareil)", bool(ev.get("tts") == phrase or ev.get("src")), (phrase, ev))
     P.click("#wclr")
+    P.focus_is("a.id === 'wq'")
     P.check("Bouton ✕ : champ vidé, tuiles revenues, focus dans le champ",
             p.locator("#wq").input_value() == "" and P.visible("#wtiles") and P.ev("() => document.activeElement.id") == "wq")
 
@@ -555,9 +583,11 @@ def s06_lecon_grammaire(P):
         fr = p.locator("#lessonbody [data-fr]").first
         fr.click()
         P.check("Bouton FR : la fenêtre « En français » s'ouvre", P.visible("#modal.on") and "En français" in P.text("#mtitle"), P.text("#mtitle"))
+        P.focus_is("a.className === 'mx'")      # l'application donne le focus à la croix 40 ms APRÈS l'ouverture : on attend l'état
         P.check("Fenêtre : le focus passe sur la croix de fermeture", P.ev("() => document.activeElement.className") == "mx", P.ev("() => document.activeElement.className"))
         p.keyboard.press("Escape")
         P.check("Échap ferme la fenêtre", not P.visible("#modal.on"))
+        P.focus_is("a.hasAttribute('data-fr')")
         P.check("Après la fenêtre, le focus revient sur le bouton FR", P.ev("() => document.activeElement.hasAttribute('data-fr')"))
     else:
         P.note("Aucune traduction FR sur la 1re question tirée")
@@ -603,9 +633,7 @@ def s07_tests_notes(P):
     P.check("Le test interrompu est signalé « Not finished · 3/20 answered »", "Not finished · 3/20" in P.text('[data-test="conj"]'), P.text('[data-test="conj"]'))
     save = [k for k in P.ls() if k.startswith("kai.tsave.")]
     P.check("Le test interrompu est gardé sur l'appareil (kai.tsave.*)", len(save) == 1, save)
-    P.page.reload()
-    P.page.wait_for_function("typeof PROFS !== 'undefined'")
-    P.page.wait_for_timeout(250)
+    reload_app(P.page)
     P.check("Rechargement : l'élève revient directement sur « My daily work »", current_page(p) == "daily", current_page(p))
     P.to_menu()
     P.click("#toTests")
@@ -713,6 +741,7 @@ def s09_recompenses(P):
             P.ev("() => { const m = document.getElementById('modal'); return m.getAttribute('role') === 'dialog' && m.getAttribute('aria-modal') === 'true' && m.getAttribute('aria-labelledby') === 'mtitle' }"))
     p.keyboard.press("Escape")
     P.check("Échap ferme l'aide", not P.visible("#modal.on"))
+    P.focus_is("a.getAttribute('data-help') === 'rewards'")
     P.check("Après l'aide, le focus revient sur le bouton « ? »", P.ev("() => document.activeElement.getAttribute('data-help')") == "rewards")
     # calendrier
     P.click('[data-dtab="cal"]')
@@ -748,7 +777,8 @@ def s10_sauvegarde(P):
     P.check("Contenu : profils + journal de l'élève + tests en pause/leçons vues", "kai.profiles.v1" in keys and f"kai.daily.v1.{P.pid}" in keys, keys)
     P.check("Contenu : aucun code parent ni voix en base64 (kai.pcode, kai.kv*)", not [k for k in keys if k == "kai.pcode" or k.startswith("kai.kv")], keys)
     P.check("Contenu : toutes les clés commencent par « kai. »", all(k.startswith("kai.") for k in keys), keys)
-    P.check("Toast de confirmation « Saved: … »", "Saved" in P.toast("Saved") or True)
+    t = P.toast("Saved", timeout=6000)
+    P.check("Toast de confirmation « Saved: … »", "Saved" in t, t)
     # état de l'original, pour comparer après restauration
     P.snap["days"] = P.ev("() => JSON.parse(JSON.stringify(DST.days))")
     P.snap["prof"] = P.profile()
@@ -765,16 +795,15 @@ def s10_sauvegarde(P):
         wait_page(q, "me")
         # fichiers invalides : message clair, rien n'est modifié
         avant = q.evaluate("() => localStorage.getItem('kai.profiles.v1')")
+        toast_reset(q)
         for label, contenu in (("texte quelconque", b"ceci n'est pas du JSON {"), ("fichier vide", b""),
                                ("JSON d'une autre application", b'{"app":"autre","v":1,"data":{}}'),
                                ("sauvegarde sans élèves", ('{"app":"' + APP_ID + '","v":1,"data":{"kai.profiles.v1":"{}"}}').encode())):
             with q.expect_file_chooser() as fc:
                 q.locator("#meImp").click()
             fc.value.set_files({"name": "kai-english-test.json", "mimeType": "application/json", "buffer": contenu})
-            q.locator("#toast.show").wait_for(timeout=4000)
-            t = (q.locator("#toast").text_content() or "").strip()
+            t = next_toast(q, "not a Kai save", timeout=6000)     # attend CE message (journal de la page), pas un délai
             P.check(f"Fichier invalide ({label}) : message « not a Kai save »", "not a Kai save" in t, t)
-            q.wait_for_timeout(1700)     # laisse le message disparaître
         P.check("Fichiers invalides : aucune donnée modifiée", q.evaluate("() => localStorage.getItem('kai.profiles.v1')") == avant)
         # fichier valide
         with q.expect_file_chooser() as fc:
@@ -783,9 +812,9 @@ def s10_sauvegarde(P):
         q.locator("#modal.on").wait_for()
         msg = q.locator("#mbody").inner_text()
         P.check("Restauration : « 1 new learner added. 1 day of work merged. »", "1 new learner added" in msg and "1 day of work merged" in msg, msg)
-        q.locator('[data-mact="ok"]').click()
-        q.wait_for_function("typeof PROFS !== 'undefined' && PROFS.list.length === 2")
-        q.wait_for_timeout(200)
+        with q.expect_navigation():      # « OK » redémarre l'application (location.reload)
+            q.locator('[data-mact="ok"]').click()
+        settle(q)
         P.check("Après redémarrage, deux élèves → on demande « Who's learning today? »", current_page(q) == "who", current_page(q))
         P.check("Les deux élèves sont proposés, avec leurs étoiles", q.locator("#plist .prow[data-pid]").count() == 2 and "Léa Dupont" in q.locator("#plist").text_content(), q.locator("#plist").text_content())
         q.locator(f'#plist [data-pid="{P.pid}"]').click()
@@ -805,9 +834,9 @@ def s10_sauvegarde(P):
         q.locator("#modal.on").wait_for()
         msg = q.locator("#mbody").inner_text()
         P.check("Second chargement du même fichier : rien de nouveau (0 jour fusionné)", "0 days of work merged" in msg and "new learner" not in msg, msg)
-        q.locator('[data-mact="ok"]').click()
-        q.wait_for_function("typeof PROFS !== 'undefined'")
-        q.wait_for_timeout(200)
+        with q.expect_navigation():
+            q.locator('[data-mact="ok"]').click()
+        settle(q)
         P.check("Second chargement : toujours 2 élèves, pas de doublon", q.evaluate("() => PROFS.list.length") == 2)
     finally:
         ctx2.close()
@@ -861,7 +890,7 @@ def s11_changement_profil(P):
     P.click("#toMe")
     P.on("me")
     P.click("#meRen")
-    p.wait_for_timeout(200)
+    P.focus_is("a.id === 'rname'")
     P.check("Renommer : le champ est prêt et sélectionné", P.ev("() => document.activeElement.id") == "rname")
     p.locator("#rname").fill("  Léa  D. ")
     p.locator("#rname").press("Enter")
@@ -876,20 +905,21 @@ def s12_code_parent(P):
         """Clique le bouton et attend la fenêtre (elle se ferme après chaque « OK », même en cas d'erreur de saisie)."""
         P.click(sel)
         p.locator("#modal.on").wait_for()
+        modal_prete(p)      # le focus est posé (croix à 40 ms, champ du code à 90 ms) : sinon l'Entrée tombe sur la croix et ferme la fenêtre
 
     def saisit_et_valide(valeur, champ="#pcin"):
         p.locator(champ).fill(valeur)
         p.locator(champ).press("Enter")
 
-    def attend_toast_fini():
-        P.toast()
-        p.wait_for_timeout(1800)
+    def attend_niveau(lv):
+        """Le code parent est vérifié de façon asynchrone (PBKDF2) : on attend l'ÉTAT (niveau de l'élève), pas un délai."""
+        return wait_js(p, "n => curProf().lv === n", arg=lv, timeout=15000)
 
     P.click("#toMe")
     P.on("me")
     P.check("Sans code : « Set a parent code » proposé", P.visible("#mePcSet") and P.ev("() => !localStorage.getItem('kai.pcode')"))
     ouvre("#mePcSet")
-    p.wait_for_timeout(250)
+    P.focus_is("a.id === 'pcin'")
     P.check("Fenêtre « Set a parent code » : deux champs masqués (password), focus dans le premier",
             P.ev("() => document.getElementById('pcin').type + document.getElementById('pcin2').type") == "passwordpassword"
             and P.ev("() => document.activeElement.id") == "pcin")
@@ -903,9 +933,9 @@ def s12_code_parent(P):
         P.check(f"Code {label} : message « {attendu} »", attendu in t, t)
         fenetre_fermee.append(not P.visible("#modal.on"))
         P.check(f"Code {label} : rien n'est enregistré", P.ev("() => !localStorage.getItem('kai.pcode')"))
-        p.wait_for_timeout(1800)
         if not P.visible("#modal.on"):
             ouvre("#mePcSet")
+            P.focus_is("a.id === 'pcin'")
     if all(fenetre_fermee):
         P.note("IRRITANT : une erreur de saisie du code ferme la fenêtre ; il faut rouvrir « Set a parent code » et tout retaper (un enfant ou un parent pressé abandonne)",
                "à proposer à Matt/Ouss : garder la fenêtre ouverte et le message dans la fenêtre")
@@ -917,54 +947,49 @@ def s12_code_parent(P):
     P.check("Code valide (Entrée dans le 2e champ) : « Parent code saved »", "Parent code saved" in P.toast("Parent code saved"))
     P.check("Le code est enregistré (valeur non vide ; son format est libre : il sera haché par Ani)", P.ev("() => !!localStorage.getItem('kai.pcode')"))
     P.check("Boutons « Change the code » / « Remove the code » proposés", P.visible("#mePcChg") and P.visible("#mePcDel"))
-    p.wait_for_timeout(1800)
     # changer de niveau : demande le code
     lv0 = P.profile()["lv"]
     ouvre('[data-mlv="2"]')
     P.check("Changer de niveau avec un code : la fenêtre « Parent code » s'ouvre, champ masqué (password)",
             "Parent code" in P.text("#mtitle") and P.ev("() => document.getElementById('pcin').type") == "password")
-    p.wait_for_timeout(150)
+    P.focus_is("a.id === 'pcin'")
     P.check("Le focus est dans le champ du code", P.ev("() => document.activeElement.id") == "pcin")
     saisit_et_valide("0000")
     P.check("Mauvais code : « Wrong code »", "Wrong code" in P.toast("Wrong code"))
     P.check("Mauvais code : le niveau n'a pas changé", P.profile()["lv"] == lv0)
-    attend_toast_fini() if False else p.wait_for_timeout(1800)
     ouvre('[data-mlv="2"]')
     saisit_et_valide("1234")
     t = P.toast(P.ev("() => LV[2].name"))
+    attend_niveau(2)
     P.check("Bon code : niveau 3 choisi, annoncé par son nom (20 mots par jour)", P.ev("() => LV[2].name") in t and P.profile()["lv"] == 2, (t, P.profile()["lv"]))
-    p.wait_for_timeout(1800)
     P.check("Le niveau est enregistré dans l'historique (lvHist)", P.profile()["lvHist"][-1]["lv"] == 2, P.profile()["lvHist"])
     ouvre('[data-mlv="0"]')
     saisit_et_valide("1234")
-    # Le code parent est vérifié de façon asynchrone (hachage PBKDF2) : on attend le résultat au lieu d'un délai fixe
-    for _ in range(40):
-        if P.profile()["lv"] == 0: break
-        p.wait_for_timeout(150)
+    attend_niveau(0)
     P.check("Retour au niveau Beginner avec le code", P.profile()["lv"] == 0)
     # sauvegarde : sans le code
     with p.expect_download() as dl:
         P.click("#meExp")
     contenu = Path(dl.value.path()).read_text(encoding="utf-8")
     P.check("La sauvegarde ne contient jamais le code parent", "kai.pcode" not in contenu and json.loads(contenu)["data"].get("kai.pcode") is None)
-    p.wait_for_timeout(1800)
     # charger une sauvegarde : le code est exigé AVANT l'ouverture du sélecteur de fichier
     ouvre("#meImp")
     P.check("Charger une sauvegarde avec un code : la fenêtre « Parent code » s'ouvre d'abord", "Parent code" in P.text("#mtitle"))
     p.locator('#modal [data-mclose]').first.click()
     P.check("« Cancel » ferme la fenêtre, rien n'est chargé", not P.visible("#modal.on"))
+    P.focus_is("a.id === 'meImp'")
     P.check("Après « Cancel », le focus revient sur « Load a save »", P.ev("() => document.activeElement.id") == "meImp", P.ev("() => document.activeElement.id"))
     # supprimer : le code est exigé
     ouvre("#meDel")
     P.check("Supprimer un élève avec un code : le code est demandé", "Parent code" in P.text("#mtitle"))
     saisit_et_valide("9999")
-    P.check("Suppression, mauvais code : refusée", "Wrong code" in P.toast("Wrong code") and P.ev("() => PROFS.list.length") == 2)
-    p.wait_for_timeout(1800)
+    t = P.toast("Wrong code")
+    P.check("Suppression, mauvais code : refusée", "Wrong code" in t and P.ev("() => PROFS.list.length") == 2, (t, P.ev("() => PROFS.list.length")))
     # retirer le code
     ouvre("#mePcDel")
     saisit_et_valide("1234")
-    P.check("« Remove the code » avec le bon code : retiré", "removed" in P.toast("removed") and P.ev("() => !localStorage.getItem('kai.pcode')"))
-    p.wait_for_timeout(1800)
+    t = P.toast("removed")
+    P.check("« Remove the code » avec le bon code : retiré", "removed" in t and P.ev("() => !localStorage.getItem('kai.pcode')"), t)
     # suppression sans code : on retape le prénom — sur l'élève « Zoé »
     zid = P.ev("(pid) => PROFS.list.find(p => p.id !== pid).id", P.pid)
     P.click("#meSwitch")
@@ -976,8 +1001,8 @@ def s12_code_parent(P):
     ouvre("#meDel")
     P.check("Sans code : la fenêtre demande de retaper le prénom", "type the first name" in P.text("#mbody"), P.text("#mbody")[:200])
     saisit_et_valide("Pas lui")
-    P.check("Mauvais prénom : refusé", "not the right first name" in P.toast("not the right first name") and P.ev("() => PROFS.list.length") == 2)
-    p.wait_for_timeout(2400)
+    t = P.toast("not the right first name")
+    P.check("Mauvais prénom : refusé", "not the right first name" in t and P.ev("() => PROFS.list.length") == 2, (t, P.ev("() => PROFS.list.length")))
     ouvre("#meDel")
     saisit_et_valide("  ZOÉ <I>&\"X\"  ")
     p.locator("#meDelYes").wait_for()
@@ -1041,9 +1066,7 @@ def s99_rechargement(P):
     p = P.page
     avant = P.ev("() => JSON.parse(JSON.stringify(DST.days))")
     ls_avant = {k: v for k, v in P.ls().items() if k.startswith("kai.")}
-    p.reload()
-    p.wait_for_function("typeof PROFS !== 'undefined'")
-    p.wait_for_timeout(200)
+    reload_app(p)
     P.check("Un seul élève : le rechargement ouvre directement « My daily work »", current_page(p) == "daily", current_page(p))
     P.check("Rechargement : journal identique", P.ev("() => JSON.parse(JSON.stringify(DST.days))") == avant)
     ls_apres = {k: v for k, v in P.ls().items() if k.startswith("kai.")}
@@ -1070,24 +1093,65 @@ ETAPES = [
 ]
 
 
+# Passes COURTES sur les petits iPhone du fils et sur WebKit (Safari) : les étapes qui dépendent de la taille de l'écran
+# ou du moteur (premier lancement, profil, mots du jour, vocabulaire, leçon, toutes les tuiles et tous les Retour).
+# Les cadrages d'images sont mesurés par test_appareils.py ; ici on vérifie que le PARCOURS fonctionne et ne défile pas à l'horizontale.
+ETAPES_COURTES = ("P01", "P02", "P03", "P04", "P05", "P13")
+PASSES_APPAREILS = {            # étiquette : (appareil, moteur)
+    "se": ("se", "chromium"),
+    "mini": ("mini", "chromium"),
+    "wk-se": ("se", "webkit"),
+}
+
+
+def jouer(label, vp, base, nav, bilan, collector, seed, etapes=None, kw=None):
+    P = Parcours(label, vp, base, nav, bilan, collector, seed, ctx_kw=kw)
+    try:
+        for sid, titre, fn, needs in ETAPES:
+            if etapes is not None and sid not in etapes:
+                continue
+            P.step(sid, titre, fn, needs, from_menu=sid not in ("P01", "P02", "P14"))
+    finally:
+        P.ctx.close()
+    bilan.check(f"P99.err@{label}", f"{label} : sur tout le parcours, 0 erreur console, 0 exception JS, 0 requête en échec ou en 404",
+                not collector.errors, "; ".join(f"[{g}] {t}" for g, t in collector.errors[:6]))
+    if collector.aborted:
+        bilan.note(f"P99.abort@{label}", "Requêtes interrompues par un rechargement (ignorées)", collector.aborted)
+
+
 def run(args, base, browser, bilan, collector):
     for label, vp in VIEWPORTS.items():
         if args.only and args.only != label:
             continue
-        P = Parcours(label, vp, base, browser, bilan, collector, args.seed)
-        try:
-            for sid, titre, fn, needs in ETAPES:
-                P.step(sid, titre, fn, needs, from_menu=sid not in ("P01", "P02", "P14"))
-        finally:
-            P.ctx.close()
-        bilan.check(f"P99.err@{label}", f"{label} : sur tout le parcours, 0 erreur console, 0 exception JS, 0 requête en échec ou en 404",
-                    not collector.errors, "; ".join(f"[{g}] {t}" for g, t in collector.errors[:6]))
-        if collector.aborted:
-            bilan.note(f"P99.abort@{label}", "Requêtes interrompues par un rechargement (ignorées)", collector.aborted)
+        jouer(label, vp, base, browser, bilan, collector, args.seed)
+    wk = None
+    try:
+        for label, (cle, moteur) in PASSES_APPAREILS.items():
+            if (args.only and args.only != label) or (not args.only and args.sans_appareils):
+                continue
+            nav = browser
+            if moteur == "webkit":
+                if wk is None:
+                    wk, raison = lancer_moteur(args.pw, "webkit")
+                    if wk is None:
+                        (bilan.ko if args.require_webkit else bilan.note)(
+                            "P-webkit", "Passe WebKit (Safari) non jouée : moteur non installé sur cette machine",
+                            raison + " — installer avec : python3 -m playwright install --with-deps webkit")
+                        wk = False
+                if not wk:
+                    continue
+                nav = wk
+            vp_app, kw = appareil(args.pw, cle)
+            jouer(label, vp_app, base, nav, bilan, collector, args.seed, etapes=ETAPES_COURTES, kw=kw)
+    finally:
+        if wk:
+            wk.close()
 
 
 def extra(ap):
-    ap.add_argument("--only", choices=list(VIEWPORTS), help="ne jouer qu'une taille d'écran")
+    ap.add_argument("--only", choices=list(VIEWPORTS) + list(PASSES_APPAREILS), help="ne jouer qu'une taille d'écran ou une passe iPhone / WebKit")
+    ap.add_argument("--sans-appareils", action="store_true", help="saute les passes courtes iPhone SE / mini / WebKit")
+    ap.add_argument("--require-webkit", action="store_true", help="WebKit absent = KO (par défaut : simple note)")
 
 
 if __name__ == "__main__":
