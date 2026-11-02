@@ -3,15 +3,77 @@
 /* ===== PROFILS : prénom au démarrage, accueil personnalisé, changement d'élève, réglages de la voix ===== */
 const BACKSVG = '<svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const initial = n => (n || "?").trim().charAt(0).toUpperCase() || "?";
+/* ===== T3 : « Text size » (Me) — Normal / Large / Extra large, mémorisé PAR ÉLÈVE dans kai.textsize.<id de l'élève> =====
+   Même nommage que kai.daily.v1.<id> et kai.qsave.<id>.… ; la sauvegarde en fichier prend toutes les clés kai.* (rien à ajouter).
+   Effet : une classe sur <html> (ts-l, ts-xl) ; le CSS en tire un zoom de la page et la variable --bfs (taille du texte des bulles de Kai).
+   Appliqué au chargement et à chaque changement d'élève (renderMenuHead). Valeur absente ou inconnue = « normal ». */
+const TXSIZES = [["normal", "Normal", "Normal"], ["large", "Large", "Grande"], ["xlarge", "Extra large", "Très grande"]];
+const txKey = pid => "kai.textsize." + pid;
+function txGet(pid) {
+    try {
+        const v = pid ? localStorage.getItem(txKey(pid)) : null;
+        return TXSIZES.some(x => x[0] === v) ? v : "normal";
+    }
+    catch (e) {
+        return "normal";
+    }
+}
+function txApply(v) {
+    const h = document.documentElement;
+    h.classList.toggle("ts-l", v === "large");
+    h.classList.toggle("ts-xl", v === "xlarge");
+    txMetrics();
+}
+/* sous zoom, 1svh et 1vw seraient agrandis du facteur de zoom : on donne au CSS 1 % de l'écran visible en px (--sv, --sw), puis on recadre l'accueil */
+function txMetrics() {
+    const h = document.documentElement, zf = parseFloat(getComputedStyle(h).getPropertyValue("--zf")) || 1;
+    if (zf === 1) {
+        h.style.removeProperty("--sv");
+        h.style.removeProperty("--sw");
+    }
+    else {
+        h.style.setProperty("--sv", innerHeight / zf / 100 + "px");
+        h.style.setProperty("--sw", innerWidth / zf / 100 + "px");
+    }
+    if (typeof fit === "function")
+        fit();   /* la scène de l'accueil se recadre à la nouvelle taille */
+}
+addEventListener("resize", txMetrics);
+function txSection(p) {
+    const cur = txGet(p && p.id);
+    return `<div class="dsec"><h2>Text size</h2></div>
+<div class="tsseg" role="radiogroup" aria-label="Text size">${TXSIZES.map(([v, l, fr]) => `<button type="button" class="${cur === v ? "on" : ""}" data-ts="${v}" role="radio" aria-checked="${cur === v}"><b>${l}</b><small lang="fr">${fr}</small></button>`).join("")}</div>
+<p class="menote">Choose the size that is easiest to read. It is saved for each learner. <span lang="fr">(Taille du texte, enregistrée pour chaque élève.)</span></p>`;
+}
+document.getElementById("mebody").addEventListener("click", e => {
+    const b = e.target.closest("[data-ts]"), p = curProf();
+    if (!b || !p)
+        return;
+    try {
+        localStorage.setItem(txKey(p.id), b.dataset.ts);
+    }
+    catch (er) {
+    }
+    renderMenuHead();   /* applique la taille et redessine la bulle du menu */
+    renderMe();
+    const on = document.querySelector("#mebody [data-ts].on");
+    if (on) {
+        on.focus({ preventScroll: true });
+        on.scrollIntoView({ block: "center" });   /* le zoom déplace la page : on garde le réglage sous le doigt */
+    }
+});
+txApply(txGet(PROFS.cur));
 function menuRows(name) {
     return name ? [["Welcome"], [[name], "!"], ["Let's learn English"], ["together!"]] : [["What do you"], ["want to learn"], [["today"], "?"]];
 }
 function renderMenuHead() {
+    txApply(txGet(PROFS.cur));   /* T3 : appelée à chaque changement d'élève (useProfile, suppression, renommage) */
     const p = curProf(), say = p ? `Welcome ${p.name}! Let's learn English together!` : "What do you want to learn today?", rows = menuRows(p ? p.name : "");
     ASK.say = say;
-    const c = [216, 80], r = [114, 60], tip = [100, 80], n = rows.length, lh = 19;
-    document.getElementById("mhead").innerHTML = `<svg viewBox="0 0 360 164" role="img" aria-label="Kai : ${esc(say)}"><image class="kai kb" id="bust" href="img/kai-bust.webp" x="10" y="6" width="101" height="150"/>
-<g class="bb b1 kb" id="askb" role="button" tabindex="0" aria-label="${esc(say)}"><path d="${bubblePath(c, r, tip)}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${rows.map((row, j) => `<tspan x="${c[0]}" y="${f1(c[1] - (n - 1) * lh / 2 + 6 + j * lh)}">${rowSvg(row.map(x => Array.isArray(x) ? [esc(x[0])] : esc(x)))}</tspan>`).join("")}</text></g></svg>`;
+    /* R1 : texte des bulles ≥ 18 px à l'écran (variable CSS --bfs), interligne 1,4 ; la bulle grandit avec le nombre de lignes */
+    const fs = bubbleFs(), lh = Math.round(fs * 1.4), n = rows.length, ry = Math.max(60, n * lh / 2 + 20), VH = Math.max(164, Math.round(2 * ry + 8)), c = [216, VH / 2 - 2], r = [114, ry], tip = [100, c[1]];
+    document.getElementById("mhead").innerHTML = `<svg viewBox="0 0 360 ${VH}" role="img" aria-label="Kai : ${esc(say)}"><image class="kai kb" id="bust" href="img/kai-bust.webp" x="10" y="${VH - 158}" width="101" height="150"/>
+<g class="bb b1 kb" id="askb" role="button" tabindex="0" aria-label="${esc(say)}"><path d="${bubblePath(c, r, tip)}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${rows.map((row, j) => `<tspan x="${c[0]}" y="${f1(c[1] - (n - 1) * lh / 2 + fs * .33 + j * lh)}">${rowSvg(row.map(x => Array.isArray(x) ? [esc(x[0])] : esc(x)))}</tspan>`).join("")}</text></g></svg>`;
     const me = document.getElementById("meIni");
     if (me)
         me.textContent = p ? initial(p.name) : "?";
@@ -123,12 +185,14 @@ function renderMe() {
 <div class="mecard"><span class="ava big">${esc(initial(p ? p.name : "?"))}</span>${RENAME ? `<form id="renform" class="renform"><input id="rname" maxlength="16" value="${esc(p ? p.name : "")}" aria-label="New first name" autocomplete="off"><button class="listen sm" type="submit">Save</button></form>` : `<div class="pt"><b>${esc(p ? p.name : "")}</b><small>${p ? profStats(p) : ""}</small></div><button class="ghost sm" id="meRen">Rename</button>`}</div>
 <div class="mebtns"><button class="ghost sm" id="meSwitch">Switch learner</button><button class="ghost sm" id="meNew">New learner</button></div>
 <p class="menote">Each learner has their own goals, stars and calendar.</p>
+${txSection(p)}
 <div class="dsec"><h2>English level</h2></div>
 <div class="lvpick">${lvPicker(lvOf(p), "mlv")}</div>
 <p class="menote">Kai moves you up a level when you are ready (see My daily work › My level). A parent can also change it here.</p>
 <div class="dsec"><h2>Kai's voice</h2></div>
 <div class="seg" role="radiogroup" aria-label="Kai's real voice">${[[1, "Kai's real voice"], [0, "Phone voice"]].map(([v, l]) => `<button class="${(KREC ? 1 : 0) === v ? "on" : ""}" data-krec="${v}" role="radio" aria-checked="${(KREC ? 1 : 0) === v}">${l}</button>`).join("")}</div>
 <p class="menote">${KREC ? `Kai's real voice says all his own sentences and ${KVN - 51} words. Example sentences and the other words use the phone voice below. Kai's voice was recorded with ElevenLabs.` : `Kai uses the phone voice for everything.`}</p>
+<div class="mebtns"><button class="ghost sm" type="button" data-help="credits">Credits · images &amp; voice</button></div>
 <div class="dsec"><h2>Phone voice</h2></div>
 ${vs.length ? `<div class="vlist2">${[["", `Automatic${auto ? ` · ${auto.name}` : ""}`], ...vs.map(v => [v.voiceURI || v.name, `${v.name} · ${v.lang.replace("_", "-")}`])].map(([id, l]) => `<div class="vrow${VPREF === id ? " on" : ""}"><button class="vpick" data-v="${esc(id)}" role="radio" aria-checked="${VPREF === id}"><i></i><span>${esc(l)}</span></button><button class="vtry" data-try="${esc(id)}" aria-label="Try this voice">${SPK}</button></div>`).join("")}</div>` : `<p class="menote">No English voice found on this device yet.</p>`}
 <div class="dsec"><h2>Speed</h2></div>

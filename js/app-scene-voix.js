@@ -22,18 +22,52 @@ const KAI = { src: "img/kai-stand.webp", x: 150, y: 22, h: 610, w: 201.4 };
 document.getElementById("stage").innerHTML = `<div class="stagebox" id="stagebox"><svg viewBox="0 0 360 640" role="img" aria-label="Kai dit : Hello, my name is Kai! I'm here to help you speak English!">
 <image class="kai" href="${KAI.src}" x="${KAI.x}" y="${KAI.y}" width="${KAI.w}" height="${KAI.h}"/>
 ${LINES.map((L, i) => {
-    const n = L.rows.length, lh = 22, y0 = L.c[1] - (n - 1) * lh / 2 + 7;
+    const n = L.rows.length, lh = 29, y0 = L.c[1] - (n - 1) * lh / 2 + 7;  /* R1 : texte 21 unités, interligne 1,4 */
     return `<g class="bb b${i + 1}" data-i="${i}" role="button" tabindex="0" aria-label="${L.say}"><path d="${bubblePath(L.c, L.r, L.tip)}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${L.rows.map((row, j) => `<tspan x="${L.c[0]}" y="${f1(y0 + j * lh)}">${rowSvg(row)}</tspan>`).join("")}</text></g>`;
 }).join("")}
 </svg><button class="kaitap" id="kaitap" aria-label="Open the menu"></button></div>`;
-/* garder le ratio de la scène quelle que soit la hauteur de l'écran */
+/* garder le ratio de la scène quelle que soit la hauteur de l'écran.
+   R1/R2 : sur un téléphone court (iPhone SE, Safari avec ses barres), la scène entière tiendrait à moins de 0,9 px d'écran par unité
+   du viewBox et le texte des bulles tomberait sous 18 px. Mode « compact » : le viewBox prend la largeur de l'écran (360 unités = toute la largeur),
+   sa hauteur s'adapte à la place disponible, Kai est dessiné ENTIER à la hauteur de la scène (cadré à droite) et les bulles gardent leur taille,
+   donc un texte de 19 px ou plus ; les pointes des bulles sont recalculées vers son visage. */
+function layoutScene(svg, Hu, compact) {
+    const img = svg.querySelector("image.kai"), g = svg.querySelectorAll(".bb path"), txs = svg.querySelectorAll(".bb text");
+    let x = KAI.x, y = KAI.y, w = KAI.w, h = KAI.h;
+    if (compact) {
+        h = Hu - 8;
+        w = h * KAI.w / KAI.h;
+        x = 358 - w;
+        y = 4;
+    }
+    svg.setAttribute("viewBox", `0 0 360 ${f1(compact ? Hu : 640)}`);
+    img.setAttribute("x", f1(x));
+    img.setAttribute("y", f1(y));
+    img.setAttribute("width", f1(w));
+    img.setAttribute("height", f1(h));
+    /* compact : Kai est plus étroit, les bulles se rapprochent de lui (dx) pour que leur pointe reste courte */
+    const dx = compact ? Math.max(0, Math.min(56, x - 215)) : 0;
+    LINES.forEach((L, i) => {
+        const c = [L.c[0] + dx, L.c[1]], tip = compact ? [x + w * (L.tip[0] - KAI.x) / KAI.w, y + h * (L.tip[1] - KAI.y) / KAI.h] : L.tip;
+        if (g[i])
+            g[i].setAttribute("d", bubblePath(c, L.r, tip));
+        if (txs[i]) {
+            txs[i].querySelectorAll(":scope > tspan").forEach(t => t.setAttribute("x", f1(c[0])));
+        }
+    });
+}
 function fit() {
     const b = document.getElementById("stagebox"), st = document.getElementById("stage");
     if (!b || !st)
         return;
-    const W = st.clientWidth, H = st.clientHeight || innerHeight;
-    const w = Math.min(W, H * 360 / 640);
-    b.style.width = w + "px";
+    const W = st.clientWidth, H = st.clientHeight;
+    if (!W || !H)
+        return;   /* écran masqué : on recalcule à l'affichage */
+    const z = parseFloat(getComputedStyle(document.documentElement).zoom) || 1, w = Math.min(W, H * 360 / 640);
+    const compact = innerWidth <= 600 && w / 360 * z < .9, svg = b.querySelector("svg");
+    b.classList.toggle("compact", compact);
+    b.style.width = compact ? "" : w + "px";
+    layoutScene(svg, compact ? Math.max(262, H / (W / 360)) : 640, compact);
 }
 addEventListener("resize", fit);
 /* voix anglaise : la plus naturelle disponible sur l'appareil */

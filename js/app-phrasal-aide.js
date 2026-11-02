@@ -91,6 +91,15 @@ document.addEventListener("keydown", e => {
         closeModal();
     }
 });
+/* ===== aide : crédits (images, voix, polices) — demande du PO du 30/10 (Q9) ===== */
+function creditsHelp() {
+    openModal("Credits", `<div class="hlp" lang="fr">
+<div class="hrow"><span class="hico"><img src="img/kai-head.webp" alt=""></span><div><b>Kai</b><p>Créé à partir d'un croquis original.</p></div></div>
+<div class="hrow"><span class="hico"><img src="img/sc-sketch.webp" alt=""></span><div><b>Images · scènes et récompenses</b><p>Générées avec Gemini (Google).</p></div></div>
+<div class="hrow"><span class="hico">${SPK}</span><div><b>Voice · la voix de Kai</b><p>Générée avec ElevenLabs — <span lang="en">elevenlabs.io</span>. Les autres mots et phrases utilisent la voix du téléphone.</p></div></div>
+<div class="hrow"><span class="hico" aria-hidden="true"><b>Aa</b></span><div><b>Fonts · les polices</b><p>Roboto Condensed et Noto Emoji (Google Fonts), licence SIL Open Font License 1.1, copiées sur le site : rien n'est téléchargé ailleurs.</p></div></div>
+<p class="hnote">Application familiale, gratuite et non commerciale : pas de publicité, pas de compte, pas de traqueur. La progression reste sur cet appareil.</p></div>`);
+}
 /* ===== aide : étoiles, trophée, médailles ===== */
 const PODIUM = '<svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20h20M4 20v-6h5v6M9.5 20V9h5v11M15 20v-8h5v8" fill="#f5b301" stroke="#1d1b2e" stroke-width="1.6" stroke-linejoin="round"/></svg>';
 function rewardsHelp() {
@@ -113,6 +122,8 @@ document.addEventListener("click", e => {
         e.stopPropagation();
         if (h.dataset.help === "usage")
             usageHelp();
+        else if (h.dataset.help === "credits")
+            creditsHelp();
         else
             rewardsHelp();
     }

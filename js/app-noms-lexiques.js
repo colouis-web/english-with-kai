@@ -4,6 +4,12 @@ const inCat = (n, c) => c === "all" || n.cat === c || (n.also || []).includes(c)
 const nrank = (n, q) => Math.min(rank(n, q), rank({ keys: n.lkeys }, q) + 2);
 const NOPEN = {};
 let NSEL = "all";
+/* R3 : la puce choisie reste visible dans la rangée qui défile ; « All themes » reste collée à gauche (CSS) */
+function chipIntoView(id) {
+    const on = document.querySelector("#" + id + " .chip.on");
+    if (on && on.dataset.cat !== "all" && on.scrollIntoView)
+        on.scrollIntoView({ block: "nearest", inline: "nearest" });
+}
 function nbody(n) {
     return `${scene(SCN.n[n.w])}<p class="pron">/${n.ipa}/ · « ${esc(n.pr)} »</p>
 <div class="forms two">${n.t === "d" ? `<div><i>Digits</i><b${longCls(n.pl)}>${n.pl}</b></div><div><i>Word</i><b${longCls(n.w)}>${n.w}</b></div>` : n.t === "x" ? `<div><i>Singular</i><b${longCls(n.w)}>${n.w}</b></div><div><i>Plural</i><b>—</b></div>` : n.t === "u" ? `<div><i>Singular</i><b${longCls(n.w)}>${n.w}</b></div><div><i>Plural</i><b>—</b><em class="irrpl">Uncountable</em></div>` : n.t === "p" ? `<div><i>Singular</i><b>—</b></div><div><i>Plural</i><b${longCls(n.w)}>${n.w}</b><em class="irrpl">Always plural</em></div>` : `<div><i>Singular</i><b${longCls(n.w)}>${n.w}</b></div><div><i>Plural</i><b${longCls(n.pl)}>${n.pl}</b>${n.ipl ? '<em class="irrpl">Irregular!</em>' : ""}</div>`}</div>
@@ -17,7 +23,7 @@ function ncard(n, open) {
 function renderChips() {
     const cnt = { all: NDICT.length };
     NDICT.forEach(n => [n.cat, ...(n.also || [])].forEach(c => cnt[c] = (cnt[c] || 0) + 1));
-    document.getElementById("nchips").innerHTML = [["all", "All", ""], ...Object.keys(NCAT).map(k => [k, NCAT[k].label, NCAT[k].icon])].map(([k, l, ic]) => `<button class="chip${NSEL === k ? " on" : ""}" data-cat="${k}" aria-pressed="${NSEL === k}">${ic ? `<span class="emo" aria-hidden="true">${ic}</span>` : ""}${l}<i>${cnt[k] || 0}</i></button>`).join("");
+    document.getElementById("nchips").innerHTML = [["all", "All themes", ""], ...Object.keys(NCAT).map(k => [k, NCAT[k].label, NCAT[k].icon])].map(([k, l, ic]) => `<button class="chip${NSEL === k ? " on" : ""}" data-cat="${k}" aria-pressed="${NSEL === k}">${ic ? `<span class="emo" aria-hidden="true">${ic}</span>` : ""}${l}<i>${cnt[k] || 0}</i></button>`).join("");
 }
 function renderNouns() {
     const raw = document.getElementById("nq").value, q = norm(raw);
@@ -42,9 +48,11 @@ document.getElementById("nchips").addEventListener("click", e => {
     const c = e.target.closest("[data-cat]");
     if (!c)
         return;
-    NSEL = c.dataset.cat;
+    /* R3 : re-toucher le thème choisi le désélectionne (retour à « All themes ») */
+    NSEL = c.dataset.cat === NSEL ? "all" : c.dataset.cat;
     renderChips();
     renderNouns();
+    chipIntoView("nchips");
 });
 document.getElementById("nlist").addEventListener("click", e => {
     const t = e.target.closest("[data-ntgl]");
@@ -93,7 +101,7 @@ function makeLex(o) {
     function chips() {
         const cnt = { all: o.data.length };
         o.data.forEach(n => [n.cat, ...(n.also || [])].forEach(c => cnt[c] = (cnt[c] || 0) + 1));
-        $("chips").innerHTML = [["all", "All"], ...Object.keys(o.cats).map(k => [k, o.cats[k].label])].map(([k, l]) => `<button class="chip${SEL === k ? " on" : ""}" data-cat="${k}" aria-pressed="${SEL === k}">${l}<i>${cnt[k] || 0}</i></button>`).join("");
+        $("chips").innerHTML = [["all", "All themes"], ...Object.keys(o.cats).map(k => [k, o.cats[k].label])].map(([k, l]) => `<button class="chip${SEL === k ? " on" : ""}" data-cat="${k}" aria-pressed="${SEL === k}">${l}<i>${cnt[k] || 0}</i></button>`).join("");
     }
     function render() {
         const raw = $("q").value, q = norm(raw);
@@ -116,9 +124,10 @@ function makeLex(o) {
         const c = e.target.closest("[data-cat]");
         if (!c)
             return;
-        SEL = c.dataset.cat;
+        SEL = c.dataset.cat === SEL ? "all" : c.dataset.cat;
         chips();
         render();
+        chipIntoView(o.id + "chips");
     });
     $("list").addEventListener("click", e => {
         const t = e.target.closest("[data-ltgl]");

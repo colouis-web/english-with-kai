@@ -110,17 +110,27 @@ function buildQs(k0, tag0, words) {
 let QZ = null;
 /* découpe la phrase en lignes pour la bulle (le mot à trouver reste en surbrillance) */
 let MCTX = null;
-function measure(t) {
+/* R1 : taille du texte des bulles (unités du viewBox, 360 de large) = variable CSS --bfs ; 20 donne ≥ 18 px à l'écran dès 360 px de large.
+   Le réglage « Text size » (Me) la change ; la mise en lignes de la bulle et sa hauteur suivent. */
+function bubbleFs() {
     try {
-        MCTX = MCTX || document.createElement("canvas").getContext("2d");
-        MCTX.font = '400 15px "Roboto Condensed","Arial Narrow",Roboto,sans-serif';
-        return MCTX.measureText(t).width;
+        return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bfs")) || 20;
     }
     catch (e) {
-        return t.length * 8;
+        return 20;
     }
 }
-function wrapRows(s, maxW) {
+function measure(t, fs) {
+    try {
+        MCTX = MCTX || document.createElement("canvas").getContext("2d");
+        MCTX.font = `500 ${fs || 20}px "Roboto Condensed","Arial Narrow",Roboto,sans-serif`;
+        return MCTX.measureText(t).width + t.length * .2;
+    }
+    catch (e) {
+        return t.length * (fs || 20) * .5;
+    }
+}
+function wrapRows(s, maxW, fs) {
     const toks = [];
     let prevEnd = true;
     s.split(/(\*[^*]+\*)/).forEach(seg => {
@@ -133,7 +143,7 @@ function wrapRows(s, maxW) {
     const rows = [];
     let cur = [], cw = 0;
     for (const t of toks) {
-        const tw = measure(t.w + " ");
+        const tw = measure(t.w + " ", fs);
         if (cur.length && !t.glue && !/^[!?:;»]+$/.test(t.w) && cw + tw > maxW) {
             rows.push(cur);
             cur = [];
@@ -158,10 +168,10 @@ const ROT = { good: ["smile", "joy"], bad: ["head", "grumpy", "head", "bored"] }
 const nextFace = k => ROT[k][ROTI[k]++ % ROT[k].length];
 /* lang : "fr" quand la bulle porte une phrase française (S-10), pour que le lecteur d'écran la lise avec le bon accent */
 function headSvg(sentence, face, mood, lang) {
-    const rows = wrapRows(sentence, 168), n = rows.length, lh = 18, ry = Math.max(44, n * lh / 2 + 22), cx = 238, H = Math.max(176, 2 * ry + 26), cy = H / 2, rx = 116;
+    const fs = bubbleFs(), lh = Math.round(fs * 1.4), rows = wrapRows(sentence, 168, fs), n = rows.length, ry = Math.max(44, n * lh / 2 + 22), cx = 238, H = Math.max(176, 2 * ry + 26), cy = H / 2, rx = 116;
     return `<svg viewBox="0 0 360 ${f1(H)}" role="img" aria-label="Kai : ${esc(plain(sentence))}">
 <image class="kai qface${mood ? " " + mood : ""}" href="img/kai-${face}.webp" x="2" y="${f1(H - 150)}" width="122" height="150" preserveAspectRatio="xMidYMax meet"/>
-<g class="bb b1 qb"><path d="${bubblePath([cx, cy], [rx, ry], [108, H - 62])}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle"${lang ? ` lang="${lang}"` : ""}>${rows.map((r, j) => `<tspan x="${cx}" y="${f1(cy - (n - 1) * lh / 2 + 5 + j * lh)}">${rowTok(r)}</tspan>`).join("")}</text></g></svg>`;
+<g class="bb b1 qb"><path d="${bubblePath([cx, cy], [rx, ry], [108, H - 62])}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle"${lang ? ` lang="${lang}"` : ""}>${rows.map((r, j) => `<tspan x="${cx}" y="${f1(cy - (n - 1) * lh / 2 + fs * .33 + j * lh)}">${rowTok(r)}</tspan>`).join("")}</text></g></svg>`;
 }
 const QW = () => document.getElementById("qwrap");
 const GOSVG = '<svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';

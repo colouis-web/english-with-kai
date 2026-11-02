@@ -169,7 +169,12 @@ INIT_JS = r"""
     return Promise.resolve();
   };
   HTMLMediaElement.prototype.pause = function () {};
+  // Journal des messages éphémères (#toast) : un test attend CE message, même s'il a déjà disparu quand il regarde.
+  window.__toasts = [];
   document.addEventListener('DOMContentLoaded', () => {
+    const t = document.getElementById('toast');
+    if (t) new MutationObserver(() => { const x = (t.textContent || '').trim(); if (x) window.__toasts.push(x); })
+      .observe(t, { childList: true, characterData: true, subtree: true });
     const s = document.createElement('style');
     s.id = '__no_anim';
     s.textContent = '*,*::before,*::after{animation-duration:.001s!important;animation-delay:0s!important;' +
@@ -263,12 +268,105 @@ def new_context(browser, base, viewport, collector=None, seed=None, now=None, mo
     return ctx
 
 
+SETTLE_JS = """() => { try { return PROFS.list.length === 0 || (document.querySelector('.page.on') || {}).id !== 'home' } catch (e) { return false } }"""
+
+
+def settle(page, timeout=10000):
+    """Le démarrage de l'application est TERMINÉ (attente d'état, pas de délai) :
+      1. les scripts ont créé PROFS et un écran est affiché ;
+      2. la barrière « un tour de boucle d'événements » passe derrière le setTimeout(bootDirect, 0) de l'application ;
+      3. un élève déjà enregistré a quitté l'écran de Kai (home) pour « My daily work » ou « Who's learning »."""
+    page.wait_for_function("typeof PROFS !== 'undefined' && !!document.querySelector('.page.on')", timeout=timeout)
+    page.evaluate("() => new Promise(r => setTimeout(r, 0))")
+    # (non bloquant : des données corrompues peuvent légitimement laisser l'écran d'accueil ; le test constate)
+    wait_js(page, SETTLE_JS, timeout=min(timeout, 6000))
+
+
 def open_app(page, base, wait_boot=True):
     page.goto(base + "index.html")
     if wait_boot:
-        page.wait_for_function("typeof PROFS !== 'undefined' && !!document.querySelector('.page.on')")
-        page.wait_for_timeout(120)   # setTimeout(bootDirect, 0) : démarrage direct d'un élève connu
+        settle(page)
     return page
+
+
+def reload_app(page, timeout=10000):
+    """Recharge la page et attend la fin du démarrage."""
+    page.reload()
+    settle(page, timeout)
+    return page
+
+
+def wait_js(page, expr, arg=None, timeout=5000):
+    """Attend qu'une expression JavaScript devienne vraie. Renvoie True/False au lieu de lever une exception :
+    le contrôle qui suit constate et affiche l'état réel (un test qui s'arrête sur un délai n'apprend rien)."""
+    try:
+        page.wait_for_function(expr, arg=arg, timeout=timeout)
+        return True
+    except Exception:   # noqa: BLE001
+        return False
+
+
+def frames(page, n=2):
+    """Attend n images affichées (requestAnimationFrame) : la mise en page et la peinture sont à jour. Ce n'est pas un délai."""
+    page.evaluate("n => new Promise(r => { const f = () => (--n > 0 ? requestAnimationFrame(f) : r()); requestAnimationFrame(f) })", n)
+
+
+def stable(page, timeout=10000):
+    """Écran prêt à être photographié ou mesuré : polices chargées, images visibles décodées, mises en page appliquées."""
+    page.evaluate("""async () => {
+      try { await document.fonts.ready } catch (e) {}
+      const imgs = [...document.images].filter(i => i.offsetParent !== null);
+      await Promise.all(imgs.map(i => (i.decode ? i.decode().catch(() => {}) : Promise.resolve())));
+    }""")
+    frames(page, 2)
+
+
+MODAL_PRET_JS = """() => {
+  if (!document.getElementById('modal').classList.contains('on')) return false;
+  const a = document.activeElement, c = document.getElementById('pcin');
+  return c ? a === c : (!!a && a.className === 'mx');
+}"""
+
+
+def modal_prete(page, timeout=10000):
+    """La fenêtre est ouverte ET l'application a fini de placer le focus.
+    openModal() met le focus sur la croix 40 ms après l'ouverture, puis les fenêtres de code le mettent sur le champ #pcin à 90 ms.
+    Taper (ou valider par Entrée) avant la fin de cette séquence envoie la touche à la croix : la fenêtre se ferme sans vérifier le code.
+    C'était la cause de l'échec intermittent de P12 (« Wrong code » jamais affiché)."""
+    return wait_js(page, MODAL_PRET_JS, timeout=timeout)
+
+
+def question_prete(page, mobile, champ):
+    """Test noté : sur ordinateur (pas de tactile), l'application donne le focus au premier champ 380 ms après l'AFFICHAGE de la question
+    (renderTQ). Écrire avant, c'est se faire reprendre le focus au milieu de la saisie : l'Entrée du 2e champ tombe alors sur le 1er
+    et ne valide pas (cause de P07.29 / P07.x). Sur téléphone (hover:none), il n'y a pas d'auto-focus : rien à attendre."""
+    if mobile:
+        return True
+    return wait_js(page, "id => !!document.activeElement && document.activeElement.id === id", arg=champ, timeout=5000)
+
+
+def toast_gone(page, timeout=6000):
+    """Le message éphémère a disparu (classe .show retirée)."""
+    return wait_js(page, "() => !document.getElementById('toast').classList.contains('show')", timeout=timeout)
+
+
+TOAST_JS = """s => { const L = window.__toasts || []; let i = window.__tpos || 0;
+  for (; i < L.length; i++) if (!s || L[i].includes(s)) { window.__tpos = i + 1; return L[i] } return false }"""
+
+
+def next_toast(page, contient="", timeout=15000):
+    """Texte du PROCHAIN message éphémère (contenant `contient`) apparu depuis le dernier appel ou depuis toast_reset().
+    La page journalise ses messages (window.__toasts, voir INIT_JS) : on les trouve qu'ils soient encore affichés ou déjà
+    disparus, sans délai fixe. Renvoie le texte actuellement affiché si rien n'est venu (le contrôle qui suit constatera)."""
+    try:
+        return page.wait_for_function(TOAST_JS, arg=contient or "", timeout=timeout).json_value()
+    except Exception:   # noqa: BLE001
+        return (page.locator("#toast").text_content() or "").strip()
+
+
+def toast_reset(page):
+    """On ne s'intéresse qu'aux messages qui vont venir."""
+    page.evaluate("() => { window.__tpos = (window.__toasts || []).length }")
 
 
 def current_page(page):
@@ -285,6 +383,37 @@ def js_available(page, names):
     # `typeof NOM` ne lève pas d'erreur pour une globale inexistante (et n'utilise pas eval : compatible CSP).
     js = "() => [" + ",".join(f'["{n}", typeof {n}]' for n in names) + "]"
     return [n for n, t in page.evaluate(js) if t == "undefined"]
+
+
+# --------------------------------------------------------------------------- appareils et moteurs
+
+# Petits iPhone du fils (T5/R2) : taille d'écran PLEIN ÉCRAN en points CSS. Le descripteur Playwright donne l'agent, le ratio de pixels
+# et le tactile ; la fenêtre visible de Safari (barres comprises) est plus basse : « Safari » = hauteur du descripteur.
+APPAREILS = {
+    "se":          {"descripteur": "iPhone SE (3rd gen)", "viewport": (375, 667), "titre": "iPhone SE (375×667)"},
+    "mini":        {"descripteur": "iPhone 13 Mini",      "viewport": (375, 812), "titre": "iPhone mini (375×812)"},
+    "mini-safari": {"descripteur": "iPhone 13 Mini",      "viewport": None,        "titre": "iPhone mini avec les barres de Safari (375×629)"},
+    "ref390":      {"descripteur": "iPhone 13",           "viewport": (390, 844), "titre": "iPhone 13/14 (390×844, référence)"},
+}
+
+
+def appareil(pw, cle):
+    """(viewport, kwargs de new_context) d'un petit iPhone, d'après les descripteurs de Playwright."""
+    a = APPAREILS[cle]
+    d = dict(pw.devices[a["descripteur"]])
+    d.pop("default_browser_type", None)
+    vp = a["viewport"] or (d["viewport"]["width"], d["viewport"]["height"])
+    d.pop("viewport", None)
+    d.pop("screen", None)
+    return vp, d
+
+
+def lancer_moteur(pw, nom):
+    """Lance un autre moteur que Chromium (« webkit » = Safari). Renvoie (navigateur, '') ou (None, raison) s'il n'est pas installé."""
+    try:
+        return getattr(pw, nom).launch(), ""
+    except Exception as ex:   # noqa: BLE001
+        return None, (str(ex).strip().splitlines() or ["lancement impossible"])[0][:200]
 
 
 # --------------------------------------------------------------------------- ligne de commande
@@ -314,6 +443,7 @@ def run_suite(suite, description, run, extra=None):
         collector = Collector(base)
         try:
             with sync_playwright() as p:
+                args.pw = p          # pour les suites qui ont besoin de p.devices (iPhone) ou d'un autre moteur (WebKit)
                 browser = p.chromium.launch()
                 try:
                     run(args, base, browser, bilan, collector)

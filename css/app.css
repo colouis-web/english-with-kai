@@ -7,7 +7,7 @@ body{color:var(--ink);font:800 16px/1.4 var(--ui)}
 main{max-width:480px;min-height:100svh;margin:0 auto;padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
 h1{margin:0;text-align:center;font:700 clamp(24px,7vw,32px)/1.05 var(--title);letter-spacing:.6px;text-transform:uppercase}
 h1 span{display:block;font-size:1em;letter-spacing:1px;color:var(--teal)}
-.stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;margin:6px 0 10px}
+.stage{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:240px;margin:6px 0 10px}
 .stagebox{position:relative;width:100%;max-height:calc(100svh - 250px);aspect-ratio:360/640;margin:0 auto}
 .stagebox svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .kaitap{position:absolute;left:58%;top:3%;width:41%;height:96%;border:0;background:transparent;cursor:pointer;border-radius:30px;padding:0}
@@ -16,7 +16,10 @@ h1 span{display:block;font-size:1em;letter-spacing:1px;color:var(--teal)}
 .bb{cursor:pointer;transform-box:fill-box;transform-origin:90% 60%;animation:popin .45s cubic-bezier(.3,1.35,.5,1) both}
 .bb.b2{animation-delay:.9s}.bb.b1{animation-delay:.35s}
 @keyframes popin{from{transform:scale(0);opacity:0}}
-.bb text{font:400 18px var(--bub);fill:var(--ink);letter-spacing:.3px}
+/* R1 : texte des bulles de Kai, 500 / 20 unités du viewBox (≥ 18 px à l'écran dès 360 px de large). --bfs suit le réglage « Text size » (Me). */
+:root{--bfs:20px}
+.bb text{font:500 var(--bfs) var(--bub);fill:var(--ink);letter-spacing:.2px}
+.stagebox .bb text{font-size:21px}
 .bb .hl{fill:var(--teal);font-weight:700}
 .bb.talk path{animation:talk .5s ease-in-out infinite alternate}
 @keyframes talk{to{stroke-width:4}}
@@ -48,7 +51,7 @@ body.navlock .page{pointer-events:none}
 .say::after{left:-10px;margin-top:-5.5px;border-width:5.5px 11px 5.5px 0;border-right-color:#fff}
 .mhead{margin:6px 0 18px}.mhead svg{width:100%;height:auto;overflow:visible}
 .mhead .kb{cursor:pointer}
-#askb text{font-size:15.5px}
+
 .tiles{display:grid;gap:14px}
 .tile{display:grid;grid-template-columns:92px 1fr 24px;align-items:center;gap:14px;text-align:left;padding:10px 14px 10px 10px;border:3px solid var(--ink);border-radius:20px;background:#fff;box-shadow:0 5px 0 var(--ink);cursor:pointer;color:var(--ink);transition:transform .06s,box-shadow .06s}
 .tile:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
@@ -113,10 +116,10 @@ body.navlock .page{pointer-events:none}
 .dots i.cur{background:#fff;box-shadow:0 0 0 2.5px var(--teal)}
 .dots i.ok{background:#2bb673}.dots i.ko{background:#e5484d}
 .qhead svg,.qend svg{width:100%;height:auto;overflow:visible;display:block}
-.qb text{font-size:15px}.bb.qb{transform-origin:0% 75%;cursor:default}
+.bb.qb{transform-origin:0% 75%;cursor:default}
 .kai.qface{animation:none}.kai.qface.joy{animation:hop .55s cubic-bezier(.3,1.6,.5,1)}.kai.qface.sad{animation:sad .7s ease}
 @keyframes sad{25%{transform:translateY(5px) rotate(-2deg)}55%{transform:translateY(3px) rotate(2deg)}}
-#endb text{font-size:16px}
+.qend .bb text{font-size:19px}
 .qend .kai.mad{animation:mad .5s ease 2}@keyframes mad{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 @keyframes hop{35%{transform:translateY(-9px)}}
 .qask{text-align:center;font:700 15px var(--claude);letter-spacing:.8px;text-transform:uppercase;color:var(--mut);margin:8px 0 10px}
@@ -153,6 +156,9 @@ body.navlock .page{pointer-events:none}
 .chip i{font-style:normal;font-weight:500;color:var(--mut)}
 .chip.on{background:var(--ink);color:#fff}.chip.on i{color:#c9cbe0}
 .chip:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+/* R3 : « All themes » reste collée à gauche de la rangée ; un thème choisi porte une coche (l'état ne dépend pas de la couleur seule) */
+.chip[data-cat="all"]{position:sticky;left:16px;z-index:1;box-shadow:8px 0 8px -6px rgba(29,27,46,.28)}
+.chip.on:not([data-cat="all"])::before{content:"\2713";font-weight:800;margin-right:-2px}
 .emo{font-family:"Noto Emoji";font-variant-emoji:text;font-weight:500;color:var(--ink);visibility:hidden}
 html.emo-ok .emo{visibility:visible}html.emo-no .emo{display:none}
 .vh .emo{font-size:27px}
@@ -879,3 +885,244 @@ html.mlock,html.mlock body{overflow:hidden}
 .t6ban span{flex:1}.t6ban b{display:block;font:800 15px var(--claude);text-transform:uppercase;letter-spacing:.4px}
 .t6ban .go{width:20px;height:20px;color:#a35200}
 #test .top h1,#tests .top h1{font-size:clamp(22px,6.6vw,32px);line-height:1.1}
+
+/* ===== Sprint Kai 2 — lisibilité (Ouss) : R1 phrases, R2 cadrage des images, T3 « Text size » ===== */
+/* R1 : phrases d'exemple et d'exercice ≥ 18 px (≥ 16 px pour la traduction), graisse 500, interligne 1,4 */
+.ex .en{font:500 18px/1.4 var(--claude)}
+.ex .fr{font:400 16px/1.4 var(--claude)}
+.psent{line-height:1.4}
+.t3en{line-height:1.4}
+.t3fr{font-size:17px;line-height:1.4}
+.tins{font-size:16px;line-height:1.4}
+/* T3 : réglage « Text size » par élève. Classe sur <html> posée par txApply() (js/app-profils.js).
+   zoom agrandit tout (texte, boutons, tuiles) et laisse la mise en page se recomposer sur la largeur restante ;
+   --bfs : taille du texte des bulles de Kai (unités du viewBox, voir bubbleFs() dans app-quiz.js). */
+html.ts-l{--zf:1.12;zoom:var(--zf);--bfs:22.5px}
+html.ts-xl{--zf:1.25;zoom:var(--zf);--bfs:25px}
+.tsseg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 6px}
+.tsseg button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:58px;padding:6px 4px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;color:var(--ink);cursor:pointer;box-shadow:0 3px 0 var(--ink);font-family:var(--claude);line-height:1.15}
+.tsseg b{font:700 17px/1.1 var(--claude);text-align:center}
+.tsseg small{font:500 13px/1.1 var(--claude);color:var(--mut)}
+.tsseg button.on{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 3px 0 #075a62}
+.tsseg button.on small{color:#fff}
+.tsseg button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+/* T3 : « Large » et « Extra large » sur petit écran — le zoom réduit la largeur utile (375 px → 335 / 300), on resserre tuiles et cartes de mots */
+@media (max-width:480px){
+  html.ts-l .tile,html.ts-l .tile.wide{grid-template-columns:80px minmax(0,1fr) 20px;gap:10px}
+  html.ts-l .tile .pic{height:130px}
+  html.ts-l .tile b{font-size:23px}
+  html.ts-xl .tile,html.ts-xl .tile.wide{grid-template-columns:64px minmax(0,1fr) 18px;gap:8px;padding-right:10px}
+  html.ts-xl .tile .pic{height:110px}
+  html.ts-xl .tile b{font-size:21px}
+  html.ts-l .vh,html.ts-xl .vh{flex-wrap:wrap}
+  html.ts-l .vh .side,html.ts-xl .vh .side{order:3;flex-direction:row;align-items:center;justify-content:space-between;width:100%;align-self:auto}
+  html.ts-l .vh .w,html.ts-xl .vh .w{flex:1 1 0;min-width:120px}
+  html.ts-l .lvpick,html.ts-xl .lvpick{grid-template-columns:minmax(0,1fr)}
+  html.ts-l .mecard,html.ts-xl .mecard{grid-template-columns:52px minmax(0,1fr)}
+  html.ts-l .mecard .ghost,html.ts-xl .mecard .ghost{grid-column:1/-1;justify-self:center}
+  html.ts-l .ava.big,html.ts-xl .ava.big{width:52px;height:52px;font-size:24px}
+  html.ts-l .tkpi,html.ts-xl .tkpi{grid-template-columns:minmax(0,1fr)}
+  html.ts-xl .gtile b{font-size:17px;letter-spacing:.2px}
+  html.ts-xl .tcard{grid-template-columns:40px minmax(0,1fr)}
+  html.ts-xl .tcard .tgo{grid-column:2;justify-self:start}
+  html.ts-xl .tci{width:40px;height:40px}
+}
+/* R3 : une puce choisie qui défile n'est jamais cachée sous « All themes » (collée à gauche) */
+.chip{scroll-margin-left:170px;scroll-margin-right:16px}
+.chip[data-cat="all"]{scroll-margin-left:0}
+/* R2 : cadrage des images sur petits écrans (iPhone SE 375×667, mini 375×812, 360–430 px)
+   — « Let's talk » : l'image entière (plus de recadrage carré qui coupe les têtes), hauteur plafonnée à ~46 % de l'écran visible ;
+   — « Congrats! » et « See you tomorrow » : hauteurs relatives à l'écran visible (svh), le bouton reste toujours atteignable ;
+   — zones de sécurité (encoche, barre d'accueil) à gauche et à droite aussi. */
+.tkpic{aspect-ratio:auto;display:flex;align-items:center;justify-content:center;width:min(100%,340px)}
+.tkpic img{width:100%;height:auto;max-height:min(calc(46 * var(--sv)),420px);object-fit:contain}
+.congrats{padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.cgbox{display:flex;flex-direction:column;max-height:calc(100 * var(--sv) - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow-y:auto;overscroll-behavior:contain}
+.cgbox img{position:relative;z-index:1;flex:0 1 auto;width:100%;height:clamp(150px,calc(44 * var(--sv)),440px);min-height:120px;object-fit:contain;object-position:50% 100%}
+/* bandes de part et d'autre de l'image entière : la même image, floutée et agrandie (pas de liseré, rien n'est coupé sur l'image elle-même) */
+.cgbox::before{content:"";position:absolute;left:-24px;right:-24px;top:-24px;height:calc(clamp(150px,calc(44 * var(--sv)),440px) + 48px);min-height:168px;background:url(../img/kai-congrats.webp) 50% 30%/cover;filter:blur(14px);clip-path:inset(24px 0 24px 0)}
+.cgbox .cgbub{z-index:2}
+.xcross img{height:clamp(220px,min(calc(78 * var(--sw)),calc(46 * var(--sv))),400px)}
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+/* R1/R2 : accueil « compact » sur téléphone court (voir fit() dans app-scene-voix.js) : pleine largeur, Kai entier, bulles lisibles */
+.stagebox.compact{position:absolute;inset:0;width:auto;max-height:none;aspect-ratio:auto}
+/* Unités d'écran « sv » / « sw » (= 1 % de la hauteur / largeur visibles) : sous zoom, svh et vw seraient agrandis du facteur de zoom ;
+   txMetrics() (app-profils.js) les recalcule en px quand « Text size » n'est pas Normal (innerHeight / zoom / 100). */
+:root{--sv:1svh;--sw:1vw}
+main{min-height:calc(100 * var(--sv))}
+.stagebox{max-height:calc(100 * var(--sv) - 250px)}
+.mbox{max-height:calc(100 * var(--sv) - 40px)}
+.toast{max-width:calc(100 * var(--sw) - 32px)}
+
+/* ===== Sprint Kai 2 B — certificats (Ouss) : tuile, page Certificates, épreuve, résultat, page des parents (js/app-certificats-ui.js) ===== */
+/* tuile du menu : pastille « à renouveler » */
+.tile .cpill{display:inline-block;min-width:26px;margin-left:8px;padding:1px 8px;border-radius:99px;background:#c4312f;color:#fff;font:800 15px/1.4 var(--claude);font-style:normal;letter-spacing:0;text-align:center;vertical-align:4px}
+.tile .cpill[hidden]{display:none}
+/* Kai qui parle : bulle HTML (texte 18 px, graisse 500, interligne 1,4 : R1) */
+.ckai{display:grid;grid-template-columns:56px minmax(0,1fr);align-items:center;gap:14px;margin:8px 0 12px}
+.kav{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:50% 8%;background:#e9f6f7;border:3px solid var(--ink)}
+.cbub{position:relative;padding:10px 14px;border:3px solid var(--ink);border-radius:18px;background:#fff;font:500 18px/1.4 var(--claude);color:var(--ink)}
+.cbub::before{content:"";position:absolute;left:-13px;top:50%;margin-top:-9px;border:9px solid transparent;border-left:0;border-right-color:var(--ink)}
+.cbub::after{content:"";position:absolute;left:-8px;top:50%;margin-top:-6px;border:6px solid transparent;border-left:0;border-right-color:#fff}
+.cbub b{font-weight:700;color:#075a62}
+.cbub small{display:block;margin-top:2px;font:400 16px/1.3 var(--claude);color:var(--mut)}
+.cbub .casks{display:block}
+.cbub .cmore{display:block;font-size:16px;color:var(--mut)}
+.cbub .cenc{display:block;font-weight:700;color:#075a62}
+.crow{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:12px}
+.cfr{margin:6px 4px 0;text-align:center;font:400 15px/1.4 var(--claude);color:var(--mut)}
+.cnone{margin:6px 4px 10px;text-align:center;font:500 16px/1.4 var(--claude);color:var(--mut)}
+.cnote{margin:10px 4px 0;text-align:center;font:500 14px/1.4 var(--claude);color:var(--mut)}
+.cnote2{margin:0;text-align:center;font:500 17px/1.4 var(--claude);color:var(--ink)}
+.cnote2 b{color:#075a62}
+/* rappel de Kai (J-7) et reprise */
+.crenew{margin:6px 0 4px;padding:10px 10px 12px;border:3px solid #e58a1f;border-radius:20px;background:#fff3dc}
+.crenew .ckai{margin-top:0}
+.crenew .cfr{color:#6d3b00}
+.cresume{display:grid;gap:6px;margin:8px 0;padding:12px 14px;border:3px solid var(--teal);border-radius:18px;background:#e6f7f8;font:500 16px/1.35 var(--claude)}
+.cresume b{font:700 19px var(--claude);letter-spacing:.4px;text-transform:uppercase;color:#075a62}
+.cresume .listen{justify-self:start}
+/* badges datés */
+.cgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cbadge{padding:12px 8px 10px;border:3px solid #1f9d55;border-radius:18px;background:#ecfbf2;text-align:center;min-width:0}
+.cbadge .seal{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 4px;border:3px solid #1f9d55;border-radius:50%;background:#fff;font-size:26px;line-height:1}
+.cbadge b{display:block;font:700 16px/1.15 var(--claude);letter-spacing:.3px;overflow-wrap:anywhere}
+.cbadge small{display:block;margin-top:3px;font:600 13px/1.25 var(--claude);color:#106b39}
+.cbadge.due{border-color:#e58a1f;background:#fff3dc}.cbadge.due .seal{border-color:#e58a1f}.cbadge.due small{color:#8a4b00;font-weight:700}
+.cbadge.gone{border-color:#d64545;background:#fff1f0}.cbadge.gone .seal{border-color:#d64545}.cbadge.gone small{color:#b42318;font-weight:700}
+.cbadge.off{border-style:dashed;border-color:#b5b9c9;background:#f4f5f8}.cbadge.off .seal{border-color:#b5b9c9;filter:grayscale(1);opacity:.7}.cbadge.off small{color:#5f6478}
+.cbadge.big{max-width:280px;margin:12px auto 0;animation:hop .6s cubic-bezier(.3,1.6,.5,1)}
+.cbadge.big small{font-size:14px}
+/* choisir un certificat */
+.clist{display:grid;gap:10px}
+.citem{display:flex;align-items:center;gap:12px;width:100%;min-height:62px;padding:8px 12px;border:3px solid var(--ink);border-radius:16px;background:#fff;box-shadow:0 4px 0 var(--ink);color:var(--ink);text-align:left;cursor:pointer;transition:transform .06s,box-shadow .06s}
+.citem:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.citem:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.citem .em{flex:none;width:36px;text-align:center;font-size:28px;line-height:1}
+.citem .t{flex:1;min-width:0}.citem .t b{display:block;font:700 18px/1.15 var(--claude);letter-spacing:.3px;overflow-wrap:anywhere}.citem .t small{display:block;margin-top:2px;font:500 14px/1.3 var(--claude);color:var(--mut)}
+.citem.wait{opacity:.75;box-shadow:none;border-color:#b5b9c9;cursor:default}
+.citem .pill{flex:none;padding:3px 9px;border-radius:99px;font:800 13px var(--claude);letter-spacing:.4px;text-transform:uppercase}
+.pill.ready{background:#ecfbf2;color:#106b39;box-shadow:inset 0 0 0 2px #1f9d55}
+.pill.soonp{background:#fff3dc;color:#8a4b00;box-shadow:inset 0 0 0 2px #e58a1f}
+/* avant l'épreuve */
+.crules{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;list-style:none;margin:8px 0 0;padding:0}
+.crules li{padding:6px 12px;border-radius:99px;background:#f0f1f5;font:700 15px var(--claude);letter-spacing:.3px;text-transform:uppercase}
+.csq{margin:0 0 10px;font:600 18px/1.35 var(--claude)}.csq small{display:block;font:400 15px var(--claude);color:var(--mut)}
+.csound{display:grid;gap:10px}
+.csound button{display:flex;align-items:center;gap:12px;min-height:60px;padding:8px 14px;border:3px solid var(--ink);border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 4px 0 var(--ink);font:700 19px/1.2 var(--claude);text-align:left;cursor:pointer}
+.csound button span{flex:none;font-size:26px}
+.csound button small{display:inline;font:500 16px var(--claude);color:inherit;opacity:.9}
+.csound button.on{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 4px 0 #075a62}
+.csound button:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+#cstart{display:flex;margin:18px auto 6px}
+/* l'épreuve */
+#cexam .top{grid-template-columns:auto minmax(0,1fr) 44px}
+#cexam .top h1{font-size:clamp(20px,6vw,28px);line-height:1.1}
+.back.cquit{width:auto;display:flex;align-items:center;gap:4px;padding:0 12px 0 8px;font:700 16px var(--claude);letter-spacing:.5px;text-transform:uppercase}
+.cprog{display:flex;justify-content:space-between;align-items:baseline;margin:6px 2px 6px}
+.cfmt{font:700 14px var(--claude);letter-spacing:.8px;text-transform:uppercase;color:#075a62}
+.cprog b{font:800 19px var(--claude);font-variant-numeric:tabular-nums}
+.cq{display:grid;gap:12px}
+.cbig{margin:0;font:700 30px/1.2 var(--claude);overflow-wrap:anywhere}
+.cpic .cem{font-size:92px;line-height:1.15}
+.cq .t3card{min-height:96px;justify-content:center}
+.cq .t3in{margin:2px 0}
+.cans{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;min-height:68px;padding:8px;border:3px dashed #b5b9c9;border-radius:16px}
+.cph{font:500 16px var(--claude);color:var(--mut)}
+.cpool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px}
+.ctile{min-height:48px;padding:0 14px;border:3px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--ink);font:700 21px var(--claude);cursor:pointer}
+.ctile:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.ctile.in{background:#e6f7f8;border-color:var(--teal);box-shadow:0 3px 0 var(--teal)}
+.ctile[hidden]{display:none}
+.ctile:focus-visible,.ctok:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.cfix{display:flex;flex-wrap:wrap;gap:4px 6px;justify-content:center;margin:0;font:700 22px/1.4 var(--claude)}
+.ctok{min-height:46px;min-width:44px;padding:0 8px;border:2px dashed #b5b9c9;border-radius:12px;background:#fff;color:var(--ink);font:700 22px var(--claude);cursor:pointer}
+.ctok.pick{background:#fff3dc;border:2px solid #e58a1f}
+.ctok.bad{background:#ffe3e3;border:2px solid #d64545}
+.ctok:disabled{cursor:default}
+.cdict{gap:6px}.cdict small{color:#6d4a00}
+.cfb{margin-top:14px;display:grid;gap:10px;justify-items:center}.cfb:empty{display:none}
+.cfb .verdict{display:flex;align-items:center;justify-content:center;gap:8px}
+.verdict .stamp{width:28px;height:28px}
+.cfb .listen{justify-self:center}
+/* résultat */
+.cscore{display:grid;justify-items:center;margin:6px 0 2px}
+.cscore b{font:800 64px/1 var(--claude)}.cscore b i{font-size:.45em;font-style:normal;color:var(--mut)}
+.cscore span{font:700 15px var(--claude);letter-spacing:.6px;text-transform:uppercase;color:var(--mut)}
+.cres.pass .cscore b{color:#106b39}
+.cfmts{display:grid;gap:6px;list-style:none;margin:8px 0 12px;padding:0}
+.cfmts li{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:12px;background:#f6f7fa;font:500 16px var(--claude)}
+.cfmts li b{font:800 17px var(--claude)}
+.cstars{display:flex;align-items:center;justify-content:center;gap:6px;margin:8px 0 0;font:800 24px var(--claude)}
+.cres .crow .listen,.cres .crow .ghost{justify-content:center}
+.cres .crow .ghost{min-height:48px}
+/* rattrapage */
+.canswer{position:relative;padding:12px 48px 12px 14px;border:3px solid #1f9d55;border-radius:16px;background:#ecfbf2;font:500 20px/1.4 var(--claude)}
+.canswer>span{display:block;font:700 13px var(--claude);letter-spacing:.8px;text-transform:uppercase;color:#106b39}
+.canswer p{margin:2px 0 0}
+.canswer .cans-w{color:#106b39;font-weight:800}.canswer s{color:#a12a2a}
+.canswer .snd{position:absolute;right:8px;top:8px}
+.canswer .cnote2{text-align:left;margin-top:6px;font-size:16px}
+#cgot{display:flex;margin:0 auto}
+#cfxsay.snd{margin:0 auto}
+/* page des parents : sur l'écran, puis sur papier */
+.pactions{margin:14px 0 6px;text-align:center}
+.pactions .listen{display:inline-flex}
+.psheet{padding:16px;border:3px solid var(--ink);border-radius:18px;background:#fff;color:var(--ink);font:400 16px/1.45 var(--claude)}
+.psheet h2{margin:0;font:700 26px/1.1 var(--claude);letter-spacing:.6px;text-transform:uppercase}
+.psheet .ptitle{margin:2px 0 0;font:700 20px var(--claude);color:#075a62}
+.pwho{display:grid;gap:4px;margin:14px 0 10px}.pwho div{display:flex;gap:8px}.pwho dt{min-width:92px;font-weight:700}.pwho dd{margin:0}
+.psum{margin:0 0 10px;font-weight:700}
+.ptab{width:100%;border-collapse:collapse}
+.ptab th,.ptab td{padding:8px 6px;border-bottom:1px solid #d6d9e3;text-align:left;vertical-align:top;font-size:16px}
+.ptab thead th{border-bottom:2px solid var(--ink);font:700 13px var(--claude);letter-spacing:.5px;text-transform:uppercase}
+.ptab tbody th{font-weight:700}
+.ptab td.st{font-weight:700}.ptab td.st-ok{color:#106b39}.ptab td.st-due{color:#8a4b00}.ptab td.st-gone{color:#b42318}.ptab td.st-off{color:#5f6478}
+.psheet footer{margin-top:14px;font-size:14px;color:var(--mut)}.psheet footer p{margin:0 0 6px}
+.pnone{margin:6px 0;color:var(--mut)}
+@media (max-width:560px){
+  .ptab thead{position:absolute;left:-9999px}
+  .ptab tr{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;padding:8px 0;border-bottom:1px solid #d6d9e3}
+  .ptab tbody th{grid-column:1/-1;border:0;padding:0;font-size:18px}
+  .ptab td{border:0;padding:0}
+  .ptab td::before{content:attr(data-l);display:block;font:700 12px var(--claude);letter-spacing:.4px;text-transform:uppercase;color:var(--mut)}
+}
+/* petit écran : l'épreuve ne déborde jamais sur la largeur */
+#cexam,#certs,#cparents{overflow-x:clip}
+@media (max-width:390px){
+  .ckai{grid-template-columns:48px minmax(0,1fr);gap:12px}.kav{width:48px;height:48px}
+  .cbig{font-size:26px}
+}
+/* impression : une page A4, sans les boutons, sans le zoom « Text size » */
+@page{size:A4 portrait;margin:14mm}
+@media print{
+  html,html.ts-l,html.ts-xl{zoom:1!important;background:#fff!important;height:auto!important}
+  body{background:#fff!important;height:auto!important}
+  #cparents.on{display:block!important;min-height:0!important;max-width:none!important;padding:0!important;animation:none!important}
+  #cparents .top,#cparents .pactions,.toast,.modal,.congrats,.confetti{display:none!important}
+  .psheet{border:0;border-radius:0;padding:0;color:#000;font-size:12pt;line-height:1.4}
+  .psheet h2{font-size:22pt}.psheet .ptitle{font-size:14pt;color:#000}
+  .pwho dt{min-width:30mm}
+  .ptab thead{position:static}
+  .ptab tr{display:table-row;padding:0;border:0}
+  .ptab tbody th{display:table-cell;grid-column:auto;padding:8px 6px;font-size:12pt;border-bottom:1px solid #999}
+  .ptab td{display:table-cell;padding:8px 6px;border-bottom:1px solid #999;font-size:12pt}
+  .ptab td::before{content:none}
+  .ptab td.st,.ptab td.st-ok,.ptab td.st-due,.ptab td.st-gone,.ptab td.st-off{color:#000}
+  .psheet footer{color:#000;font-size:10pt}
+  .ptab tr,.pwho{break-inside:avoid}
+}
+.listen[hidden],.ghost[hidden]{display:none!important}
+.menote small{display:inline;font:400 14px/1.4 var(--claude);color:var(--mut)}
+#cfix2 .qask{font-size:18px;letter-spacing:.3px;text-transform:none;color:var(--ink)}#cfix2 .qask small{display:block;font:400 15px var(--claude);text-transform:none;letter-spacing:0;color:var(--mut)}
+.cdict small{font-size:15px}
+#certs .listen.sm,#certs .ghost.sm,#cexam .listen.sm,#cexam .ghost.sm,#cexam .snd.sm{min-height:44px;min-width:44px}#cexam .snd.sm{width:44px;height:44px}
+/* arbre généalogique (Family 1) : émojis seulement, une case porte « ? » */
+.ctree{position:relative;width:100%;max-width:340px;margin:0 auto}
+.ctree svg{position:absolute;inset:0;width:100%;height:100%}
+.ctree line{stroke:#8a90a6;stroke-width:3;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.cnode{position:absolute;display:grid;place-items:center;align-content:center;text-align:center}
+.cnode i{display:grid;place-items:center;width:min(58px,86%);aspect-ratio:1;border:3px solid var(--ink);border-radius:50%;background:#fff;font-style:normal;font-size:28px;line-height:1}
+.cnode.q i{background:#fff3dc;border-color:#e58a1f;color:#8a4b00;font:800 32px var(--claude)}
+.cnode.you i{background:#e6f7f8;border-color:var(--teal)}
+.cnode b{margin-top:-2px;padding:0 6px;border-radius:99px;background:var(--teal);color:#fff;font:700 13px/1.4 var(--claude);letter-spacing:.4px;text-transform:uppercase}

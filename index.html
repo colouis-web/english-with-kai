@@ -28,6 +28,7 @@
 <div class="mhead" id="mhead"></div>
 <div class="tiles">
 <button class="tile wide panel" id="toDaily"><div class="pic"><img src="img/kai-school.webp" alt="Kai qui va à l'école"></div><div><b>My daily work</b><span>Your words of the day</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="tile wide cert" id="toCerts"><div class="pic"><img src="img/rw-medal.webp" alt="" width="200" height="200"></div><div><b>Certificates<em class="cpill" id="certpill" hidden></em></b><span id="certsum">Prove what you know: take a certificate</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="tile wide" id="toWords"><div class="pic"><img src="img/kai-read.webp" alt="Kai qui lit un livre"></div><div><b>Words</b><span>Verbs, nouns, adjectives, adverbs, connectors, prepositions</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="tile wide panel" id="toGrammar"><div class="pic"><img src="img/kai-study.webp" alt="Kai qui étudie à son bureau"></div><div><b>Grammar</b><span>Articles, sentence order…</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="tile wide panel" id="toConj"><div class="pic"><img src="img/sc-write.webp" alt="Kai qui écrit dans son cahier"></div><div><b>Conjugation</b><span>Be, have and 11 tenses</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -70,6 +71,19 @@
 <main class="page" id="daily">
 <div class="top"><button class="back" id="backD" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>My daily work</h1><span></span></div>
 <div id="dailybody"></div>
+</main>
+<main class="page" id="certs">
+<div class="top"><button class="back" id="backCerts" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Certificates</h1><span></span></div>
+<div id="certsbody"></div>
+</main>
+<main class="page" id="cexam">
+<div class="top"><button class="back" id="backExam" aria-label="Back to certificates"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 id="cexamtitle">Certificate</h1><span></span></div>
+<div id="cexambody"></div>
+</main>
+<main class="page" id="cparents">
+<div class="top"><button class="back" id="backParents" aria-label="Back to certificates"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>For my parents</h1><span></span></div>
+<div id="parentsbody"></div>
+<div class="pactions"><button class="listen" id="cprintbtn" type="button">Print</button><p class="menote">Opens the print window of your browser. Nothing is sent anywhere. <span lang="fr">(Une page A4 avec les certificats de l'élève.)</span></p></div>
 </main>
 <main class="page" id="grammar">
 <div class="top"><button class="back" id="backG" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Grammar</h1><span></span></div>
@@ -231,6 +245,9 @@
 <script src="js/app-talk.js"></script>
 <script src="js/app-v51-sauvegarde.js"></script>
 <script src="js/app-v54-v62.js"></script>
+<script src="js/data/certificats.js"></script>
+<script src="js/app-certificats.js"></script>
+<script src="js/app-certificats-ui.js"></script>
 <script src="js/app-lang-fr.js"></script>
 </body>
 </html>
