@@ -23,7 +23,7 @@ import tempfile
 from pathlib import Path
 
 from kai_common import (APP_ID, OUT, Bilan, Collector, KO, OK, BLOQUE, new_context, open_app, current_page, wait_page,
-                        js_available, run_suite, reload_app, settle, wait_js, toast_gone, next_toast, toast_reset, appareil, lancer_moteur)
+                        js_available, run_suite, reload_app, settle, wait_js, toast_gone, next_toast, toast_reset, appareil, lancer_moteur, modal_prete, question_prete)
 
 VIEWPORTS = {"390": (390, 844), "1280": (1280, 800)}
 GLOBALES = ["PROFS", "DST", "QZ", "LQ", "TQ", "LESSONS", "LORDER", "LV", "RANKS", "totalStars", "starsOf", "streak",
@@ -280,6 +280,7 @@ class Parcours:
                     self.check(f"Test, question {i + 1} : options affichées = options prévues", labels == [opt_lab(o) for o in info["opts"]], labels)
                 self.page.locator("#testbody .lopts .opt").nth(idx).click()
             elif info["t"] == "typed":
+                question_prete(self.page, self.mobile, "tans")
                 self.page.locator("#tans").fill("zzz" if wrong else info["a"][0])
                 if i % 2 == 0:
                     self.page.locator("#tans").press("Enter")      # au clavier : Entrée valide
@@ -288,6 +289,7 @@ class Parcours:
             else:
                 pt = info["pt"].split("/")[0].strip()
                 pp = info["pp"].split("/")[0].strip()
+                question_prete(self.page, self.mobile, "ipt")      # on attend le focus que l'application donne au 1er champ
                 self.page.locator("#ipt").fill("zzz" if wrong else pt)
                 self.page.locator("#ipt").press("Enter")           # Entrée passe au champ suivant
                 self.focus_is("a.id === 'ipp'")
@@ -903,6 +905,7 @@ def s12_code_parent(P):
         """Clique le bouton et attend la fenêtre (elle se ferme après chaque « OK », même en cas d'erreur de saisie)."""
         P.click(sel)
         p.locator("#modal.on").wait_for()
+        modal_prete(p)      # le focus est posé (croix à 40 ms, champ du code à 90 ms) : sinon l'Entrée tombe sur la croix et ferme la fenêtre
 
     def saisit_et_valide(valeur, champ="#pcin"):
         p.locator(champ).fill(valeur)

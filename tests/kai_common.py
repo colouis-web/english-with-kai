@@ -321,6 +321,30 @@ def stable(page, timeout=10000):
     frames(page, 2)
 
 
+MODAL_PRET_JS = """() => {
+  if (!document.getElementById('modal').classList.contains('on')) return false;
+  const a = document.activeElement, c = document.getElementById('pcin');
+  return c ? a === c : (!!a && a.className === 'mx');
+}"""
+
+
+def modal_prete(page, timeout=10000):
+    """La fenêtre est ouverte ET l'application a fini de placer le focus.
+    openModal() met le focus sur la croix 40 ms après l'ouverture, puis les fenêtres de code le mettent sur le champ #pcin à 90 ms.
+    Taper (ou valider par Entrée) avant la fin de cette séquence envoie la touche à la croix : la fenêtre se ferme sans vérifier le code.
+    C'était la cause de l'échec intermittent de P12 (« Wrong code » jamais affiché)."""
+    return wait_js(page, MODAL_PRET_JS, timeout=timeout)
+
+
+def question_prete(page, mobile, champ):
+    """Test noté : sur ordinateur (pas de tactile), l'application donne le focus au premier champ 380 ms après l'AFFICHAGE de la question
+    (renderTQ). Écrire avant, c'est se faire reprendre le focus au milieu de la saisie : l'Entrée du 2e champ tombe alors sur le 1er
+    et ne valide pas (cause de P07.29 / P07.x). Sur téléphone (hover:none), il n'y a pas d'auto-focus : rien à attendre."""
+    if mobile:
+        return True
+    return wait_js(page, "id => !!document.activeElement && document.activeElement.id === id", arg=champ, timeout=5000)
+
+
 def toast_gone(page, timeout=6000):
     """Le message éphémère a disparu (classe .show retirée)."""
     return wait_js(page, "() => !document.getElementById('toast').classList.contains('show')", timeout=timeout)

@@ -24,7 +24,7 @@ import tempfile
 from pathlib import Path
 
 from kai_common import (APP_ID, FIXED_NOW, FIXTURES, Bilan, Collector, open_app, current_page, wait_page, run_suite,
-                        reload_app, settle, wait_js, next_toast, toast_reset)
+                        reload_app, settle, wait_js, next_toast, toast_reset, modal_prete)
 from kai_common import new_context as _new_context
 from test_parcours import Parcours
 
@@ -229,6 +229,7 @@ def generer_reference(P):
     P.click('[data-krec="0"]')
     P.click("#mePcSet")
     p.locator("#modal.on").wait_for()
+    modal_prete(p)
     p.locator("#pcin").fill("1234")
     p.locator("#pcin2").fill("1234")
     toast_reset(p)
@@ -421,6 +422,7 @@ def bloc_reference(args, base, browser, bilan, collector, ck, ref):
     P.click("#toMe"); P.on("me")
     P.click('[data-mlv="1"]') if P.profile()["lv"] != 1 else P.click('[data-mlv="2"]')
     p.locator("#modal.on").wait_for()
+    modal_prete(p)
     toast_reset(p)
     p.locator("#pcin").fill("0000"); p.locator("#pcin").press("Enter")
     t = next_toast(p, "Wrong code")
@@ -428,6 +430,7 @@ def bloc_reference(args, base, browser, bilan, collector, ck, ref):
     lv0 = P.profile()["lv"]
     P.click('[data-mlv="1"]') if lv0 != 1 else P.click('[data-mlv="2"]')
     p.locator("#modal.on").wait_for()
+    modal_prete(p)
     p.locator("#pcin").fill("1234"); p.locator("#pcin").press("Enter")
     wait_js(p, "n => curProf().lv !== n", arg=lv0, timeout=15000)      # vérification asynchrone du code : on attend l'état
     ck("PE-2c Code parent de l'ancien format (« 1234 », enregistré par l'original) : le bon code est accepté après le changement de version",
