@@ -938,7 +938,10 @@ html.ts-xl{--zf:1.25;zoom:var(--zf);--bfs:25px}
 .tkpic img{width:100%;height:auto;max-height:min(calc(46 * var(--sv)),420px);object-fit:contain}
 .congrats{padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .cgbox{display:flex;flex-direction:column;max-height:calc(100 * var(--sv) - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow-y:auto;overscroll-behavior:contain}
-.cgbox img{flex:0 1 auto;width:100%;height:clamp(150px,calc(44 * var(--sv)),440px);min-height:120px;object-fit:contain;object-position:50% 100%;background:linear-gradient(#61b8ed,#a8e7f9 55%,#d7faff)}
+.cgbox img{position:relative;z-index:1;flex:0 1 auto;width:100%;height:clamp(150px,calc(44 * var(--sv)),440px);min-height:120px;object-fit:contain;object-position:50% 100%}
+/* bandes de part et d'autre de l'image entière : la même image, floutée et agrandie (pas de liseré, rien n'est coupé sur l'image elle-même) */
+.cgbox::before{content:"";position:absolute;left:-24px;right:-24px;top:-24px;height:calc(clamp(150px,calc(44 * var(--sv)),440px) + 48px);min-height:168px;background:url(../img/kai-congrats.webp) 50% 30%/cover;filter:blur(14px);clip-path:inset(24px 0 24px 0)}
+.cgbox .cgbub{z-index:2}
 .xcross img{height:clamp(220px,min(calc(78 * var(--sw)),calc(46 * var(--sv))),400px)}
 main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 /* R1/R2 : accueil « compact » sur téléphone court (voir fit() dans app-scene-voix.js) : pleine largeur, Kai entier, bulles lisibles */

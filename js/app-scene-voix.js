@@ -32,7 +32,7 @@ ${LINES.map((L, i) => {
    sa hauteur s'adapte à la place disponible, Kai est dessiné ENTIER à la hauteur de la scène (cadré à droite) et les bulles gardent leur taille,
    donc un texte de 19 px ou plus ; les pointes des bulles sont recalculées vers son visage. */
 function layoutScene(svg, Hu, compact) {
-    const img = svg.querySelector("image.kai"), g = svg.querySelectorAll(".bb path");
+    const img = svg.querySelector("image.kai"), g = svg.querySelectorAll(".bb path"), txs = svg.querySelectorAll(".bb text");
     let x = KAI.x, y = KAI.y, w = KAI.w, h = KAI.h;
     if (compact) {
         h = Hu - 8;
@@ -45,10 +45,15 @@ function layoutScene(svg, Hu, compact) {
     img.setAttribute("y", f1(y));
     img.setAttribute("width", f1(w));
     img.setAttribute("height", f1(h));
+    /* compact : Kai est plus étroit, les bulles se rapprochent de lui (dx) pour que leur pointe reste courte */
+    const dx = compact ? Math.max(0, Math.min(56, x - 215)) : 0;
     LINES.forEach((L, i) => {
-        const tip = compact ? [x + w * (L.tip[0] - KAI.x) / KAI.w, y + h * (L.tip[1] - KAI.y) / KAI.h] : L.tip;
+        const c = [L.c[0] + dx, L.c[1]], tip = compact ? [x + w * (L.tip[0] - KAI.x) / KAI.w, y + h * (L.tip[1] - KAI.y) / KAI.h] : L.tip;
         if (g[i])
-            g[i].setAttribute("d", bubblePath(L.c, L.r, tip));
+            g[i].setAttribute("d", bubblePath(c, L.r, tip));
+        if (txs[i]) {
+            txs[i].querySelectorAll(":scope > tspan").forEach(t => t.setAttribute("x", f1(c[0])));
+        }
     });
 }
 function fit() {
