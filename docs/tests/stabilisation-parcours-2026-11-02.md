@@ -32,6 +32,21 @@ Le test **attendait des durées** là où l'application **change d'état à un m
 Le seul `sleep` restant est dans `serve()` : la boucle (avec limite de temps) qui attend que `python3 -m http.server` réponde.
 Ce n'est pas un délai de test.
 
+## La vraie cause de P07 et P12 : le focus que l'application reprend après coup
+
+Les délais fixes cachaient un défaut plus précis, trouvé en rejouant la suite sans reprise (une première série de 5 passes a eu
+3 échecs, tous à 1280 px : P07.29, P12.26 puis P07.x). L'application déplace le **focus clavier après l'affichage**, avec des minuteries :
+
+| Où dans l'application | Minuterie | Effet sur un test qui tape trop tôt |
+|---|---|---|
+| `openModal()` (`js/app-phrasal-aide.js`) | focus sur la croix « ✕ » à **40 ms** | l'Entrée tombe sur la croix : la fenêtre se ferme **sans vérifier le code** (P12 : « Wrong code » n'apparaît jamais) |
+| `gate()` et `askNewCode()` (`js/app-v51-sauvegarde.js`) | focus sur le champ du code à **90 ms** | idem pendant les 50 ms entre les deux |
+| `renderTQ()` (`js/app-tests.js`), **ordinateur seulement** (`hover:none` faux) | focus sur le 1er champ à **380 ms** après chaque question | verbes irréguliers : on passe au 2e champ, la minuterie ramène le focus au 1er, l'Entrée ne valide plus (P07) |
+
+Ce n'est **pas un bug visible pour l'élève** (il tape bien plus lentement), d'où « seulement sur ordinateur » et « selon la charge de la machine ».
+Correctif côté tests : `modal_prete()` (focus posé : champ du code, sinon croix) et `question_prete()` (focus sur le 1er champ, sur ordinateur) attendent
+**l'état final de l'application** avant de saisir. Aucun délai.
+
 ## Reprise automatique : désormais signalée
 
 `run_all.py` rejouait une fois les suites `persistance` et `parcours` en échec, ce qui **cachait** les instabilités.
@@ -49,6 +64,16 @@ restent comparés à l'original et sont **identiques** (PE-22 à PE-24 verts). S
 méritent un coup d'œil, elles ne sont pas des pertes de données mais ressemblent à un changement de règle :
 - « My memory » : **32** mots à revoir aujourd'hui dans la référence d'origine, **29** sur la v1.0 (filtre des thèmes sensibles pour un débutant ?) ;
 - Mes tests : « 20 questions on the **19** grammar lessons » → « on **your 3** grammar lessons » (formulation adaptée au niveau de l'élève).
+
+**Hypothèse de Ludo (bandeau « Class test in 3 days » dépendant de la date du jour) : vérifiée, ce n'est pas la cause.**
+- L'horloge est déjà figée à 30/10/2026 10:00 dans ces tests (`FIXED_NOW`, `clock.set_fixed_time`) : le bandeau affiche « in 3 days » à chaque exécution
+  (le contrôle `u1` est daté du 02/11 dans `js/app-v54-v62.js`, ligne 1409).
+- Le texte du bandeau est **déjà dans la référence d'origine** (« Friday 30 October 📅 Class test in 3 days Unit 1 · My world · Monday 2 November ») :
+  il n'apparaît pas dans les différences relevées.
+- Les vraies différences sont celles ci-dessus : niveaux renommés, ordre des sections, casse des titres, « My memory » 32 → 29,
+  « 19 grammar lessons » → « your 3 grammar lessons ». Elles existent sur la base `03d25bd` sans aucune modification et viennent de la v1.0, pas de la date.
+- Ce n'était donc pas à figer davantage : j'ai ré-étalonné les textes attendus (commit `c2c84fe`) ; PE-25 est vert (persistance : 98 OK, 0 KO).
+Si le contrôle de classe est un jour retiré ou déplacé (prévu au sprint Kai 3), PE-25 devra être ré-étalonné de la même façon.
 
 Quand l'interface change **volontairement** (taille du texte d'Ouss, tuile Certificates, certificats de Ludo…), PE-25 et les captures de
 `test_visuel.py` échouent : relancer `python3 tests/test_persistance.py --update-rendus` et `python3 tests/test_visuel.py --update`

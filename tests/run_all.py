@@ -39,7 +39,12 @@ SUITES = [  # (nom court, fichier, durée indicative)
     ("visuel", "test_visuel.py"),
     ("parcours", "test_parcours.py"),
     ("appareils", "test_appareils.py"),   # petits iPhone (SE, mini) et WebKit : cadrage des images, défilement horizontal
+    ("certificats", "test_certificats.py"),   # moteur des certificats (Ludo) : joué seulement si le fichier ET js/app-certificats.js existent
 ]
+
+# Suites facultatives : (fichier de test, fichier de l'application sans lequel la suite n'a pas de sens). Absentes = ignorées sans bruit
+# (la branche de Dédé n'a pas encore le moteur de Ludo ; la suite s'active toute seule après la fusion).
+FACULTATIVES = {"certificats": ("test_certificats.py", "js/app-certificats.js")}
 
 
 def versions(app):
@@ -90,6 +95,11 @@ def main():
 
     app = Path(args.app).resolve()
     voulues = set(args.only.split(",")) if args.only else {n for n, _ in SUITES}
+    for nom_f, (test_f, appli_f) in FACULTATIVES.items():
+        if nom_f in voulues and not ((TESTS / test_f).is_file() and (app / appli_f).is_file()):
+            voulues.discard(nom_f)
+            if args.only:
+                print(f"suite « {nom_f} » ignorée : {test_f} ou {appli_f} absent")
     inconnues = voulues - {n for n, _ in SUITES}
     if inconnues:
         raise SystemExit(f"suite inconnue : {', '.join(sorted(inconnues))}")
