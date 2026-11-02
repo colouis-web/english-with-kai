@@ -28,8 +28,29 @@ ${LINES.map((L, i) => {
 </svg><button class="kaitap" id="kaitap" aria-label="Open the menu"></button></div>`;
 /* garder le ratio de la scène quelle que soit la hauteur de l'écran.
    R1/R2 : sur un téléphone court (iPhone SE, Safari avec ses barres), la scène entière tiendrait à moins de 0,9 px d'écran par unité
-   du viewBox et le texte des bulles tomberait sous 18 px. On passe alors en mode « compact » : la scène prend toute la largeur,
-   cadrée en haut (tête, buste, bulles), les jambes de Kai fondent en bas (CSS .stagebox.compact). */
+   du viewBox et le texte des bulles tomberait sous 18 px. Mode « compact » : le viewBox prend la largeur de l'écran (360 unités = toute la largeur),
+   sa hauteur s'adapte à la place disponible, Kai est dessiné ENTIER à la hauteur de la scène (cadré à droite) et les bulles gardent leur taille,
+   donc un texte de 19 px ou plus ; les pointes des bulles sont recalculées vers son visage. */
+function layoutScene(svg, Hu, compact) {
+    const img = svg.querySelector("image.kai"), g = svg.querySelectorAll(".bb path");
+    let x = KAI.x, y = KAI.y, w = KAI.w, h = KAI.h;
+    if (compact) {
+        h = Hu - 8;
+        w = h * KAI.w / KAI.h;
+        x = 358 - w;
+        y = 4;
+    }
+    svg.setAttribute("viewBox", `0 0 360 ${f1(compact ? Hu : 640)}`);
+    img.setAttribute("x", f1(x));
+    img.setAttribute("y", f1(y));
+    img.setAttribute("width", f1(w));
+    img.setAttribute("height", f1(h));
+    LINES.forEach((L, i) => {
+        const tip = compact ? [x + w * (L.tip[0] - KAI.x) / KAI.w, y + h * (L.tip[1] - KAI.y) / KAI.h] : L.tip;
+        if (g[i])
+            g[i].setAttribute("d", bubblePath(L.c, L.r, tip));
+    });
+}
 function fit() {
     const b = document.getElementById("stagebox"), st = document.getElementById("stage");
     if (!b || !st)
@@ -38,10 +59,10 @@ function fit() {
     if (!W || !H)
         return;   /* écran masqué : on recalcule à l'affichage */
     const z = parseFloat(getComputedStyle(document.documentElement).zoom) || 1, w = Math.min(W, H * 360 / 640);
-    const compact = innerWidth <= 600 && w / 360 * z < .9;
+    const compact = innerWidth <= 600 && w / 360 * z < .9, svg = b.querySelector("svg");
     b.classList.toggle("compact", compact);
-    b.querySelector("svg").setAttribute("preserveAspectRatio", compact ? "xMidYMin slice" : "xMidYMid meet");
     b.style.width = compact ? "" : w + "px";
+    layoutScene(svg, compact ? Math.max(262, H / (W / 360)) : 640, compact);
 }
 addEventListener("resize", fit);
 /* voix anglaise : la plus naturelle disponible sur l'appareil */
