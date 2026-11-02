@@ -169,7 +169,12 @@ INIT_JS = r"""
     return Promise.resolve();
   };
   HTMLMediaElement.prototype.pause = function () {};
+  // Journal des messages éphémères (#toast) : un test attend CE message, même s'il a déjà disparu quand il regarde.
+  window.__toasts = [];
   document.addEventListener('DOMContentLoaded', () => {
+    const t = document.getElementById('toast');
+    if (t) new MutationObserver(() => { const x = (t.textContent || '').trim(); if (x) window.__toasts.push(x); })
+      .observe(t, { childList: true, characterData: true, subtree: true });
     const s = document.createElement('style');
     s.id = '__no_anim';
     s.textContent = '*,*::before,*::after{animation-duration:.001s!important;animation-delay:0s!important;' +
@@ -263,12 +268,66 @@ def new_context(browser, base, viewport, collector=None, seed=None, now=None, mo
     return ctx
 
 
+SETTLE_JS = """() => { try { return PROFS.list.length === 0 || (document.querySelector('.page.on') || {}).id !== 'home' } catch (e) { return false } }"""
+
+
+def settle(page, timeout=10000):
+    """Le démarrage de l'application est TERMINÉ (attente d'état, pas de délai) :
+      1. les scripts ont créé PROFS et un écran est affiché ;
+      2. la barrière « un tour de boucle d'événements » passe derrière le setTimeout(bootDirect, 0) de l'application ;
+      3. un élève déjà enregistré a quitté l'écran de Kai (home) pour « My daily work » ou « Who's learning »."""
+    page.wait_for_function("typeof PROFS !== 'undefined' && !!document.querySelector('.page.on')", timeout=timeout)
+    page.evaluate("() => new Promise(r => setTimeout(r, 0))")
+    # (non bloquant : des données corrompues peuvent légitimement laisser l'écran d'accueil ; le test constate)
+    wait_js(page, SETTLE_JS, timeout=min(timeout, 6000))
+
+
 def open_app(page, base, wait_boot=True):
     page.goto(base + "index.html")
     if wait_boot:
-        page.wait_for_function("typeof PROFS !== 'undefined' && !!document.querySelector('.page.on')")
-        page.wait_for_timeout(120)   # setTimeout(bootDirect, 0) : démarrage direct d'un élève connu
+        settle(page)
     return page
+
+
+def reload_app(page, timeout=10000):
+    """Recharge la page et attend la fin du démarrage."""
+    page.reload()
+    settle(page, timeout)
+    return page
+
+
+def wait_js(page, expr, arg=None, timeout=5000):
+    """Attend qu'une expression JavaScript devienne vraie. Renvoie True/False au lieu de lever une exception :
+    le contrôle qui suit constate et affiche l'état réel (un test qui s'arrête sur un délai n'apprend rien)."""
+    try:
+        page.wait_for_function(expr, arg=arg, timeout=timeout)
+        return True
+    except Exception:   # noqa: BLE001
+        return False
+
+
+def toast_gone(page, timeout=6000):
+    """Le message éphémère a disparu (classe .show retirée)."""
+    return wait_js(page, "() => !document.getElementById('toast').classList.contains('show')", timeout=timeout)
+
+
+TOAST_JS = """s => { const L = window.__toasts || []; let i = window.__tpos || 0;
+  for (; i < L.length; i++) if (!s || L[i].includes(s)) { window.__tpos = i + 1; return L[i] } return false }"""
+
+
+def next_toast(page, contient="", timeout=15000):
+    """Texte du PROCHAIN message éphémère (contenant `contient`) apparu depuis le dernier appel ou depuis toast_reset().
+    La page journalise ses messages (window.__toasts, voir INIT_JS) : on les trouve qu'ils soient encore affichés ou déjà
+    disparus, sans délai fixe. Renvoie le texte actuellement affiché si rien n'est venu (le contrôle qui suit constatera)."""
+    try:
+        return page.wait_for_function(TOAST_JS, arg=contient or "", timeout=timeout).json_value()
+    except Exception:   # noqa: BLE001
+        return (page.locator("#toast").text_content() or "").strip()
+
+
+def toast_reset(page):
+    """On ne s'intéresse qu'aux messages qui vont venir."""
+    page.evaluate("() => { window.__tpos = (window.__toasts || []).length }")
 
 
 def current_page(page):
