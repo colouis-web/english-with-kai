@@ -49,3 +49,9 @@ Base : `sprint-kai-2` @ `c3ec1fb` (sprint A fusionné, décisions du PO du 02/11
 Ordre : Matt et Ludo d'abord sur les données et l'API (Ouss code contre l'API documentée de `Cert` et une banque
 factice en attendant) ; Dédé écrit ses tests sur les critères, puis les rejoue sur l'intégration.
 Puis **contrôle a posteriori d'Ani** (Sonnet, ≈ 10 min) et PR `sprint-kai-2` → `main` (v1.1).
+
+## Ajustement du PO (02/11, 19:00) — économie d'usage
+- Ludo relancé sur **Sonnet** (au lieu d'Opus), consigne resserrée : fin du moteur seulement.
+- **My daily work option A reporté au sprint Kai 3** (maquette choisie : A + bande des 7 jours ; tests de Dédé déjà écrits, marqués reportés).
+- Dédé arrêté : ses tests sont poussés ; la dernière passe et les photos de référence du menu sont faites par le scrum master.
+- Contrôle a posteriori d'Ani sur **Haiku**.
