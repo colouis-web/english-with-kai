@@ -96,8 +96,10 @@ jobs:
             echo "lances=oui" >> "$GITHUB_OUTPUT"
           else
             echo "lances=non" >> "$GITHUB_OUTPUT"
-            echo "::notice::tests/run_all.py absent : tâche ignorée (elle s'activera dès que le fichier existera)."
-            echo "Tests : tests/run_all.py absent, rien lancé." >> "$GITHUB_STEP_SUMMARY"
+            # revue d'Ani R1 (02/11) : les tests sont bloquants ; leur absence ne doit pas laisser publier sans tests
+            echo "::error::tests/run_all.py absent : publication refusée (les tests sont bloquants depuis la v1.1)."
+            echo "Tests : tests/run_all.py absent, publication refusée." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
           fi
 
       # Version de Playwright épinglée (reproductible) ; tests/requirements.txt, s'il existe, a priorité.

@@ -321,6 +321,12 @@ function kaiMerge(o) {
         }
         if (/^kai\.(rec|voice|rate|qnum|pcode)$/.test(k))
             continue;
+        /* revue d'Ani R2 (02/11) : une épreuve de certificat en cours ne voyage pas (état propre à l'appareil, non contrôlé) ;
+           le choix du son n'est repris que s'il vaut 0 ou 1 */
+        if (k.startsWith("kai.csave."))
+            continue;
+        if (k.startsWith("kai.certsound.") && !/^"?[01]"?$/.test(String(v)))
+            continue;
         if (localStorage.getItem(k) === null)
             localStorage.setItem(k, v);
     }
