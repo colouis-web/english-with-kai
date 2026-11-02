@@ -284,7 +284,7 @@ function kaiMerge(o) {
     const inc = JSON.parse(D["kai.profiles.v1"] || "null");
     if (!inc || !Array.isArray(inc.list))
         throw new Error("no learners");
-    let np = 0, nd = 0;
+    let np = 0, nd = 0, nc = 0;
     for (const p of inc.list) {
         if (!p || !p.id || p.deleted)
             continue;
@@ -313,12 +313,18 @@ function kaiMerge(o) {
             localStorage.setItem(k, JSON.stringify(a));
             continue;
         }
+        /* certificats (js/app-certificats.js) : fusion thème par thème, le plus récent gagne ; ancien fichier sans certificats : rien à faire */
+        if (k.startsWith("kai.cert.")) {
+            if (typeof Cert === "object")
+                nc += Cert.mergeRaw(k, v);
+            continue;
+        }
         if (/^kai\.(rec|voice|rate|qnum|pcode)$/.test(k))
             continue;
         if (localStorage.getItem(k) === null)
             localStorage.setItem(k, v);
     }
-    return { np, nd };
+    return { np, nd, nc };
 }
 function kaiImport(file) {
     const r = new FileReader();
