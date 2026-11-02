@@ -54,7 +54,15 @@
     const lsSet = (k, v) => { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } };
     const lsDel = k => { try { localStorage.removeItem(k); } catch (e) { } };
     const wordOf = key => { try { return allWords().byKey.get(key) || null; } catch (e) { return null; } };
-    const wordsOfTheme = th => { try { return Cert.themeWords(th) || []; } catch (e) { return []; } };
+    /* banque des certificats (js/data/certificats.js, Matt) : titres, périmètres, phrases, images validées */
+    const bankCert = th => { try { return (typeof CERTBANK === "object" && CERTBANK.certs.find(c => c.id === th)) || null; } catch (e) { return null; } };
+    const bankWord = (th, key) => { const c = bankCert(th); return c ? c.words.find(w => w.k === key) || null : null; };
+    const wordsOfTheme = th => {
+        const c = bankCert(th);
+        if (c) /* le périmètre de la banque (≤ 20 mots) */
+            return c.words.map(w => wordOf(w.k)).filter(Boolean);
+        try { return Cert.themeWords(th) || []; } catch (e) { return []; }
+    };
     const known = () => { try { return wordState(); } catch (e) { return {}; } };
     const shortTitle = t => String(t).split(" · ")[0];
     const CAT_ICON = { colours: "🎨", personality: "😊", looks: "👀", size: "📏", feelings: "😊", weather: "⛅", opinion: "💬", frequency: "🔁", manner: "🏃", place: "📍", time: "⏰", contrast: "↔️", cause: "➡️", adding: "➕" };
@@ -81,6 +89,10 @@
         return v;
     }
     function offered0() {
+        if (typeof CERTBANK === "object" && CERTBANK.certs) { /* la banque dit ce qui est proposé, à quel niveau, avec quel titre */
+            const lv = level();
+            return CERTBANK.certs.filter(c => !c.suggest || c.suggest.includes(lv)).map(c => ({ id: c.id, title: c.title, titleFr: c.titleFr, icon: c.icon || iconOf(c.theme), n: c.words.length }));
+        }
         let T = [];
         try { T = Cert.themes(pid()) || []; } catch (e) { }
         T = T.filter(t => t && !/^verbs:/.test(t.id));
@@ -91,6 +103,9 @@
         return T.map(t => ({ id: t.id, title: t.title || t.label || t.id, icon: iconOf(t), n: t.n || wordsOfTheme(t.id).length }));
     }
     function titleOf(th) {
+        const bc = bankCert(th);
+        if (bc)
+            return bc.title;
         const o = offered().find(t => t.id === th);
         if (o)
             return o.title;
@@ -106,6 +121,9 @@
         return String(th).split(":")[1] || th;
     }
     function iconFor(th) {
+        const bc = bankCert(th);
+        if (bc && bc.icon)
+            return bc.icon;
         const o = offered().find(t => t.id === th);
         return o ? o.icon : iconOf(th);
     }
@@ -146,23 +164,77 @@
         }
         return raw;
     }
-    function prep(raw) {
-        const e = wordOf(raw.key);
+    const pick = a => (a && a.length ? a[Math.floor(Math.random() * a.length)] : null);
+    /* complète une question {key, fmt} avec ce que la banque sait (phrases, image validée, réponses en plus) */
+    function enrich(q, th) {
+        const bc = bankCert(th), bw = bankWord(th, q.key), e = wordOf(q.key);
+        if (!bc || !bw || !e)
+            return;
+        const main = e.d.w || e.d.v;
+        if (q.fmt === "type-fr-en" || q.fmt === "dictation") {
+            if (q.fmt === "type-fr-en" && !q.fr)
+                q.fr = bw.fr || e.d.fr;
+            q.also = (bw.ok && bw.ok[main]) || [];
+            q.alt = (bw.us && bw.us[main]) || [];
+        }
+        if (q.fmt === "picture") {
+            const pc = bw.pic;
+            if (!pc)
+                q.fmt = "type-fr-en", q.fr = q.fr || bw.fr || e.d.fr, q.also = (bw.ok && bw.ok[main]) || [], q.alt = (bw.us && bw.us[main]) || [];
+            else {
+                if (pc && pc.tree)
+                    q.tree = { cert: th, box: pc.tree };
+                else
+                    q.img = pc === true ? e.d.e : pc.e || e.d.e;
+                q.ask = (bc.picture && bc.picture.q) || q.ask;
+                q.askFr = bc.picture && bc.picture.qFr;
+                q.also = (pc && pc.ok) || [];
+                if (pc.tree && bc.tree && bc.tree.ask && bc.tree.ask[pc.tree])
+                    q.also = bc.tree.ask[pc.tree].slice(), q.main = q.also[0];
+                q.alt = (bw.us && bw.us[main]) || [];
+            }
+        }
+        if (q.fmt === "gap" && !q.s) {
+            const g = pick(bw.gap);
+            if (g)
+                q.s = g[0], q.sfr = g[1], q.also = g[2] || [];
+        }
+        if (q.fmt === "order" && !q.s) {
+            const o = pick(bw.ord);
+            if (o)
+                q.s = o[0], q.sfr = o[1], q.alt = Array.isArray(o[2]) ? o[2] : [];
+        }
+        if (q.fmt === "fix" && !q.s) {
+            const f = pick(bw.fix);
+            if (f)
+                Object.assign(q, { s: f.s, bad: f.bad, good: f.good, sfr: f.fr, why: f.why, whyFr: f.whyFr });
+            else
+                q.fmt = "gap", enrich(q, th);
+        }
+        if (q.fmt === "dictation" && !q.s)
+            q.s = bw.say || "";
+    }
+    function prep(raw, th) {
         const q = Object.assign({}, raw);
         delete q.d; delete q.k; delete q.f; delete q.miss; delete q.weight; delete q.w;
         q.fmt = FMT[q.fmt] ? q.fmt : "type-fr-en";
+        enrich(q, th);
+        const e = wordOf(q.key), banked = !!bankCert(th);
         if (q.fmt === "fix" && !(q.s && q.bad && q.good))
             q.fmt = "gap"; /* pas de phrase écrite à la main pour ce mot : une phrase à compléter */
-        if (q.fmt === "picture" && !(q.img || (e && e.d.e)))
-            q.fmt = "type-fr-en";
-        if ((q.fmt === "gap" || q.fmt === "order" || q.fmt === "dictation") && e) {
-            const s = sentenceFor(q, e);
-            if (q.fmt !== "fix") { q.s = s.en; q.sfr = s.fr; }
-            if (!q.s || (q.fmt === "gap" && !targetOf(q.s)))
-                q.fmt = "type-fr-en";
-        }
+        if (q.fmt === "picture" && !(q.img || q.tree || (!banked && e && e.d.e)))
+            q.fmt = "type-fr-en"; /* sans banque, seul l'émoji du dictionnaire peut servir d'image */
         if (q.fmt === "fix" && !q.sfr)
-            q.sfr = q.fr || ""; /* banque de Matt : {w, s, bad, good, fr} (fr = phrase française) */
+            q.sfr = q.fr || ""; /* {w, s, bad, good, fr} : fr = phrase française */
+        if ((q.fmt === "gap" || q.fmt === "order" || q.fmt === "dictation") && e && !q.s) {
+            const sx = sentenceFor(q, e);
+            q.s = sx.en;
+            q.sfr = sx.fr;
+        }
+        if (q.fmt === "gap" && !targetOf(q.s))
+            q.fmt = "type-fr-en";
+        if (q.fmt === "dictation" && !q.s)
+            q.fmt = "type-fr-en";
         if (q.fmt === "order") {
             const t = tokensOf(q.s);
             let sh = shuffle(t), n = 0;
@@ -175,30 +247,79 @@
     /* ADAPTATEUR : tirage d'une épreuve complète tant que Cert.pickExam n'existe pas (quotas de la conception §5.2, sans la banque :
        pas de phrase « fix », images = émojis du dictionnaire) */
     function fallbackExam(th, sound) {
-        const W = shuffle(wordsOfTheme(th)), n = young() ? 20 : 25, plan = [["type-fr-en", sound ? 4 : 6], ["picture", 4], ["gap", sound ? 6 : 7], ["order", 3]];
+        const bc = bankCert(th), W = shuffle(bc ? bc.words.map(w => w.k) : wordsOfTheme(th).map(w => w.key)), n = young() ? 20 : 25;
+        const quota = { "type-fr-en": sound ? 4 : 6, picture: 4, gap: sound ? 4 : 5, order: 3, fix: 2 };
         if (sound)
-            plan.push(["dictation", 3]);
-        const seq = plan.flatMap(([f, c]) => Array(c).fill(f));
-        while (seq.length < n)
-            seq.push("gap");
-        const out = [];
-        seq.slice(0, n).forEach((f, i) => {
-            const w = W[i % W.length];
-            out.push({ key: w.key, fmt: f });
+            quota.dictation = 3;
+        if (!young()) {
+            quota["type-fr-en"] += 1; quota.gap += 2; quota.picture = 3; quota.order = 4; quota.fix = 4;
+        }
+        const can = (key, f) => {
+            const bw = bankWord(th, key);
+            if (!bw)
+                return f === "type-fr-en" || f === "gap" || f === "order" || f === "dictation";
+            return f === "type-fr-en" || (f === "picture" ? !!bw.pic : f === "gap" ? !!(bw.gap && bw.gap.length) : f === "order" ? !!(bw.ord && bw.ord.length) : f === "fix" ? !!(bw.fix && bw.fix.length) : !!bw.say);
+        };
+        const used = {}, pairs = new Set(), out = [];
+        const take = f => {
+            const c = W.filter(k => can(k, f) && !pairs.has(k + "|" + f) && (used[k] || 0) < 2).sort((x, y) => (used[x] || 0) - (used[y] || 0));
+            if (!c.length)
+                return false;
+            const k = c[0];
+            used[k] = (used[k] || 0) + 1;
+            pairs.add(k + "|" + f);
+            out.push({ key: k, fmt: f });
+            return true;
+        };
+        /* couverture : chaque mot reçoit d'abord une question (traduction, ou le format du quota qui lui convient) */
+        const order = Object.keys(quota);
+        W.forEach(k => {
+            const f = order.find(f2 => quota[f2] > 0 && f2 !== "type-fr-en" && can(k, f2) && (f2 === "picture" || Math.random() < .5)) || "type-fr-en";
+            if (quota[f] > 0 || f === "type-fr-en") {
+                used[k] = (used[k] || 0) + 1;
+                pairs.add(k + "|" + f);
+                out.push({ key: k, fmt: f });
+                quota[f]--;
+            }
         });
-        return shuffle(out);
+        for (const f of order)
+            while (quota[f] > 0 && out.length < n) {
+                if (!take(f))
+                    break;
+                quota[f]--;
+            }
+        const fill = ["gap", "type-fr-en", "order"];
+        for (let i = 0; out.length < n && i < 60; i++)
+            take(fill[i % fill.length]);
+        let Q = shuffle(out.slice(0, n));
+        /* « afficher après produire » : une question qui montre le mot (ordre, phrase fautive) ne précède pas celle qui le demande */
+        const shows = q => q.fmt === "order" || q.fmt === "fix", asks = q => !shows(q);
+        for (let pass = 0; pass < 6; pass++)
+            Q.forEach((q, i) => {
+                if (!shows(q))
+                    return;
+                const j = Q.findIndex((r, x) => x > i && r.key === q.key && asks(r));
+                if (j > -1)
+                    [Q[i], Q[j]] = [Q[j], Q[i]];
+            });
+        return Q;
     }
     function buildQuestions(th, kind, sound) {
         let raw = [];
         if (kind === "renewal") {
             const formats = ["type-fr-en", "gap", "fix"].concat(sound ? ["dictation"] : []);
-            raw = Cert.pickRenewal(pid(), th, { n: 8, formats, sound });
+            raw = Cert.pickRenewal(pid(), th, { n: bankCert(th) ? 40 : 8, formats, sound }) || [];
+            if (bankCert(th)) { /* tant que le moteur tire dans le thème entier : seulement les mots du périmètre de la banque */
+                const inside = new Set(bankCert(th).words.map(w => w.k));
+                raw = raw.filter(q => inside.has(q.key));
+            }
+            raw = raw.slice(0, 8);
         }
         else if (typeof Cert.pickExam === "function")
             raw = Cert.pickExam(pid(), th, { sound });
         else
             raw = fallbackExam(th, sound);
-        return (raw || []).filter(q => q && q.key).map(prep);
+        return (raw || []).filter(q => q && q.key).map(q => prep(q, th));
     }
     /* ---------- correction (le moteur d'abord ; ADAPTATEUR sinon : règles du §3 de la conception) ---------- */
     const N = t => (typeof t3Norm === "function" ? t3Norm(t) : String(t || "").toLowerCase().replace(/[’‘`´]/g, "'").replace(/[.,!?;:"«»]/g, " ").replace(/\s+/g, " ").trim());
@@ -225,21 +346,24 @@
             const alts = [q.s].concat(q.alt || []);
             return { ok: alts.some(s => N(String(s).replace(/\*/g, "")) === a) };
         }
-        let exp, word = WORD_FMT.includes(q.fmt);
+        const word = WORD_FMT.includes(q.fmt);
+        let exp;
         if (q.fmt === "gap")
             exp = [targetOf(q.s)];
+        else if (q.fmt === "picture" && q.tree)
+            exp = [];
         else if (q.fmt === "fix")
             exp = [q.good];
         else
             exp = acceptedWords(q);
-        exp = exp.map(N);
+        exp = exp.concat(q.also || []).map(N);
         if (exp.includes(a))
             return { ok: true };
         if (word && exp.some(e => stripArt(a) === stripArt(e)))
             return { ok: true };
-        const alts = (q.alt || []).map(N);
+        const alts = (word ? q.alt || [] : []).map(N);
         if (alts.includes(a) || (word && alts.includes(stripArt(a))))
-            return { ok: true, note: `In British English: ${exp[0]}` };
+            return { ok: true, note: `In British English: ${(wordOf(q.key) || { d: {} }).d.w || exp[0]}` };
         /* grammaire : jamais tolérée (pluriel oublié, pluriel fabriqué : wifes, childs…) */
         const e = wordOf(q.key), forms = e ? [e.d.w, e.d.pl, e.d.v].filter(Boolean).map(N) : [];
         const plurals = forms.filter(Boolean).flatMap(f => [f + "s", f + "es"]);
@@ -503,7 +627,9 @@ ${young() ? `<p class="cfr" lang="fr">${size} questions · un seul essai par que
     function askLine(q) {
         const f = FMT[q.fmt], e = wordOf(q.key);
         let ask = q.ask || f.ask, fr = f.fr;
-        if (q.fmt === "picture" && !q.ask && e && e.th === "adjectives:colours") { ask = "What colour is it?"; fr = "Quelle est cette couleur ?"; }
+        if (q.fmt === "picture" && q.ask && q.askFr)
+            fr = q.askFr;
+        else if (q.fmt === "picture" && !q.ask && e && e.th === "adjectives:colours") { ask = "What colour is it?"; fr = "Quelle est cette couleur ?"; }
         return `<span class="casks">${esc(ask)}</span>${young() ? frSmall(fr) : ""}`;
     }
     function questionBody(q) {
@@ -514,8 +640,10 @@ ${young() ? `<p class="cfr" lang="fr">${size} questions · un seul essai par que
             case "type-fr-en":
                 return `<div class="t3card"><p class="cbig" lang="fr">${esc(q.fr || (e && e.d.fr) || "")}</p></div>${input("Type the English word")}${check}`;
             case "picture": {
+                if (q.tree)
+                    return `<div class="t3card cpic">${treeHtml(q.tree)}</div>${input("Type the English word")}${check}`;
                 const img = q.img || (e && e.d.e) || "❓";
-                return `<div class="t3card cpic"><span class="cem" role="img" aria-label="A picture to name">${/^</.test(img) ? img : esc(img)}</span></div>${input("Type the English word")}${check}`;
+                return `<div class="t3card cpic"><span class="cem" role="img" aria-label="A picture to name">${esc(img)}</span></div>${input("Type the English word")}${check}`;
             }
             case "gap":
                 return `<div class="t3card"><p class="t3en">${GAPHTML(q.s)}</p>${fr}</div>${input("Type the missing word")}${check}`;
@@ -531,6 +659,18 @@ ${young() ? `<p class="cfr" lang="fr">${size} questions · un seul essai par que
                 return `<div class="t3card cdict"><div class="crow"><button class="listen sm" id="csay" type="button">${typeof SPK === "string" ? SPK : ""}Listen again</button><button class="ghost sm" id="cslow" type="button">Slow</button></div><small id="cleft">Kai says it once. You can listen again 2 times.</small></div>${input("Type the English word")}${check}`;
         }
         return "";
+    }
+    /* arbre généalogique du certificat Family 1 : que des émojis (aucun mot anglais, ce serait un indice), la case de l'élève dit « You », une case porte « ? » */
+    function treeHtml(t, plainView) {
+        const bc = bankCert(t.cert), T = bc && bc.tree;
+        if (!T)
+            return "";
+        const cols = 1 + Math.max(...T.nodes.map(n => n.col)), rows = 1 + Math.max(...T.nodes.map(n => n.row)), by = Object.fromEntries(T.nodes.map(n => [n.id, n]));
+        const ctr = n => [n.col + .5, n.row + .5], mark = t.box === "grandparents" ? ["grandpa", "grandma"] : [t.box];
+        const lines = T.couples.map(([a, b]) => { const A = ctr(by[a]), B = ctr(by[b]); return `<line x1="${A[0] + .28}" y1="${A[1]}" x2="${B[0] - .28}" y2="${B[1]}"/>`; })
+            .concat(T.kids.map(([a, b]) => { const A = ctr(by[a]), B = ctr(by[b]); return `<line x1="${A[0]}" y1="${A[1] + .3}" x2="${B[0]}" y2="${B[1] - .3}"/>`; }));
+        return `<div class="ctree" role="img" aria-label="A family tree. One person has a question mark." style="aspect-ratio:${cols * 1.1}/${rows}">
+<svg viewBox="0 0 ${cols} ${rows}" preserveAspectRatio="none" aria-hidden="true">${lines.join("")}</svg>${T.nodes.map(n => `<span class="cnode${mark.includes(n.id) ? " q" : ""}${n.you ? " you" : ""}" style="left:${100 * n.col / cols}%;top:${100 * n.row / rows}%;width:${100 / cols}%;height:${100 / rows}%"><i>${mark.includes(n.id) ? "?" : esc(n.e)}</i>${n.you ? "<b>You</b>" : ""}</span>`).join("")}</div>`;
     }
     function renderQ() {
         const R = RUN, n = R.qs.length;
@@ -790,7 +930,7 @@ ${miss.length ? `<p class="menote">Fixing your mistakes does not change your sco
         const e = wordOf(q.key), fr = young() && q.sfr ? `<p class="t3fr" lang="fr">${hl(q.sfr)}</p>` : "";
         switch (q.fmt) {
             case "type-fr-en": return `<p class="cbig" lang="fr">${esc(q.fr || (e && e.d.fr) || "")}</p>`;
-            case "picture": return `<span class="cem" aria-hidden="true">${esc(q.img || (e && e.d.e) || "")}</span>`;
+            case "picture": return q.tree ? treeHtml(q.tree) : `<span class="cem" aria-hidden="true">${esc(q.img || (e && e.d.e) || "")}</span>`;
             case "gap": return `<p class="t3en">${GAPHTML(q.s)}</p>${fr}`;
             case "order": return `${fr || `<p class="t3fr">Put the words in the right order.</p>`}`;
             case "fix": return `<p class="t3en">${esc(q.s.replace(/\*/g, ""))}</p>${fr}`;
@@ -802,7 +942,7 @@ ${miss.length ? `<p class="menote">Fixing your mistakes does not change your sco
     function renderFix() {
         const R = RUN, q = R.qs[FX.idx], n = missedIdx(R).length + (R.fixed || []).length, pos = (R.fixed || []).length + 1, res = R.res[FX.idx];
         const seeing = FX.step === "see";
-        const why = res && res.grammar ? `<p class="cnote2"><b>Careful:</b> ${esc(res.grammar)}</p>` : res && res.typed && q.fmt !== "fix" ? "" : "";
+        const why = q.why ? `<p class="cnote2">${esc(q.why)}${young() && q.whyFr ? ` <small lang="fr">${esc(q.whyFr)}</small>` : ""}</p>` : res && res.grammar ? `<p class="cnote2"><b>Careful:</b> ${esc(res.grammar)}</p>` : "";
         const wrote = res && res.typed && q.fmt !== "fix" && q.fmt !== "order" ? `<p class="cnote2">You wrote: <b>${esc(res.typed)}</b></p>` : "";
         body().innerHTML = `<div class="cprog"><span class="cfmt">Fix your mistakes</span><b>${pos} / ${n}</b></div><div class="pbar" aria-hidden="true"><i style="width:${Math.round(100 * (pos - 1) / n)}%"></i></div>
 ${kaiBubble(seeing ? "Look at the right answer, then write it!" : FX.tries ? "Not yet. Look again and try once more!" : "Now write it from memory!", seeing ? "smile" : "head", "cask")}
