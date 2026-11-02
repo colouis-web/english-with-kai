@@ -155,7 +155,13 @@ def main():
         for k in tot:
             tot[k] += c[k]
         for i in data["items"]:
-            items[f"{nom}:{i['id']}"] = i
+            # Plusieurs contrôles peuvent porter le même identifiant (ex. PE-24 ×15, AC-02 ×3) : sans suffixe, un OK ÉCRASAIT un KO du même
+            # identifiant et le verdict affichait VERT alors que le tableau comptait des KO. Le premier garde sa clé (compatible avec --compare), les suivants prennent #2, #3…
+            cle, n = f"{nom}:{i['id']}", 1
+            while cle in items:
+                n += 1
+                cle = f"{nom}:{i['id']}#{n}"
+            items[cle] = i
         lignes.append((nom, c["OK"], c["KO"], c["Bloqué"], c["Note"], duree))
 
     print("\n" + "=" * 78)
