@@ -153,6 +153,8 @@
             if (!q.s || (q.fmt === "gap" && !targetOf(q.s)))
                 q.fmt = "type-fr-en";
         }
+        if (q.fmt === "fix" && !q.sfr)
+            q.sfr = q.fr || ""; /* banque de Matt : {w, s, bad, good, fr} (fr = phrase française) */
         if (q.fmt === "order") {
             const t = tokensOf(q.s);
             let sh = shuffle(t), n = 0;
@@ -213,7 +215,7 @@
             return { ok: false };
         if (q.fmt === "order") {
             const alts = [q.s].concat(q.alt || []);
-            return { ok: alts.some(s => N(s) === a) };
+            return { ok: alts.some(s => N(String(s).replace(/\*/g, "")) === a) };
         }
         let exp, word = WORD_FMT.includes(q.fmt);
         if (q.fmt === "gap")

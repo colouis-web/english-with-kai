@@ -1112,3 +1112,7 @@ main{min-height:calc(100 * var(--sv))}
   .psheet footer{color:#000;font-size:10pt}
   .ptab tr,.pwho{break-inside:avoid}
 }
+.listen[hidden],.ghost[hidden]{display:none!important}
+.menote small{display:inline;font:400 14px/1.4 var(--claude);color:var(--mut)}
+#cfix2 .qask{font-size:18px;letter-spacing:.3px;text-transform:none;color:var(--ink)}#cfix2 .qask small{display:block;font:400 15px var(--claude);text-transform:none;letter-spacing:0;color:var(--mut)}
+.cdict small{font-size:15px}
