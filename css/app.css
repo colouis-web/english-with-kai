@@ -153,6 +153,9 @@ body.navlock .page{pointer-events:none}
 .chip i{font-style:normal;font-weight:500;color:var(--mut)}
 .chip.on{background:var(--ink);color:#fff}.chip.on i{color:#c9cbe0}
 .chip:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+/* R3 : « All themes » reste collée à gauche de la rangée ; un thème choisi porte une coche (l'état ne dépend pas de la couleur seule) */
+.chip[data-cat="all"]{position:sticky;left:16px;z-index:1;box-shadow:8px 0 8px -6px rgba(29,27,46,.28)}
+.chip.on:not([data-cat="all"])::before{content:"\2713";font-weight:800;margin-right:-2px}
 .emo{font-family:"Noto Emoji";font-variant-emoji:text;font-weight:500;color:var(--ink);visibility:hidden}
 html.emo-ok .emo{visibility:visible}html.emo-no .emo{display:none}
 .vh .emo{font-size:27px}
