@@ -192,6 +192,7 @@ ${txSection(p)}
 <div class="dsec"><h2>Kai's voice</h2></div>
 <div class="seg" role="radiogroup" aria-label="Kai's real voice">${[[1, "Kai's real voice"], [0, "Phone voice"]].map(([v, l]) => `<button class="${(KREC ? 1 : 0) === v ? "on" : ""}" data-krec="${v}" role="radio" aria-checked="${(KREC ? 1 : 0) === v}">${l}</button>`).join("")}</div>
 <p class="menote">${KREC ? `Kai's real voice says all his own sentences and ${KVN - 51} words. Example sentences and the other words use the phone voice below. Kai's voice was recorded with ElevenLabs.` : `Kai uses the phone voice for everything.`}</p>
+<div class="mebtns"><button class="ghost sm" type="button" data-help="credits">Credits · images &amp; voice</button></div>
 <div class="dsec"><h2>Phone voice</h2></div>
 ${vs.length ? `<div class="vlist2">${[["", `Automatic${auto ? ` · ${auto.name}` : ""}`], ...vs.map(v => [v.voiceURI || v.name, `${v.name} · ${v.lang.replace("_", "-")}`])].map(([id, l]) => `<div class="vrow${VPREF === id ? " on" : ""}"><button class="vpick" data-v="${esc(id)}" role="radio" aria-checked="${VPREF === id}"><i></i><span>${esc(l)}</span></button><button class="vtry" data-try="${esc(id)}" aria-label="Try this voice">${SPK}</button></div>`).join("")}</div>` : `<p class="menote">No English voice found on this device yet.</p>`}
 <div class="dsec"><h2>Speed</h2></div>
