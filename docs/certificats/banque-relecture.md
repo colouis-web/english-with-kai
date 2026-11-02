@@ -5,6 +5,28 @@
   **générés depuis ce fichier** chargé dans Chromium avec les vraies données (`allWords()`) : ce qui est relu est
   exactement ce qui est livré. Format du fichier : commentaire en tête de `js/data/certificats.js`.
 - **Pour** : Ludo (moteur : lire la banque, `Cert.pickExam`, `Cert.check`), Ouss (écrans), Dédé (tests).
+- **Relecture : faite ✅ par le scrum master le 02/11/2026** (409 questions, `fix` / `order` / `gap`) ; corrections
+  intégrées (§0), tableaux régénérés.
+
+## 0. Relecture du scrum master (02/11/2026) et corrections
+
+| # | Constat du scrum master | Correction |
+|---|---|---|
+| R-1 | *Family* `fix` « My **cousins** is the same age as me » : ambigu (on peut corriger *is* → *are*). | → « My **cousine** is the same age as me. » → *cousin* (rattrapage : « Cousine is French. In English: cousin, for a boy or a girl. »). |
+| R-2 | `order` à plusieurs ordres justes : « My little sister has a pony » (*My sister has a little pony*), « The flamingo has pink feathers » (*The pink flamingo has feathers*), « My family has a big house » (*My big family has a house*). | Réécrites : « My sister has a pony. », « I love pink flowers. », « My family lives in Paris. ». **Revue de toutes les phrases « X has ADJ Y »** : réécrites aussi « My dog has brown ears » → « I have a brown dog. », « Elephants have grey skin » → « Kai's cat is grey. », « Polar bears have white fur » → « I have a white rabbit. », « My aunt has a big dog » → « My aunt lives in London. », « My grandparents have a big garden » → « My grandparents have a farm. », « My father is a good cook » → « My father cooks very well. », « Their daughter is a good student » → « Their daughter plays the piano. », « The donkey carries heavy bags » → « The donkey lives on a farm. », « My grandfather tells funny stories » → « My grandfather tells me stories. », « My grandma makes great pancakes » → « My grandma lives in Lyon. », « Parrots have very colourful feathers » → « My parrot can say my name. ». |
+| R-3 | « Ma chatte a eu quatre chatons » (Animals, `gap` et `order`) : mot à éviter pour des enfants de 11–12 ans. | → « Mon chat a eu quatre chatons. » (`gap`, `order` et `fix` de *kitten*). |
+| R-4 | `gap` « We gave bread to the ducks » : le pain est mauvais pour les canards. | → « We watched the _____ on the pond. » / « Nous avons regardé les canards sur l'étang. » → *ducks*. |
+| R-5 | Q-B3 : **non**. En dictée, l'élève écrit ce qu'il entend. | Règle écrite dans la banque (en-tête, champ `say`) : en `dictation`, réponses justes = **le mot dit (`d.w`) + sa variante `us` (avec note), rien d'autre** ; `ok` et `pic.ok` ne s'y appliquent pas (*mum* ≠ *mother*, *aunt* ≠ *auntie*). |
+| R-6 | Q-B1, Q-B2, Q-B4, Q-B6 : ✅ ; Q-B5 : ✅ (Ouss a déjà dessiné l'arbre). | — |
+
+**Points à surveiller (`order`, ordre alternatif absurde mais grammatical)** — gardés, un seul ordre **sensé** :
+- « My cat has green eyes. » (*My green cat has eyes*) ;
+- « My sister has long hair. » (*My long sister has hair*) ;
+- « My rabbit has long ears. » / « Donkeys have long ears. » (*My long rabbit has ears*) ;
+- « My grandpa has grey hair. » (*My grey grandpa has hair*) ;
+- « Kai has a yellow pencil. », « Kai has blue eyes. » (adjectif impossible devant *Kai*) — sans risque ;
+- « My best friend has a red scooter. » (*My red friend…* absurde) ; « My grandpa has a green car. » (*My green grandpa*).
+Si un élève propose un de ces ordres, il est compté faux : à remonter si un parent le signale.
 
 ## 1. Ce qui est livré
 
@@ -18,7 +40,9 @@
 Chiffres = questions **possibles** (matière). Une épreuve en tire 20 (§5.2 de la conception) : chaque mot au moins
 une fois, au plus deux fois, jamais deux fois dans le même format.
 
-- `gap` : les 2 phrases d'exemple des données de chaque mot (aucune réécrite) ; réponse = le mot entre `*…*`, **forme
+- `gap` : les 2 phrases d'exemple des données de chaque mot, sauf 2 corrigées à la relecture (R-3 : traduction de
+  *kittens* ; R-4 : *ducks*) — **les données d'origine (`js/data/ndict.js`) gardent ces deux phrases** : à corriger
+  aussi par Ludo (relecture des exemples, Q8 du 30/10), hors de mes fichiers ; réponse = le mot entre `*…*`, **forme
   exigée** (pluriel compris).
 - `order` : 1 à 2 phrases par mot, 4 à 8 étiquettes, sans virgule ni complément de temps déplaçable. Reprises des
   exemples quand elles s'y prêtent (sans `*`), sinon **écrites pour la banque** (signalées dans le tableau).
@@ -42,8 +66,7 @@ et écartées pour cette raison. Un émoji s'affiche partout, sans fichier, en m
 | Family 1 | **Arbre généalogique** (champ `tree`, 10 cases : grands-parents, parents, oncle et tante, toi, frère, sœur, cousin), une case marquée « ? ». Les cases ne montrent **que** leur émoji ; la case de l'élève dit « You ». | 10 cases portées par 10 mots : mother, father, brother, sister, grandmother, grandfather, grandparents, uncle, aunt, cousin | mum, dad, grandma, grandpa (même case que mother, father… : la case accepte les deux mots, une seule question) ; family, parent, son, daughter (l'arbre est vu depuis l'élève : *son* et *daughter* demanderaient de changer de point de vue ; 👪 serait aussi l'icône du thème) |
 | Animals 1 | L'émoji des données, **une seule fois** dans le périmètre. Réponses acceptées en plus : les mots que l'émoji montre aussi (🐴 *pony*, 🐑 *lamb*, 🐶 *puppy*, 🐱 *kitten*, 🐢 *turtle*, 🐮 *calf*, 🐰 *bunny*, 🐔 *chicken*). | 13 : dog 🐶, cat 🐱, rabbit 🐰, mouse 🐭, parrot 🦜, tortoise 🐢, horse 🐴, cow 🐮, pig 🐷, sheep 🐑, goat 🐐, hen 🐔, duck 🦆 | puppy, kitten (émojis d'adultes), pony, lamb (même émoji que horse, sheep), pet, donkey (icône du thème 🐾), goldfish (🐠 est un poisson tropical : réponse *fish* tout aussi juste) |
 
-**Si l'écran ne dessine pas l'arbre** (Ouss, ≈ 0,25 dj) : `picture` n'est pas posé pour Family 1 (la conception le
-prévoit : questions remplacées par `type-fr-en` et `gap`). L'épreuve garde 5 formats écrits.
+**Arbre** : déjà dessiné par Ouss (scrum master, 02/11). Sans arbre, `picture` ne serait pas posé pour Family 1.
 
 **Pour Ouss** : l'émoji 🎩 (black) et 🥛 (white) ont été préférés à 🐈‍⬛ (séquence ZWJ mal affichée sur
 d'anciens Android) et ❄️ (fond blanc invisible en thème clair). À vérifier à l'écran : 🌊 (blue) doit se lire
@@ -53,22 +76,23 @@ d'anciens Android) et ❄️ (fond blanc invisible en thème clair). À vérifie
 
 | Champ | Effet | Exemples |
 |---|---|---|
-| `ok` | Autres réponses justes, **sans note** | *aunt* : auntie, aunty ; *mum* : mummy, mother ; *grandma* : granny, gran, grandmother ; *hen* : chicken |
+| `ok` | Autres réponses justes, **sans note** (`type-fr-en`, `picture`, `gap` ; pas en `dictation`) | *aunt* : auntie, aunty ; *mum* : mummy, mother ; *grandma* : granny, gran, grandmother ; *hen* : chicken |
 | `us` | Américain accepté **avec la note** « In British English: … » (Q9) | *grey* : gray ; *mum*, *mother* : mom |
-| `pic.ok` | Réponses justes propres à l'image | 🐴 → pony ; 🐑 → lamb |
+| `pic.ok` | Réponses justes propres à l'image (`picture` seulement) | 🐴 → pony ; 🐑 → lamb |
 | `gap[2]`, `fix.ok` | Autre forme juste dans la phrase | *three goldfish* : goldfishes accepté |
 | `ord[2]` | Autre ordre juste | « My cat is white and orange. » |
 | `skip` | Format non posé pour ce mot | orange, parent, cousin : pas de `type-fr-en` |
 
 **Paires de registre** (*mother / mum*, *father / dad*, *grandmother / grandma*, *grandfather / grandpa*) : elles
-s'acceptent l'une l'autre dans `type-fr-en`, `gap`, `picture`, `dictation` (pas à l'étape 2 de `fix`). Le français des
-données ne les sépare pas assez (« une grand-mère / mamie ») pour qu'un écart de registre compte faux. Dans la dictée,
-l'élève a entendu le mot : *mother* pour « mum » sera tout de même compté juste (choix de simplicité, voir Q-B3).
+s'acceptent l'une l'autre dans `type-fr-en`, `gap`, `picture` (jamais en `dictation` ni à l'étape 2 de `fix`). Le
+français des données ne les sépare pas assez (« une grand-mère / mamie ») pour qu'un écart de registre compte faux.
+**En dictée** (décision du scrum master, R-5) : seul le mot dit est juste, plus sa variante `us` avec la note.
 
 **Étape 2 de `fix`** : retaper le mot fautif est **toujours faux**, même à une lettre de la correction ; la tolérance de
 frappe (§3, règle 6) ne doit **jamais** accepter `bad` (ex. *grandparent* pour *grandparents* : distance 1, mais c'est
 l'erreur à corriger — de toute façon refusé par la règle 5, le nombre). Les autres phrases `fix` ont été choisies
-pour qu'aucun `bad` ne soit à distance 1 de `good` hors erreur de nombre (*oncle/uncle*, *cousine/cousin* retirées).
+pour qu'aucun `bad` ne soit à distance 1 de `good` hors erreur de nombre (*oncle/uncle* retirée). Exception voulue par
+le scrum master (R-1) : *cousine → cousin* (distance 1) ; le moteur doit refuser *cousine* retapé à l'étape 2.
 
 ## 4. Contrôles faits
 
@@ -81,8 +105,8 @@ Script de vérification (Chromium, vraies données, banque chargée après l'app
   traduction et explications présentes ;
 - `picture` : aucune image partagée dans un périmètre ; chaque case d'arbre accepte le mot qui la porte ;
 - chaque mot a au moins un `gap`, un `order` et un `fix` ;
-- 7 avertissements, tous voulus : *purple* et *grey* sont « peu courants » pour le filtre de niveau mais au contrôle
-  de la classe (conception §5.5) ; *grandparent → grandparents* (§3 ci-dessus) ; 4 émojis partagés dans le thème
+- 9 avertissements, tous voulus : le `gap` *ducks* écrit pour la banque (R-4) ; *purple* et *grey* sont « peu courants » pour le filtre de niveau mais au contrôle
+  de la classe (conception §5.5) ; *grandparent → grandparents* et *cousine → cousin* (§3 ci-dessus) ; 4 émojis partagés dans le thème
   entier, couverts par `pic.ok` (tortoise/turtle, horse/pony, cow/calf, sheep/lamb).
 
 ## 5. Écarts avec la conception
@@ -98,12 +122,14 @@ Script de vérification (Chromium, vraies données, banque chargée après l'app
 7. Champ `say` (phrase de la dictée) ajouté : la conception disait « la phrase d'exemple » sans dire laquelle ;
    pour *orange* la phrase choisie est « Carrots are orange. » (lève le doute avec le fruit).
 8. **🐰 → *bunny* accepté** (la conception le refusait, mot absent du dictionnaire) : c'est le mot qu'un enfant
-   anglais dirait devant cet émoji ; le refuser serait injuste. À trancher par le scrum master (Q-B6).
+   anglais dirait devant cet émoji ; le refuser serait injuste. Validé par le scrum master (Q-B6).
 
 ## 6. Pour Ludo (lecture de la banque)
 
 - `CERTBANK.certs[i].id` = identifiant du certificat (moteur §10, point 1) ; `theme` = thème des données ; `words[j].k`
   = clé envoyée à `Cert.record`.
+- **Réponses acceptées par format** : `type-fr-en`, `gap` : mot attendu + `ok` + `us` (note) ; `picture` : idem + `pic.ok`
+  (ou `tree.ask[case]`) ; `dictation` : **mot dit + `us` (note) seulement** ; `fix` étape 2 : `good` + `fix.ok` seulement.
 - Le mot attendu se lit dans les données (`allWords().byKey.get(k).d.w`) ; la forme attendue d'un `gap` dans la phrase.
 - Ordre de tirage : `skip` d'abord ; `picture` seulement si `pic` (et, pour `{ tree }`, si l'écran sait dessiner `tree`) ;
   `gap` et `order` : une phrase au hasard, jamais deux fois la même ; `fix` : idem ; `dictation` : `say`.
@@ -111,16 +137,16 @@ Script de vérification (Chromium, vraies données, banque chargée après l'app
   fausse (*brother* dans « I have two brother ») et la phrase française ; un `order` affiche le mot. Les deux viennent
   après les questions qui demandent de produire ce mot.
 
-## 7. Questions (scrum master, puis PO si besoin)
+## 7. Questions (tranchées par le scrum master le 02/11)
 
 | # | Question | Hypothèse appliquée |
 |---|---|---|
-| Q-B1 | Les phrases `fix` « mot français resté » (*My tante is a nurse*) : bonnes pour un enfant (erreur typique) ou trop faciles ? | **Gardées**, mêlées aux erreurs de pluriel ; à revoir si les épreuves sont réussies à 100 %. |
-| Q-B2 | `fix` sur *son / sun* et *aunt / ant* (homophones) : justes et utiles ? | **Gardées** : erreurs réelles d'élèves, la phrase française lève le doute. |
-| Q-B3 | Dictée : *mother* accepté quand Kai dit « mum » (paires de registre) ? | **Oui** (simplicité, aucun enfant ne s'en plaindra) ; le moteur peut l'exclure en dictée si le scrum master préfère. |
-| Q-B4 | *Animals 1* : *pet* et *donkey* sans image, *goldfish* sans image : d'accord ? | **Oui.** 13 images suffisent (4 questions `picture` par épreuve). |
-| Q-B5 | L'arbre de *Family 1* : si Ouss n'a pas le temps, pas de `picture` pour ce certificat ? | **Oui** (conception §2.2). |
-| Q-B6 | 🐰 : *bunny* accepté (écart 8) ? | **Oui.** Le retirer = supprimer `ok: ["bunny"]` dans la banque. |
+| Q-B1 | Les phrases `fix` « mot français resté » (*My tante is a nurse*) : bonnes pour un enfant (erreur typique) ou trop faciles ? | **Gardées** ✅ (scrum master, 02/11). |
+| Q-B2 | `fix` sur *son / sun* et *aunt / ant* (homophones) : justes et utiles ? | **Gardées** ✅ (scrum master, 02/11). |
+| Q-B3 | Dictée : *mother* accepté quand Kai dit « mum » (paires de registre) ? | ~~Oui~~ → **Non** (scrum master, 02/11) : en dictée, seul le mot dit (+ variante US avec note). |
+| Q-B4 | *Animals 1* : *pet* et *donkey* sans image, *goldfish* sans image : d'accord ? | **Oui** ✅ (scrum master, 02/11). |
+| Q-B5 | L'arbre de *Family 1* : si Ouss n'a pas le temps, pas de `picture` pour ce certificat ? | ✅ Sans objet : Ouss a déjà dessiné l'arbre. |
+| Q-B6 | 🐰 : *bunny* accepté (écart 8) ? | **Oui** ✅ (scrum master, 02/11). |
 
 ## 8. Tableau de relecture (une ligne par question possible)
 
@@ -181,7 +207,7 @@ et remarques.
 | 47 | pink | gap | Flamingos are _____. | Les flamants sont roses. | pink |  |
 | 48 | pink | gap | My sister loves _____ dresses. | Ma sœur adore les robes roses. | pink |  |
 | 49 | pink | order | [dresses] [loves] [my] [pink] [sister] | Ma sœur adore les robes roses. | My sister loves pink dresses. |  |
-| 50 | pink | order | [feathers] [flamingo] [has] [pink] [the] | Le flamant a des plumes roses. | The flamingo has pink feathers. | phrase écrite pour la banque |
+| 50 | pink | order | [I] [flowers] [love] [pink] | J'adore les fleurs roses. | I love pink flowers. | phrase écrite pour la banque |
 | 51 | pink | fix | My sister loves **pinks** dresses. | Ma sœur adore les robes roses. | pinks → pink | rattrapage : Colours never take -s: pink dresses. |
 | 52 | pink | fix | Look at the **pinks** flowers! | Regarde les fleurs roses ! | pinks → pink | rattrapage : Colours never take -s: pink flowers. |
 | 53 | pink | dictation | « pink. Flamingos are pink. pink. » |  | pink |  |
@@ -199,7 +225,7 @@ et remarques.
 | 65 | brown | gap | Bears are often _____. | Les ours sont souvent bruns. | brown |  |
 | 66 | brown | gap | I have _____ eyes. | J'ai les yeux marron. | brown |  |
 | 67 | brown | order | [I] [brown] [eyes] [have] | J'ai les yeux marron. | I have brown eyes. |  |
-| 68 | brown | order | [brown] [dog] [ears] [has] [my] | Mon chien a les oreilles marron. | My dog has brown ears. | phrase écrite pour la banque |
+| 68 | brown | order | [I] [a] [brown] [dog] [have] | J'ai un chien marron. | I have a brown dog. | phrase écrite pour la banque |
 | 69 | brown | fix | I have **marron** eyes. | J'ai les yeux marron. | marron → brown | rattrapage : Marron is French. In English: brown. |
 | 70 | brown | fix | My dog has **browns** ears. | Mon chien a les oreilles marron. | browns → brown | rattrapage : Colours never take -s: brown ears. |
 | 71 | brown | dictation | « brown. I have brown eyes. brown. » |  | brown |  |
@@ -217,7 +243,7 @@ et remarques.
 | 83 | white | gap | Snow is _____. | La neige est blanche. | white |  |
 | 84 | white | gap | My trainers are _____. | Mes baskets sont blanches. | white |  |
 | 85 | white | order | [are] [my] [trainers] [white] | Mes baskets sont blanches. | My trainers are white. |  |
-| 86 | white | order | [bears] [fur] [have] [polar] [white] | Les ours polaires ont une fourrure blanche. | Polar bears have white fur. | phrase écrite pour la banque |
+| 86 | white | order | [I] [a] [have] [rabbit] [white] | J'ai un lapin blanc. | I have a white rabbit. | phrase écrite pour la banque |
 | 87 | white | fix | Snow is **blanc**. | La neige est blanche. | blanc → white | rattrapage : Blanc is French. In English: white. |
 | 88 | white | fix | I've got **whites** trainers. | J'ai des baskets blanches. | whites → white | rattrapage : Colours never take -s: white trainers. |
 | 89 | white | dictation | « white. Snow is white. white. » |  | white |  |
@@ -226,7 +252,7 @@ et remarques.
 | 92 | grey | gap | Elephants are _____. | Les éléphants sont gris. | grey |  |
 | 93 | grey | gap | The sky is _____ today. | Le ciel est gris aujourd'hui. | grey |  |
 | 94 | grey | order | [grandpa] [grey] [hair] [has] [my] | Mon papi a les cheveux gris. | My grandpa has grey hair. | phrase écrite pour la banque |
-| 95 | grey | order | [elephants] [grey] [have] [skin] | Les éléphants ont la peau grise. | Elephants have grey skin. | phrase écrite pour la banque |
+| 95 | grey | order | [Kai's] [cat] [grey] [is] | Le chat de Kai est gris. | Kai's cat is grey. | phrase écrite pour la banque |
 | 96 | grey | fix | Elephants are **gris**. | Les éléphants sont gris. | gris → grey | rattrapage : Gris is French. In English: grey. |
 | 97 | grey | fix | Look at the **greys** clouds. | Regarde les nuages gris. | greys → grey | rattrapage : Colours never take -s: grey clouds. |
 | 98 | grey | dictation | « grey. Elephants are grey. grey. » |  | grey | gray (+ note UK : grey) |
@@ -239,7 +265,7 @@ et remarques.
 | 2 | family | gap | I love my _____. | J'aime ma famille. | family |  |
 | 3 | family | gap | Some _____ have lots of children. | Certaines familles ont beaucoup d'enfants. | families |  |
 | 4 | family | order | [I] [family] [love] [my] | J'aime ma famille. | I love my family. |  |
-| 5 | family | order | [a] [big] [family] [has] [house] [my] | Ma famille a une grande maison. | My family has a big house. | phrase écrite pour la banque |
+| 5 | family | order | [Paris] [family] [in] [lives] [my] | Ma famille habite à Paris. | My family lives in Paris. | phrase écrite pour la banque |
 | 6 | family | fix | Some **familys** have lots of children. | Certaines familles ont beaucoup d'enfants. | familys → families | rattrapage : family → families (y becomes ies). |
 | 7 | family | fix | I love my **famille**. | J'aime ma famille. | famille → family | rattrapage : Famille is French. In English: family. |
 | 8 | family | dictation | « family. I love my family. family. » |  | family |  |
@@ -271,7 +297,7 @@ et remarques.
 | 34 | father | gap | My _____ is very tall. | Mon père est très grand. | father |  |
 | 35 | father | gap | Some _____ stay at home with the children. | Certains pères restent à la maison avec les enfants. | fathers |  |
 | 36 | father | order | [father] [is] [my] [tall] [very] | Mon père est très grand. | My father is very tall. |  |
-| 37 | father | order | [a] [cook] [father] [good] [is] [my] | Mon père est un bon cuisinier. | My father is a good cook. | phrase écrite pour la banque |
+| 37 | father | order | [cooks] [father] [my] [very] [well] | Mon père cuisine très bien. | My father cooks very well. | phrase écrite pour la banque |
 | 38 | father | fix | My **père** is very tall. | Mon père est très grand. | père → father | rattrapage : Père is French. In English: father. |
 | 39 | father | fix | Many **father** stay at home with the children. | Beaucoup de pères restent à la maison avec les enfants. | father → fathers | rattrapage : Many → plural: many fathers. |
 | 40 | father | dictation | « father. My father is very tall. father. » |  | father | father → dad, daddy ; fathers → dads |
@@ -312,7 +338,7 @@ et remarques.
 | 75 | daughter | type-fr-en | une fille (l'enfant de…) |  | daughter |  |
 | 76 | daughter | gap | Their _____ is a good student. | Leur fille est une bonne élève. | daughter |  |
 | 77 | daughter | gap | My aunt has two _____. | Ma tante a deux filles. | daughters |  |
-| 78 | daughter | order | [a] [daughter] [good] [is] [student] [their] | Leur fille est une bonne élève. | Their daughter is a good student. |  |
+| 78 | daughter | order | [daughter] [piano] [plays] [the] [their] | Leur fille joue du piano. | Their daughter plays the piano. | phrase écrite pour la banque |
 | 79 | daughter | order | [aunt] [daughters] [has] [my] [two] | Ma tante a deux filles. | My aunt has two daughters. |  |
 | 80 | daughter | fix | My aunt has two **daughter**. | Ma tante a deux filles. | daughter → daughters | rattrapage : Two → plural: two daughters. |
 | 81 | daughter | fix | Their **fille** is a good student. | Leur fille est une bonne élève. | fille → daughter | rattrapage : Fille is French. Their child = their daughter. |
@@ -328,14 +354,14 @@ et remarques.
 | 91 | grandfather | picture | Who is this? This is your… arbre, case « grandpa » marquée ? | Qui est-ce ? C'est ton / ta… | grandfather | grandpa, grandad, granddad ; grandfather → grandpa, grandad, granddad ; grandfathers → grandpas, grandads |
 | 92 | grandfather | gap | My _____ tells funny stories. | Mon grand-père raconte des histoires drôles. | grandfather |  |
 | 93 | grandfather | gap | My two _____ love fishing. | Mes deux grands-pères adorent la pêche. | grandfathers |  |
-| 94 | grandfather | order | [funny] [grandfather] [my] [stories] [tells] | Mon grand-père raconte des histoires drôles. | My grandfather tells funny stories. |  |
+| 94 | grandfather | order | [grandfather] [me] [my] [stories] [tells] | Mon grand-père me raconte des histoires. | My grandfather tells me stories. | phrase écrite pour la banque |
 | 95 | grandfather | order | [fishing] [grandfathers] [love] [my] [two] | Mes deux grands-pères adorent la pêche. | My two grandfathers love fishing. |  |
 | 96 | grandfather | fix | My two **grandfather** love fishing. | Mes deux grands-pères adorent la pêche. | grandfather → grandfathers | rattrapage : Two → plural: two grandfathers. |
 | 97 | grandfather | dictation | « grandfather. My grandfather tells funny stories. grandfather. » |  | grandfather | grandfather → grandpa, grandad, granddad ; grandfathers → grandpas, grandads |
 | 98 | grandma | type-fr-en | une mamie |  | grandma | grandma → granny, gran, grandmother ; grandmas → grannies, grans, grandmothers |
 | 99 | grandma | gap | My _____ makes great pancakes. | Ma mamie fait de super crêpes. | grandma |  |
 | 100 | grandma | gap | Both my _____ live in Lyon. | Mes deux mamies habitent à Lyon. | grandmas |  |
-| 101 | grandma | order | [grandma] [great] [makes] [my] [pancakes] | Ma mamie fait de super crêpes. | My grandma makes great pancakes. |  |
+| 101 | grandma | order | [Lyon] [grandma] [in] [lives] [my] | Ma mamie habite à Lyon. | My grandma lives in Lyon. | phrase écrite pour la banque |
 | 102 | grandma | fix | My **mamie** makes great pancakes. | Ma mamie fait de super crêpes. | mamie → grandma | rattrapage : Mamie is French. In English: grandma. |
 | 103 | grandma | fix | Both my **grandma** live in Lyon. | Mes deux mamies habitent à Lyon. | grandma → grandmas | rattrapage : Both → plural: both my grandmas. |
 | 104 | grandma | dictation | « grandma. My grandma makes great pancakes. grandma. » |  | grandma | grandma → granny, gran, grandmother ; grandmas → grannies, grans, grandmothers |
@@ -352,7 +378,7 @@ et remarques.
 | 115 | grandparents | gap | I spend my holidays at my _____' house. | Je passe mes vacances chez mes grands-parents. | grandparents |  |
 | 116 | grandparents | gap | My _____ live in the countryside. | Mes grands-parents habitent à la campagne. | grandparents |  |
 | 117 | grandparents | order | [countryside] [grandparents] [in] [live] [my] [the] | Mes grands-parents habitent à la campagne. | My grandparents live in the countryside. |  |
-| 118 | grandparents | order | [a] [big] [garden] [grandparents] [have] [my] | Mes grands-parents ont un grand jardin. | My grandparents have a big garden. | phrase écrite pour la banque |
+| 118 | grandparents | order | [a] [farm] [grandparents] [have] [my] | Mes grands-parents ont une ferme. | My grandparents have a farm. | phrase écrite pour la banque |
 | 119 | grandparents | fix | I love all my **grandparent**. | J'aime tous mes grands-parents. | grandparent → grandparents | rattrapage : All my → plural: all my grandparents. |
 | 120 | grandparents | fix | My **grands-parents** live in the countryside. | Mes grands-parents habitent à la campagne. | grands-parents → grandparents | rattrapage : Grands-parents is French. In English: grandparents (one word). |
 | 121 | grandparents | dictation | « grandparents. My grandparents live in the countryside. grandparents. » |  | grandparents |  |
@@ -370,7 +396,7 @@ et remarques.
 | 133 | aunt | gap | My _____ is a nurse. | Ma tante est infirmière. | aunt |  |
 | 134 | aunt | gap | My _____ always give me presents. | Mes tantes me font toujours des cadeaux. | aunts |  |
 | 135 | aunt | order | [a] [aunt] [is] [my] [nurse] | Ma tante est infirmière. | My aunt is a nurse. |  |
-| 136 | aunt | order | [a] [aunt] [big] [dog] [has] [my] | Ma tante a un gros chien. | My aunt has a big dog. | phrase écrite pour la banque |
+| 136 | aunt | order | [London] [aunt] [in] [lives] [my] | Ma tante habite à Londres. | My aunt lives in London. | phrase écrite pour la banque |
 | 137 | aunt | fix | My **ant** is a nurse. | Ma tante est infirmière. | ant → aunt | rattrapage : ant = une fourmi ; aunt = une tante. |
 | 138 | aunt | fix | My **tante** always gives me presents. | Ma tante me fait toujours des cadeaux. | tante → aunt | rattrapage : Tante is French. In English: aunt. |
 | 139 | aunt | dictation | « aunt. My aunt is a nurse. aunt. » |  | aunt | aunt → auntie, aunty ; aunts → aunties |
@@ -379,7 +405,7 @@ et remarques.
 | 142 | cousin | gap | I play with my _____ every summer. | Je joue avec mes cousins chaque été. | cousins |  |
 | 143 | cousin | order | [age] [as] [cousin] [is] [me] [my] [same] [the] | Mon cousin a le même âge que moi. | My cousin is the same age as me. |  |
 | 144 | cousin | order | [I] [cousins] [five] [have] | J'ai cinq cousins. | I have five cousins. | phrase écrite pour la banque |
-| 145 | cousin | fix | My **cousins** is the same age as me. | Mon cousin a le même âge que moi. | cousins → cousin | rattrapage : One cousin: singular, my cousin is… |
+| 145 | cousin | fix | My **cousine** is the same age as me. | Ma cousine a le même âge que moi. | cousine → cousin | rattrapage : Cousine is French. In English: cousin, for a boy or a girl. |
 | 146 | cousin | fix | I play with my two **cousin** every summer. | Je joue avec mes deux cousins chaque été. | cousin → cousins | rattrapage : Two → plural: two cousins. |
 | 147 | cousin | dictation | « cousin. My cousin is the same age as me. cousin. » |  | cousin |  |
 
@@ -423,10 +449,10 @@ et remarques.
 | 34 | cat | dictation | « cat. The cat is sleeping on my bed. cat. » |  | cat |  |
 | 35 | kitten | type-fr-en | un chaton |  | kitten |  |
 | 36 | kitten | gap | The little _____ is playing with a ball of wool. | Le petit chaton joue avec une pelote de laine. | kitten |  |
-| 37 | kitten | gap | My cat had four _____. | Ma chatte a eu quatre chatons. | kittens |  |
-| 38 | kitten | order | [cat] [four] [had] [kittens] [my] | Ma chatte a eu quatre chatons. | My cat had four kittens. |  |
+| 37 | kitten | gap | My cat had four _____. | Mon chat a eu quatre chatons. | kittens |  |
+| 38 | kitten | order | [cat] [four] [had] [kittens] [my] | Mon chat a eu quatre chatons. | My cat had four kittens. |  |
 | 39 | kitten | order | [is] [kitten] [small] [the] [very] | Le chaton est tout petit. | The kitten is very small. | phrase écrite pour la banque |
-| 40 | kitten | fix | My cat had four **kitten**. | Ma chatte a eu quatre chatons. | kitten → kittens | rattrapage : Four → plural: four kittens. |
+| 40 | kitten | fix | My cat had four **kitten**. | Mon chat a eu quatre chatons. | kitten → kittens | rattrapage : Four → plural: four kittens. |
 | 41 | kitten | fix | The little **chaton** is playing with a ball of wool. | Le petit chaton joue avec une pelote de laine. | chaton → kitten | rattrapage : Chaton is French. In English: kitten. |
 | 42 | kitten | dictation | « kitten. The little kitten is playing with a ball of wool. kitten. » |  | kitten |  |
 | 43 | rabbit | type-fr-en | un lapin |  | rabbit |  |
@@ -457,7 +483,7 @@ et remarques.
 | 68 | parrot | gap | The _____ can say hello! | Le perroquet sait dire bonjour ! | parrot |  |
 | 69 | parrot | gap | _____ have very colourful feathers. | Les perroquets ont des plumes très colorées. | Parrots |  |
 | 70 | parrot | order | [can] [hello] [parrot] [say] [the] | Le perroquet sait dire bonjour. | The parrot can say hello. | phrase écrite pour la banque |
-| 71 | parrot | order | [colourful] [feathers] [have] [parrots] [very] | Les perroquets ont des plumes très colorées. | Parrots have very colourful feathers. |  |
+| 71 | parrot | order | [can] [my] [my] [name] [parrot] [say] | Mon perroquet sait dire mon prénom. | My parrot can say my name. | phrase écrite pour la banque |
 | 72 | parrot | fix | The **perroquet** can say hello! | Le perroquet sait dire bonjour ! | perroquet → parrot | rattrapage : Perroquet is French. In English: parrot. |
 | 73 | parrot | fix | My grandpa has two **parrot**. | Mon papi a deux perroquets. | parrot → parrots | rattrapage : Two → plural: two parrots. |
 | 74 | parrot | dictation | « parrot. The parrot can say hello! parrot. » |  | parrot |  |
@@ -482,7 +508,7 @@ et remarques.
 | 93 | pony | type-fr-en | un poney |  | pony |  |
 | 94 | pony | gap | My little sister has a _____. | Ma petite sœur a un poney. | pony |  |
 | 95 | pony | gap | The _____ are eating hay. | Les poneys mangent du foin. | ponies |  |
-| 96 | pony | order | [a] [has] [little] [my] [pony] [sister] | Ma petite sœur a un poney. | My little sister has a pony. |  |
+| 96 | pony | order | [a] [has] [my] [pony] [sister] | Ma sœur a un poney. | My sister has a pony. | phrase écrite pour la banque |
 | 97 | pony | order | [are] [eating] [hay] [ponies] [the] | Les poneys mangent du foin. | The ponies are eating hay. |  |
 | 98 | pony | fix | My little sister has a **poney**. | Ma petite sœur a un poney. | poney → pony | rattrapage : Poney is French. In English: pony. |
 | 99 | pony | fix | The **ponys** are eating hay. | Les poneys mangent du foin. | ponys → ponies | rattrapage : pony → ponies (y becomes ies). |
@@ -490,7 +516,7 @@ et remarques.
 | 101 | donkey | type-fr-en | un âne |  | donkey |  |
 | 102 | donkey | gap | The _____ carries heavy bags. | L'âne porte des sacs lourds. | donkey |  |
 | 103 | donkey | gap | _____ say hee-haw! | Les ânes font hi-han ! | Donkeys |  |
-| 104 | donkey | order | [bags] [carries] [donkey] [heavy] [the] | L'âne porte des sacs lourds. | The donkey carries heavy bags. |  |
+| 104 | donkey | order | [a] [donkey] [farm] [lives] [on] [the] | L'âne vit dans une ferme. | The donkey lives on a farm. | phrase écrite pour la banque |
 | 105 | donkey | order | [donkeys] [ears] [have] [long] | Les ânes ont de longues oreilles. | Donkeys have long ears. | phrase écrite pour la banque |
 | 106 | donkey | fix | The **âne** carries heavy bags. | L'âne porte des sacs lourds. | âne → donkey | rattrapage : Âne is French. In English: donkey. |
 | 107 | donkey | fix | I can see two **donkey** in the field. | Je vois deux ânes dans le champ. | donkey → donkeys | rattrapage : Two → plural: two donkeys. |
@@ -546,7 +572,7 @@ et remarques.
 | 157 | duck | type-fr-en | un canard |  | duck |  |
 | 158 | duck | picture | What is it? 🦆 | Qu'est-ce que c'est ? | duck |  |
 | 159 | duck | gap | A _____ is swimming on the lake. | Un canard nage sur le lac. | duck |  |
-| 160 | duck | gap | We gave bread to the _____. | Nous avons donné du pain aux canards. | ducks |  |
+| 160 | duck | gap | We watched the _____ on the pond. | Nous avons regardé les canards sur l'étang. | ducks | phrase écrite pour la banque |
 | 161 | duck | order | [I] [can] [ducks] [see] [two] | Je vois deux canards. | I can see two ducks. | phrase écrite pour la banque |
 | 162 | duck | fix | A **canard** is swimming on the lake. | Un canard nage sur le lac. | canard → duck | rattrapage : Canard is French. In English: duck. |
 | 163 | duck | fix | I can see five **duck** on the lake. | Je vois cinq canards sur le lac. | duck → ducks | rattrapage : Five → plural: five ducks. |
