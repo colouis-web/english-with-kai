@@ -59,6 +59,15 @@ Aucun écran : la tuile, les épreuves, le badge et la page imprimable viennent 
   durée (6 mois) s'applique au prochain renouvellement. D'accord ?
 - **Q5** — Envoyer aussi les certificats dans la base de l'artefact Claude (synchro entre appareils sans fichier) ?
 
+## Résultats des tests (02/11)
+- `tests/test_certificats.py` : **36 OK / 0 KO** ; Chromium : 0 erreur console (appareil vierge et progression de référence).
+- `tests/run_all.py` : données 87 OK / 0 KO. Les KO restants **existent aussi sur la base `03d25bd` sans mes changements**
+  (même relance faite sur une copie de la base) : ce ne sont pas des régressions du moteur.
+  - Parcours P07 (Entrée dans le 1er champ), P12 (code parent, l'étape qui casse change d'un passage à l'autre), P14 (bloqué par P12) :
+    l'instabilité connue (Dédé).
+  - Persistance PE-25 (écrans `daily_today`, `tests`, `me` différents de l'original) : 3 KO présents aussi sur la base. Probablement la
+    bannière « Class test in 3 days » et la casse des titres, ajoutées après la référence. À signaler à Dédé.
+
 ## Pour le sprint B
 - Rappel une semaine avant : `Cert.dueSoon(élève, 7)` est prêt (échéances dépassées comprises, `left` ≤ 0).
 - Écran d'épreuve : appeler `Cert.record(élève, thème, { kind: "exam", items: [{ key, fmt, ok }] })` ; `key` = clé du mot
