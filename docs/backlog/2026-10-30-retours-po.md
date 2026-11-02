@@ -84,3 +84,21 @@ Ajouts au backlog : taille du texte (0,25 dj), tuile Certificates, vérification
 L'écran est trop chargé (≈ 2 900 px de haut sur téléphone, cf. analyse UX I-04). Le réorganiser par **Jour / Semaine / My level / Rewards**.
 - **Sprint A, Matt (Opus)** : 2–3 maquettes cliquables en page Claude (lisibles sur téléphone, données réalistes), à faire valider par le PO **avant tout code**. Pistes : (A) onglets en haut de l'écran *Today · Week · My level · Rewards*, « Today » réduit à l'objectif du jour + Start ; (B) écran « Today » épuré + 3 tuiles vers Semaine / Niveau / Récompenses ; (C) tableau de bord façon Duolingo : carte objectif du jour, bande des 7 jours, sections repliables mémorisées.
 - **Sprint B, Ouss** : code de l'option choisie (sinon reporté au sprint Kai 3). Contrainte : la tuile Certificates (T4) doit trouver sa place dans la même logique.
+
+## Fin du sprint A et décisions du PO (02/11, 14:00)
+Sprint A fusionné dans `sprint-kai-2` (Dédé `ae60025`, Ludo `4f23278`, Ouss `15816dc`, Matt `503b0b0`, scrum master `c1834ac`).
+- **Maquette « My daily work »** : **option A (4 onglets Today · Week · My level · Rewards) + bande des 7 jours de C** ✅
+  (`docs/ux/maquettes-daily/`). Hypothèses de Matt retenues : rouvre sur *Today* au premier lancement du jour, puis sur
+  l'onglet laissé ; tuile Certificates en 2e place du menu.
+- **Certificats** — toutes les hypothèses de l'équipe validées ✅ : 90 % **au total** (18/20) avec au moins 3 formats ;
+  nouvel essai le **lendemain** d'un échec ; **pas de micro** en v1 ; **pas de certificat de verbes** en v1 ; gros thèmes
+  découpés en parties de **20 mots au plus**, petits thèmes **regroupés** avec un voisin ; une épreuve ratée **ne retire pas**
+  un certificat encore valable ; **+10 étoiles** par certificat, **+5** au renouvellement ; 3 premiers certificats :
+  **Colours, Family 1, Animals 1** ; **pas de synchro** des certificats avec le compte Claude. Autres hypothèses de
+  `docs/certificats/conception.md` (Q4 certificat échu, Q7 mots certifiés = « Words you know », Q8 phrase FR en 6e,
+  Q9 orthographe US acceptée avec note, changement de niveau = échéance conservée) : retenues telles quelles.
+- **Lisibilité (Ouss)** : validée telle quelle ✅ (Large +12 %, Extra large +25 %, Kai à droite sur petit iPhone,
+  réglage dans Me seulement, bulles de fin d'exercice alignées à 18 px au sprint B). Dédé refait les photos de référence.
+- **Tests de parcours de nouveau bloquants** dans la publication ✅ (avec WebKit installé dans le workflow).
+- Questions de Dédé tranchées par le scrum master : « My memory » 32 → 29 mots et « your 3 grammar lessons » sont les
+  effets voulus des décisions du 30/10 (thèmes sensibles exclus pour un Beginner, test de grammaire limité aux leçons travaillées).

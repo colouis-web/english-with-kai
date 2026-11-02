@@ -75,10 +75,9 @@ jobs:
       version: ${{ steps.preparer.outputs.version }}
 
   tests:
-    continue-on-error: true
-    name: Tests (Playwright + Chromium)
+    name: Tests (Playwright, Chromium + WebKit)
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     permissions:
       contents: read
     outputs:
@@ -114,32 +113,31 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('tests/requirements.txt') }}-1.63.0
+          key: playwright-${{ runner.os }}-${{ hashFiles('tests/requirements.txt') }}-1.63.0-webkit
 
-      - name: Installer Playwright et Chromium
+      - name: Installer Playwright, Chromium et WebKit (Safari)
         if: steps.presence.outputs.lances == 'oui'
         run: |
           python3 -m venv _venv
           _venv/bin/pip install --quiet --disable-pip-version-check -r _exigences.txt
           # Les bibliothèques système sont à réinstaller à chaque fois ; le navigateur, lui, vient du cache s'il y est.
-          sudo _venv/bin/python -m playwright install-deps chromium
-          _venv/bin/python -m playwright install chromium
+          sudo _venv/bin/python -m playwright install-deps chromium webkit
+          _venv/bin/python -m playwright install chromium webkit
 
       - name: Lancer les tests
         if: steps.presence.outputs.lances == 'oui'
         run: |
           set -o pipefail
-          _venv/bin/python tests/run_all.py 2>&1 | tee _tests.log
+          _venv/bin/python tests/run_all.py --cadrage-strict 2>&1 | tee _tests.log
           echo '### Tests' >> "$GITHUB_STEP_SUMMARY"
           tail -n 30 _tests.log | sed 's/^/    /' >> "$GITHUB_STEP_SUMMARY"
 
   publier:
     name: Publier sur GitHub Pages
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    # v1.0 (30/10, scrum master) : les tests de parcours navigateur sont encore instables (délais) ; ils s'exécutent et
-    # s'affichent mais ne bloquent pas la publication. La vérification (secrets, liens, manifest) reste bloquante.
-    # À rebloquer (needs: [verifier, tests]) une fois les tests stabilisés.
-    needs: [verifier]
+    # v1.1 (02/11, décision du PO) : tests de parcours stabilisés par Dédé (5 passes consécutives vertes, sans reprise) ;
+    # ils sont de nouveau BLOQUANTS : un test rouge empêche la publication, comme la vérification.
+    needs: [verifier, tests]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

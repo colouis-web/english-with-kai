@@ -72,5 +72,5 @@ Dictée, « Let's talk English » (micro), Test 6th grade (réponses écrites), 
 d'un fichier, code parent, navigation au clavier (Tab/focus), zoom 150 %.
 
 ## À investiguer (30/10, scrum master)
-- **img/kai-fr.webp** : le test DN-61 déduit cette image de l'analyse du code, mais elle n'existe pas dans `img/`. Aucun écran testé ne l'affiche. À vérifier : origine de la référence, image à ajouter ou référence à retirer.
-- **Tests de parcours instables** (30/10) : P07 (clavier, verbes irréguliers) et P12 (code parent) échouent de façon intermittente selon les délais ; seuls, ils passent (848 OK). En attendant, ils ne bloquent pas la publication (voir le workflow). À stabiliser : attentes explicites sur les états au lieu de délais fixes.
+- **img/kai-fr.webp** — **Statut : clos (02/11, Dédé)** : faux positif du test DN-61 (un commentaire de `js/app-lang-fr.js` contenait `"fr"`, 4e paramètre `lang` de `headSvg`). Aucune image manquante ; test corrigé (`docs/tests/kai-fr-webp-enquete-2026-11-02.md`).
+- **Tests de parcours instables** — **Statut : corrigé (02/11, Dédé)** : cause = focus déplacé par l'app après coup (40 à 380 ms) ; attentes d'état partout, 5 passes consécutives vertes sans reprise ; tests de nouveau bloquants dans le workflow (`docs/tests/stabilisation-parcours-2026-11-02.md`).
