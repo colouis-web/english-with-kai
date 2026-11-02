@@ -7,7 +7,7 @@ body{color:var(--ink);font:800 16px/1.4 var(--ui)}
 main{max-width:480px;min-height:100svh;margin:0 auto;padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
 h1{margin:0;text-align:center;font:700 clamp(24px,7vw,32px)/1.05 var(--title);letter-spacing:.6px;text-transform:uppercase}
 h1 span{display:block;font-size:1em;letter-spacing:1px;color:var(--teal)}
-.stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;margin:6px 0 10px}
+.stage{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:240px;margin:6px 0 10px}
 .stagebox{position:relative;width:100%;max-height:calc(100svh - 250px);aspect-ratio:360/640;margin:0 auto}
 .stagebox svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .kaitap{position:absolute;left:58%;top:3%;width:41%;height:96%;border:0;background:transparent;cursor:pointer;border-radius:30px;padding:0}
@@ -16,7 +16,10 @@ h1 span{display:block;font-size:1em;letter-spacing:1px;color:var(--teal)}
 .bb{cursor:pointer;transform-box:fill-box;transform-origin:90% 60%;animation:popin .45s cubic-bezier(.3,1.35,.5,1) both}
 .bb.b2{animation-delay:.9s}.bb.b1{animation-delay:.35s}
 @keyframes popin{from{transform:scale(0);opacity:0}}
-.bb text{font:400 18px var(--bub);fill:var(--ink);letter-spacing:.3px}
+/* R1 : texte des bulles de Kai, 500 / 20 unités du viewBox (≥ 18 px à l'écran dès 360 px de large). --bfs suit le réglage « Text size » (Me). */
+:root{--bfs:20px}
+.bb text{font:500 var(--bfs) var(--bub);fill:var(--ink);letter-spacing:.2px}
+.stagebox .bb text{font-size:21px}
 .bb .hl{fill:var(--teal);font-weight:700}
 .bb.talk path{animation:talk .5s ease-in-out infinite alternate}
 @keyframes talk{to{stroke-width:4}}
@@ -48,7 +51,7 @@ body.navlock .page{pointer-events:none}
 .say::after{left:-10px;margin-top:-5.5px;border-width:5.5px 11px 5.5px 0;border-right-color:#fff}
 .mhead{margin:6px 0 18px}.mhead svg{width:100%;height:auto;overflow:visible}
 .mhead .kb{cursor:pointer}
-#askb text{font-size:15.5px}
+
 .tiles{display:grid;gap:14px}
 .tile{display:grid;grid-template-columns:92px 1fr 24px;align-items:center;gap:14px;text-align:left;padding:10px 14px 10px 10px;border:3px solid var(--ink);border-radius:20px;background:#fff;box-shadow:0 5px 0 var(--ink);cursor:pointer;color:var(--ink);transition:transform .06s,box-shadow .06s}
 .tile:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
@@ -113,10 +116,10 @@ body.navlock .page{pointer-events:none}
 .dots i.cur{background:#fff;box-shadow:0 0 0 2.5px var(--teal)}
 .dots i.ok{background:#2bb673}.dots i.ko{background:#e5484d}
 .qhead svg,.qend svg{width:100%;height:auto;overflow:visible;display:block}
-.qb text{font-size:15px}.bb.qb{transform-origin:0% 75%;cursor:default}
+.bb.qb{transform-origin:0% 75%;cursor:default}
 .kai.qface{animation:none}.kai.qface.joy{animation:hop .55s cubic-bezier(.3,1.6,.5,1)}.kai.qface.sad{animation:sad .7s ease}
 @keyframes sad{25%{transform:translateY(5px) rotate(-2deg)}55%{transform:translateY(3px) rotate(2deg)}}
-#endb text{font-size:16px}
+.qend .bb text{font-size:19px}
 .qend .kai.mad{animation:mad .5s ease 2}@keyframes mad{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 @keyframes hop{35%{transform:translateY(-9px)}}
 .qask{text-align:center;font:700 15px var(--claude);letter-spacing:.8px;text-transform:uppercase;color:var(--mut);margin:8px 0 10px}
@@ -153,6 +156,9 @@ body.navlock .page{pointer-events:none}
 .chip i{font-style:normal;font-weight:500;color:var(--mut)}
 .chip.on{background:var(--ink);color:#fff}.chip.on i{color:#c9cbe0}
 .chip:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+/* R3 : « All themes » reste collée à gauche de la rangée ; un thème choisi porte une coche (l'état ne dépend pas de la couleur seule) */
+.chip[data-cat="all"]{position:sticky;left:16px;z-index:1;box-shadow:8px 0 8px -6px rgba(29,27,46,.28)}
+.chip.on:not([data-cat="all"])::before{content:"\2713";font-weight:800;margin-right:-2px}
 .emo{font-family:"Noto Emoji";font-variant-emoji:text;font-weight:500;color:var(--ink);visibility:hidden}
 html.emo-ok .emo{visibility:visible}html.emo-no .emo{display:none}
 .vh .emo{font-size:27px}
@@ -879,3 +885,71 @@ html.mlock,html.mlock body{overflow:hidden}
 .t6ban span{flex:1}.t6ban b{display:block;font:800 15px var(--claude);text-transform:uppercase;letter-spacing:.4px}
 .t6ban .go{width:20px;height:20px;color:#a35200}
 #test .top h1,#tests .top h1{font-size:clamp(22px,6.6vw,32px);line-height:1.1}
+
+/* ===== Sprint Kai 2 — lisibilité (Ouss) : R1 phrases, R2 cadrage des images, T3 « Text size » ===== */
+/* R1 : phrases d'exemple et d'exercice ≥ 18 px (≥ 16 px pour la traduction), graisse 500, interligne 1,4 */
+.ex .en{font:500 18px/1.4 var(--claude)}
+.ex .fr{font:400 16px/1.4 var(--claude)}
+.psent{line-height:1.4}
+.t3en{line-height:1.4}
+.t3fr{font-size:17px;line-height:1.4}
+.tins{font-size:16px;line-height:1.4}
+/* T3 : réglage « Text size » par élève. Classe sur <html> posée par txApply() (js/app-profils.js).
+   zoom agrandit tout (texte, boutons, tuiles) et laisse la mise en page se recomposer sur la largeur restante ;
+   --bfs : taille du texte des bulles de Kai (unités du viewBox, voir bubbleFs() dans app-quiz.js). */
+html.ts-l{--zf:1.12;zoom:var(--zf);--bfs:22.5px}
+html.ts-xl{--zf:1.25;zoom:var(--zf);--bfs:25px}
+.tsseg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 6px}
+.tsseg button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:58px;padding:6px 4px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;color:var(--ink);cursor:pointer;box-shadow:0 3px 0 var(--ink);font-family:var(--claude);line-height:1.15}
+.tsseg b{font:700 17px/1.1 var(--claude);text-align:center}
+.tsseg small{font:500 13px/1.1 var(--claude);color:var(--mut)}
+.tsseg button.on{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 3px 0 #075a62}
+.tsseg button.on small{color:#fff}
+.tsseg button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+/* T3 : « Large » et « Extra large » sur petit écran — le zoom réduit la largeur utile (375 px → 335 / 300), on resserre tuiles et cartes de mots */
+@media (max-width:480px){
+  html.ts-l .tile,html.ts-l .tile.wide{grid-template-columns:80px minmax(0,1fr) 20px;gap:10px}
+  html.ts-l .tile .pic{height:130px}
+  html.ts-l .tile b{font-size:23px}
+  html.ts-xl .tile,html.ts-xl .tile.wide{grid-template-columns:64px minmax(0,1fr) 18px;gap:8px;padding-right:10px}
+  html.ts-xl .tile .pic{height:110px}
+  html.ts-xl .tile b{font-size:21px}
+  html.ts-l .vh,html.ts-xl .vh{flex-wrap:wrap}
+  html.ts-l .vh .side,html.ts-xl .vh .side{order:3;flex-direction:row;align-items:center;justify-content:space-between;width:100%;align-self:auto}
+  html.ts-l .vh .w,html.ts-xl .vh .w{flex:1 1 0;min-width:120px}
+  html.ts-l .lvpick,html.ts-xl .lvpick{grid-template-columns:minmax(0,1fr)}
+  html.ts-l .mecard,html.ts-xl .mecard{grid-template-columns:52px minmax(0,1fr)}
+  html.ts-l .mecard .ghost,html.ts-xl .mecard .ghost{grid-column:1/-1;justify-self:center}
+  html.ts-l .ava.big,html.ts-xl .ava.big{width:52px;height:52px;font-size:24px}
+  html.ts-l .tkpi,html.ts-xl .tkpi{grid-template-columns:minmax(0,1fr)}
+  html.ts-xl .gtile b{font-size:17px;letter-spacing:.2px}
+  html.ts-xl .tcard{grid-template-columns:40px minmax(0,1fr)}
+  html.ts-xl .tcard .tgo{grid-column:2;justify-self:start}
+  html.ts-xl .tci{width:40px;height:40px}
+}
+/* R3 : une puce choisie qui défile n'est jamais cachée sous « All themes » (collée à gauche) */
+.chip{scroll-margin-left:170px;scroll-margin-right:16px}
+.chip[data-cat="all"]{scroll-margin-left:0}
+/* R2 : cadrage des images sur petits écrans (iPhone SE 375×667, mini 375×812, 360–430 px)
+   — « Let's talk » : l'image entière (plus de recadrage carré qui coupe les têtes), hauteur plafonnée à ~46 % de l'écran visible ;
+   — « Congrats! » et « See you tomorrow » : hauteurs relatives à l'écran visible (svh), le bouton reste toujours atteignable ;
+   — zones de sécurité (encoche, barre d'accueil) à gauche et à droite aussi. */
+.tkpic{aspect-ratio:auto;display:flex;align-items:center;justify-content:center;width:min(100%,340px)}
+.tkpic img{width:100%;height:auto;max-height:min(calc(46 * var(--sv)),420px);object-fit:contain}
+.congrats{padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.cgbox{display:flex;flex-direction:column;max-height:calc(100 * var(--sv) - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow-y:auto;overscroll-behavior:contain}
+.cgbox img{position:relative;z-index:1;flex:0 1 auto;width:100%;height:clamp(150px,calc(44 * var(--sv)),440px);min-height:120px;object-fit:contain;object-position:50% 100%}
+/* bandes de part et d'autre de l'image entière : la même image, floutée et agrandie (pas de liseré, rien n'est coupé sur l'image elle-même) */
+.cgbox::before{content:"";position:absolute;left:-24px;right:-24px;top:-24px;height:calc(clamp(150px,calc(44 * var(--sv)),440px) + 48px);min-height:168px;background:url(../img/kai-congrats.webp) 50% 30%/cover;filter:blur(14px);clip-path:inset(24px 0 24px 0)}
+.cgbox .cgbub{z-index:2}
+.xcross img{height:clamp(220px,min(calc(78 * var(--sw)),calc(46 * var(--sv))),400px)}
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+/* R1/R2 : accueil « compact » sur téléphone court (voir fit() dans app-scene-voix.js) : pleine largeur, Kai entier, bulles lisibles */
+.stagebox.compact{position:absolute;inset:0;width:auto;max-height:none;aspect-ratio:auto}
+/* Unités d'écran « sv » / « sw » (= 1 % de la hauteur / largeur visibles) : sous zoom, svh et vw seraient agrandis du facteur de zoom ;
+   txMetrics() (app-profils.js) les recalcule en px quand « Text size » n'est pas Normal (innerHeight / zoom / 100). */
+:root{--sv:1svh;--sw:1vw}
+main{min-height:calc(100 * var(--sv))}
+.stagebox{max-height:calc(100 * var(--sv) - 250px)}
+.mbox{max-height:calc(100 * var(--sv) - 40px)}
+.toast{max-width:calc(100 * var(--sw) - 32px)}
