@@ -22,18 +22,26 @@ const KAI = { src: "img/kai-stand.webp", x: 150, y: 22, h: 610, w: 201.4 };
 document.getElementById("stage").innerHTML = `<div class="stagebox" id="stagebox"><svg viewBox="0 0 360 640" role="img" aria-label="Kai dit : Hello, my name is Kai! I'm here to help you speak English!">
 <image class="kai" href="${KAI.src}" x="${KAI.x}" y="${KAI.y}" width="${KAI.w}" height="${KAI.h}"/>
 ${LINES.map((L, i) => {
-    const n = L.rows.length, lh = 22, y0 = L.c[1] - (n - 1) * lh / 2 + 7;
+    const n = L.rows.length, lh = 29, y0 = L.c[1] - (n - 1) * lh / 2 + 7;  /* R1 : texte 21 unités, interligne 1,4 */
     return `<g class="bb b${i + 1}" data-i="${i}" role="button" tabindex="0" aria-label="${L.say}"><path d="${bubblePath(L.c, L.r, L.tip)}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${L.rows.map((row, j) => `<tspan x="${L.c[0]}" y="${f1(y0 + j * lh)}">${rowSvg(row)}</tspan>`).join("")}</text></g>`;
 }).join("")}
 </svg><button class="kaitap" id="kaitap" aria-label="Open the menu"></button></div>`;
-/* garder le ratio de la scène quelle que soit la hauteur de l'écran */
+/* garder le ratio de la scène quelle que soit la hauteur de l'écran.
+   R1/R2 : sur un téléphone court (iPhone SE, Safari avec ses barres), la scène entière tiendrait à moins de 0,9 px d'écran par unité
+   du viewBox et le texte des bulles tomberait sous 18 px. On passe alors en mode « compact » : la scène prend toute la largeur,
+   cadrée en haut (tête, buste, bulles), les jambes de Kai fondent en bas (CSS .stagebox.compact). */
 function fit() {
     const b = document.getElementById("stagebox"), st = document.getElementById("stage");
     if (!b || !st)
         return;
-    const W = st.clientWidth, H = st.clientHeight || innerHeight;
-    const w = Math.min(W, H * 360 / 640);
-    b.style.width = w + "px";
+    const W = st.clientWidth, H = st.clientHeight;
+    if (!W || !H)
+        return;   /* écran masqué : on recalcule à l'affichage */
+    const z = parseFloat(getComputedStyle(document.documentElement).zoom) || 1, w = Math.min(W, H * 360 / 640);
+    const compact = innerWidth <= 600 && w / 360 * z < .9;
+    b.classList.toggle("compact", compact);
+    b.querySelector("svg").setAttribute("preserveAspectRatio", compact ? "xMidYMin slice" : "xMidYMid meet");
+    b.style.width = compact ? "" : w + "px";
 }
 addEventListener("resize", fit);
 /* voix anglaise : la plus naturelle disponible sur l'appareil */
