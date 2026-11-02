@@ -31,3 +31,21 @@ Leçons rangées par niveau (S-15) ; espace parent unique + information micro (S
 2 maquettes (S-14 — le PO avait dit non le 30/10, oui le 02/11) ; contrôles de classe saisis par le parent (déjà prévu
 après les certificats ; le contrôle écrit dans le code est daté du 02/11 : l'écran « Test 6th grade » est vide ensuite).
 Délai après mauvais codes parent : oui le 30/10, non le 02/11 → **à trancher**.
+
+---
+
+# Sprint B — lancement (02/11/2026, 14:10, scrum master)
+
+Base : `sprint-kai-2` @ `c3ec1fb` (sprint A fusionné, décisions du PO du 02/11 14:00 dans
+`docs/backlog/2026-10-30-retours-po.md`). Mêmes règles qu'au sprint A ; branches `kai/<nom>` repartent de cette base.
+
+| Agent | Modèle | Chantier | Fichiers dont il est propriétaire |
+|---|---|---|---|
+| **Matt** | Opus | Banque des 3 premiers certificats (**Colours**, **Family 1**, **Animals 1 · Pets & farm**) : `js/data/certificats.js` (périmètres ≤ 20 mots, phrases à compléter / à remettre dans l'ordre / **phrases avec erreur** pour `fix`, liste des mots à image sans ambiguïté pour `picture`), au format du §4–5 de la conception ; relu par le scrum master (règle 3). | `js/data/certificats.js`, `docs/certificats/` |
+| **Ludo** | Opus | Fin du moteur : les 7 ajustements du §10 de la conception (périmètres de la banque, mots ratés en rotation, `Cert.pickExam`, `Cert.check`, choix du son et reprise, historique, rattrapage → mémoire) ; règles du PO (nouvel essai le lendemain, +10 / +5 étoiles) ; **My daily work option A** (onglets Today · Week · My level · Rewards + bande des 7 jours, rouvre sur Today au 1er lancement du jour) avec le **bandeau Renew** à J-7 ; bulles de fin d'exercice à 18 px (géométrie dans `app-daily.js`). | `js/app-certificats.js`, `js/app-daily.js`, blocs daily de `css/app.css` |
+| **Ouss** | Sonnet, effort élevé | Écrans des certificats : tuile **Certificates** (2e place du menu, pastille à renouveler), page Certificates (badges datés, « Take a certificate »), écran d'épreuve (formats écrits ; dictée seulement si « son disponible ? » = oui ; pas de micro), écran de résultat + rattrapage, **page imprimable** pour les parents. | nouveau `js/app-certificats-ui.js`, blocs certificats d'`index.html` et `css/app.css` |
+| **Dédé** | Sonnet, effort élevé | Tests d'acceptation des certificats (épreuve réussie / ratée, nouvel essai le lendemain, renouvellement J-7, sortie de rotation, sauvegarde) et de l'option A ; photos de référence refaites **en fin de sprint** (lisibilité validée par le PO) ; tests bloquants. | `tests/`, `docs/tests/` |
+
+Ordre : Matt et Ludo d'abord sur les données et l'API (Ouss code contre l'API documentée de `Cert` et une banque
+factice en attendant) ; Dédé écrit ses tests sur les critères, puis les rejoue sur l'intégration.
+Puis **contrôle a posteriori d'Ani** (Sonnet, ≈ 10 min) et PR `sprint-kai-2` → `main` (v1.1).
