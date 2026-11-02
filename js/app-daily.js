@@ -141,6 +141,8 @@ function deleteProfile(pid) {
     }
     try {
         localStorage.removeItem(dayKey(pid));
+        if (typeof Cert === "object")
+            Cert.drop(pid);
     }
     catch (e) {
     }
@@ -195,6 +197,8 @@ async function dSync() {
                     PROFS.list = PROFS.list.filter(p => p.id !== r.id);
                     try {
                         localStorage.removeItem(dayKey(r.id));
+                        if (typeof Cert === "object")
+                            Cert.drop(r.id);
                     }
                     catch (e) {
                     }
@@ -390,13 +394,14 @@ function quota(n) {
 /* une série de mots du jour : d'abord les mots à revoir, puis des mots nouveaux pris dans le thème le moins vu */
 function pickMix(size) {
     const t = todayKey(), S = wordState(), A = allWords(), lv = LV[lvOf(curProf())], seen = new Set(Object.keys((DST.days[t] || {}).w || {})), used = new Set();
-    const lvn = lvOf(curProf()), sOk = w => typeof sensOk !== "function" || sensOk(w.k, w.d, lvn);
-    /* un mot sensible déjà vu reste dans la mémoire de l'élève mais ne revient qu'à partir du niveau 2 */
+    const lvn = lvOf(curProf()), cOk = typeof Cert === "object" && Cert.rotationFilter() || (() => true), sOk = w => (typeof sensOk !== "function" || sensOk(w.k, w.d, lvn)) && cOk(w);
+    /* un mot sensible déjà vu reste dans la mémoire de l'élève mais ne revient qu'à partir du niveau 2 ;
+       un mot d'un thème certifié et valide (js/app-certificats.js) ne revient plus tant que le certificat court */
     const due = Object.entries(S).filter(([key, s]) => !seen.has(key) && A.byKey.has(key) && daysBetween(s.last, t) >= INTV[s.b] && sOk(A.byKey.get(key))).sort((a, b) => a[1].b - b[1].b || a[1].last.localeCompare(b[1].last)).map(([key]) => A.byKey.get(key));
     const out = due.slice(0, Math.round(size * lv.rev / lv.words));
     out.forEach(w => used.add(w.key));
     for (const k of quota(size - out.length)) {
-        let free = A.filter(w => w.k === k && !used.has(w.key) && !seen.has(w.key) && lvOkWord(w.k, w.d, lvn));
+        let free = A.filter(w => w.k === k && !used.has(w.key) && !seen.has(w.key) && lvOkWord(w.k, w.d, lvn) && cOk(w));
         if (!free.length)
             free = A.filter(w => w.k === k && !used.has(w.key) && !seen.has(w.key) && sOk(w));
         let pool = free.filter(w => !S[w.key]);
