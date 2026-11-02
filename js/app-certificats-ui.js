@@ -13,8 +13,7 @@
      updateCertTile()       rafraîchit la tuile du menu (appelée toute seule quand le menu s'affiche)
      CertUI                 { start(theme, kind), resume(), grade(q, typed) } pour les tests
 
-   Contrat avec le moteur (conception de Matt, §10). Ce qui n'existe pas encore dans Cert est remplacé par un petit adaptateur
-   (repérés « ADAPTATEUR » ci-dessous) : il disparaît de lui-même quand le moteur le fournit.
+   Contrat avec le moteur (js/app-certificats.js, conception de Matt §10) : tout est dans Cert, rien n'est recalculé ici.
      Cert.pickExam(pid, theme, { sound }) → questions [{ key, fmt, … }]
      Cert.pickRenewal(pid, theme, { n, formats }) → questions de renouvellement (existe)
      Cert.check(question, tapé) → { ok, typo, grammar, note }
@@ -34,7 +33,6 @@
         fix: { label: "Fix the mistake", ask: "There is one mistake. Tap it!", fr: "Il y a une seule erreur. Touche-la !" },
         dictation: { label: "Listen and write", ask: "Listen and write the word.", fr: "Écoute et écris le mot." }
     };
-    const WORD_FMT = ["type-fr-en", "picture", "dictation"];
     const CHECK_SVG = typeof CHECK === "string" ? CHECK : "", CROSS_SVG = typeof CROSS === "string" ? CROSS : "";
     const GO = typeof GOSVG === "string" ? GOSVG : "";
     /* ---------- petits outils ---------- */
@@ -76,8 +74,7 @@
         } catch (e) { }
         return CAT_ICON[c] || "📘";
     }
-    const frKey = fr => String(fr || "").replace(/\(.*?\)/g, "").split("/")[0].toLowerCase().replace(/^(un|une|le|la|les|l'|des|du|de la)\s+/, "").trim();
-    /* ---------- le moteur : ce qu'on lui demande, avec un repli tant qu'il ne le sait pas (ADAPTATEUR) ---------- */
+    /* ---------- le moteur : ce qu'on lui demande,  ---------- */
     const GOOD_MIN = (n, kind) => Math.ceil((kind === "renewal" ? 80 : 90) * n / 100 - 1e-9);
     let OFF = { k: "", t: 0, v: [] };
     function offered() {
@@ -96,10 +93,6 @@
         let T = [];
         try { T = Cert.themes(pid()) || []; } catch (e) { }
         T = T.filter(t => t && !/^verbs:/.test(t.id));
-        if (typeof Cert.pickExam !== "function") { /* ADAPTATEUR : sans banque, seulement des thèmes de taille raisonnable et non sensibles */
-            const SENS = ["nouns:war", "nouns:endoflife", "nouns:finance", "nouns:justice"];
-            T = T.filter(t => t.n >= 8 && t.n <= 25 && !SENS.includes(t.id));
-        }
         return T.map(t => ({ id: t.id, title: t.title || t.label || t.id, icon: iconOf(t), n: t.n || wordsOfTheme(t.id).length }));
     }
     function titleOf(th) {
@@ -133,14 +126,9 @@
     }
     function canRetry(th) {
         try {
-            if (typeof Cert.canRetry === "function") {
-                const r = Cert.canRetry(pid(), th);
-                return typeof r === "object" && r ? { ok: r.ok !== false, on: r.on || r.date || null } : { ok: r !== false };
-            }
-        } catch (e) { }
-        /* ADAPTATEUR : une épreuve complète ratée aujourd'hui ne se repasse que demain (règle du PO, 02/11) */
-        const c = Cert.get(pid(), th), h = c && c.history && c.history[c.history.length - 1];
-        return { ok: !(h && h.kind === "exam" && !h.pass && h.date === today()) };
+            const r = Cert.canRetry(pid(), th);
+            return { ok: r.ok !== false, on: r.on || null };
+        } catch (e) { return { ok: true }; }
     }
     function soundGet() { const v = lsGet("kai.certsound." + pid()); return v === "1" ? true : v === "0" ? false : null; }
     function soundSet(on) { lsSet("kai.certsound." + pid(), on ? "1" : "0"); }
@@ -164,61 +152,10 @@
         }
         return raw;
     }
-    const pick = a => (a && a.length ? a[Math.floor(Math.random() * a.length)] : null);
-    /* complète une question {key, fmt} avec ce que la banque sait (phrases, image validée, réponses en plus) */
-    function enrich(q, th) {
-        const bc = bankCert(th), bw = bankWord(th, q.key), e = wordOf(q.key);
-        if (!bc || !bw || !e)
-            return;
-        const main = e.d.w || e.d.v;
-        if (q.fmt === "type-fr-en" || q.fmt === "dictation") {
-            if (q.fmt === "type-fr-en" && !q.fr)
-                q.fr = bw.fr || e.d.fr;
-            q.also = (bw.ok && bw.ok[main]) || [];
-            q.alt = (bw.us && bw.us[main]) || [];
-        }
-        if (q.fmt === "picture") {
-            const pc = bw.pic;
-            if (!pc)
-                q.fmt = "type-fr-en", q.fr = q.fr || bw.fr || e.d.fr, q.also = (bw.ok && bw.ok[main]) || [], q.alt = (bw.us && bw.us[main]) || [];
-            else {
-                if (pc && pc.tree)
-                    q.tree = { cert: th, box: pc.tree };
-                else
-                    q.img = pc === true ? e.d.e : pc.e || e.d.e;
-                q.ask = (bc.picture && bc.picture.q) || q.ask;
-                q.askFr = bc.picture && bc.picture.qFr;
-                q.also = (pc && pc.ok) || [];
-                if (pc.tree && bc.tree && bc.tree.ask && bc.tree.ask[pc.tree])
-                    q.also = bc.tree.ask[pc.tree].slice(), q.main = q.also[0];
-                q.alt = (bw.us && bw.us[main]) || [];
-            }
-        }
-        if (q.fmt === "gap" && !q.s) {
-            const g = pick(bw.gap);
-            if (g)
-                q.s = g[0], q.sfr = g[1], q.also = g[2] || [];
-        }
-        if (q.fmt === "order" && !q.s) {
-            const o = pick(bw.ord);
-            if (o)
-                q.s = o[0], q.sfr = o[1], q.alt = Array.isArray(o[2]) ? o[2] : [];
-        }
-        if (q.fmt === "fix" && !q.s) {
-            const f = pick(bw.fix);
-            if (f)
-                Object.assign(q, { s: f.s, bad: f.bad, good: f.good, sfr: f.fr, why: f.why, whyFr: f.whyFr });
-            else
-                q.fmt = "gap", enrich(q, th);
-        }
-        if (q.fmt === "dictation" && !q.s)
-            q.s = bw.say || "";
-    }
     function prep(raw, th) {
         const q = Object.assign({}, raw);
         delete q.d; delete q.k; delete q.f; delete q.miss; delete q.weight; delete q.w;
         q.fmt = FMT[q.fmt] ? q.fmt : "type-fr-en";
-        enrich(q, th);
         const e = wordOf(q.key), banked = !!bankCert(th);
         if (q.fmt === "fix" && !(q.s && q.bad && q.good))
             q.fmt = "gap"; /* pas de phrase écrite à la main pour ce mot : une phrase à compléter */
@@ -244,164 +181,19 @@
         }
         return q;
     }
-    /* ADAPTATEUR : tirage d'une épreuve complète tant que Cert.pickExam n'existe pas (quotas de la conception §5.2, sans la banque :
-       pas de phrase « fix », images = émojis du dictionnaire) */
-    function fallbackExam(th, sound) {
-        const bc = bankCert(th), W = shuffle(bc ? bc.words.map(w => w.k) : wordsOfTheme(th).map(w => w.key)), n = young() ? 20 : 25;
-        const quota = { "type-fr-en": sound ? 4 : 6, picture: 4, gap: sound ? 4 : 5, order: 3, fix: 2 };
-        if (sound)
-            quota.dictation = 3;
-        if (!young()) {
-            quota["type-fr-en"] += 1; quota.gap += 2; quota.picture = 3; quota.order = 4; quota.fix = 4;
-        }
-        const can = (key, f) => {
-            const bw = bankWord(th, key);
-            if (!bw)
-                return f === "type-fr-en" || f === "gap" || f === "order" || f === "dictation";
-            return f === "type-fr-en" || (f === "picture" ? !!bw.pic : f === "gap" ? !!(bw.gap && bw.gap.length) : f === "order" ? !!(bw.ord && bw.ord.length) : f === "fix" ? !!(bw.fix && bw.fix.length) : !!bw.say);
-        };
-        const used = {}, pairs = new Set(), out = [];
-        const take = f => {
-            const c = W.filter(k => can(k, f) && !pairs.has(k + "|" + f) && (used[k] || 0) < 2).sort((x, y) => (used[x] || 0) - (used[y] || 0));
-            if (!c.length)
-                return false;
-            const k = c[0];
-            used[k] = (used[k] || 0) + 1;
-            pairs.add(k + "|" + f);
-            out.push({ key: k, fmt: f });
-            return true;
-        };
-        /* couverture : chaque mot reçoit d'abord une question (traduction, ou le format du quota qui lui convient) */
-        const order = Object.keys(quota);
-        W.forEach(k => {
-            const f = order.find(f2 => quota[f2] > 0 && f2 !== "type-fr-en" && can(k, f2) && (f2 === "picture" || Math.random() < .5)) || "type-fr-en";
-            if (quota[f] > 0 || f === "type-fr-en") {
-                used[k] = (used[k] || 0) + 1;
-                pairs.add(k + "|" + f);
-                out.push({ key: k, fmt: f });
-                quota[f]--;
-            }
-        });
-        for (const f of order)
-            while (quota[f] > 0 && out.length < n) {
-                if (!take(f))
-                    break;
-                quota[f]--;
-            }
-        const fill = ["gap", "type-fr-en", "order"];
-        for (let i = 0; out.length < n && i < 60; i++)
-            take(fill[i % fill.length]);
-        let Q = shuffle(out.slice(0, n));
-        /* « afficher après produire » : une question qui montre le mot (ordre, phrase fautive) ne précède pas celle qui le demande */
-        const shows = q => q.fmt === "order" || q.fmt === "fix", asks = q => !shows(q);
-        for (let pass = 0; pass < 6; pass++)
-            Q.forEach((q, i) => {
-                if (!shows(q))
-                    return;
-                const j = Q.findIndex((r, x) => x > i && r.key === q.key && asks(r));
-                if (j > -1)
-                    [Q[i], Q[j]] = [Q[j], Q[i]];
-            });
-        return Q;
-    }
     function buildQuestions(th, kind, sound) {
-        let raw = [];
-        if (kind === "renewal") {
-            const formats = ["type-fr-en", "gap", "fix"].concat(sound ? ["dictation"] : []);
-            raw = Cert.pickRenewal(pid(), th, { n: bankCert(th) ? 40 : 8, formats, sound }) || [];
-            if (bankCert(th)) { /* tant que le moteur tire dans le thème entier : seulement les mots du périmètre de la banque */
-                const inside = new Set(bankCert(th).words.map(w => w.k));
-                raw = raw.filter(q => inside.has(q.key));
-            }
-            raw = raw.slice(0, 8);
-        }
-        else if (typeof Cert.pickExam === "function")
-            raw = Cert.pickExam(pid(), th, { sound });
-        else
-            raw = fallbackExam(th, sound);
+        const raw = kind === "renewal"
+            ? Cert.pickRenewal(pid(), th, { n: 8, formats: ["type-fr-en", "gap", "fix"].concat(sound ? ["dictation"] : []), sound })
+            : Cert.pickExam(pid(), th, { sound });
         return (raw || []).filter(q => q && q.key).map(q => prep(q, th));
     }
-    /* ---------- correction (le moteur d'abord ; ADAPTATEUR sinon : règles du §3 de la conception) ---------- */
+    /* ---------- correction : le moteur (Cert.check, conception §3) ---------- */
     const N = t => (typeof t3Norm === "function" ? t3Norm(t) : String(t || "").toLowerCase().replace(/[’‘`´]/g, "'").replace(/[.,!?;:"«»]/g, " ").replace(/\s+/g, " ").trim());
-    const stripArt = x => x.replace(/^(a|an|the|to) /, "");
-    /* distance de Damerau-Levenshtein (une lettre en trop, en moins, changée, ou deux lettres inversées = 1) ;
-       tkLev (js/app-talk.js) ne compte pas l'inversion comme une seule faute : voir docs/certificats/ecrans.md */
-    function lev(a, b) {
-        if (Math.abs(a.length - b.length) > 2)
-            return 9;
-        const d = Array.from({ length: a.length + 1 }, (_, i) => [i].concat(Array(b.length).fill(0)));
-        for (let j = 1; j <= b.length; j++)
-            d[0][j] = j;
-        for (let i = 1; i <= a.length; i++)
-            for (let j = 1; j <= b.length; j++) {
-                d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
-                if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1])
-                    d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
-            }
-        return d[a.length][b.length];
-    }
-    const isKnown = w => { try { return tkKnown(w); } catch (e) { return false; } };
-    function acceptedWords(q) {
-        const e = wordOf(q.key), main = e ? e.d.w || e.d.v : "", out = new Set([main]);
-        if (e && (q.fmt === "type-fr-en" || q.fmt === "dictation") && !/\(/.test(e.d.fr || "")) {
-            const fk = frKey(e.d.fr);
-            try { allWords().forEach(w => { if (w.k === e.k && w.key !== e.key && frKey(w.d.fr) === fk) out.add(w.d.w || w.d.v); }); } catch (er) { }
-        }
-        if (e && q.fmt === "picture" && (q.img || e.d.e)) {
-            const em = q.img || e.d.e;
-            try { allWords().forEach(w => { if (w.k === e.k && w.d.e === em) out.add(w.d.w || w.d.v); }); } catch (er) { }
-        }
-        return [...out].filter(Boolean);
-    }
-    function localCheck(q, typed, step) {
-        const a = N(typed);
-        if (!a)
-            return { ok: false };
-        if (q.fmt === "order") {
-            const alts = [q.s].concat(q.alt || []);
-            return { ok: alts.some(s => N(String(s).replace(/\*/g, "")) === a) };
-        }
-        const word = WORD_FMT.includes(q.fmt);
-        let exp;
-        if (q.fmt === "gap")
-            exp = [targetOf(q.s)];
-        else if (q.fmt === "picture" && q.tree)
-            exp = [];
-        else if (q.fmt === "fix")
-            exp = [q.good];
-        else
-            exp = acceptedWords(q);
-        exp = exp.concat(q.also || []).map(N);
-        if (exp.includes(a))
-            return { ok: true };
-        if (word && exp.some(e => stripArt(a) === stripArt(e)))
-            return { ok: true };
-        const alts = (word ? q.alt || [] : []).map(N);
-        if (alts.includes(a) || (word && alts.includes(stripArt(a))))
-            return { ok: true, note: `In British English: ${(wordOf(q.key) || { d: {} }).d.w || exp[0]}` };
-        /* grammaire : jamais tolérée (pluriel oublié, pluriel fabriqué : wifes, childs…) */
-        const e = wordOf(q.key), forms = e ? [e.d.w, e.d.pl, e.d.v].filter(Boolean).map(N) : [];
-        const plurals = forms.filter(Boolean).flatMap(f => [f + "s", f + "es"]);
-        if (forms.includes(a) || plurals.includes(a))
-            return { ok: false, grammar: q.fmt === "gap" ? `Look at the sentence: you need ${exp[0]}.` : "Singular or plural? Look carefully." };
-        /* faute de frappe : une lettre, mot attendu d'au moins 5 lettres, et ce qui est tapé n'est pas un autre mot anglais */
-        for (const x of exp) {
-            if (x.replace(/[^a-z]/g, "").length < 5)
-                continue;
-            if (a.split(" ").every(isKnown))
-                continue;
-            if (lev(a, x) <= 1)
-                return { ok: true, typo: x };
-        }
-        return { ok: false };
-    }
     function grade(q, typed, step) {
         let r = null;
-        if (typeof Cert.check === "function") {
-            try { r = Cert.check(Object.assign({}, q), typed); } catch (e) { r = null; }
-        }
+        try { r = Cert.check(Object.assign({}, q), typed); } catch (e) { r = null; }
         if (!r || typeof r !== "object")
-            r = localCheck(q, typed, step);
+            r = { ok: false };
         return { ok: !!r.ok, typo: r.typo || "", grammar: r.grammar || "", note: r.note || "" };
     }
     /* ---------- épreuve en cours : sauvegardée à chaque réponse (reprise) ---------- */
@@ -1010,13 +802,8 @@ ${seeing ? `<div class="canswer" aria-live="polite"><span>The answer</span><p>${
     }
     function fixAll() {
         const R = RUN, words = [...new Set(R.qs.filter((q, i) => R.res[i] && !R.res[i].ok).map(q => q.key))];
-        /* ADAPTATEUR : le moteur écrit les mots rattrapés dans la mémoire (mot raté puis corrigé) quand il sait le faire */
-        try {
-            if (typeof Cert.catchUp === "function")
-                Cert.catchUp(R.pid, R.theme, words.map(key => ({ key, ok: true })));
-            else if (typeof Cert.fixed === "function")
-                Cert.fixed(R.pid, R.theme, words);
-        } catch (e) { }
+        /* le moteur écrit les mots rattrapés (raté puis corrigé) dans la mémoire des mots, sans toucher à la note */
+        try { Cert.catchUp(R.pid, R.theme, words.map(key => ({ key, ok: true }))); } catch (e) { }
         PHASE = "res";
         body().innerHTML = `${kaiBubble("All fixed! You wrote every answer again. <b>Great work!</b>", "joy")}
 <div class="cscore"><b>${words.length}<i> word${words.length === 1 ? "" : "s"}</i></b><span>fixed</span></div>

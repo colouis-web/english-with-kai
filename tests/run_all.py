@@ -55,7 +55,9 @@ FACULTATIVES = {
     "certificats_regles": ("test_certificats_regles.py", "js/app-certificats.js", "pickExam"),
     "certificats_banque": ("test_certificats_banque.py", "js/data/certificats.js"),
     "certificats_ecrans": ("test_certificats_ecrans.py", "js/app-certificats-ui.js"),
-    "daily_onglets": ("test_daily_onglets.py", "js/app-daily.js", "Rewards"),
+    # Option A de My daily work : REPORTÉE au sprint Kai 3 (décision du PO, 02/11). Non jouée tant que js/app-daily.js ne porte pas le marqueur
+    # « option-A:onglets » (à écrire en commentaire avec l'implémentation) ; la logique du test n'est pas modifiée.
+    "daily_onglets": ("test_daily_onglets.py", "js/app-daily.js", "option-A:onglets"),
 }
 
 

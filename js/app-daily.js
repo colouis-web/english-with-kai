@@ -310,14 +310,14 @@ function dToday() {
     const k = todayKey();
     return DST.days[k] || { d: k, mood: null, qs: [], w: {}, n: target() };
 }
-const wordsOf = r => Object.values((r && r.w) || {});
+const wordsOf = r => Object.values((r && r.w) || {}).filter(w => !w.cu); /* cu : mot rattrapé après un certificat (js/app-certificats.js), ni objectif ni étoile */
 const masteredOf = r => wordsOf(r).filter(w => w.ok || w.fx).length;
 const isLesson = q => q.k.startsWith("lesson-");
 const dayDone = r => !!r && (r.n ? masteredOf(r) >= r.n : !!(r.g && Object.keys(r.g).length >= 5));
 const bonusOf = r => !r ? 0 : r.goalT ? (r.qs || []).filter(q => q.t > r.goalT).length : !r.n && dayDone(r) ? Math.max(0, (r.qs || []).length - Object.keys(r.g || {}).length) : 0;
 const perfOf = r => r ? (r.qs || []).filter(q => !isLesson(q) && q.p === 100).length : 0;
 const lessonsOfDay = r => r ? (r.qs || []).filter(q => isLesson(q) && q.p >= PASS).length : 0;
-const starsOf = r => r ? Math.floor(masteredOf(r) / 5) + (dayDone(r) ? 3 : 0) + bonusOf(r) + perfOf(r) + 2 * lessonsOfDay(r) : 0;
+const starsOf = r => r ? Math.floor(masteredOf(r) / 5) + (dayDone(r) ? 3 : 0) + bonusOf(r) + perfOf(r) + 2 * lessonsOfDay(r) + (r.cs > 0 ? Math.floor(r.cs) : 0) : 0; /* cs : étoiles de certificat (+10 obtenu, +5 renouvelé) */
 const totalStars = () => Object.values(DST.days).reduce((s, r) => s + starsOf(r), 0);
 function streak() {
     let k = todayKey(), n = 0;
@@ -397,7 +397,9 @@ function pickMix(size) {
     const lvn = lvOf(curProf()), cOk = typeof Cert === "object" && Cert.rotationFilter() || (() => true), sOk = w => (typeof sensOk !== "function" || sensOk(w.k, w.d, lvn)) && cOk(w);
     /* un mot sensible déjà vu reste dans la mémoire de l'élève mais ne revient qu'à partir du niveau 2 ;
        un mot d'un thème certifié et valide (js/app-certificats.js) ne revient plus tant que le certificat court */
-    const due = Object.entries(S).filter(([key, s]) => !seen.has(key) && A.byKey.has(key) && daysBetween(s.last, t) >= INTV[s.b] && sOk(A.byKey.get(key))).sort((a, b) => a[1].b - b[1].b || a[1].last.localeCompare(b[1].last)).map(([key]) => A.byKey.get(key));
+    const due0 = Object.entries(S).filter(([key, s]) => !seen.has(key) && A.byKey.has(key) && daysBetween(s.last, t) >= INTV[s.b] && sOk(A.byKey.get(key))).sort((a, b) => a[1].b - b[1].b || a[1].last.localeCompare(b[1].last)).map(([key]) => A.byKey.get(key));
+    /* mots ratés à l'épreuve d'un certificat valide et pas encore réussis dans un tour du jour : en tête (js/app-certificats.js) */
+    const pend = typeof Cert === "object" && Cert.pending ? Cert.pending().filter(w => !seen.has(w.key) && A.byKey.has(w.key)) : [], due = pend.concat(due0.filter(w => !pend.includes(w)));
     const out = due.slice(0, Math.round(size * lv.rev / lv.words));
     out.forEach(w => used.add(w.key));
     for (const k of quota(size - out.length)) {
