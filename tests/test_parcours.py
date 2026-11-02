@@ -290,6 +290,7 @@ class Parcours:
                 pp = info["pp"].split("/")[0].strip()
                 self.page.locator("#ipt").fill("zzz" if wrong else pt)
                 self.page.locator("#ipt").press("Enter")           # Entrée passe au champ suivant
+                self.focus_is("a.id === 'ipp'")
                 self.check("Verbes irréguliers : Entrée dans le 1er champ passe au 2e", self.ev("() => document.activeElement && document.activeElement.id") == "ipp")
                 self.page.locator("#ipp").fill(pp)
                 self.page.locator("#ipp").press("Enter")           # Entrée valide
@@ -489,6 +490,7 @@ def s04_vocabulaire(P):
         ev = P.ev("() => window.__snd[0]")
         P.check("Son d'une phrase d'exemple : lue (voix enregistrée ou voix de l'appareil)", bool(ev.get("tts") == phrase or ev.get("src")), (phrase, ev))
     P.click("#wclr")
+    P.focus_is("a.id === 'wq'")
     P.check("Bouton ✕ : champ vidé, tuiles revenues, focus dans le champ",
             p.locator("#wq").input_value() == "" and P.visible("#wtiles") and P.ev("() => document.activeElement.id") == "wq")
 
@@ -579,9 +581,11 @@ def s06_lecon_grammaire(P):
         fr = p.locator("#lessonbody [data-fr]").first
         fr.click()
         P.check("Bouton FR : la fenêtre « En français » s'ouvre", P.visible("#modal.on") and "En français" in P.text("#mtitle"), P.text("#mtitle"))
+        P.focus_is("a.className === 'mx'")      # l'application donne le focus à la croix 40 ms APRÈS l'ouverture : on attend l'état
         P.check("Fenêtre : le focus passe sur la croix de fermeture", P.ev("() => document.activeElement.className") == "mx", P.ev("() => document.activeElement.className"))
         p.keyboard.press("Escape")
         P.check("Échap ferme la fenêtre", not P.visible("#modal.on"))
+        P.focus_is("a.hasAttribute('data-fr')")
         P.check("Après la fenêtre, le focus revient sur le bouton FR", P.ev("() => document.activeElement.hasAttribute('data-fr')"))
     else:
         P.note("Aucune traduction FR sur la 1re question tirée")
@@ -735,6 +739,7 @@ def s09_recompenses(P):
             P.ev("() => { const m = document.getElementById('modal'); return m.getAttribute('role') === 'dialog' && m.getAttribute('aria-modal') === 'true' && m.getAttribute('aria-labelledby') === 'mtitle' }"))
     p.keyboard.press("Escape")
     P.check("Échap ferme l'aide", not P.visible("#modal.on"))
+    P.focus_is("a.getAttribute('data-help') === 'rewards'")
     P.check("Après l'aide, le focus revient sur le bouton « ? »", P.ev("() => document.activeElement.getAttribute('data-help')") == "rewards")
     # calendrier
     P.click('[data-dtab="cal"]')
