@@ -988,7 +988,7 @@ main{min-height:calc(100 * var(--sv))}
 .cbadge .seal{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 4px;border:3px solid #1f9d55;border-radius:50%;background:#fff;font-size:26px;line-height:1}
 .cbadge b{display:block;font:700 16px/1.15 var(--claude);letter-spacing:.3px;overflow-wrap:anywhere}
 .cbadge small{display:block;margin-top:3px;font:600 13px/1.25 var(--claude);color:#106b39}
-.cbadge.soon{border-color:#e58a1f;background:#fff3dc}.cbadge.soon .seal{border-color:#e58a1f}.cbadge.soon small{color:#8a4b00;font-weight:700}
+.cbadge.due{border-color:#e58a1f;background:#fff3dc}.cbadge.due .seal{border-color:#e58a1f}.cbadge.due small{color:#8a4b00;font-weight:700}
 .cbadge.gone{border-color:#d64545;background:#fff1f0}.cbadge.gone .seal{border-color:#d64545}.cbadge.gone small{color:#b42318;font-weight:700}
 .cbadge.off{border-style:dashed;border-color:#b5b9c9;background:#f4f5f8}.cbadge.off .seal{border-color:#b5b9c9;filter:grayscale(1);opacity:.7}.cbadge.off small{color:#5f6478}
 .cbadge.big{max-width:280px;margin:12px auto 0;animation:hop .6s cubic-bezier(.3,1.6,.5,1)}
@@ -1077,7 +1077,7 @@ main{min-height:calc(100 * var(--sv))}
 .ptab th,.ptab td{padding:8px 6px;border-bottom:1px solid #d6d9e3;text-align:left;vertical-align:top;font-size:16px}
 .ptab thead th{border-bottom:2px solid var(--ink);font:700 13px var(--claude);letter-spacing:.5px;text-transform:uppercase}
 .ptab tbody th{font-weight:700}
-.ptab td.st{font-weight:700}.ptab td.st.ok{color:#106b39}.ptab td.st.soon{color:#8a4b00}.ptab td.st.gone{color:#b42318}.ptab td.st.off{color:#5f6478}
+.ptab td.st{font-weight:700}.ptab td.st-ok{color:#106b39}.ptab td.st-due{color:#8a4b00}.ptab td.st-gone{color:#b42318}.ptab td.st-off{color:#5f6478}
 .psheet footer{margin-top:14px;font-size:14px;color:var(--mut)}.psheet footer p{margin:0 0 6px}
 .pnone{margin:6px 0;color:var(--mut)}
 @media (max-width:560px){
@@ -1108,7 +1108,7 @@ main{min-height:calc(100 * var(--sv))}
   .ptab tbody th{display:table-cell;grid-column:auto;padding:8px 6px;font-size:12pt;border-bottom:1px solid #999}
   .ptab td{display:table-cell;padding:8px 6px;border-bottom:1px solid #999;font-size:12pt}
   .ptab td::before{content:none}
-  .ptab td.st,.ptab td.st.ok,.ptab td.st.soon,.ptab td.st.gone,.ptab td.st.off{color:#000}
+  .ptab td.st,.ptab td.st-ok,.ptab td.st-due,.ptab td.st-gone,.ptab td.st-off{color:#000}
   .psheet footer{color:#000;font-size:10pt}
   .ptab tr,.pwho{break-inside:avoid}
 }
@@ -1116,3 +1116,4 @@ main{min-height:calc(100 * var(--sv))}
 .menote small{display:inline;font:400 14px/1.4 var(--claude);color:var(--mut)}
 #cfix2 .qask{font-size:18px;letter-spacing:.3px;text-transform:none;color:var(--ink)}#cfix2 .qask small{display:block;font:400 15px var(--claude);text-transform:none;letter-spacing:0;color:var(--mut)}
 .cdict small{font-size:15px}
+#certs .listen.sm,#certs .ghost.sm,#cexam .listen.sm,#cexam .ghost.sm,#cexam .snd.sm{min-height:44px;min-width:44px}#cexam .snd.sm{width:44px;height:44px}

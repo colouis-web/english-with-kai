@@ -94,7 +94,15 @@
         const o = offered().find(t => t.id === th);
         if (o)
             return o.title;
-        try { const t = (Cert.themes(pid()) || []).find(x => x.id === th); if (t) return t.title || t.label; } catch (e) { }
+        try {
+            const T = Cert.themes(pid()) || [], t = T.find(x => x.id === th);
+            if (t)
+                return t.title || t.label;
+            /* repli tant que la banque n'a pas le titre : « nouns:family-1 » → « Family & people 1 » */
+            const m = String(th).match(/^([a-z]+):([a-z0-9]+)-(\d+|plus)$/), base = m && T.find(x => x.id === m[1] + ":" + m[2]);
+            if (base)
+                return `${base.title || base.label}${m[3] === "plus" ? " & more" : " " + m[3]}`;
+        } catch (e) { }
         return String(th).split(":")[1] || th;
     }
     function iconFor(th) {
@@ -290,7 +298,7 @@
             return c.left === 1 ? "Ends tomorrow" : `Ends in ${days(c.left)}`;
         return `Valid until ${fmtShort(c.expires)}`;
     }
-    const stateOf = c => (c.status !== "ok" ? "off" : !c.active ? "gone" : c.left <= 7 ? "soon" : "ok");
+    const stateOf = c => (c.status !== "ok" ? "off" : !c.active ? "gone" : c.left <= 7 ? "due" : "ok");
     function badge(c) {
         const st = stateOf(c);
         return `<div class="cbadge ${st}"><span class="seal" aria-hidden="true">${iconFor(c.theme)}</span><b>${esc(titleOf(c.theme))}</b><small>${esc(soonText(c))}</small></div>`;
@@ -877,13 +885,13 @@ ${seeing ? `<div class="canswer" aria-live="polite"><span>The answer</span><p>${
         const row = c => {
             const st = c.status !== "ok" ? "À repasser" : !c.active ? "Échu" : c.left <= 7 ? `Valable encore ${c.left} j` : "Valable";
             const n = c.level >= 2 ? 25 : 20, sc = c.score === null || c.score === undefined ? "—" : `${Math.round(c.score * n / 100)}/${n}`;
-            return `<tr><th scope="row" lang="en">${esc(titleOf(c.theme))}</th><td data-l="Obtenu le">${fmtDateFr(c.date)}</td><td data-l="Note">${sc}</td><td data-l="Valable jusqu'au">${c.expires ? fmtDateFr(c.expires) : "—"}</td><td data-l="État" class="st ${stateOf(c)}">${st}</td></tr>`;
+            return `<tr><th scope="row" lang="en">${esc(titleOf(c.theme))}</th><td data-l="Réussi le">${fmtDateFr(c.date)}</td><td data-l="Note">${sc}</td><td data-l="Valable jusqu'au">${c.expires ? fmtDateFr(c.expires) : "—"}</td><td data-l="État" class="st st-${stateOf(c)}">${st}</td></tr>`;
         };
         return `<article class="psheet" lang="fr">
 <header><h2>Learning English with Kai</h2><p class="ptitle">Certificats de vocabulaire</p></header>
 <dl class="pwho"><div><dt>Élève</dt><dd>${esc(name)}</dd></div><div><dt>Niveau</dt><dd>${lv ? `${esc(lv.name)} (${lv.cefr})` : "—"}</dd></div><div><dt>Imprimé le</dt><dd>${fmtDateFr(now)}</dd></div></dl>
 <p class="psum">${valid ? `${valid} certificat${valid > 1 ? "s" : ""} valable${valid > 1 ? "s" : ""} aujourd'hui.` : "Aucun certificat valable aujourd'hui."}</p>
-${L.length ? `<table class="ptab"><thead><tr><th scope="col">Certificat</th><th scope="col">Obtenu le</th><th scope="col">Note</th><th scope="col">Valable jusqu'au</th><th scope="col">État</th></tr></thead><tbody>${L.map(row).join("")}</tbody></table>` : `<p class="pnone">Pas encore de certificat. Quand l'élève réussit une épreuve, elle apparaît ici.</p>`}
+${L.length ? `<table class="ptab"><thead><tr><th scope="col">Certificat</th><th scope="col">Réussi le</th><th scope="col">Note</th><th scope="col">Valable jusqu'au</th><th scope="col">État</th></tr></thead><tbody>${L.map(row).join("")}</tbody></table>` : `<p class="pnone">Pas encore de certificat. Quand l'élève réussit une épreuve, elle apparaît ici.</p>`}
 <footer><p><b>Comment ça marche.</b> Un certificat prouve qu'un thème de vocabulaire est su : épreuve écrite, sans QCM, un seul essai par question, 18 bonnes réponses sur 20 pour réussir. Il est valable 3 mois aux niveaux Beginner et Elementary (6e), 6 mois aux niveaux B1 et B2 ; une semaine avant la fin, Kai propose un renouvellement de 8 questions.</p>
 <p>Cette page est préparée sur l'appareil de l'élève et imprimée par le navigateur : rien n'est envoyé nulle part.</p></footer></article>`;
     }
