@@ -318,6 +318,12 @@ def ecrans_eleve(P, M):
     P.click("#toDIY"); P.on("diy"); mesurer(p, M, "diy")
     P.back("ty")
     P.click("#toTalk"); P.on("talk"); mesurer(p, M, "lets-talk")
+    # « Let's talk » tire UNE image au hasard : on les rend TOUTES (index forcé) pour ne pas rater une image mal cadrée selon le tirage
+    nb = P.ev("() => TKPICS.length")
+    for i in range(nb):
+        p.evaluate("i => { TK.i = i; renderTalk() }", i)
+        p.wait_for_function("i => { const im = document.querySelector('#talkbody .tkpic img'); return !!im && im.complete && im.naturalWidth > 0 && im.getAttribute('src').endsWith(TKPICS[i].img + '.webp') }", arg=i)
+        mesurer(p, M, f"lets-talk-{p.evaluate('i => TKPICS[i].img', i)}")
     P.back("ty")
     P.click("#toT6"); P.on("t6"); mesurer(p, M, "controles-6e")
     P.back("ty"); P.back("menu")
