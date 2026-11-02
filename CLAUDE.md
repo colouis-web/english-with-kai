@@ -15,6 +15,14 @@ que sur Front-Team (Matt, Dédé, Ouss, Ludo, Ani) ; Claude Opus est scrum maste
 5. **Ne rien casser** : la progression des élèves (localStorage `kai.*`, fichiers de sauvegarde) doit survivre à chaque version.
 6. **Chaque agent est critique** : il note ses constats, propositions et questions au PO dans `docs/` (pas de dossier tickets ici).
 
+## Gestion des agents (demande du PO, 02/11 : économiser l'usage)
+1. **Sonnet par défaut** ; Opus seulement pour la conception ou la relecture de contenu ; Haiku pour les contrôles simples.
+2. **Point de contrôle à 20 min** : un agent qui n'a rien poussé après 20 min est vérifié par le scrum master, puis recadré ou arrêté.
+3. **Pas d'agent qui attend** : on ne lance un agent que si ses entrées existent (pas de tests écrits « en attendant » un moteur
+   absent) ; les longues séries de tests et la régénération des références sont lancées par script, sans agent qui surveille.
+4. **Consignes resserrées** : fichiers précis à lire, code existant à réutiliser, rapport de 10 lignes maximum.
+5. **2 ou 3 agents en parallèle au plus**, et seulement ceux dont le travail est indépendant.
+
 ## Conventions
 - Français pour la doc et les commentaires ; identifiants en anglais.
 - Commits : `type(kai): message` (feat, fix, refactor, test, docs, chore, ci, security).
