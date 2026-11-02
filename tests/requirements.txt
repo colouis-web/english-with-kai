@@ -1,0 +1,4 @@
+# Dépendances des tests (CI et équipe). Playwright épinglé ; numpy et Pillow servent à comparer les captures.
+playwright==1.63.0
+numpy>=1.26
+pillow>=10

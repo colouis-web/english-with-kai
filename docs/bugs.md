@@ -74,3 +74,11 @@ d'un fichier, code parent, navigation au clavier (Tab/focus), zoom 150 %.
 ## À investiguer (30/10, scrum master)
 - **img/kai-fr.webp** — **Statut : clos (02/11, Dédé)** : faux positif du test DN-61 (un commentaire de `js/app-lang-fr.js` contenait `"fr"`, 4e paramètre `lang` de `headSvg`). Aucune image manquante ; test corrigé (`docs/tests/kai-fr-webp-enquete-2026-11-02.md`).
 - **Tests de parcours instables** — **Statut : corrigé (02/11, Dédé)** : cause = focus déplacé par l'app après coup (40 à 380 ms) ; attentes d'état partout, 5 passes consécutives vertes sans reprise ; tests de nouveau bloquants dans le workflow (`docs/tests/stabilisation-parcours-2026-11-02.md`).
+
+## Constat CI du 02/11 (PR #4, scrum master) — pour le sprint Kai 3
+- **Captures (suite visuel) différentes sur GitHub** (2 à 21 % de pixels) : la police principale de l'interface n'est pas
+  hébergée avec le site, chaque machine prend sa police système. Suite visuel retirée de la CI (`--skip visuel`), gardée en local.
+  À faire : héberger la police dans `fonts/` (comme Roboto Condensed), puis refaire les références sur la CI.
+- **Cadrage strict des petits iPhone instable sur GitHub** (4 à 10 % d'image « coupée », pas les mêmes écrans d'un essai à
+  l'autre : mesure pendant l'animation). Bloquant en local (`--cadrage-strict`), simple note en CI. À faire (Dédé) : mesurer
+  après la fin des animations, puis le remettre bloquant en CI.

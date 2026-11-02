@@ -130,7 +130,9 @@ jobs:
         if: steps.presence.outputs.lances == 'oui'
         run: |
           set -o pipefail
-          _venv/bin/python tests/run_all.py --cadrage-strict 2>&1 | tee _tests.log
+          # Captures (visuel) et cadrage strict : dépendent de la machine (polices, vitesse) ; ils restent des contrôles
+          # locaux de l'équipe et ne bloquent pas la publication (constat de la PR #4, 02/11). Le cadrage reste mesuré (notes).
+          _venv/bin/python tests/run_all.py --skip visuel 2>&1 | tee _tests.log
           echo '### Tests' >> "$GITHUB_STEP_SUMMARY"
           tail -n 30 _tests.log | sed 's/^/    /' >> "$GITHUB_STEP_SUMMARY"
 
