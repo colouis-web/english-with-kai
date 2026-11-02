@@ -80,7 +80,14 @@ def premiere_difference(a, b, chemin=""):
             if d:
                 return d
         return None
-    return None if a == b else f"{chemin} : {str(a)[:80]} ≠ {str(b)[:80]}"
+    if a == b:
+        return None
+    if isinstance(a, str) and isinstance(b, str):
+        # Texte long : on montre l'endroit de la PREMIÈRE différence avec son contexte (les 80 premiers caractères cachaient l'écart réel)
+        i = next((k for k, (x, y) in enumerate(zip(a, b)) if x != y), min(len(a), len(b)))
+        d = max(0, i - 40)
+        return f"{chemin} : à la position {i}, attendu « …{a[d:i + 60]}… » ≠ obtenu « …{b[d:i + 60]}… »"
+    return f"{chemin} : {str(a)[:80]} ≠ {str(b)[:80]}"
 
 
 def ls_dump(page):

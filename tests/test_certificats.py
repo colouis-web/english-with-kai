@@ -75,8 +75,9 @@ def run(args, base, browser, bilan, collector):
     ck("CE-04 Aucun certificat pour un élève qui n'en a jamais passé", P("() => Cert.list().length === 0 && Cert.rotationFilter() === null && Cert.dueSoon().length === 0"), P("() => Cert.list()"))
     th = P("() => Cert.themes()")
     ids = {t["id"] for t in th}
-    ck("CE-05 Thèmes certifiables issus des données (noms, adjectifs, adverbes, connecteurs, prépositions, verbes)",
-       {"nouns:animals", "adjectives:colours", "adverbs:frequency", "connectors:contrast", "prepositions:place", "verbs:irregular"} <= ids and all(t["n"] > 0 and t["label"] for t in th),
+    ck("CE-05 Certificats proposés = ceux de la banque (périmètres de 20 mots au plus, pas de verbes) ; un thème sans entrée de banque reste lisible en entier",
+       {"adjectives:colours", "nouns:family-1", "nouns:animals-1"} <= ids and all(0 < t["n"] <= 20 and t["label"] and t["kind"] != "verbs" for t in th)
+       and P("() => Cert.themeWords('nouns:animals').length > 60 && Cert.themeWords('nouns:animals-1').length === 20"),
        sorted(ids)[:20])
 
     # ------------------------------------------------------------------ CE-1x : règles d'épreuve, stockage, durée
@@ -101,8 +102,11 @@ def run(args, base, browser, bilan, collector):
     except Exception:
         ok = False
     ck("CE-13 Stockage par élève : kai.cert.v1.<id> (même forme que kai.daily.v1.<id>), JSON lisible", ok, brut)
-    ck("CE-14 Les autres clés kai.* ne sont pas touchées par l'enregistrement d'un certificat",
-       {k: v for k, v in P(LS_DUMP).items() if not k.startswith("kai.cert.")} == LS, "clé modifiée")
+    ck("CE-14 Les autres clés kai.* ne sont pas touchées par l'enregistrement d'un certificat (seul le journal du jour reçoit les 10 étoiles, champ cs)",
+       {k: v for k, v in P(LS_DUMP).items() if not k.startswith("kai.cert.") and k != f"kai.daily.v1.{CAMILLE}"} == {k: v for k, v in LS.items() if k != f"kai.daily.v1.{CAMILLE}"}
+       and P("() => DST.days[todayKey()].cs") == 10
+       and {d: r for d, r in json.loads(P(LS_DUMP)[f"kai.daily.v1.{CAMILLE}"]).items() if d != "2026-10-30"} == {d: r for d, r in json.loads(LS[f"kai.daily.v1.{CAMILLE}"]).items() if d != "2026-10-30"},
+       "clé modifiée")
     noe = P(f"""() => {{ useProfile('{NOE}'); const r = Cert.record('{NOE}', 'nouns:animals', {{ kind: 'exam', n: 20, good: 19, formats: ['a','b','c'] }}).cert;
       const p = PROFS.list.find(x => x.id === '{NOE}'); setLevel(p, 2); const r2 = Cert.record('{NOE}', 'nouns:family', {{ kind: 'exam', n: 20, good: 20, formats: ['a','b','c'] }}).cert;
       setLevel(p, 3); const r3 = Cert.record('{NOE}', 'nouns:body', {{ kind: 'exam', n: 20, good: 20, formats: ['a','b','c'] }}).cert;
@@ -115,10 +119,10 @@ def run(args, base, browser, bilan, collector):
     ck("CE-17 Épreuve ratée : notée (meilleur score), thème « à revoir », pas certifié", rate == [True, False, "review", 60, False], rate)
 
     # ------------------------------------------------------------------ CE-2x : sortie de rotation
-    rot = P(f"""() => {{ const A = allWords(), col = new Set(Cert.themeWords('adjectives:colours').map(w => w.key)); let seen = 0, n = 0;
-      for (let s = 1; s <= 40; s++) {{ ({RESEED})(s * 104729); AWS = null; for (const q of pickMix(15)) {{ n++; if (col.has('adjectives:' + q.d.w) && q.k === 'adjectives') seen++; }} }}
+    rot = P(f"""() => {{ const A = allWords(), col = new Set(Cert.themeWords('adjectives:colours').map(w => w.key)); let seen = 0, n = 0; const miss = new Set(Cert.get(undefined, 'adjectives:colours').missed);
+      for (let s = 1; s <= 40; s++) {{ ({RESEED})(s * 104729); AWS = null; for (const q of pickMix(15)) {{ n++; if (col.has('adjectives:' + q.d.w) && q.k === 'adjectives' && !miss.has('adjectives:' + q.d.w)) seen++; }} }}
       const M = memStats(); return {{ seen, n, due: M.due.filter(w => col.has(w.key)).length, often: M.often.filter(o => col.has(o.w.key)).length, f: Cert.inRotation(undefined, A.byKey.get('adjectives:red')) }}; }}""")
-    ck("CE-20 Thème certifié et valide : aucun de ses mots dans 40 séries de mots du jour, ni dans « My memory »",
+    ck("CE-20 Thème certifié et valide : aucun de ses mots réussis (le mot raté à l'épreuve reste en rotation) dans 40 séries de mots du jour, ni dans « My memory »",
        rot["seen"] == 0 and rot["n"] > 0 and rot["due"] == 0 and rot["often"] == 0 and rot["f"] is False, rot)
     # un mot de couleur à revoir aujourd'hui : on l'injecte dans le journal (raté il y a 3 jours) pour prouver qu'il revient à l'échéance
     P("""() => { const r = { d: '2026-10-27', qs: [{ k: 'mix', n: 10, p: 50, t: 1 }], w: { 'adjectives:red': { k: 'adjectives', e: 'red', f: 'rouge', ok: 0 } }, n: 10, u: 1 };
@@ -146,11 +150,12 @@ def run(args, base, browser, bilan, collector):
     q = P(f"() => {{ ({RESEED})(42); return Cert.pickRenewal(undefined, 'adjectives:colours').map(x => ({{ key: x.key, fmt: x.fmt, f: x.f, miss: x.miss }})); }}")
     keys = [x["key"] for x in q]
     ck("CE-40 Renouvellement : 8 questions, toutes du thème, sans doublon", len(q) == 8 and len(set(keys)) == 8 and set(keys) <= set(colours), q)
-    fm = P(f"() => {{ ({RESEED})(7); return Cert.pickRenewal(undefined, 'adjectives:colours', {{ formats: ['type-fr-en', 'gap', 'order'] }}).map(x => x.fmt); }}")
-    ck("CE-41 Formats imposés distribués à tour de rôle", fm == ["type-fr-en", "gap", "order"] * 2 + ["type-fr-en", "gap"], fm)
+    fm = P(f"""() => {{ ({RESEED})(7); const F = ['type-fr-en', 'gap', 'order'], bc = CERTBANK.certs.find(c => c.id === 'adjectives:colours');
+      return Cert.pickRenewal(undefined, 'adjectives:colours', {{ formats: F }}).map((x, i) => [x.fmt, F[i % 3], ((bc.words.find(w => w.k === x.key) || {{}}).skip || []).includes('type-fr-en')]); }}""")
+    ck("CE-41 Formats imposés distribués à tour de rôle (un mot qui ne sait pas faire « type-fr-en », ex. orange, passe en phrase à compléter)",
+       len(fm) == 8 and all(a == b or (b == "type-fr-en" and a == "gap" and skip) for a, b, skip in fm), fm)
     # pondération : un thème avec des mots des trois fréquences ; un mot très courant raté plusieurs fois
-    stat = P(f"""() => {{ const T = Cert.themes().map(t => t.id).filter(id => {{ const W = Cert.themeWords(id), F = new Set(W.map(w => useOf(w.k, w.d).f)); return W.length >= 30 && F.has(1) && F.has(3); }});
-      const th = T.includes('nouns:animals') ? 'nouns:animals' : T[0], W = Cert.themeWords(th), f3 = W.filter(w => useOf(w.k, w.d).f === 3), victim = f3[0];
+    stat = P(f"""() => {{ const th = 'nouns:animals', W = Cert.themeWords(th), f3 = W.filter(w => useOf(w.k, w.d).f === 3), victim = f3[0];
       const cnt = {{}}; ({RESEED})(99);
       for (let i = 0; i < 300; i++) for (const x of Cert.pickRenewal(undefined, th)) cnt[x.key] = (cnt[x.key] || 0) + 1;
       const rate = f => {{ const L = W.filter(w => useOf(w.k, w.d).f === f && w.key !== victim.key); return L.reduce((s, w) => s + (cnt[w.key] || 0), 0) / Math.max(1, L.length); }};
@@ -255,6 +260,31 @@ def run(args, base, browser, bilan, collector):
     pg.evaluate("(o) => kaiMerge(o)", dump)
     r = pg.evaluate(f"() => {{ deleteProfile('{NOE}'); return [localStorage.getItem('kai.cert.v1.{NOE}'), Cert.list('{CAMILLE}').length]; }}")
     ck("CE-60 Élève supprimé : ses certificats sont effacés, ceux des autres restent", r == [None, 2], r)
+    cx.close()
+
+    # ------------------------------------------------------------------ CE-7x : rattrapage, nouvel essai, étoiles, règles de correction
+    cx, pg = appareil_vierge()
+    pg.evaluate("(o) => kaiMerge(o)", dump)
+    r = pg.evaluate("""() => { const t = todayKey(), st0 = totalStars(), q0 = JSON.stringify((DST.days[t] || {}).qs || []), m0 = masteredOf(dToday());
+      const n = Cert.catchUp(undefined, 'nouns:family-1', [{ key: 'nouns:aunt', ok: true }, { key: 'nouns:uncle', ok: false }, { key: 'nouns:nope', ok: true }]);
+      const d = DST.days[t], S = wordState();
+      return [n, JSON.stringify(d.qs || []) === q0, totalStars() === st0, masteredOf(dToday()) === m0, !!d.w['nouns:aunt'].cu, S['nouns:aunt'].ok, S['nouns:uncle'].ok]; }""")
+    ck("CE-70 Rattrapage → mémoire des mots : 2 mots écrits (inconnu ignoré), ni quiz, ni étoile, ni objectif du jour ne bougent", r == [2, True, True, True, True, True, False], r)
+    r = pg.evaluate("""() => { const f = (th) => Cert.canRetry(undefined, th); const a = f('nouns:animals-1').ok;
+      Cert.record(undefined, 'nouns:animals-1', { kind: 'exam', n: 20, good: 10, formats: ['a','b','c'] }); const b = f('nouns:animals-1');
+      const d = todayKey(); return [a, b.ok, b.on > d, f('nouns:family-1').ok]; }""")
+    ck("CE-71 Épreuve complète ratée aujourd'hui : nouvel essai seulement demain ; les autres certificats ne sont pas bloqués", r == [True, False, True, True], r)
+    r = pg.evaluate("""() => { const s0 = totalStars(); const a = Cert.record(undefined, 'nouns:animals-1', { kind: 'exam', n: 20, good: 19, formats: ['a','b','c'] });
+      const s1 = totalStars(); Cert.record(undefined, 'nouns:animals-1', { kind: 'exam', n: 20, good: 19, formats: ['a','b','c'] }); const s2 = totalStars();
+      const ren = Cert.record(undefined, 'nouns:animals-1', { kind: 'renewal', n: 8, good: 7 }); const s3 = totalStars();
+      return [s1 - s0, s2 - s1, s3 - s2, a.stars, ren.stars]; }""")
+    ck("CE-72 Étoiles : +10 à l'obtention, 0 si on repasse une épreuve alors que le certificat court, +5 au renouvellement réussi (dans le total)", r == [10, 0, 5, 10, 5], r)
+    r = pg.evaluate("""() => { const mk = (key, fmt, extra) => Object.assign({ key, fmt }, extra || {}), c = (q, t) => Cert.check(q, t);
+      const mum = mk('nouns:mum', 'dictation', { s: 'My mum is kind.', alt: ['mom'] }), fix = mk('nouns:brother', 'fix', { s: 'I have two brother.', bad: 'brother', good: 'brothers' });
+      const grey = mk('adjectives:grey', 'dictation', { s: 'My cat is grey.', alt: ['gray'] });
+      return [c(mum, 'mum').ok, c(mum, 'mother').ok, c(mum, 'mom').note, c(fix, 'brother').ok, c(fix, 'brothers').ok, c(grey, 'gray').note, c(grey, 'grey').ok]; }""")
+    ck("CE-73 Correction : dictée = mot dit seulement (mum juste, mother faux), « fix » : retaper le mot fautif est faux, variante américaine acceptée avec note",
+       r[0] is True and r[1] is False and "British English: mum" in r[2] and r[3] is False and r[4] is True and "British English: grey" in r[5] and r[6] is True, r)
     cx.close()
 
     errs = collector.since(m0)

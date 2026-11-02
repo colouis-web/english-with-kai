@@ -73,3 +73,17 @@ Aucun écran : la tuile, les épreuves, le badge et la page imprimable viennent 
 - Écran d'épreuve : appeler `Cert.record(élève, thème, { kind: "exam", items: [{ key, fmt, ok }] })` ; `key` = clé du mot
   (`"nouns:dog"`) pour que les mots ratés pèsent dans le prochain renouvellement.
 - `tests/test_certificats.py` n'est pas dans `tests/run_all.py` (fichier de Dédé) : à ajouter par Dédé si l'équipe le souhaite.
+
+## Sprint B (Ludo, 02/11/2026) : moteur complet
+- `Cert.pickExam(pid, périmètre, { sound })` : 20 questions (6e) ou 25 (B1+), quotas du §5.2, couverture de tous les mots (couplage maximum),
+  jamais deux fois le même format pour un mot, 2 questions par mot au plus (3 si le périmètre est trop petit : Colours à 25), contrainte
+  « afficher après produire ». Les questions portent déjà phrases, image, réponses en plus (`s`, `sfr`, `also`, `alt`, `img`, `tree`, `bad`, `good`…).
+- `Cert.check(question, tapé)` → `{ ok, typo, grammar, note }` (règles du §3 ; dictée = mot dit + variante US ; `fix` : le mot fautif est toujours faux).
+  Liste `NEAR_WORDS` : quelques mots anglais courants à une lettre d'un mot de certificat, absents des dictionnaires (block ≠ black).
+- `Cert.canRetry(pid, périmètre)` → `{ ok, on }` ; `Cert.catchUp(pid, périmètre, [{ key, ok }])` → écrit « raté puis corrigé » (`ok 0, fx 1, cu 1`) dans le
+  journal du jour, sans activité (`qs`), donc ni note, ni moyenne des quiz, ni objectif ; `cu` est ignoré par `wordsOf` (app-daily.js).
+- Périmètres : `Cert.themes()` rend les certificats de `CERTBANK` (≤ 20 mots, pas de verbes) ; `themeWords("nouns:family-1")` = mots de la partie.
+  Sortie de rotation par périmètre ; champ `redo` du certificat = mots ratés à l'épreuve, remis en tête des mots à revoir (`Cert.pending()`, utilisé
+  par `pickMix`) jusqu'à un tour du jour postérieur où ils sont réussis.
+- Étoiles : champ `cs` du journal du jour (+10 obtention, +5 renouvellement réussi), ajouté dans `starsOf` ; une épreuve repassée sur un certificat valable ne redonne rien.
+- Écran (Ouss) : adaptateurs supprimés, tout passe par `Cert`.
