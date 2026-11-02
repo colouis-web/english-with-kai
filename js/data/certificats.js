@@ -43,7 +43,7 @@
            réponse attendue = le texte entre *…*, forme exigée (pluriel compris) ; casse ignorée
      ord   phrases à remettre dans l'ordre : [anglais, français, autres ordres justes?]
            4 à 8 étiquettes (mots séparés par des espaces, ponctuation finale retirée) ; seul le 1er mot passe en
-           minuscule (sauf I et Kai / Kai's) : les autres gardent leur casse (English) ; un seul ordre juste une fois
+           minuscule (sauf I, I'm, Kai, Kai's) : les autres gardent leur casse (English) ; un seul ordre juste une fois
            la phrase française lue (sinon il est dans le 3e champ)
      fix   phrases avec UNE erreur : { s, bad, good, fr, why, whyFr }
            s : phrase fautive ; bad : le mot faux (présent une seule fois dans s) ; good : le mot qui le remplace ;
@@ -80,7 +80,7 @@ const CERTBANK = {
                     fix: [{ s: "I have a rouge bike.", bad: "rouge", good: "red", fr: "J'ai un vélo rouge.", why: "Rouge is French. In English: red.", whyFr: "« Rouge » est du français : en anglais, red." },
                         { s: "I have two reds pencils.", bad: "reds", good: "red", fr: "J'ai deux crayons rouges.", why: "Colours never take -s: two red pencils.", whyFr: "Les couleurs ne prennent jamais de -s : two red pencils." }],
                     say: "Strawberries are red." },
-                { k: "adjectives:blue", pic: { e: "🌊", fr: "une vague" },
+                { k: "adjectives:blue", pic: { e: "🌊", fr: "la mer (une vague)" },
                     gap: [["The sky is *blue* today.", "Le ciel est *bleu* aujourd'hui."], ["Kai has *blue* eyes.", "Kai a les yeux *bleus*."]],
                     ord: [["Kai has blue eyes.", "Kai a les yeux bleus."], ["My school bag is blue.", "Mon cartable est bleu."]],
                     fix: [{ s: "Kai has blues eyes.", bad: "blues", good: "blue", fr: "Kai a les yeux bleus.", why: "Colours never take -s: blue eyes.", whyFr: "Les couleurs ne prennent jamais de -s : blue eyes." },
