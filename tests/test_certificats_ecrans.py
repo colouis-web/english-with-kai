@@ -24,7 +24,7 @@ import re
 import tempfile
 from pathlib import Path
 
-from kai_common import (APP_ID, FIXED_NOW, current_page, open_app, reload_app, run_suite, settle, wait_js, wait_page, frames, next_toast, toast_reset)
+from kai_common import (ROOT, APP_ID, FIXED_NOW, current_page, open_app, reload_app, run_suite, settle, wait_js, wait_page, frames, next_toast, toast_reset)
 from kai_certs import CAMILLE, NOE, JOUR0, T0, contexte, jour, reference
 
 COLOURS = "adjectives:colours"
@@ -526,7 +526,10 @@ def run(args, base, browser, bilan, collector):
     page.evaluate("() => { openDaily() }")
     wait_page(page, "daily")
     d = texte(page, "#dailybody")
-    ck("CU-74 [Ludo] My daily work, onglet Today : bandeau Renew du rappel de Kai (certificat à J-7)", re.search(r"renew", d, re.I) is not None and "Colours" in d, d[:200])
+    if "option-A:onglets" in (ROOT / "js" / "app-daily.js").read_text(encoding="utf-8"):
+        ck("CU-74 [Ludo] My daily work, onglet Today : bandeau Renew du rappel de Kai (certificat à J-7)", re.search(r"renew", d, re.I) is not None and "Colours" in d, d[:200])
+    else:   # décision du PO (02/11, 19:02) : My daily work option A reporté au sprint Kai 3, bandeau Renew compris
+        bilan.note("CU-74", "Bandeau Renew dans My daily work : reporté au sprint Kai 3 avec l'option A (rappel J-7 visible dans Certificates et sur la tuile)")
     # le renouvellement
     et0 = page.evaluate("() => totalStars()")
     lancer(page, COLOURS, "renewal", sound=False)

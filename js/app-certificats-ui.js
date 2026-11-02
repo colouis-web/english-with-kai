@@ -88,7 +88,8 @@
     function offered0() {
         if (typeof CERTBANK === "object" && CERTBANK.certs) { /* la banque dit ce qui est proposé, à quel niveau, avec quel titre */
             const lv = level();
-            return CERTBANK.certs.filter(c => !c.suggest || c.suggest.includes(lv)).map(c => ({ id: c.id, title: c.title, titleFr: c.titleFr, icon: c.icon || iconOf(c.theme), n: c.words.length }));
+            /* conception §5.4 : les thèmes d'un autre niveau ne sont pas suggérés, mais restent accessibles (« Show all ») */
+            return CERTBANK.certs.map(c => ({ id: c.id, title: c.title, titleFr: c.titleFr, icon: c.icon || iconOf(c.theme), n: c.words.length, sug: !c.suggest || c.suggest.includes(lv) }));
         }
         let T = [];
         try { T = Cert.themes(pid()) || []; } catch (e) { }
@@ -277,8 +278,8 @@
         const have = new Set(L.filter(c => c.status === "ok").map(c => c.theme));
         let T = offered().filter(t => !have.has(t.id));
         T = T.map(t => Object.assign({}, t, knownOf(t.id), { retry: canRetry(t.id) }));
-        T.sort((a, b) => (b.ready ? 1 : 0) - (a.ready ? 1 : 0) || b.known / Math.max(1, b.n) - a.known / Math.max(1, a.n) || a.title.localeCompare(b.title));
-        const shown = ALL ? T : T.slice(0, 6), size = young() ? 20 : 25;
+        T.sort((a, b) => (b.sug !== false ? 1 : 0) - (a.sug !== false ? 1 : 0) || (b.ready ? 1 : 0) - (a.ready ? 1 : 0) || b.known / Math.max(1, b.n) - a.known / Math.max(1, a.n) || a.title.localeCompare(b.title));
+        const sugT = T.filter(t => t.sug !== false), shown = ALL || !sugT.length ? T : sugT.slice(0, 6), size = young() ? 20 : 25;
         if (!T.length)
             return `<p class="cnone">You have a certificate for every theme on this list. Well done!</p>`;
         return `<div class="clist">${shown.map(t => {
@@ -865,7 +866,7 @@ ${L.length ? `<table class="ptab"><thead><tr><th scope="col">Certificat</th><th 
                 parts.push(`${due.length} to renew`);
             let ready = null;
             if (!due.length || true) {
-                const have = new Set(act.map(c => c.theme)), cand = offered().filter(t => !have.has(t.id)).map(t => Object.assign({}, t, knownOf(t.id))).filter(t => t.ready && canRetry(t.id).ok);
+                const have = new Set(act.map(c => c.theme)), cand = offered().filter(t => !have.has(t.id)).map(t => Object.assign({}, t, knownOf(t.id))).filter(t => t.sug !== false && t.ready && canRetry(t.id).ok);
                 cand.sort((a, b) => b.known - a.known);
                 ready = cand[0] || null;
             }
