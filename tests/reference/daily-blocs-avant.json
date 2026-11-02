@@ -1,0 +1,393 @@
+{
+ "genere_avec": "My daily work AVANT les onglets (sprint-kai-2 @ c3ec1fb) — ne pas régénérer avec l'option A",
+ "situations": {
+  "objectif-atteint": {
+   "blocs": {
+    ".ddate": [
+     "Friday 30 October"
+    ],
+    ".dsec": [
+     "My level",
+     "My memory29",
+     "My rewards?",
+     "My tests/20",
+     "My week",
+     "This week2/2",
+     "Today's goal10/10",
+     "Words of the day15"
+    ],
+    ".wgoal": [
+     "Beginner · A110 words a day 15/ 10 words mastered Goal reached! Every extra round gives bonus stars. Bonus round · 10 words≈ 3 minOne round a day keeps your streak going."
+    ],
+    ".t6ban": [
+     "📅 Class test in 3 days Unit 1 · My world · Monday 2 November"
+    ],
+    ".moods": [
+     "GreatSuperGoodBienOKÇa vaTiredFatiguéGrumpyGrognonSadTriste"
+    ],
+    ".mymood": [],
+    ".memcard": [
+     "29words to review todayKai brings back the words you learned just before you forget them. They are in your next rounds, or review them now. Review 10 of them now · ≈ 3 min ✍ Dictation · ≈ 3 min"
+    ],
+    ".wtile": [
+     "ConjugationTo beDone · 90%",
+     "GrammarArticlesDone · 100%"
+    ],
+    ".lvcard": [
+     "BeginnerDébutant · A1 · 10 words a day Road to Elementary (15 words a day):Days with your words goal5 / 15Words you know50 / 250Average score, last 10 quizzes80% / 80%Lessons passed3 / 3"
+    ],
+    ".rstats": [
+     "4Quizzes0Bonus9Stars",
+     "6Days worked5Trophies62Words41Stars",
+     "9Stars today0Bonus quizzes3Day streak"
+    ],
+    ".badges": [
+     "TrophyWords goalBronze2 bonus quizzesSilver5 bonus quizzesGold10 bonus quizzes"
+    ],
+    ".rnext": [
+     "2 more bonus quizzes for the bronze medal!"
+    ],
+    ".level": [
+     "Rank 2 · Explorer41 stars34 stars to Adventurer"
+    ],
+    ".week": [
+     "10Sat7Sun10MonTue10Wed10Thu15Fri"
+    ],
+    ".wsum": [
+     "Last 7 days: 62 words mastered · 5 days with the goal · 13 quizzes and lessons"
+    ],
+    ".tsub": [
+     "Your average mark of the week (Monday to Sunday), for each test, and your progress week after week."
+    ],
+    ".tkpi": [
+     "Grammar20/201 test this weekFirst week with this testConjugation19/201 test this weekFirst week with this testIrregular verbs20/201 test this weekFirst week with this test"
+    ],
+    ".tchart": [
+     "GrammarConjugationIrregular verbs 051015207 Sept14 Sept21 Sept28 Sept5 Oct12 Oct19 OctThis wk"
+    ],
+    ".dend": [
+     "All done!See youtomorrow!"
+    ],
+    ".wd": [
+     "Mastered 15prep.aboveau-dessus deadv.mostle plusverbto shinebrillernouna lieun mensongeverbto pulltirerverbto keepgarderadj.honesthonnêtenouna towelune serviette (de toilette)prep.behindderrièrenouna school busun car scolairenouna flyune mouchenouna calfun veaunouna donkeyun ânenouna frogune grenouillenouna gorillaun gorille",
+     "To review 0No mistakes. Bravo!"
+    ],
+    ".cal": [
+     "October 2026 MonTueWedThuFriSatSun12345678910111213141516171819202122232425262728293031 Goal reachedSome workNothing"
+    ],
+    ".mstats": [
+     "6Days worked5Trophies62Words41Stars"
+    ],
+    ".dday": [
+     "Friday 30 October Words 15/10Conjugation test 19/20Irregular verbs test 20/20 4Quizzes0Bonus9Stars To review 0No mistakes. Bravo! Mastered 15prep.aboveau-dessus deadv.mostle plusverbto shinebrillernouna lieun mensongeverbto pulltirerverbto keepgarderadj.honesthonnêtenouna towelune serviette (de toilette)prep.behindderrièrenouna school busun car scolairenouna flyune mouchenouna calfun veaunouna donkeyun ânenouna frogune grenouillenouna gorillaun gorilleGo to today"
+    ],
+    ".lvup": []
+   },
+   "atomes": [
+    "/ 10 words mastered",
+    "1 test this week",
+    "10 bonus quizzes",
+    "10 words a day",
+    "12 Oct",
+    "14 Sept",
+    "19 Oct",
+    "2 bonus quizzes",
+    "2 more bonus quizzes for the bronze medal!",
+    "21 Sept",
+    "28 Sept",
+    "34 stars to Adventurer",
+    "5 Oct",
+    "5 bonus quizzes",
+    "7 Sept",
+    "All done!",
+    "Articles",
+    "Average score, last 10 quizzes",
+    "Beginner",
+    "Beginner · A1",
+    "Bien",
+    "Bonus",
+    "Bonus quizzes",
+    "Bronze",
+    "Calendar",
+    "Class test in 3 days",
+    "Conjugation",
+    "Day streak",
+    "Days with your words goal",
+    "Days worked",
+    "Done · 100%",
+    "Done · 90%",
+    "Débutant · A1 · 10 words a day",
+    "Elementary",
+    "Fatigué",
+    "First week with this test",
+    "Fri",
+    "Friday 30 October",
+    "Go to today",
+    "Goal reached! Every extra round gives bonus stars.",
+    "Gold",
+    "Good",
+    "Grammar",
+    "Great",
+    "Grognon",
+    "Grumpy",
+    "Hi! How do you feel",
+    "Irregular verbs",
+    "Kai brings back the words you learned just before you forget them. They are in your next rounds, or review them now.",
+    "Lessons passed",
+    "Mon",
+    "My level",
+    "My memory",
+    "My rewards",
+    "My tests",
+    "My week",
+    "No mistakes. Bravo!",
+    "October 2026",
+    "One round a day keeps your streak going.",
+    "Quizzes",
+    "Rank 2 · Explorer",
+    "Review 10 of them now · ≈ 3 min",
+    "Sad",
+    "Sat",
+    "See the numbers",
+    "See you",
+    "Silver",
+    "Stars",
+    "Stars today",
+    "Sun",
+    "Super",
+    "This week",
+    "This wk",
+    "Thu",
+    "Tired",
+    "Today",
+    "Today's goal",
+    "Triste",
+    "Trophies",
+    "Trophy",
+    "Tue",
+    "Wed",
+    "Week",
+    "Words",
+    "Words goal",
+    "Words of the day",
+    "Words you know",
+    "Your average mark of the week (Monday to Sunday), for each test, and your progress week after week.",
+    "a calf",
+    "a donkey",
+    "a fly",
+    "a frog",
+    "a gorilla",
+    "a lie",
+    "a school bus",
+    "a towel",
+    "above",
+    "adj.",
+    "adv.",
+    "au-dessus de",
+    "behind",
+    "briller",
+    "derrière",
+    "feel",
+    "garder",
+    "honest",
+    "honnête",
+    "le plus",
+    "most",
+    "noun",
+    "prep.",
+    "tirer",
+    "to keep",
+    "to pull",
+    "to shine",
+    "today?",
+    "tomorrow!",
+    "un car scolaire",
+    "un gorille",
+    "un mensonge",
+    "un veau",
+    "un âne",
+    "une grenouille",
+    "une mouche",
+    "une serviette (de toilette)",
+    "verb",
+    "words to review today",
+    "≈ 3 min",
+    "✍ Dictation · ≈ 3 min"
+   ]
+  },
+  "matin": {
+   "blocs": {
+    ".ddate": [
+     "Monday 2 November"
+    ],
+    ".dsec": [
+     "My level",
+     "My memory47",
+     "My rewards?",
+     "My tests/20",
+     "My week",
+     "This week0/2",
+     "Today's goal0/10",
+     "Words of the day0"
+    ],
+    ".wgoal": [
+     "Beginner · A110 words a day 0/ 10 words mastered Rounds of 10 words from every theme: nouns, verbs, adjectives, prepositions… Words you missed come back later. Start · 10 words≈ 3 minOne round a day keeps your streak going. Today's goal: about 6 min."
+    ],
+    ".t6ban": [
+     "📅 Class test today! Unit 1 · My world · Monday 2 November"
+    ],
+    ".moods": [
+     "GreatSuperGoodBienOKÇa vaTiredFatiguéGrumpyGrognonSadTriste"
+    ],
+    ".mymood": [],
+    ".memcard": [
+     "47words to review todayKai brings back the words you learned just before you forget them. They are in your next rounds, or review them now. Review 10 of them now · ≈ 3 min ✍ Dictation · ≈ 3 min"
+    ],
+    ".wtile": [
+     "ConjugationPresent simple1 lesson this weekGo",
+     "GrammarPlurals1 lesson this weekGo"
+    ],
+    ".lvcard": [
+     "BeginnerDébutant · A1 · 10 words a day Road to Elementary (15 words a day):Days with your words goal5 / 15Words you know50 / 250Average score, last 10 quizzes80% / 80%Lessons passed3 / 3"
+    ],
+    ".rstats": [
+     "0Days worked0Trophies0Words0Stars",
+     "0Stars today0Bonus quizzes0Day streak"
+    ],
+    ".badges": [
+     "TrophyWords goalBronze2 bonus quizzesSilver5 bonus quizzesGold10 bonus quizzes"
+    ],
+    ".rnext": [
+     "10 more words to win the daily trophy (+3 stars)!"
+    ],
+    ".level": [
+     "Rank 2 · Explorer41 stars34 stars to Adventurer"
+    ],
+    ".week": [
+     "Tue10Wed10Thu15FriSatSunMon"
+    ],
+    ".wsum": [
+     "Last 7 days: 35 words mastered · 3 days with the goal · 9 quizzes and lessons"
+    ],
+    ".tsub": [
+     "Your average mark of the week (Monday to Sunday), for each test, and your progress week after week."
+    ],
+    ".tkpi": [
+     "Grammar–/20No test this weekLast week: 20/20Conjugation–/20No test this weekLast week: 19/20Irregular verbs–/20No test this weekLast week: 20/20"
+    ],
+    ".tchart": [
+     "GrammarConjugationIrregular verbs 0510152014 Sept21 Sept28 Sept5 Oct12 Oct19 Oct26 OctThis wk"
+    ],
+    ".dend": [
+     "Keep going!10 wordsto go!"
+    ],
+    ".wd": [],
+    ".cal": [
+     "November 2026 MonTueWedThuFriSatSun123456789101112131415161718192021222324252627282930 Goal reachedSome workNothing"
+    ],
+    ".mstats": [
+     "0Days worked0Trophies0Words0Stars"
+    ],
+    ".dday": [
+     "Monday 2 NovemberNo work this day.Go to today"
+    ],
+    ".lvup": []
+   },
+   "atomes": [
+    "/ 10 words mastered",
+    "1 lesson this week",
+    "10 bonus quizzes",
+    "10 more words to win the daily trophy (+3 stars)!",
+    "10 words",
+    "10 words a day",
+    "12 Oct",
+    "14 Sept",
+    "19 Oct",
+    "2 bonus quizzes",
+    "21 Sept",
+    "26 Oct",
+    "28 Sept",
+    "34 stars to Adventurer",
+    "5 Oct",
+    "5 bonus quizzes",
+    "Average score, last 10 quizzes",
+    "Beginner",
+    "Beginner · A1",
+    "Bien",
+    "Bonus quizzes",
+    "Bronze",
+    "Calendar",
+    "Class test today!",
+    "Conjugation",
+    "Day streak",
+    "Days with your words goal",
+    "Days worked",
+    "Débutant · A1 · 10 words a day",
+    "Elementary",
+    "Fatigué",
+    "Fri",
+    "Go to today",
+    "Gold",
+    "Good",
+    "Grammar",
+    "Great",
+    "Grognon",
+    "Grumpy",
+    "Hi! How do you feel",
+    "Irregular verbs",
+    "Kai brings back the words you learned just before you forget them. They are in your next rounds, or review them now.",
+    "Keep going!",
+    "Last week: 19/20",
+    "Last week: 20/20",
+    "Lessons passed",
+    "Mon",
+    "Monday 2 November",
+    "My level",
+    "My memory",
+    "My rewards",
+    "My tests",
+    "My week",
+    "No test this week",
+    "No words yet. Finish a round and your words will appear here.",
+    "No work this day.",
+    "November 2026",
+    "One round a day keeps your streak going. Today's goal: about 6 min.",
+    "Plurals",
+    "Present simple",
+    "Rank 2 · Explorer",
+    "Review 10 of them now · ≈ 3 min",
+    "Rounds of 10 words from every theme: nouns, verbs, adjectives, prepositions… Words you missed come back later.",
+    "Sad",
+    "Sat",
+    "See the numbers",
+    "Silver",
+    "Stars",
+    "Stars today",
+    "Sun",
+    "Super",
+    "This week",
+    "This wk",
+    "Thu",
+    "Tired",
+    "Today",
+    "Today's goal",
+    "Triste",
+    "Trophies",
+    "Trophy",
+    "Tue",
+    "Wed",
+    "Week",
+    "Words",
+    "Words goal",
+    "Words of the day",
+    "Words you know",
+    "Your average mark of the week (Monday to Sunday), for each test, and your progress week after week.",
+    "feel",
+    "today?",
+    "words to review today",
+    "≈ 3 min",
+    "✍ Dictation · ≈ 3 min"
+   ]
+  }
+ }
+}
