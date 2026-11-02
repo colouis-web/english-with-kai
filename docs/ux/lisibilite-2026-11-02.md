@@ -14,15 +14,17 @@ normal / Large / Extra large. **WebKit (Safari iPhone) non testé** : pas de nav
 - Contrastes inchangés : encre `#1d1b2e` sur blanc, mots en surbrillance `#0b7f89` (4,9:1) en gras.
 - **Accueil sur téléphone court** (le vrai problème de l'iPhone SE) : la scène entière de Kai est dimensionnée par la **hauteur** ;
   à 375×667 l'échelle tombait à 0,65 (texte des bulles ≈ 13 px) et sous Safari, avec ses barres (≈ 548 px de haut), à 0,49 (≈ 10 px !).
-  Nouveau mode « compact » (`fit()`, `.stagebox.compact`) : si l'échelle serait < 0,9 sur un écran ≤ 600 px, la scène prend toute la
-  largeur et se cadre sur la tête, le buste et les bulles ; les jambes de Kai s'estompent en bas. Le bouton Start reste visible dès 375×548.
+  Nouveau mode « compact » (`fit()` / `layoutScene()`, `.stagebox.compact`) : si l'échelle serait < 0,9 sur un écran ≤ 600 px, le `viewBox` prend toute la largeur
+  de l'écran, sa hauteur suit la place disponible, **Kai est dessiné entier** (aucun recadrage, cadré à droite) et les deux bulles gardent leur taille
+  (texte ≥ 19 px) ; leurs pointes sont recalculées vers son visage. Le bouton Start reste visible dès 375×548.
   Au-dessus (390×844, iPhone récents) : scène entière comme avant, texte ≥ 18,4 px.
 
 ### R2 — cadrage des images
 - « Let's talk » : l'image **entière** (plus de recadrage carré qui coupait les têtes : ski, girafe, pyramides, évier…), hauteur ≤ 46 % de l'écran
   visible, centrée sur fond neutre. Les 46 images de `TKPICS` ont été passées en revue à 375×667, avant / après.
-- « Congrats! » et « See you tomorrow » : hauteurs relatives à l'écran visible (`svh`), `max-height` + défilement interne : le bouton « Thanks, Kai! » reste atteignable
-  (avant : `100vh`, qui dépasse l'écran visible sous Safari iPhone).
+- « Congrats! » (constat de Dédé : image coupée de 27 à 54 % sur SE / mini / mini sous Safari) : l'image **entière** (`object-fit:contain`), de part et d'autre
+  des bandes floutées tirées de la même image ; hauteurs relatives à l'écran visible (`svh`), `max-height` + défilement interne : le bouton « Thanks, Kai! »
+  reste atteignable (avant : `100vh`, qui dépasse l'écran visible sous Safari iPhone). « See you tomorrow » : hauteur relative aussi.
 - Zones de sécurité : `main` et la fenêtre « Congrats! » respectent aussi `safe-area-inset-left/right` (paysage, encoche).
 - Aucun défilement horizontal à 360, 375, 390, 430 px (contrôle automatique sur 22 écrans).
 
@@ -42,6 +44,21 @@ normal / Large / Extra large. **WebKit (Safari iPhone) non testé** : pas de nav
   Contrôle automatique « mot coupé / texte qui déborde / défilement horizontal » : **0 anomalie à 360, 375, 390, 430 px** sur les 22 écrans en Extra large.
 - `1svh` / `1vw` sont agrandis par `zoom` : variables `--sv` / `--sw` recalculées par `txMetrics()` (sans quoi chaque page dépasserait l'écran).
 
+## Vérifications
+- Suite `appareils` de Dédé (`kai/dede`, `tests/test_appareils.py`, `--cadrage-strict`, Chromium, SE / mini / mini sous Safari / 390) : **604 OK, 0 KO**
+  (avant correction : 7 KO — accueil et Congrats coupés).
+- Mes contrôles (script jetable, non versionné) : R3 sur les noms et les adjectifs, T3 (classe sur `<html>`, clé `kai.textsize.<id>`, chargement, changement d'élève,
+  valeur inconnue), progression `kai.*` inchangée, aucune erreur console : **22 / 22**.
+- `python3 tests/run_all.py` : donnees 87 OK / 0 KO ; persistance 95 OK / 3 KO (PE-25 `daily_today`, `tests`, `me` : **les mêmes 3 KO sur la base `03d25bd`**, pas des régressions ;
+  Dédé les ré-étalonne sur `kai/dede`) ; parcours 845 OK / 1 KO (P06.3 « focus sur la croix de la fenêtre » : instable, corrigé par Dédé dans 119e8a5) ;
+  **visuel 19 OK / 31 KO contre 50 OK / 0 KO sur la base : écarts VOULUS** (bulles de Kai plus grandes, « All themes » à la place de « All », bloc « Text size » dans Me ;
+  la page se décale de quelques pixels). À valider par le PO, puis Dédé régénère `tests/reference/` (`python3 tests/test_visuel.py --update`). Les KO déjà connus
+  (P01 premier lancement, P07, P12) n'ont pas échoué cette fois ; je n'y ai pas touché.
+- **WebKit non testé** (pas de navigateur WebKit installé ici).
+- Captures avant / après (non versionnées : elles contiennent le prénom de test) : `/tmp/claude-0/shots/avant/` et `/tmp/claude-0/shots/apres/`
+  (`se-`, `mini-`, `m390-`, `pc-` + `01-accueil`, `03-menu`, `02-daily`, `09-quiz-q`, `04-words`, `08-lesson`, `11-talk`, `12-me`) ; Extra large : `/tmp/claude-0/shots/ts-xl/` ;
+  Congrats : `/tmp/claude-0/shots/cg/` ; galerie « Let's talk » (46 images) : `/tmp/claude-0/shots/gal-avant-375x667-sheet.png` et `gal-apres-375x667-sheet.png`.
+
 ## Fichiers touchés hors de ma liste (à valider par le scrum master)
 - `js/app-quiz.js` (`headSvg`, `wrapRows`, `measure`, nouveau `bubbleFs`) et `js/app-scene-voix.js` (accueil, `fit()`) : la géométrie des bulles y est calculée en JS,
   la police ne pouvait pas être corrigée en CSS seul. Aucun autre agent n'y travaille ce sprint ; commit séparé (`eede6d0`), facile à écarter.
@@ -60,10 +77,10 @@ normal / Large / Extra large. **WebKit (Safari iPhone) non testé** : pas de nav
 - **Safari iPhone / `zoom`** : `zoom` est pris en charge par WebKit depuis des années et par Firefox ≥ 126, mais le comportement de `svh` / `vw` sous `zoom` peut différer
   de Chromium (d'où `--sv` / `--sw` calculés en JS à partir de `innerHeight` : indépendants du moteur). **À vérifier sur un vrai iPhone** (liste à cocher de Dédé) :
   Extra large sur l'accueil, le menu, un quiz, Words.
-- Accueil « compact » : la scène est rognée en bas (jambes estompées) sur iPhone SE / Safari avec barres. Choix de design à confirmer par le PO.
+- Accueil « compact » : Kai est entier mais décalé à droite, les bulles sont à gauche. Choix de design à confirmer par le PO.
 
 ## Questions au PO
 1. **Tailles** : Large = +12 %, Extra large = +25 % : cela convient-il, ou faut-il un cran plus grand (+40 %, au prix de mises en page plus serrées à 375 px) ?
-2. **Accueil sur petit iPhone** : OK pour que Kai soit cadré à mi-corps (jambes qui s'estompent) plutôt que rapetissé en entier avec des bulles illisibles ?
+2. **Accueil sur petit iPhone** : OK pour que Kai y soit un peu plus petit et à droite, avec des bulles plus grosses (texte ≥ 19 px) plutôt que rapetissé au centre avec des bulles illisibles ?
 3. Le réglage « Text size » doit-il aussi être accessible **hors de Me** (par exemple un petit « Aa » dans l'en-tête du menu) pour que le fils le trouve sans aller dans les réglages ?
 4. Les bulles de fin d'exercice à 19 unités vous gênent-elles ? Sinon, on laisse à Ludo la remise à niveau de `kaiBig` (voir reste n° 1).
