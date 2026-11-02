@@ -80,6 +80,8 @@ def lancer(page, theme, kind="exam", sound=False):
         t = page.locator("[data-allthemes]")
         if t.count():
             t.click()
+    if not page.locator(sel).count():
+        return False          # le certificat n'est pas proposé à cet élève : le contrôle qui suit constate
     page.locator(sel).first.click()
     wait_page(page, "cexam")
     page.locator(f'[data-sound="{1 if sound else 0}"]').click()
@@ -461,7 +463,7 @@ def run(args, base, browser, bilan, collector):
     ck("CU-60 [Ouss] « Quit » sauvegarde : la page Certificates propose « Continue your certificate » (question 8 / 20)", "Continue your certificate" in r and "8 / 20" in r, r[:300])
     ck("CU-61 [Ouss] Pas de « recommencer » : aucun bouton Restart / Start over pour cette épreuve", not re.search(r"restart|start over|again", r, re.I) or "Try again" not in r and "start over" not in r.lower(), r[:300])
     # une autre épreuve ne peut pas être commencée
-    autre = page.locator('[data-take]:not([disabled])').first
+    autre = page.locator(f'[data-take]:not([disabled]):not([data-take="{COLOURS}"])').first
     t_autre = autre.get_attribute("data-take") if autre.count() else None
     if t_autre:
         toast_reset(page)
@@ -561,16 +563,27 @@ def run(args, base, browser, bilan, collector):
     page.evaluate("() => setLevel(curProf(), 2)")
     reload_app(page)
     entrer(page)
-    ok = lancer(page, COLOURS, "exam", sound=False)
-    S = etat(page)
+    offerts_b1 = page.evaluate("() => CertUI.offered().map(t => t.id)")
+    ck("CU-79b [Ouss] Les thèmes de 6e restent certifiables pour un B1 (conception §5.4 : « ne lui sont pas suggérés », mais accessibles) : Colours est proposé",
+       COLOURS in offerts_b1, f"{len(offerts_b1)} thèmes proposés à un B1, Colours absent")
+    th_b1 = COLOURS if COLOURS in offerts_b1 or not offerts_b1 else offerts_b1[0]
+    if th_b1 in offerts_b1:
+        ok = lancer(page, th_b1, "exam", sound=False)
+    else:       # rien n'est proposé à un B1 : on démarre l'épreuve par la méthode directe de l'écran pour continuer à tester les 25 questions et les 6 mois
+        page_certs(page)
+        page.evaluate("(t) => CertUI.start(t, 'exam')", th_b1)
+        wait_page(page, "cexam")
+        page.locator('[data-sound="0"]').click()
+        page.locator("#cstart").click()
+        ok = wait_js(page, "() => !!document.getElementById('cq')")
+    S = etat(page) if ok else None
     pre_ok = S is not None and S["n"] == 25
-    ck("CU-80 [Ludo/Ouss] Élève de niveau Intermediate (B1) : épreuve de 25 questions", pre_ok, S and S["n"])
+    ck("CU-80 [Ludo/Ouss] Élève de niveau Intermediate (B1) : épreuve de 25 questions (réussite 23/25)", pre_ok, S and S["n"])
     if pre_ok:
         jouer(page, fautes(2, 9))
-        c = page.evaluate(f"() => Cert.get(undefined, '{COLOURS}')")
+        c = page.evaluate("(t) => Cert.get(undefined, t)", th_b1)
         res = texte(page)
         ck("CU-81 [Ludo] B1 : 23/25 réussit, validité 6 mois (échéance 2027-05-02), l'écran annonce le badge", c and c["status"] == "ok" and c["expires"] == "2027-05-02" and "23/25" in res and "2 May 2027" in res, [c and c["expires"], res[:200]])
-        jouer_ko = None
     ctx.close()
     # Save & move : export avec un certificat, import sur un appareil vierge, ancien fichier sans certificat
     ctx, page, _ = ctx_neuf()

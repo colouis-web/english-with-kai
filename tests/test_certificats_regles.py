@@ -305,6 +305,21 @@ def run(args, base, browser, bilan, collector):
        "la tentative est notée, le mot raté est mémorisé (Q13)",
        r[0] is False and r[2] == "ok" and r[1] == r[3] and r[4] is True and r[5] == "2026-11-02" and r[7] == 2 and r[8] is True, r)
 
+    # ------------------------------------------------------------------ AC-9x : parties de la banque (Family 1, Animals 1) et rotation
+    jour(page, "2026-11-02")
+    P("() => { Cert.drop(); }")
+    for tid in ("nouns:family-1", "nouns:animals-1"):
+        r = P("""(tid) => { if (typeof CERTBANK === 'undefined') return { erreur: 'CERTBANK absent (index.html ne charge pas js/data/certificats.js)' };
+          const c = CERTBANK.certs.find(x => x.id === tid), keys = c.words.map(w => w.k);
+          Cert.record(undefined, tid, { kind: 'exam', items: [...Array(20)].map((_, i) => ({ key: keys[i % keys.length], fmt: ['type-fr-en','gap','order','fix'][i % 4], ok: true })) });
+          const dedans = keys.filter(k => Cert.inRotation(undefined, allWords().byKey.get(k)));
+          const th = tid.replace(/-\\d+$/, ''), freres = Cert.themeWords(th).map(w => w.key).filter(k => !keys.includes(k));
+          const dehors = freres.filter(k => !Cert.inRotation(undefined, allWords().byKey.get(k)));
+          return { n: keys.length, dedans, nFreres: freres.length, dehors: dehors.slice(0, 5), nDehors: dehors.length, theme: Cert.get(undefined, tid) && Cert.get(undefined, tid).status }; }""", tid)
+        ck(f"AC-90 [Ludo] {tid} réussi : tous les mots de la PARTIE sortent des mots du jour, ceux des autres parties du même thème y restent",
+           "erreur" not in r and r["theme"] == "ok" and not r["dedans"] and r["nDehors"] == 0, r)
+        P("() => { Cert.drop(); }")
+
     errs = collector.since(m0)
     ck("AC-99 Aucune erreur console ni exception JS pendant toute la suite", not errs, errs[:5])
     ctx.close()
