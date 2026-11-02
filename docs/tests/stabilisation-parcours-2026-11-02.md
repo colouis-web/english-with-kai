@@ -81,7 +81,22 @@ Quand l'interface change **volontairement** (taille du texte d'Ouss, tuile Certi
 
 ## Preuve de stabilité
 
-(Résultats ci-dessous, rédigés à la fin du sprint.)
+Mesure : `python3 tests/test_parcours.py` (sans reprise), 5 fois d'affilée, sur le commit `b7d3fd7` (fichiers de test identiques à ceux de la livraison pour
+`kai_common.py`, `test_parcours.py`, `test_persistance.py`). Chaque passe joue 390 px, 1280 px et les passes courtes iPhone SE et mini.
+
+| Série | Commit | Résultat |
+|---|---|---|
+| 1 | `119e8a5` | **échecs** : passe 1 (P07.29), passe 2 (P12.26), passe 3 (P07.x, scénario arrêté) ; passes 4 et 5 vertes |
+| 2 | `b7d3fd7` | **5 passes sur 5 vertes** : 1298 OK, 0 KO, 0 bloqué à chaque passe, sans aucune reprise |
+
+Puis la batterie complète, sans reprise (`python3 tests/run_all.py --no-retry -v`) : donnees 87 OK, persistance 98 OK, visuel 50 OK, parcours 1298 OK, appareils 596 OK
+(avant l'ajout des 46 images de « Let's talk » : 1335 OK maintenant) ; **0 KO, 0 bloqué, aucune suite « INSTABLE »**, verdict VERT.
+
+La série 1 est conservée ici parce qu'elle montre que des délais supprimés ne suffisaient pas : les trois échecs viennent du focus (section ci-dessus).
+Limite honnête : 5 passes consécutives vertes montrent une instabilité d'au plus quelques pour cent, pas son absence ; c'est pourquoi `--no-retry` et le signal « INSTABLE » restent en place.
+Les passes ont tourné pendant que d'autres agents utilisaient la même machine (charge variable), ce qui est un bon test pour des échecs liés au temps.
+
+Le temps de la suite de parcours est d'environ 4,5 minutes (390 + 1280 px + passes iPhone).
 
 ## Si un test redevient intermittent
 
