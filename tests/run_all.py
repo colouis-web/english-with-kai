@@ -40,11 +40,23 @@ SUITES = [  # (nom court, fichier, durée indicative)
     ("parcours", "test_parcours.py"),
     ("appareils", "test_appareils.py"),   # petits iPhone (SE, mini) et WebKit : cadrage des images, défilement horizontal
     ("certificats", "test_certificats.py"),   # moteur des certificats (Ludo) : joué seulement si le fichier ET js/app-certificats.js existent
+    ("certificats_regles", "test_certificats_regles.py"),     # règles du PO sur le moteur (Dédé) : tirage, correction, validité, J-7, renouvellement, étoiles
+    ("certificats_banque", "test_certificats_banque.py"),     # contenu de la banque de Matt (js/data/certificats.js)
+    ("certificats_ecrans", "test_certificats_ecrans.py"),     # écrans joués comme un élève (Ouss) : épreuve, résultat, rattrapage, reprise, renouvellement, impression
+    ("daily_onglets", "test_daily_onglets.py"),               # My daily work option A : onglets, aucune information perdue, mémorisation, Start visible, bande des 7 jours
 ]
 
 # Suites facultatives : (fichier de test, fichier de l'application sans lequel la suite n'a pas de sens). Absentes = ignorées sans bruit
 # (la branche de Dédé n'a pas encore le moteur de Ludo ; la suite s'active toute seule après la fusion).
-FACULTATIVES = {"certificats": ("test_certificats.py", "js/app-certificats.js")}
+# 3e élément et suivants (facultatifs) : textes que le fichier de l'application doit contenir pour que la suite ait un sens (chaque suite
+# s'active toute seule quand la fonctionnalité qu'elle teste est dans la version : la base reste verte avant la fusion, puis le test bloque).
+FACULTATIVES = {
+    "certificats": ("test_certificats.py", "js/app-certificats.js"),
+    "certificats_regles": ("test_certificats_regles.py", "js/app-certificats.js", "pickExam"),
+    "certificats_banque": ("test_certificats_banque.py", "js/data/certificats.js"),
+    "certificats_ecrans": ("test_certificats_ecrans.py", "js/app-certificats-ui.js"),
+    "daily_onglets": ("test_daily_onglets.py", "js/app-daily.js", "Rewards"),
+}
 
 
 def versions(app):
@@ -95,8 +107,9 @@ def main():
 
     app = Path(args.app).resolve()
     voulues = set(args.only.split(",")) if args.only else {n for n, _ in SUITES}
-    for nom_f, (test_f, appli_f) in FACULTATIVES.items():
-        if nom_f in voulues and not ((TESTS / test_f).is_file() and (app / appli_f).is_file()):
+    for nom_f, (test_f, appli_f, *marques) in FACULTATIVES.items():
+        if nom_f in voulues and not ((TESTS / test_f).is_file() and (app / appli_f).is_file()
+                                     and all(m in (app / appli_f).read_text(encoding="utf-8", errors="replace") for m in marques)):
             voulues.discard(nom_f)
             if args.only:
                 print(f"suite « {nom_f} » ignorée : {test_f} ou {appli_f} absent")
