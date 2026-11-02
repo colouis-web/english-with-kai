@@ -97,6 +97,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--app", default=str(ROOT), help="dossier de l'application (défaut : racine du dépôt)")
     ap.add_argument("--only", help="liste de suites séparées par des virgules : " + ", ".join(n for n, _ in SUITES))
+    ap.add_argument("--skip", help="suites à ne pas lancer, séparées par des virgules (ex. en CI : visuel, dont les captures dépendent de la machine)")
     ap.add_argument("--jobs", type=int, default=1, help="suites lancées en parallèle (défaut 1 : le hachage du code parent est lent, le parallèle rend le parcours instable)")
     ap.add_argument("--no-retry", action="store_true", help="ne rejoue jamais une suite en échec (preuve de stabilité : 0 échec intermittent)")
     ap.add_argument("--cadrage-strict", action="store_true", help="les contrôles de cadrage des petits iPhone (attendus après correction d'Ouss) deviennent des KO")
@@ -109,6 +110,8 @@ def main():
 
     app = Path(args.app).resolve()
     voulues = set(args.only.split(",")) if args.only else {n for n, _ in SUITES}
+    if args.skip:
+        voulues -= set(args.skip.split(","))
     for nom_f, (test_f, appli_f, *marques) in FACULTATIVES.items():
         if nom_f in voulues and not ((TESTS / test_f).is_file() and (app / appli_f).is_file()
                                      and all(m in (app / appli_f).read_text(encoding="utf-8", errors="replace") for m in marques)):
