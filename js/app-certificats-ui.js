@@ -324,7 +324,22 @@
     /* ---------- correction (le moteur d'abord ; ADAPTATEUR sinon : règles du §3 de la conception) ---------- */
     const N = t => (typeof t3Norm === "function" ? t3Norm(t) : String(t || "").toLowerCase().replace(/[’‘`´]/g, "'").replace(/[.,!?;:"«»]/g, " ").replace(/\s+/g, " ").trim());
     const stripArt = x => x.replace(/^(a|an|the|to) /, "");
-    const lev = (a, b) => { try { return tkLev(a, b, 2); } catch (e) { return 9; } };
+    /* distance de Damerau-Levenshtein (une lettre en trop, en moins, changée, ou deux lettres inversées = 1) ;
+       tkLev (js/app-talk.js) ne compte pas l'inversion comme une seule faute : voir docs/certificats/ecrans.md */
+    function lev(a, b) {
+        if (Math.abs(a.length - b.length) > 2)
+            return 9;
+        const d = Array.from({ length: a.length + 1 }, (_, i) => [i].concat(Array(b.length).fill(0)));
+        for (let j = 1; j <= b.length; j++)
+            d[0][j] = j;
+        for (let i = 1; i <= a.length; i++)
+            for (let j = 1; j <= b.length; j++) {
+                d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+                if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1])
+                    d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+            }
+        return d[a.length][b.length];
+    }
     const isKnown = w => { try { return tkKnown(w); } catch (e) { return false; } };
     function acceptedWords(q) {
         const e = wordOf(q.key), main = e ? e.d.w || e.d.v : "", out = new Set([main]);
