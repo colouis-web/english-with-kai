@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Parcours de bout en bout de « Learning English with Kai » (390x844 « téléphone » et 1280x800 « ordinateur »).
 
-  python3 tests/test_parcours.py [--app <dossier>] [--only 390|1280] [--keep-going]
+  python3 tests/test_parcours.py [--app <dossier>] [--only 390|1280|se|mini|wk-se] [--sans-appareils]
+
+Parcours COMPLET à 390 (téléphone) et 1280 (ordinateur), puis passes COURTES (premier lancement, profil, mots du jour,
+vocabulaire, leçon, toutes les tuiles) sur iPhone SE (375×667), iPhone mini (375×812) et WebKit/Safari (si le moteur est installé).
+Aucun délai fixe : chaque étape attend un ÉTAT (écran affiché, message, focus, niveau enregistré, fin du démarrage…).
 
 Un élève qui découvre l'application : premier lancement et création du profil, mots du jour (tour complet),
 vocabulaire (recherche, fiche, son), une leçon de conjugaison et une de grammaire jusqu'au bout, trois tests
@@ -19,7 +23,7 @@ import tempfile
 from pathlib import Path
 
 from kai_common import (APP_ID, OUT, Bilan, Collector, KO, OK, BLOQUE, new_context, open_app, current_page, wait_page,
-                        js_available, run_suite, reload_app, settle, wait_js, toast_gone, next_toast, toast_reset)
+                        js_available, run_suite, reload_app, settle, wait_js, toast_gone, next_toast, toast_reset, appareil, lancer_moteur)
 
 VIEWPORTS = {"390": (390, 844), "1280": (1280, 800)}
 GLOBALES = ["PROFS", "DST", "QZ", "LQ", "TQ", "LESSONS", "LORDER", "LV", "RANKS", "totalStars", "starsOf", "streak",
@@ -65,11 +69,11 @@ def short(x, n=700):
 
 
 class Parcours:
-    def __init__(self, label, viewport, base, browser, bilan, collector, seed):
+    def __init__(self, label, viewport, base, browser, bilan, collector, seed, ctx_kw=None):
         self.label, self.vp, self.base, self.browser = label, viewport, base, browser
         self.bilan, self.collector, self.seed = bilan, collector, seed
         self.mobile = viewport[0] < 600
-        self.ctx = new_context(browser, base, viewport, collector, seed=seed, mobile=self.mobile)
+        self.ctx = new_context(browser, base, viewport, collector, seed=seed, mobile=self.mobile, **(ctx_kw or {}))
         self.page = self.ctx.new_page()
         # « Congrats! » (Kai félicite) recouvre l'écran jusqu'à « Thanks, Kai! » : l'élève le ferme, le test aussi.
         self.congrats = 0
@@ -1081,24 +1085,65 @@ ETAPES = [
 ]
 
 
+# Passes COURTES sur les petits iPhone du fils et sur WebKit (Safari) : les étapes qui dépendent de la taille de l'écran
+# ou du moteur (premier lancement, profil, mots du jour, vocabulaire, leçon, toutes les tuiles et tous les Retour).
+# Les cadrages d'images sont mesurés par test_appareils.py ; ici on vérifie que le PARCOURS fonctionne et ne défile pas à l'horizontale.
+ETAPES_COURTES = ("P01", "P02", "P03", "P04", "P05", "P13")
+PASSES_APPAREILS = {            # étiquette : (appareil, moteur)
+    "se": ("se", "chromium"),
+    "mini": ("mini", "chromium"),
+    "wk-se": ("se", "webkit"),
+}
+
+
+def jouer(label, vp, base, nav, bilan, collector, seed, etapes=None, kw=None):
+    P = Parcours(label, vp, base, nav, bilan, collector, seed, ctx_kw=kw)
+    try:
+        for sid, titre, fn, needs in ETAPES:
+            if etapes is not None and sid not in etapes:
+                continue
+            P.step(sid, titre, fn, needs, from_menu=sid not in ("P01", "P02", "P14"))
+    finally:
+        P.ctx.close()
+    bilan.check(f"P99.err@{label}", f"{label} : sur tout le parcours, 0 erreur console, 0 exception JS, 0 requête en échec ou en 404",
+                not collector.errors, "; ".join(f"[{g}] {t}" for g, t in collector.errors[:6]))
+    if collector.aborted:
+        bilan.note(f"P99.abort@{label}", "Requêtes interrompues par un rechargement (ignorées)", collector.aborted)
+
+
 def run(args, base, browser, bilan, collector):
     for label, vp in VIEWPORTS.items():
         if args.only and args.only != label:
             continue
-        P = Parcours(label, vp, base, browser, bilan, collector, args.seed)
-        try:
-            for sid, titre, fn, needs in ETAPES:
-                P.step(sid, titre, fn, needs, from_menu=sid not in ("P01", "P02", "P14"))
-        finally:
-            P.ctx.close()
-        bilan.check(f"P99.err@{label}", f"{label} : sur tout le parcours, 0 erreur console, 0 exception JS, 0 requête en échec ou en 404",
-                    not collector.errors, "; ".join(f"[{g}] {t}" for g, t in collector.errors[:6]))
-        if collector.aborted:
-            bilan.note(f"P99.abort@{label}", "Requêtes interrompues par un rechargement (ignorées)", collector.aborted)
+        jouer(label, vp, base, browser, bilan, collector, args.seed)
+    wk = None
+    try:
+        for label, (cle, moteur) in PASSES_APPAREILS.items():
+            if (args.only and args.only != label) or (not args.only and args.sans_appareils):
+                continue
+            nav = browser
+            if moteur == "webkit":
+                if wk is None:
+                    wk, raison = lancer_moteur(args.pw, "webkit")
+                    if wk is None:
+                        (bilan.ko if args.require_webkit else bilan.note)(
+                            "P-webkit", "Passe WebKit (Safari) non jouée : moteur non installé sur cette machine",
+                            raison + " — installer avec : python3 -m playwright install --with-deps webkit")
+                        wk = False
+                if not wk:
+                    continue
+                nav = wk
+            vp_app, kw = appareil(args.pw, cle)
+            jouer(label, vp_app, base, nav, bilan, collector, args.seed, etapes=ETAPES_COURTES, kw=kw)
+    finally:
+        if wk:
+            wk.close()
 
 
 def extra(ap):
-    ap.add_argument("--only", choices=list(VIEWPORTS), help="ne jouer qu'une taille d'écran")
+    ap.add_argument("--only", choices=list(VIEWPORTS) + list(PASSES_APPAREILS), help="ne jouer qu'une taille d'écran ou une passe iPhone / WebKit")
+    ap.add_argument("--sans-appareils", action="store_true", help="saute les passes courtes iPhone SE / mini / WebKit")
+    ap.add_argument("--require-webkit", action="store_true", help="WebKit absent = KO (par défaut : simple note)")
 
 
 if __name__ == "__main__":

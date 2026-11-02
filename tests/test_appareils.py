@@ -10,6 +10,7 @@ dans la page (rien n'est comparé au pixel) :
   - défilement horizontal : la page est-elle plus large que l'écran (documentElement.scrollWidth > clientWidth) ?
   - images de Kai et de scènes (<img> et <image> des SVG) : la partie DESSINÉE de l'image (object-fit / preserveAspectRatio compris)
     est-elle entièrement visible, ou coupée par son cadre, par un parent qui rogne (overflow:hidden) ou par le bord de l'écran ?
+    (les vignettes rondes — humeurs, calendrier — sont exclues : le recadrage sur le visage y est voulu)
   - contenu coupé : un bouton, une carte ou un texte dont le contenu dépasse du cadre (overflow:hidden) ;
   - le bouton « Start » de l'accueil est-il visible sans défiler ?
 Quand quelque chose est mal cadré, le test écrit une capture annotée (cadres rouges) et dit précisément écran + image.
@@ -88,7 +89,8 @@ async () => {
     const dw = nw * sc[0], dh = nh * sc[1], [px, py] = pos(cs.objectPosition, '50% 50%');
     const d = { l: bx.l + (bw - dw) * px, t: bx.t + (bh - dh) * py }; d.r = d.l + dw; d.b = d.t + dh;
     const vis = inter(inter(d, bx), cadre(el));
-    imgs.push({ src: el.getAttribute('src'), kind: 'img', chemin: chemin(el), charge: true, fit, vis: aire(vis) / aire(d), drawn: d, box: bx, nat: [nw, nh] });
+    const br = parseFloat(cs.borderTopLeftRadius) || 0, rond = cs.borderTopLeftRadius.endsWith('%') ? br >= 45 : br >= Math.min(bw, bh) * 0.45;
+    imgs.push({ src: el.getAttribute('src'), kind: 'img', chemin: chemin(el), charge: true, fit, rond, vis: aire(vis) / aire(d), drawn: d, box: bx, nat: [nw, nh] });
   }
   // ---- <image> dans un SVG : preserveAspectRatio, dans le viewBox
   for (const el of document.querySelectorAll('svg image')) {
@@ -209,6 +211,8 @@ def mesurer(page, M, ecran, tolerer_scroll=False):
     for i in m["imgs"]:
         if not i["charge"] or not MOTIF_IMAGE_KAI.search(i["src"] or ""):
             continue
+        if i.get("rond"):
+            continue      # vignette ronde (humeurs, calendrier) : le recadrage sur le visage est voulu
         if i["vis"] < SEUIL_VISIBLE or i.get("visViewBox", 1) < SEUIL_VISIBLE:
             perte = round((1 - min(i["vis"], i.get("visViewBox", 1))) * 100)
             coupees.append((i, perte))
