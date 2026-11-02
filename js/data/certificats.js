@@ -24,8 +24,13 @@
    mot = {
      k     clé du mot dans allWords() — c'est elle qu'on envoie à Cert.record ({ key, fmt, ok })
      fr    (facultatif) traduction affichée par « type-fr-en » si celle des données est ambiguë ; sinon d.fr
+     skip  (facultatif) formats à NE PAS poser pour ce mot : ["type-fr-en"] quand le mot français s'écrit comme
+           l'anglais (orange, parent, cousin : la question donnerait la réponse)
      ok    (facultatif) autres réponses justes, SANS note : { "<forme attendue>": ["autre", …] }
-           (ex. aunt → auntie ; s'applique à toute question dont la réponse attendue est cette forme)
+           (ex. aunt → auntie ; s'applique à toute question dont la réponse attendue est cette forme, sauf
+           l'étape 2 de « fix » qui n'accepte que good et fix.ok). Les paires de registre (mother / mum, father / dad,
+           grandmother / grandma, grandfather / grandpa) s'acceptent l'une l'autre : le français ne les sépare pas
+           assez nettement (« une grand-mère / mamie ») pour qu'un écart de registre compte faux.
      us    (facultatif) orthographe ou mot américain accepté AVEC la note « In British English: <forme attendue> »
            (décision Q9) : { "grey": ["gray"] }
      pic   (facultatif) image SANS ambiguïté pour « picture » ; absent = pas de question image pour ce mot.
@@ -37,7 +42,8 @@
      gap   phrases à compléter : [anglais avec *mot*, français avec *mot*, réponses justes en plus?]
            réponse attendue = le texte entre *…*, forme exigée (pluriel compris) ; casse ignorée
      ord   phrases à remettre dans l'ordre : [anglais, français, autres ordres justes?]
-           4 à 8 étiquettes (mots séparés par des espaces, ponctuation finale retirée) ; un seul ordre juste une fois
+           4 à 8 étiquettes (mots séparés par des espaces, ponctuation finale retirée) ; seul le 1er mot passe en
+           minuscule (sauf I et Kai / Kai's) : les autres gardent leur casse (English) ; un seul ordre juste une fois
            la phrase française lue (sinon il est dans le 3e champ)
      fix   phrases avec UNE erreur : { s, bad, good, fr, why, whyFr }
            s : phrase fautive ; bad : le mot faux (présent une seule fois dans s) ; good : le mot qui le remplace ;
@@ -92,7 +98,7 @@ const CERTBANK = {
                     fix: [{ s: "Bananas are jaune.", bad: "jaune", good: "yellow", fr: "Les bananes sont jaunes.", why: "Jaune is French. In English: yellow.", whyFr: "« Jaune » est du français : en anglais, yellow." },
                         { s: "I have two yellows balloons.", bad: "yellows", good: "yellow", fr: "J'ai deux ballons jaunes.", why: "Colours never take -s: yellow balloons.", whyFr: "Les couleurs ne prennent jamais de -s : yellow balloons." }],
                     say: "Bananas are yellow." },
-                { k: "adjectives:orange", pic: { e: "🥕", fr: "une carotte" },
+                { k: "adjectives:orange", skip: ["type-fr-en"], pic: { e: "🥕", fr: "une carotte" },
                     gap: [["My cat is *orange* and white.", "Mon chat est *orange* et blanc."], ["Carrots are *orange*.", "Les carottes sont *orange*."]],
                     ord: [["My cat is orange and white.", "Mon chat est orange et blanc.", ["My cat is white and orange."]], ["I have an orange backpack.", "J'ai un sac à dos orange."]],
                     fix: [{ s: "I've got two oranges T-shirts.", bad: "oranges", good: "orange", fr: "J'ai deux tee-shirts orange.", why: "Colours never take -s: orange T-shirts.", whyFr: "Les couleurs ne prennent jamais de -s : orange T-shirts." },
@@ -160,36 +166,36 @@ const CERTBANK = {
                 }
             },
             words: [
-                { k: "nouns:family", pic: true,
+                { k: "nouns:family",
                     gap: [["I love my *family*.", "J'aime ma *famille*."], ["Some *families* have lots of children.", "Certaines *familles* ont beaucoup d'enfants."]],
                     ord: [["I love my family.", "J'aime ma famille."], ["My family has a big house.", "Ma famille a une grande maison."]],
                     fix: [{ s: "Some familys have lots of children.", bad: "familys", good: "families", fr: "Certaines familles ont beaucoup d'enfants.", why: "family → families (y becomes ies).", whyFr: "family → families (le y devient ies)." },
                         { s: "I love my famille.", bad: "famille", good: "family", fr: "J'aime ma famille.", why: "Famille is French. In English: family.", whyFr: "« Famille » est du français : en anglais, family." }],
                     say: "I love my family." },
-                { k: "nouns:parent",
+                { k: "nouns:parent", skip: ["type-fr-en"],
                     gap: [["Each *parent* must sign the paper.", "Chaque *parent* doit signer le papier."], ["My *parents* are at work.", "Mes *parents* sont au travail."]],
                     ord: [["My parents are at work.", "Mes parents sont au travail."], ["My parents love dancing.", "Mes parents adorent danser."]],
                     fix: [{ s: "Both my parent are at work.", bad: "parent", good: "parents", fr: "Mes deux parents sont au travail.", why: "Both = two people: parents (plural).", whyFr: "Both = deux personnes : parents (pluriel)." },
                         { s: "I live with my two parent.", bad: "parent", good: "parents", fr: "Je vis avec mes deux parents.", why: "Two → plural: two parents.", whyFr: "Two → pluriel : two parents." }],
                     say: "My parents are at work." },
-                { k: "nouns:mother", pic: { tree: "mum" },
+                { k: "nouns:mother", ok: { "mother": ["mum", "mummy"], "mothers": ["mums"] }, us: { "mother": ["mom"] }, pic: { tree: "mum" },
                     gap: [["My *mother* is a doctor.", "Ma *mère* est médecin."], ["*Mothers* and daughters often look alike.", "Les *mères* et les filles se ressemblent souvent."]],
                     ord: [["My mother is a doctor.", "Ma mère est médecin."], ["My mother speaks English.", "Ma mère parle anglais."]],
                     fix: [{ s: "My mère is a doctor.", bad: "mère", good: "mother", fr: "Ma mère est médecin.", why: "Mère is French. In English: mother.", whyFr: "« Mère » est du français : en anglais, mother." },
                         { s: "The two mother are talking at the school gate.", bad: "mother", good: "mothers", fr: "Les deux mères discutent à la porte de l'école.", why: "Two → plural: two mothers.", whyFr: "Two → pluriel : two mothers." }],
                     say: "My mother is a doctor." },
-                { k: "nouns:mum", ok: { "mum": ["mummy"], "mums": ["mummies"] }, us: { "mum": ["mom"], "mums": ["moms"] },
+                { k: "nouns:mum", ok: { "mum": ["mummy", "mother"], "mums": ["mummies", "mothers"] }, us: { "mum": ["mom"], "mums": ["moms"] },
                     gap: [["*Mum*, can I have a biscuit?", "*Maman*, je peux avoir un biscuit ?"], ["All the *mums* came to the school show.", "Toutes les *mamans* sont venues au spectacle de l'école."]],
                     ord: [["Mum is in the kitchen.", "Maman est dans la cuisine."], ["My mum likes pizza.", "Ma maman aime la pizza."]],
                     fix: [{ s: "All the mum came to the school show.", bad: "mum", good: "mums", fr: "Toutes les mamans sont venues au spectacle de l'école.", why: "All the → plural: all the mums.", whyFr: "All the → pluriel : all the mums." }],
                     say: "Mum is in the kitchen." },
-                { k: "nouns:father", pic: { tree: "dad" },
+                { k: "nouns:father", ok: { "father": ["dad", "daddy"], "fathers": ["dads"] }, pic: { tree: "dad" },
                     gap: [["My *father* is very tall.", "Mon *père* est très grand."], ["Some *fathers* stay at home with the children.", "Certains *pères* restent à la maison avec les enfants."]],
                     ord: [["My father is very tall.", "Mon père est très grand."], ["My father is a good cook.", "Mon père est un bon cuisinier."]],
                     fix: [{ s: "My père is very tall.", bad: "père", good: "father", fr: "Mon père est très grand.", why: "Père is French. In English: father.", whyFr: "« Père » est du français : en anglais, father." },
                         { s: "Many father stay at home with the children.", bad: "father", good: "fathers", fr: "Beaucoup de pères restent à la maison avec les enfants.", why: "Many → plural: many fathers.", whyFr: "Many → pluriel : many fathers." }],
                     say: "My father is very tall." },
-                { k: "nouns:dad", ok: { "dad": ["daddy"], "dads": ["daddies"] },
+                { k: "nouns:dad", ok: { "dad": ["daddy", "father"], "dads": ["daddies", "fathers"] },
                     gap: [["*Dad*, where are my shoes?", "*Papa*, où sont mes chaussures ?"], ["The *dads* made a cake for the party.", "Les *papas* ont fait un gâteau pour la fête."]],
                     ord: [["My dad plays the guitar.", "Mon papa joue de la guitare."], ["Dad is cooking pasta.", "Papa fait cuire des pâtes."]],
                     fix: [{ s: "All the dad came to the school show.", bad: "dad", good: "dads", fr: "Tous les papas sont venus au spectacle de l'école.", why: "All the → plural: all the dads.", whyFr: "All the → pluriel : all the dads." },
@@ -219,23 +225,23 @@ const CERTBANK = {
                     fix: [{ s: "My aunt has two daughter.", bad: "daughter", good: "daughters", fr: "Ma tante a deux filles.", why: "Two → plural: two daughters.", whyFr: "Two → pluriel : two daughters." },
                         { s: "Their fille is a good student.", bad: "fille", good: "daughter", fr: "Leur fille est une bonne élève.", why: "Fille is French. Their child = their daughter.", whyFr: "« Fille » est du français : l'enfant de quelqu'un = daughter." }],
                     say: "Their daughter is a good student." },
-                { k: "nouns:grandmother", fr: "une grand-mère", pic: { tree: "grandma" },
+                { k: "nouns:grandmother", fr: "une grand-mère", ok: { "grandmother": ["grandma", "granny", "gran"], "grandmothers": ["grandmas"] }, pic: { tree: "grandma" },
                     gap: [["My *grandmother* makes the best cakes.", "Ma *grand-mère* fait les meilleurs gâteaux."], ["Both my *grandmothers* live in Brittany.", "Mes deux *grands-mères* habitent en Bretagne."]],
                     ord: [["My grandmother makes the best cakes.", "Ma grand-mère fait les meilleurs gâteaux."]],
                     fix: [{ s: "Both my grandmother live in Brittany.", bad: "grandmother", good: "grandmothers", fr: "Mes deux grands-mères habitent en Bretagne.", why: "Both → plural: both my grandmothers.", whyFr: "Both → pluriel : both my grandmothers." }],
                     say: "My grandmother makes the best cakes." },
-                { k: "nouns:grandfather", fr: "un grand-père", pic: { tree: "grandpa" },
+                { k: "nouns:grandfather", fr: "un grand-père", ok: { "grandfather": ["grandpa", "grandad", "granddad"], "grandfathers": ["grandpas", "grandads"] }, pic: { tree: "grandpa" },
                     gap: [["My *grandfather* tells funny stories.", "Mon *grand-père* raconte des histoires drôles."], ["My two *grandfathers* love fishing.", "Mes deux *grands-pères* adorent la pêche."]],
                     ord: [["My grandfather tells funny stories.", "Mon grand-père raconte des histoires drôles."], ["My two grandfathers love fishing.", "Mes deux grands-pères adorent la pêche."]],
                     fix: [{ s: "My two grandfather love fishing.", bad: "grandfather", good: "grandfathers", fr: "Mes deux grands-pères adorent la pêche.", why: "Two → plural: two grandfathers.", whyFr: "Two → pluriel : two grandfathers." }],
                     say: "My grandfather tells funny stories." },
-                { k: "nouns:grandma", ok: { "grandma": ["granny", "gran"], "grandmas": ["grannies", "grans"] },
+                { k: "nouns:grandma", ok: { "grandma": ["granny", "gran", "grandmother"], "grandmas": ["grannies", "grans", "grandmothers"] },
                     gap: [["My *grandma* makes great pancakes.", "Ma *mamie* fait de super crêpes."], ["Both my *grandmas* live in Lyon.", "Mes deux *mamies* habitent à Lyon."]],
                     ord: [["My grandma makes great pancakes.", "Ma mamie fait de super crêpes."]],
                     fix: [{ s: "My mamie makes great pancakes.", bad: "mamie", good: "grandma", fr: "Ma mamie fait de super crêpes.", why: "Mamie is French. In English: grandma.", whyFr: "« Mamie » est du français : en anglais, grandma." },
                         { s: "Both my grandma live in Lyon.", bad: "grandma", good: "grandmas", fr: "Mes deux mamies habitent à Lyon.", why: "Both → plural: both my grandmas.", whyFr: "Both → pluriel : both my grandmas." }],
                     say: "My grandma makes great pancakes." },
-                { k: "nouns:grandpa", ok: { "grandpa": ["grandad", "granddad"], "grandpas": ["grandads", "granddads"] },
+                { k: "nouns:grandpa", ok: { "grandpa": ["grandad", "granddad", "grandfather"], "grandpas": ["grandads", "granddads", "grandfathers"] },
                     gap: [["My *grandpa* takes me fishing.", "Mon *papi* m'emmène à la pêche."], ["My two *grandpas* love football.", "Mes deux *papis* adorent le foot."]],
                     ord: [["My grandpa takes me fishing.", "Mon papi m'emmène à la pêche."], ["My two grandpas love football.", "Mes deux papis adorent le foot."]],
                     fix: [{ s: "My papi takes me fishing.", bad: "papi", good: "grandpa", fr: "Mon papi m'emmène à la pêche.", why: "Papi is French. In English: grandpa.", whyFr: "« Papi » est du français : en anglais, grandpa." },
@@ -259,7 +265,7 @@ const CERTBANK = {
                     fix: [{ s: "My ant is a nurse.", bad: "ant", good: "aunt", fr: "Ma tante est infirmière.", why: "ant = une fourmi ; aunt = une tante.", whyFr: "ant = une fourmi ; aunt = une tante." },
                         { s: "My tante always gives me presents.", bad: "tante", good: "aunt", fr: "Ma tante me fait toujours des cadeaux.", why: "Tante is French. In English: aunt.", whyFr: "« Tante » est du français : en anglais, aunt." }],
                     say: "My aunt is a nurse." },
-                { k: "nouns:cousin", pic: { tree: "cousin" },
+                { k: "nouns:cousin", skip: ["type-fr-en"], pic: { tree: "cousin" },
                     gap: [["My *cousin* is the same age as me.", "Mon *cousin* a le même âge que moi."], ["I play with my *cousins* every summer.", "Je joue avec mes *cousins* chaque été."]],
                     ord: [["My cousin is the same age as me.", "Mon cousin a le même âge que moi."], ["I have five cousins.", "J'ai cinq cousins."]],
                     fix: [{ s: "My cousins is the same age as me.", bad: "cousins", good: "cousin", fr: "Mon cousin a le même âge que moi.", why: "One cousin: singular, my cousin is…", whyFr: "Un seul cousin : singulier, my cousin is…" },
@@ -294,7 +300,7 @@ const CERTBANK = {
                 { k: "nouns:cat", pic: { e: "🐱", ok: ["kitten"] },
                     gap: [["The *cat* is sleeping on my bed.", "Le *chat* dort sur mon lit."], ["*Cats* love to sleep in the sun.", "Les *chats* adorent dormir au soleil."]],
                     ord: [["My cat has green eyes.", "Mon chat a les yeux verts."], ["Cats love to sleep in the sun.", "Les chats adorent dormir au soleil."]],
-                    fix: [{ s: "The chat is sleeping on my bed.", bad: "chat", good: "cat", fr: "Le chat dort sur mon lit.", why: "Chat is French for cat. In English, to chat = parler.", whyFr: "« Chat » est le mot français ; en anglais, to chat = bavarder. Le chat : cat." },
+                    fix: [{ s: "The chat is sleeping on my bed.", bad: "chat", good: "cat", fr: "Le chat dort sur mon lit.", why: "Chat is French. In English: cat (to chat = to talk).", whyFr: "« Chat » est le mot français ; en anglais, to chat = bavarder. Le chat : cat." },
                         { s: "I have two cat.", bad: "cat", good: "cats", fr: "J'ai deux chats.", why: "Two → plural: two cats.", whyFr: "Two → pluriel : two cats." }],
                     say: "The cat is sleeping on my bed." },
                 { k: "nouns:kitten",
