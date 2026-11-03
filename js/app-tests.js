@@ -183,7 +183,7 @@ function updateTestTile() {
 /* leçons à revoir cette semaine (du lundi au dimanche) : pour chaque leçon, le dernier test où elle est tombée ;
    elle est à revoir s'il y a eu une erreur, « revue » si l'élève a réussi son entraînement après ce test */
 function weekReview() {
-    const W0 = wkStart(todayKey()), last = {}, prac = {};
+    const W0 = wkStart(todayKey()), last = {}, prac = {}, verbs = {};
     for (const [d, r] of Object.entries(DST.days)) {
         if (d < W0)
             continue;
@@ -192,25 +192,37 @@ function weekReview() {
                 for (const [id, [ok, n]] of Object.entries(q.ls))
                     if (LESSONS[id] && (!last[id] || q.t > last[id].t))
                         last[id] = { ok, n, t: q.t, kind: q.k.slice(5) };
+            /* verbes irréguliers (PO, 03/11) : le dernier test où le verbe est tombé ; raté puis réussi plus tard = revu */
+            if (isTest(q) && q.vs)
+                for (const [v, ok] of Object.entries(q.vs))
+                    if (DMAP[v]) {
+                        const o = verbs[v];
+                        if (!o || q.t > o.t)
+                            verbs[v] = { ok, t: q.t, miss: (o && o.miss) || !ok, first: o ? o.first : q.t };
+                        else if (!ok)
+                            o.miss = true;
+                    }
             if (isLesson(q) && q.p >= PASS) {
                 const id = q.k.slice(7);
                 prac[id] = Math.max(prac[id] || 0, q.t);
             }
         }
     }
-    const tests = Object.values(DST.days).some(r => r && r.d >= W0 && (r.qs || []).some(q => isTest(q) && q.ls));
+    const tests = Object.values(DST.days).some(r => r && r.d >= W0 && (r.qs || []).some(q => isTest(q) && (q.ls || q.vs)));
     const list = Object.entries(last).filter(([, v]) => v.ok < v.n).map(([id, v]) => Object.assign({ id, done: (prac[id] || 0) > v.t }, v));
     list.sort((a, b) => a.done - b.done || a.ok / a.n - b.ok / b.n || b.t - a.t);
-    return { tests, list };
+    const vlist = Object.entries(verbs).filter(([, o]) => o.miss).map(([v, o]) => ({ v, done: !!o.ok, t: o.t })).sort((a, b) => a.v.localeCompare(b.v));
+    return { tests, list, vlist };
 }
 /* même présentation que « Words of the day » de My work (PO, 03/11) : « To review » en rouge, « Revised » en vert, repliables */
 function reviewHtml() {
-    const R = weekReview(), ko = R.list.filter(x => !x.done), ok = R.list.filter(x => x.done);
-    const li = x => `<li class="rvli" data-lesson="${x.id}" role="button" tabindex="0" aria-label="Open the lesson ${esc(LESSONS[x.id].title)}"><span class="kt">${LESSONS[x.id].type === "conj" ? "Conj." : "Gram."}</span><b>${esc(LESSONS[x.id].title)}</b><i>${x.done ? `${CHECK}revised` : `${x.ok}/${x.n} in the test`}</i></li>`;
-    const body = !R.tests ? `<p class="dnone">No test this week yet. After a grammar or conjugation test, the lessons with mistakes will appear here.</p>`
+    const R = weekReview(), all = [...R.list, ...R.vlist], ko = all.filter(x => !x.done), ok = all.filter(x => x.done);
+    const li = x => x.v ? `<li class="rvli" data-rvverb="${esc(x.v)}" role="button" tabindex="0" aria-label="Open the verb ${esc(x.v)}"><span class="kt">Verb</span><b>${esc(x.v)} · ${esc(DMAP[x.v].pt)} · ${esc(DMAP[x.v].pp)}</b><i>${x.done ? `${CHECK}right next time` : "missed in the test"}</i></li>`
+        : `<li class="rvli" data-lesson="${x.id}" role="button" tabindex="0" aria-label="Open the lesson ${esc(LESSONS[x.id].title)}"><span class="kt">${LESSONS[x.id].type === "conj" ? "Conj." : "Gram."}</span><b>${esc(LESSONS[x.id].title)}</b><i>${x.done ? `${CHECK}revised` : `${x.ok}/${x.n} in the test`}</i></li>`;
+    const body = !R.tests ? `<p class="dnone">No test this week yet. After a test, the lessons and the irregular verbs you missed will appear here.</p>`
         : `<details class="wd" open><summary class="wh ko">To review <span>${ko.length}</span></summary>${ko.length ? `<ul class="wlist ko">${ko.map(li).join("")}</ul>` : `<p class="dnone">No lesson to review. Bravo!</p>`}</details>
-<details class="wd"${ok.length <= 6 ? " open" : ""}><summary class="wh ok">Revised <span>${ok.length}</span></summary>${ok.length ? `<ul class="wlist ok">${ok.map(li).join("")}</ul>` : `<p class="dnone">Not yet. Open a lesson above and practise it.</p>`}</details>`;
-    return `<div class="dsec" id="treview"><h2>Lessons to review this week</h2><span>${R.tests ? R.list.length : ""}</span></div>${body}`;
+<details class="wd"${ok.length <= 6 ? " open" : ""}><summary class="wh ok">Revised <span>${ok.length}</span></summary>${ok.length ? `<ul class="wlist ok">${ok.map(li).join("")}</ul>` : `<p class="dnone">Not yet. Open a lesson or a verb above and practise it.</p>`}</details>`;
+    return `<div class="dsec" id="treview"><h2>To review this week</h2><span>${R.tests ? all.length : ""}</span></div>${body}`;
 }
 function renderTests() {
     const T = testRecs(), W = testWeeks(8);
@@ -552,7 +564,7 @@ function endTest() {
     let DR = null;
     try {
         /* ls : bonnes réponses / questions de chaque leçon (liste « Lessons to review » de My weekly review, PO 03/11) */
-        DR = recordActivity("test-" + k, TQ.qs.length, P, null, Object.assign({ m: note }, k !== "irr" ? { ls: Object.fromEntries(Object.entries(byL).map(([id, b]) => [id, [b.ok, b.n]])) } : {}));
+        DR = recordActivity("test-" + k, TQ.qs.length, P, null, Object.assign({ m: note }, k !== "irr" ? { ls: Object.fromEntries(Object.entries(byL).map(([id, b]) => [id, [b.ok, b.n]])) } : { vs: Object.fromEntries(TQ.qs.map(q => [q.v, q.res === true ? 1 : 0])) }));
     }
     catch (e) {
     }
@@ -594,6 +606,12 @@ document.getElementById("testsbody").addEventListener("click", e => {
         stopSpeech();
         LFROM = "tests";
         openLesson(rv.dataset.lesson);
+        return;
+    }
+    const vb = e.target.closest("[data-rvverb]");
+    if (vb) {
+        stopSpeech();
+        openVerb(vb.dataset.rvverb, "tests");
         return;
     }
     const c = e.target.closest("[data-test]");
