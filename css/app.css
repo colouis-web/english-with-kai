@@ -321,6 +321,20 @@ html.emo-ok .emo{visibility:visible}html.emo-no .emo{display:none}
 .dday .rstats{margin-bottom:8px}
 .dban{display:flex;align-items:center;justify-content:center;gap:6px;margin:-2px 0 12px;padding:9px 12px;border-radius:14px;background:#fff6dc;font:700 15px/1.3 var(--claude);color:#8a5a00;text-align:center}
 .dban.ok{background:#ecfbf2;color:#177a42}
+/* My weekly review : leçons à revoir cette semaine (PO, 03/11) */
+.rvlist{display:grid;gap:10px;margin:0 0 14px}
+.rvl{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 14px;border:3px solid var(--ink);border-radius:18px;background:#fff;box-shadow:0 4px 0 var(--ink);text-align:left;color:var(--ink);cursor:pointer}
+.rvl:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.rvl:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.rvt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rvt i{font:700 12px var(--claude);font-style:normal;letter-spacing:.5px;text-transform:uppercase;color:var(--mut)}
+.rvt b{font:800 18px/1.15 var(--claude);overflow-wrap:anywhere}
+.rvt small{font:500 14px/1.3 var(--claude);color:#b3261e}
+.rvgo{display:inline-flex;align-items:center;gap:2px;flex:none;padding:6px 10px;border-radius:12px;background:var(--teal,#0b7f89);color:#fff;font:700 14px var(--claude);text-transform:uppercase}
+.rvgo svg{width:18px;height:18px}
+.rvl.done{border-color:#1f9d55;box-shadow:0 4px 0 #177a42;background:#ecfbf2}
+.rvl.done .rvt small{color:#177a42}
+.rvl.done>svg{flex:none;width:28px;height:28px}
 .dban svg,.dban img{width:24px;height:24px;flex:none;object-fit:contain}
 .confetti{position:fixed;inset:0;z-index:60;overflow:hidden;pointer-events:none}
 .confetti i{position:absolute;top:-16px;width:9px;height:15px;border-radius:2px;animation:fall 2.6s cubic-bezier(.25,.6,.45,1) forwards}

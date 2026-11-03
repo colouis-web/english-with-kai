@@ -271,6 +271,11 @@ document.getElementById("backL").addEventListener("click", () => {
         scrollTo(0, 0);
         return;
     }
+    if (LFROM === "tests") {   /* leçon ouverte depuis « Lessons to review » : retour à My weekly review */
+        LFROM = null;
+        openTests(true);
+        return;
+    }
     const ty = LESSONS[LES].type;
     renderLessonList(ty);
     show(ty === "conj" ? "conj" : "grammar", true);

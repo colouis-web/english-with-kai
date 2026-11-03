@@ -180,6 +180,36 @@ function updateTestTile() {
     const W = testWeeks(1), ks = Object.keys(TESTS).filter(k => W.tab[k][0]);
     t.textContent = ks.length ? `This week: ${ks.map(k => `${TSHORT[k]} ${n20(W.tab[k][0].avg)}/20`).join(" · ")}` : "One test a week: grammar, conjugation and irregular verbs";
 }
+/* leçons à revoir cette semaine (du lundi au dimanche) : pour chaque leçon, le dernier test où elle est tombée ;
+   elle est à revoir s'il y a eu une erreur, « revue » si l'élève a réussi son entraînement après ce test */
+function weekReview() {
+    const W0 = wkStart(todayKey()), last = {}, prac = {};
+    for (const [d, r] of Object.entries(DST.days)) {
+        if (d < W0)
+            continue;
+        for (const q of (r && r.qs) || []) {
+            if (isTest(q) && q.ls)
+                for (const [id, [ok, n]] of Object.entries(q.ls))
+                    if (LESSONS[id] && (!last[id] || q.t > last[id].t))
+                        last[id] = { ok, n, t: q.t, kind: q.k.slice(5) };
+            if (isLesson(q) && q.p >= PASS) {
+                const id = q.k.slice(7);
+                prac[id] = Math.max(prac[id] || 0, q.t);
+            }
+        }
+    }
+    const tests = Object.values(DST.days).some(r => r && r.d >= W0 && (r.qs || []).some(q => isTest(q) && q.ls));
+    const list = Object.entries(last).filter(([, v]) => v.ok < v.n).map(([id, v]) => Object.assign({ id, done: (prac[id] || 0) > v.t }, v));
+    list.sort((a, b) => a.done - b.done || a.ok / a.n - b.ok / b.n || b.t - a.t);
+    return { tests, list };
+}
+function reviewHtml() {
+    const R = weekReview(), todo = R.list.filter(x => !x.done).length;
+    const body = !R.tests ? `<p class="dnone">No test this week yet. After a grammar or conjugation test, the lessons with mistakes will appear here.</p>`
+        : !R.list.length ? `<p class="dban ok">${CHECK}No lesson to review this week. Bravo!</p>`
+        : `<div class="rvlist">${R.list.map(x => `<button class="rvl${x.done ? " done" : ""}" type="button" data-lesson="${x.id}"><span class="rvt"><i>${LESSONS[x.id].type === "conj" ? "Conjugation" : "Grammar"}</i><b>${esc(LESSONS[x.id].title)}</b><small>${x.done ? "Revised after the test. Well done!" : `${x.ok}/${x.n} good answers in the test`}</small></span>${x.done ? CHECK : `<span class="rvgo">Review${GOSVG}</span>`}</button>`).join("")}</div>`;
+    return `<div class="dsec" id="treview"><h2>Lessons to review this week</h2><span>${R.list.length ? `${todo}` : ""}</span></div>${body}`;
+}
 function renderTests() {
     const T = testRecs(), W = testWeeks(8);
     document.getElementById("testsbody").innerHTML = `<div class="qhead">${headSvg("Let's *test* your English!", "smile")}</div>
@@ -190,6 +220,7 @@ function renderTests() {
         const X = TESTS[k], r = T[k], sv = tLoad(k);
         return `<button class="tcard${r ? " done" : ""}${sv ? " paused" : ""}" data-test="${k}"><span class="tci">${X.ic}</span><span class="tct"><b>${X.title}</b><small>${X.sub}</small>${sv ? `<em class="tpause">Not finished · ${tDone(sv)}/${sv.qs.length} answered</em>` : ""}<em>${r ? `Last ${n20(r.last)}/20 · best ${n20(r.best)}/20 · ${r.n} time${r.n > 1 ? "s" : ""}` : "Not done yet"}</em></span><span class="tgo${sv ? " res" : ""}">${sv ? "Resume" : r ? "Again" : "Start"}${ARROW(1)}</span></button>`;
     }).join("")}</div>
+${reviewHtml()}
 <p class="tnote">Each test gives a mark out of 20. Your average is calculated for each test, week by week (Monday to Sunday): you can take a test several times. If you stop before the end, your answers are saved and you can finish the test later. Questions marked <b>Type your answer</b> are not a quiz: write the answer yourself. The tense, the verb and the form (negative or question) are given each time.</p>`;
 }
 function openTests(back) {
@@ -508,16 +539,6 @@ function endTest() {
     }
     catch (e) {
     }
-    let DR = null;
-    try {
-        DR = recordActivity("test-" + k, TQ.qs.length, P, null, { m: note });
-    }
-    catch (e) {
-    }
-    updateTestTile();
-    TQ.done = true;
-    tClear(k);
-    const ws = weekStat(k, testWeeks(8));
     const byL = {};
     if (k !== "irr")
         TQ.qs.forEach(q => {
@@ -526,6 +547,17 @@ function endTest() {
             if (q.res)
                 b.ok++;
         });
+    let DR = null;
+    try {
+        /* ls : bonnes réponses / questions de chaque leçon (liste « Lessons to review » de My weekly review, PO 03/11) */
+        DR = recordActivity("test-" + k, TQ.qs.length, P, null, Object.assign({ m: note }, k !== "irr" ? { ls: Object.fromEntries(Object.entries(byL).map(([id, b]) => [id, [b.ok, b.n]])) } : {}));
+    }
+    catch (e) {
+    }
+    updateTestTile();
+    TQ.done = true;
+    tClear(k);
+    const ws = weekStat(k, testWeeks(8));
     const weak = Object.keys(byL).filter(id => byL[id].ok < byL[id].n);
     const recap = TQ.qs.map(q => q.irr ? `<li class="${q.res === true ? "ok" : "ko"}"><span class="m">${q.res === true ? CHECK : CROSS}</span><b>${esc(q.v)} · ${esc(q.d.pt)} · ${esc(q.d.pp)}</b><i>${q.pts}/2${q.res !== true ? ` · you wrote: ${esc(q.your.join(", "))}` : ""}</i></li>`
         : `<li class="${q.res ? "ok" : "ko"}"><span class="m">${q.res ? CHECK : CROSS}</span><b>${esc(q.typed ? (q.q.includes("→") ? q.q.split("→").pop() : q.q).replace("___", q.a[0]).replace(/[“”"]/g, "").trim() : fullSent(q))}</b><i>${q.res ? "" : `${q.typed ? "you wrote" : "you chose"}: ${esc(optLab(q.your || ""))}`}</i></li>`).join("");
@@ -555,6 +587,13 @@ ${weak.length ? `<div class="dsec"><h2>To review</h2><span>${weak.length}</span>
 document.getElementById("toTests").addEventListener("click", () => openTests());
 document.getElementById("backTs").addEventListener("click", () => show("menu", true));
 document.getElementById("testsbody").addEventListener("click", e => {
+    const rv = e.target.closest("[data-lesson]");
+    if (rv) {
+        stopSpeech();
+        LFROM = "tests";
+        openLesson(rv.dataset.lesson);
+        return;
+    }
     const c = e.target.closest("[data-test]");
     if (c) {
         stopSpeech();
