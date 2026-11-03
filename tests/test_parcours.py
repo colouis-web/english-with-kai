@@ -391,8 +391,8 @@ def s02_creation_profil(P):
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
     P.check("Le menu accueille l'élève par son prénom", "Welcome Léa Dupont!" in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
-    P.check("Les tuiles du menu sont là (Words, Grammar et Conjugation sont rangées dans « Let's learn English »)",
-            all(P.visible(f"#{t}") for t in ("toDaily", "toCerts", "toLearn", "toTests", "toTY")) and not P.visible("#toWords"))
+    P.check("Les tuiles du menu sont là (Words au menu, Grammar et Conjugation rangées dans « Let's learn English »)",
+            all(P.visible(f"#{t}") for t in ("toDaily", "toCerts", "toWords", "toLearn", "toTests", "toTY")) and not P.visible("#toGrammar"))
     P.no_overflow("menu")
 
 
@@ -445,7 +445,7 @@ def s04_vocabulaire(P):
     p = P.page
     P.click("#toWords")
     P.on("words")
-    P.check("« Words » : 8 familles de mots proposées (tuiles)", p.locator("#wtiles .tile").count() == 9, p.locator("#wtiles .tile").count())
+    P.check("« Words » : le Quiz et les 9 familles de mots (tuiles)", p.locator("#wtiles .tile").count() == 10 and P.visible("#toQuizzes"), p.locator("#wtiles .tile").count())
     P.no_overflow("Words")
     p.locator("#wq").fill("go")
     P.check("Recherche « go » : compteur « words found »", "words found" in P.text("#wcount"), P.text("#wcount"))
@@ -683,7 +683,10 @@ def s08_quiz(P):
     p = P.page
     P.click("#toTY")
     P.on("ty")
-    P.check("« Test yourself » : 4 tuiles", all(P.visible(f"#{t}") for t in ("toT6", "toQuizzes", "toDIY", "toTalk")))
+    P.check("« Test yourself » : 3 tuiles (le Quiz est rangé dans Words)", all(P.visible(f"#{t}") for t in ("toT6", "toDIY", "toTalk")) and not P.visible("#toQuizzes"))
+    P.back("menu")
+    P.click("#toWords")
+    P.on("words")
     P.click("#toQuizzes")
     P.on("quizzes")
     P.check("Quiz : 6 types de mots + dictée + phrasal verbs + idioms",
@@ -1032,9 +1035,10 @@ def s12_code_parent(P):
 def s13_navigation(P):
     p = P.page
     # (tuile, page ouverte, page où ramène le bouton Retour)
-    parcours = [("menu", [("toDaily", "daily"), ("toLearn", "learn"), ("toTests", "tests"), ("toTY", "ty")]),
-                ("learn", [("toWords", "words"), ("toGrammar", "grammar"), ("toConj", "conj")]),
-                ("ty", [("toT6", "t6"), ("toQuizzes", "quizzes"), ("toDIY", "diy"), ("toTalk", "talk")]),
+    parcours = [("menu", [("toDaily", "daily"), ("toWords", "words"), ("toLearn", "learn"), ("toTests", "tests"), ("toTY", "ty")]),
+                ("learn", [("toGrammar", "grammar"), ("toConj", "conj")]),
+                ("words", [("toQuizzes", "quizzes")]),
+                ("ty", [("toT6", "t6"), ("toDIY", "diy"), ("toTalk", "talk")]),
                 ("quizzes", [("toQV", "quiz"), ("toQN", "quiz"), ("toQJ", "quiz"), ("toQA", "quiz"), ("toQC", "quiz"), ("toQP", "quiz"), ("toQPh", "quiz"), ("toQI", "quiz")])]
     for parent, tuiles in parcours:
         if parent != "menu":

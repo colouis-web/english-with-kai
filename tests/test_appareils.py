@@ -301,6 +301,8 @@ def ecrans_eleve(P, M):
     page_de("toTests", "tests", "mes-tests")
     P.back("menu")
     page_de("toTY", "ty", "test-yourself")
+    P.back("menu")
+    P.click("#toWords"); P.on("words")
     P.click("#toQuizzes"); P.on("quizzes"); mesurer(p, M, "quiz-liste")
     P.click("#toQV"); P.on("quiz"); mesurer(p, M, "quiz-themes")
     P.click('.seg [data-n="5"]')

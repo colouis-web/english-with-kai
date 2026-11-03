@@ -21,11 +21,11 @@ document.getElementById("toAdj").addEventListener("click", () => {
 });
 document.getElementById("toWords").addEventListener("click", () => show("words"));
 document.getElementById("toQuizzes").addEventListener("click", () => show("quizzes"));
-document.getElementById("backW").addEventListener("click", () => show("learn", true));
+document.getElementById("backW").addEventListener("click", () => show("menu", true));
 /* v2 (PO, 03/11) : « Let's learn English » regroupe Words, Grammar et Conjugation */
 document.getElementById("toLearn").addEventListener("click", () => show("learn"));
 document.getElementById("backLe").addEventListener("click", () => show("menu", true));
-document.getElementById("backZ").addEventListener("click", () => show("ty", true));
+document.getElementById("backZ").addEventListener("click", () => show("words", true));
 document.getElementById("backC").addEventListener("click", () => show("words", true));
 bubbles.forEach(b => {
     const go = () => speak([+b.dataset.i]);
