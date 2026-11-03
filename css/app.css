@@ -1166,3 +1166,13 @@ html:has(.page.gm.on),body:has(.page.gm.on){background:#12111f}
 html.ts-l .page.gm #toDaily{grid-template-columns:80px minmax(0,1fr) 46px}
 html.ts-xl .page.gm #toDaily{grid-template-columns:64px minmax(0,1fr) 44px}
 .page.gm .tile .gmring{color:var(--n)}
+/* v2 (PO, 03/11) : le contour néon tourne dans le sens des aiguilles d'une montre — une traînée de lumière fait le tour de la tuile.
+   L'angle --gma est animé de 0 à 360° (conic-gradient tourne dans le sens horaire) ; chaque tuile part décalée.
+   Navigateur sans @property ou color-mix : contour néon fixe (règle de base au-dessus). Mouvement réduit demandé : contour fixe. */
+@property --gma{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes gmspin{to{--gma:360deg}}
+@supports (background:conic-gradient(from 0deg,red,blue)) and (color:color-mix(in srgb,red 50%,blue)){
+  .page.gm .tile{border-color:transparent;background:linear-gradient(#1e1c33,#1e1c33) padding-box,conic-gradient(from var(--gma),color-mix(in srgb,var(--n) 28%,transparent) 0deg,color-mix(in srgb,var(--n) 28%,transparent) 220deg,var(--n) 330deg,#fff 352deg,color-mix(in srgb,var(--n) 28%,transparent) 360deg) border-box;animation:gmspin 3.6s linear infinite}
+  .page.gm .tiles>.tile:nth-child(5n+2){animation-delay:-.7s}.page.gm .tiles>.tile:nth-child(5n+3){animation-delay:-1.4s}.page.gm .tiles>.tile:nth-child(5n+4){animation-delay:-2.1s}.page.gm .tiles>.tile:nth-child(5n){animation-delay:-2.8s}
+}
+@media (prefers-reduced-motion:reduce){.page.gm .tile{animation:none}}
