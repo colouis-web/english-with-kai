@@ -21,11 +21,16 @@ const scene = f => f ? `<img class="scene${SCUT.has(f) ? " cut" : ""}" src="img/
 function body(d) {
     return `${scene(SCN.v[d.v])}<p class="pron">/${d.ipa}/ · « ${esc(d.pr)} »</p>
 <div class="forms"><div><i>Base</i><b${longCls(d.v)}>${d.v}</b></div><div><i>Past simple</i><b${longCls(d.pt)}>${d.pt}</b></div><div><i>Past participle</i><b${longCls(d.pp)}>${d.pp}</b></div></div>
-<div class="exs">${d.ex.map(([en, fr]) => `<div class="ex"><button class="snd sm" data-say="${esc(plain(en))}" aria-label="Listen to the example">${SPK}</button><div><p class="en">${hl(en)}</p><p class="fr">${hl(fr)}</p></div></div>`).join("")}</div>`;
+<div class="exs">${d.ex.map(exHtml).join("")}</div>${d.alt ? altHtml(d) : ""}`;
 }
+const exHtml = ([en, fr]) => `<div class="ex"><button class="snd sm" data-say="${esc(plain(en))}" aria-label="Listen to the example">${SPK}</button><div><p class="en">${hl(en)}</p><p class="fr">${hl(fr)}</p></div></div>`;
+/* Même verbe écrit pareil, autre sens et autres formes (lie = s'allonger / lie = mentir), PO 03/11 */
+const altHtml = d => `<div class="valt"><p class="valth"><b>to ${d.v}</b> = ${esc(d.alt.fr)} <span>${d.alt.pt === d.alt.pp && /ed$/.test(d.alt.pt) ? "regular" : "irregular"}</span></p>
+<div class="forms"><div><i>Base</i><b>${d.v}</b></div><div><i>Past simple</i><b>${d.alt.pt}</b></div><div><i>Past participle</i><b>${d.alt.pp}</b></div></div>
+<div class="exs">${d.alt.ex.map(exHtml).join("")}</div></div>`;
 function card(d, open) {
     const to = d.modal ? "" : "to ", sz = d.v.length > 9 ? "xl" : d.v.length > 7 ? "lg" : "";
-    return `<article class="vcard${open ? "" : " mini"}"><div class="vh"><button class="snd" data-say="${to}${d.v}" aria-label="Listen: ${to}${d.v}">${SPK}</button><div class="w"><h3 class="${sz}">${d.modal ? "" : "<small>to</small>"}${d.v}</h3><p class="tr">${esc(d.fr)}</p>${useLine("verbs", d)}</div><div class="side"><span class="tag ${d.modal ? "mod" : d.irr ? "" : "reg"}">${d.modal ? "Modal" : d.irr ? "Irregular" : "Regular"}</span><button class="tgl" data-tgl="${d.v}" aria-expanded="${open}" aria-label="${open ? "Hide" : "Show"} details: ${to}${d.v}">${PM}</button></div></div>
+    return `<article class="vcard${open ? "" : " mini"}"><div class="vh"><button class="snd" data-say="${to}${d.v}" aria-label="Listen: ${to}${d.v}">${SPK}</button><div class="w"><h3 class="${sz}">${d.modal ? "" : "<small>to</small>"}${d.v}</h3><p class="tr">${esc(d.fr)}${d.alt ? ` · ${esc(d.alt.fr)}` : ""}</p>${useLine("verbs", d)}</div><div class="side"><span class="tag ${d.modal ? "mod" : d.irr ? "" : "reg"}">${d.modal ? "Modal" : d.irr ? "Irregular" : "Regular"}</span><button class="tgl" data-tgl="${d.v}" aria-expanded="${open}" aria-label="${open ? "Hide" : "Show"} details: ${to}${d.v}">${PM}</button></div></div>
 <div class="vbody"${open ? "" : " inert"}><div>${open ? body(d) : ""}</div></div></article>`;
 }
 /* thèmes des verbes (js/data/verbes-themes.js, PO 03/11) : mêmes puces que les noms */
