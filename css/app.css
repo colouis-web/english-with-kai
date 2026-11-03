@@ -1342,9 +1342,9 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 @keyframes tubeglow{
   from{opacity:.45;filter:drop-shadow(0 0 2px var(--c))}
   to{opacity:1;filter:brightness(1.35) drop-shadow(0 0 7px var(--c)) drop-shadow(0 0 20px var(--c))}}
-#home.gm .tubes i:nth-child(1){left:7%;top:26%;height:56%}
-#home.gm .tubes i:nth-child(2){--c:#a78bfa;left:27%;top:8%;height:66%;animation-delay:-1.1s}
-#home.gm .tubes i:nth-child(3){--c:#a3e635;left:48%;top:40%;height:50%;animation-delay:-2.2s}
-#home.gm .tubes i:nth-child(4){--c:#f472b6;left:69%;top:12%;height:68%;animation-delay:-.5s}
-#home.gm .tubes i:nth-child(5){--c:#fbbf24;left:91%;top:32%;height:54%;animation-delay:-1.7s}
+#home.gm .tubes i:nth-child(1){left:22%;top:26%;height:56%}
+#home.gm .tubes i:nth-child(2){--c:#a78bfa;left:36%;top:8%;height:66%;animation-delay:-1.1s}
+#home.gm .tubes i:nth-child(3){--c:#a3e635;left:50%;top:40%;height:50%;animation-delay:-2.2s}
+#home.gm .tubes i:nth-child(4){--c:#f472b6;left:64%;top:12%;height:68%;animation-delay:-.5s}
+#home.gm .tubes i:nth-child(5){--c:#fbbf24;left:78%;top:32%;height:54%;animation-delay:-1.7s}
 @media (prefers-reduced-motion:reduce){#home.gm .tubes i{animation:none;opacity:.9;filter:drop-shadow(0 0 6px var(--c)) drop-shadow(0 0 14px var(--c))}}
