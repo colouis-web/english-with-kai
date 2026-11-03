@@ -612,7 +612,8 @@ function goalCard(r) {
 function weekTiles() {
     return `<div class="wtiles">${["grammar", "conj"].map(type => {
         const wk = weekLesson(type), id = wk ? wk.id : suggestLesson(type), L = LESSONS[id];
-        return `<button class="wtile${wk ? " done" : ""}" data-wl="${id}"><span class="wtt">${type === "grammar" ? "Grammar" : "Conjugation"}</span><b>${esc(L.title)}</b><small>${wk ? `Done · ${wk.p}%` : lessonState(id) === "try" ? `Best ${lessonBest(id)}% · ${PASS}% to pass` : "1 lesson this week"}</small>${wk ? `<span class="gok">${CHECK}</span>` : `<span class="ggo">Go${ARROW(1)}</span>`}</button>`;
+        /* PO 03/11 : plus de « 1 lesson this week » ; GO (ou la coche) centré à droite, le score en dessous */
+        return `<button class="wtile${wk ? " done" : ""}" data-wl="${id}" aria-label="${type === "grammar" ? "Grammar" : "Conjugation"} lesson of the week: ${esc(L.title)}${wk ? `, done, ${wk.p}%` : ""}"><span class="wtx"><span class="wtt">${type === "grammar" ? "Grammar" : "Conjugation"}</span><b>${esc(L.title)}</b></span><span class="wgo">${wk ? `<span class="gok">${CHECK}</span><small>${wk.p}%</small>` : `<span class="ggo">Go${ARROW(1)}</span>${lessonState(id) === "try" ? `<small>Best ${lessonBest(id)}%</small>` : ""}`}</span></button>`;
     }).join("")}</div>`;
 }
 function levelCard() {
