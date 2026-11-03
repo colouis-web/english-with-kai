@@ -391,7 +391,7 @@ def run(args, base, browser, bilan, collector):
     bilan.check("DN-65", f"Chaque police locale déclarée par @font-face ({len(polices)}) existe", not manque, premiers(manque))
     n = page.evaluate("() => ({ verbes: DICT.length, irr: IRR100.length, phr: PHR.data.length, idi: IDI.data.length, conj: LORDER.conj.length, gram: LORDER.grammar.length, "
                       "noms: NDICT.length, adj: ADJ.data.length, adv: ADV.data.length, con: CON.data.length, prep: PREP.data.length })")
-    bilan.note("DN-66", "Compteurs réels (le README annonce 13 leçons de conjugaison, 19 de grammaire, 100 verbes irréguliers, 44 phrasal verbs, 27 expressions)", json.dumps(n))
+    bilan.note("DN-66", "Compteurs réels (le README annonce 16 leçons de conjugaison, 21 de grammaire, 100 verbes irréguliers, 44 phrasal verbs, 27 expressions)", json.dumps(n))
 
     erreurs = collector.errors
     bilan.check("DN-99", "Aucune erreur console / requête en échec pendant le chargement et l'analyse", not erreurs, premiers(erreurs))

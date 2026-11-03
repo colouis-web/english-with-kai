@@ -667,7 +667,7 @@ ${kaiBubble(`${enc}${askLine(q)}`, "head", "cask")}
         else if (ren)
             tail = `<p class="cnote2">Your ${esc(title)} certificate is now <b>in review</b>: its words come back in your words of the day. Take the full test to win it back.</p>`;
         else
-            tail = `<p class="cnote2"><b>Try again tomorrow.</b> Look at your mistakes now, and your words will come back in your daily work.</p>${rec.keep ? `<p class="cnote2">Your ${esc(title)} certificate is still valid. Nothing is lost!</p>` : ""}`;
+            tail = `<p class="cnote2"><b>Try again tomorrow.</b> Look at your mistakes now, and these words will come back in your next rounds.</p>${rec.keep ? `<p class="cnote2">Your ${esc(title)} certificate is still valid. Nothing is lost!</p>` : ""}`;
         const frLine = young() ? (pass ? `<p class="cfr" lang="fr">Bravo ! Le badge est daté et valable jusqu'au ${fmtDateFr(rec.expires)}.</p>` : ren ? "" : `<p class="cfr" lang="fr">Pas encore : il fallait ${rec.need} bonnes réponses. Tu pourras réessayer demain.</p>`) : "";
         body().innerHTML = `<div class="cres${pass ? " pass" : ""}">${kaiBubble(say, pass ? "joy" : "head")}
 <div class="cscore"><b>${rec.good}<i>/${rec.n}</i></b><span>${pass ? "Passed" : "Pass mark"} ${rec.need}/${rec.n}</span></div>
@@ -808,7 +808,7 @@ ${seeing ? `<div class="canswer" aria-live="polite"><span>The answer</span><p>${
         PHASE = "res";
         body().innerHTML = `${kaiBubble("All fixed! You wrote every answer again. <b>Great work!</b>", "joy")}
 <div class="cscore"><b>${words.length}<i> word${words.length === 1 ? "" : "s"}</i></b><span>fixed</span></div>
-<p class="menote">Your score did not change. These words will come back in your daily work to help you remember them.${young() ? ` ${frSmall("Ta note ne change pas. Ces mots reviendront dans ton travail du jour.")}` : ""}</p>
+<p class="menote">Your score did not change. These words will come back in your next rounds to help you remember them.${young() ? ` ${frSmall("Ta note ne change pas. Ces mots reviendront dans ton travail du jour.")}` : ""}</p>
 <div class="crow"><button class="listen" id="cdone" type="button">Back to certificates</button></div>`;
         runClear(R.pid);
         RUN.phase = "closed";

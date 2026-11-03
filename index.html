@@ -27,8 +27,8 @@
 <div class="top"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Menu</h1><button class="me" id="toMe" aria-label="My profile and Kai's voice"><span id="meIni">?</span></button></div>
 <div class="mhead" id="mhead"></div>
 <div class="tiles">
-<button class="tile wide panel" id="toDaily"><div class="pic"><img src="img/kai-school.webp" alt="Kai qui va à l'école"></div><div><b>My daily work</b><span>Your words of the day</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-<button class="tile wide cert" id="toCerts"><div class="pic"><img src="img/rw-medal.webp" alt="" width="200" height="200"></div><div><b>Certificates<em class="cpill" id="certpill" hidden></em></b><span id="certsum">Prove what you know: take a certificate</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="tile wide panel" id="toDaily"><div class="pic"><img src="img/kai-school.webp" alt="Kai qui va à l'école"></div><div><b>My work</b><span>Your words of the day</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="tile wide cert" id="toCerts"><div class="pic"><img src="img/kai-diploma.webp" alt="Kai qui reçoit son diplôme" width="282" height="374"></div><div><b>Certificates<em class="cpill" id="certpill" hidden></em></b><span id="certsum">Prove what you know: take a certificate</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="tile wide" id="toWords"><div class="pic"><img src="img/kai-read.webp" alt="Kai qui lit un livre"></div><div><b>Words</b><span>Verbs, nouns, adjectives, adverbs, connectors, prepositions</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="tile wide panel" id="toGrammar"><div class="pic"><img src="img/kai-study.webp" alt="Kai qui étudie à son bureau"></div><div><b>Grammar</b><span>Articles, sentence order…</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="tile wide panel" id="toConj"><div class="pic"><img src="img/sc-write.webp" alt="Kai qui écrit dans son cahier"></div><div><b>Conjugation</b><span>Be, have and 11 tenses</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -69,7 +69,7 @@
 <div id="lessonbody"></div>
 </main>
 <main class="page" id="daily">
-<div class="top"><button class="back" id="backD" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>My daily work</h1><span></span></div>
+<div class="top"><button class="back" id="backD" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>My work</h1><span></span></div>
 <div id="dailybody"></div>
 </main>
 <main class="page" id="certs">
@@ -124,6 +124,7 @@
 <main class="page" id="verbs">
 <div class="top"><button class="back" id="backV" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Verbs</h1><span></span></div>
 <label class="search" id="searchBox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="q" type="search" placeholder="Search a verb…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search a verb in French or in English"><button class="clr" id="clr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
+<div class="chips" id="vchips"></div>
 <p class="count" id="count"></p>
 <div class="vlist" id="vlist"></div>
 </main>
@@ -218,6 +219,7 @@
 <script src="js/app-voix-menu.js"></script>
 <script src="js/data/dict.js"></script>
 <script src="js/data/enrichissement-2026-10-30-verbes.js"></script>
+<script src="js/data/verbes-themes.js"></script>
 <script src="js/app-verbes.js"></script>
 <script src="js/app-quiz.js"></script>
 <script src="js/app-daily.js"></script>
@@ -239,6 +241,8 @@
 <script src="js/data/frt.js"></script>
 <script src="js/app-traduction-fr.js"></script>
 <script src="js/data/ttype.js"></script>
+<script src="js/data/lecons-6e-2026-11-03.js"></script>
+<script src="js/data/lecons-college-2026-11-03.js"></script>
 <script src="js/app-tests.js"></script>
 <script src="js/app-words.js"></script>
 <script src="js/app-talk-traduction.js"></script>

@@ -189,13 +189,13 @@ def generer_reference(P):
     p.locator("#nameform .listen").click()
     wait_page(p, "menu")
     tour()
-    # J2 dimanche 25 : humeur « Tired », tour avec 3 erreurs (objectif non atteint)
+    # J2 dimanche 25 : tour avec 3 erreurs (objectif non atteint), puis humeur « Tired » (PO 03/11 : l'humeur se donne après le travail)
     aller(jours[1])
+    tour(wrong_n=3)
     P.to_menu()
     P.click("#toDaily")
     P.on("daily")
     P.click('[data-mood="tired"]')
-    tour(wrong_n=3)
     # J3 lundi 26 : tour parfait + leçon be à 90 %
     aller(jours[2])
     tour()
@@ -396,7 +396,10 @@ def bloc_reference(args, base, browser, bilan, collector, ck, ref):
                        ("semaines_tests", "moyennes de tests par semaine"), ("memoire_mots", "mémoire des mots (répétition espacée)"),
                        ("stats_profil", "ligne « niveau · rang · étoiles » de l'élève"), ("meilleures_lecons", "meilleur score de chaque leçon"),
                        ("nb_par_quiz", "nombre de mots par quiz choisi"), ("vitesse", "vitesse de la voix choisie"), ("voix_enregistree", "choix « voix de Kai / voix du téléphone »")):
-        ck(f"PE-24 {cle}", got["app"][cle] == att["app"][cle], premiere_difference(att["app"][cle], got["app"][cle], cle))
+        g = got["app"][cle]
+        if cle == "meilleures_lecons" and isinstance(g, dict):   # une leçon AJOUTÉE depuis la référence, jamais faite (None), n'est pas une régression
+            g = {k: v for k, v in g.items() if k in att["app"][cle] or v is not None}
+        ck(f"PE-24 {cle}", g == att["app"][cle], premiere_difference(att["app"][cle], g, cle))
     # Depuis S-05, les titres ne sont plus forcés en MAJUSCULES : on compare le texte sans tenir compte de la casse ni des espaces
     _n = lambda t: re.sub(r"\s+", "", str(t)).lower()
     for cle in att["rendus"]:

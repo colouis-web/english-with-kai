@@ -1,6 +1,6 @@
 /* Code — tranche de l'ancien index.html (lignes 1868–1885). Script classique : l'ordre des <script> compte. */
 "use strict";
-const LORDER = { conj: ["be", "have", "psimple", "pcont", "imperative", "past", "pastcont", "pperf", "ppcont", "future", "futperf", "cond", "condperf"], grammar: ["articles", "plurals", "pronouns", "possessive", "demonstr", "questions", "negative", "order", "prepos", "genitive", "comparat", "superlat", "adverbs", "reflexive", "modals", "on", "relative", "passive", "reported"] };
+const LORDER = { conj: ["be", "have", "psimple", "pcont", "imperative", "past", "pastcont", "usedto", "pperf", "ppcont", "pastperf", "future", "iffirst", "futperf", "cond", "condperf"], grammar: ["articles", "plurals", "pronouns", "possessive", "demonstr", "questions", "negative", "likeing", "order", "prepos", "time", "genitive", "comparat", "superlat", "adverbs", "reflexive", "modals", "on", "relative", "passive", "reported"] };
 let LES = null, LQ = null;
 const exRow = (en, fr) => `<div class="ex"><button class="snd sm" data-say="${esc(plain(en))}" aria-label="Listen">${SPK}</button><div><p class="en">${hl(en)}</p><p class="fr">${hl(fr)}</p></div></div>`;
 function lessonBest(id) {

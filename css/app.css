@@ -154,11 +154,9 @@ body.navlock .page{pointer-events:none}
 .chips{display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;margin:12px -16px 0;padding:2px 16px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.chips::-webkit-scrollbar{display:none}.chip{flex:none}
 .chip{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px;border:2px solid var(--ink);border-radius:99px;background:#fff;color:var(--ink);font:700 14px var(--claude);letter-spacing:.5px;text-transform:uppercase;cursor:pointer}
 .chip i{font-style:normal;font-weight:500;color:var(--mut)}
-.chip.on{background:var(--ink);color:#fff}.chip.on i{color:#c9cbe0}
+.chip.on{background:var(--ink);color:#fff}.chip.on i{color:#c9cbe0}.chip.on .emo{color:#fff}
 .chip:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
 /* R3 : « All themes » reste collée à gauche de la rangée ; un thème choisi porte une coche (l'état ne dépend pas de la couleur seule) */
-.chip[data-cat="all"]{position:sticky;left:16px;z-index:1;box-shadow:8px 0 8px -6px rgba(29,27,46,.28)}
-.chip.on:not([data-cat="all"])::before{content:"\2713";font-weight:800;margin-right:-2px}
 .emo{font-family:"Noto Emoji";font-variant-emoji:text;font-weight:500;color:var(--ink);visibility:hidden}
 html.emo-ok .emo{visibility:visible}html.emo-no .emo{display:none}
 .vh .emo{font-size:27px}
@@ -927,9 +925,8 @@ html.ts-xl{--zf:1.25;zoom:var(--zf);--bfs:25px}
   html.ts-xl .tcard .tgo{grid-column:2;justify-self:start}
   html.ts-xl .tci{width:40px;height:40px}
 }
-/* R3 : une puce choisie qui défile n'est jamais cachée sous « All themes » (collée à gauche) */
-.chip{scroll-margin-left:170px;scroll-margin-right:16px}
-.chip[data-cat="all"]{scroll-margin-left:0}
+/* R3 : une puce choisie qui défile reste entièrement visible (marge de défilement) */
+.chip{scroll-margin-left:16px;scroll-margin-right:16px}
 /* R2 : cadrage des images sur petits écrans (iPhone SE 375×667, mini 375×812, 360–430 px)
    — « Let's talk » : l'image entière (plus de recadrage carré qui coupe les têtes), hauteur plafonnée à ~46 % de l'écran visible ;
    — « Congrats! » et « See you tomorrow » : hauteurs relatives à l'écran visible (svh), le bouton reste toujours atteignable ;

@@ -3,11 +3,12 @@
 /* ===== MY DAILY WORK : niveaux, mots du jour, leçons de la semaine, récompenses, calendrier ===== */
 let DAILY = false, DTAB = "today", CALM = 0, CSEL = null, MOODEDIT = false, LVUP = null;
 const KSHORT = { verbs: "verb", nouns: "noun", adjectives: "adj.", adverbs: "adv.", connectors: "conn.", prepositions: "prep." };
-const MOODS = [{ id: "great", img: "smile", en: "Great", fr: "Super", say: "Great! Let's *learn* together!" },
-    { id: "good", img: "face", en: "Good", fr: "Bien", say: "Cool! Ready for your *words*?" },
-    { id: "okay", img: "head", en: "OK", fr: "Ça va", say: "OK! Ten words at a time: *easy*!" },
-    { id: "tired", img: "bored", en: "Tired", fr: "Fatigué", say: "Tired? Just a few *words*, you can do it!" },
-    { id: "grumpy", img: "grumpy", en: "Grumpy", fr: "Grognon", say: "Grumpy? A good *score* will help!" },
+/* humeur demandée APRÈS le travail du jour (PO, 03/11) : « How did you feel today? » ; Kai répond sur la journée */
+const MOODS = [{ id: "great", img: "smile", en: "Great", fr: "Super", say: "Great! What a *good* day!" },
+    { id: "good", img: "face", en: "Good", fr: "Bien", say: "Cool! You did *well* today!" },
+    { id: "okay", img: "head", en: "OK", fr: "Ça va", say: "OK! Every day *counts*!" },
+    { id: "tired", img: "bored", en: "Tired", fr: "Fatigué", say: "Tired? You worked *hard*. Have a rest!" },
+    { id: "grumpy", img: "grumpy", en: "Grumpy", fr: "Grognon", say: "Grumpy? Tomorrow will be *better*!" },
     { id: "sad", img: "cry", en: "Sad", fr: "Triste", say: "Sad? I'm *here* with you!" }];
 /* niveaux de l'élève : mots par jour (dont des mots à revoir), et ce qu'il faut pour passer au niveau suivant */
 const LV = [{ id: "beginner", name: "Beginner", fr: "Débutant", cefr: "A1", words: 10, rev: 3, req: null },
@@ -548,11 +549,11 @@ function wordLists(r, open) {
     return `<details class="wd"${open ? " open" : ""}><summary class="wh ko">To review <span>${ko.length}</span></summary>${ko.length ? `<ul class="wlist ko">${ko.map(li).join("")}</ul>` : `<p class="dnone">No mistakes. Bravo!</p>`}</details>
 <details class="wd"${open && ok.length <= 6 ? " open" : ""}><summary class="wh ok">Mastered <span>${ok.length}</span></summary>${ok.length ? `<ul class="wlist ok">${ok.map(li).join("")}</ul>` : `<p class="dnone">Not yet.</p>`}</details>`;
 }
-function moodBlock(r) {
+function moodBlock(r, ask) {
     const m = moodOf(r.mood);
     if (m && !MOODEDIT)
-        return `<div class="mymood"><img src="img/kai-${m.img}.webp" alt=""><div><i>Today I feel</i><b>${m.en}</b><small>${m.fr}</small></div><button class="ghost sm" id="dmoodchg">Change</button></div>`;
-    return `<div class="qhead">${headSvg("Hi! How do you *feel* today?", "head")}</div>
+        return `<div class="mymood"><img src="img/kai-${m.img}.webp" alt=""><div><i>Today I felt</i><b>${m.en}</b><small>${m.fr}</small></div><button class="ghost sm" id="dmoodchg">Change</button></div>`;
+    return `<div class="qhead">${headSvg(ask || "How did you *feel* today?", "head")}</div>
 <div class="moods" role="radiogroup" aria-label="My mood today">${MOODS.map(x => `<button class="mood${r.mood === x.id ? " on" : ""}" data-mood="${x.id}" role="radio" aria-checked="${r.mood === x.id}"><img src="img/kai-${x.img}.webp" alt=""><b>${x.en}</b><i>${x.fr}</i></button>`).join("")}</div>`;
 }
 function goalCard(r) {
@@ -628,7 +629,7 @@ function calendar() {
 ${dayDetail(CSEL)}`;
 }
 function renderDaily() {
-    const lvUp = checkLevelUp(), r = dToday(), body = document.getElementById("dailybody"), m = masteredOf(r), n = r.n || target(), done = dayDone(r), left = n - m, wk = ["grammar", "conj"].filter(t => weekLesson(t)).length;
+    const lvUp = checkLevelUp(), r = dToday(), body = document.getElementById("dailybody"), m = masteredOf(r), n = r.n || target(), done = dayDone(r), left = n - m, wk = ["grammar", "conj"].filter(t => weekLesson(t)).length, worked = done || m > 0 || (r.qs || []).length > 0 || !!r.mood;
     let h = `<div class="dtabs" role="tablist"><button role="tab" data-dtab="today" class="${DTAB === "today" ? "on" : ""}" aria-selected="${DTAB === "today"}">Today</button><button role="tab" data-dtab="cal" class="${DTAB === "cal" ? "on" : ""}" aria-selected="${DTAB === "cal"}">Calendar</button></div>`;
     if (DTAB === "cal") {
         body.innerHTML = h + calendar();
@@ -636,15 +637,16 @@ function renderDaily() {
     }
     h += `${LVUP !== null ? `<div class="lvup"><div class="dend">${kaiBig("joy", [["Level up!"], ["You are now"], [[LV[LVUP].name]]], "Level up! You are now " + LV[LVUP].name)}</div><p>New goal: <b>${LV[LVUP].words} words a day</b>. Bravo!</p></div>` : ""}
 <p class="ddate">${longDate(r.d)}</p>
-<div class="dsec"><h2>Today's goal</h2><span>${Math.min(m, n)}/${n}</span></div>${goalCard(r)}${moodBlock(r)}${memCard()}
+<div class="dsec"><h2>Today's goal</h2><span>${Math.min(m, n)}/${n}</span></div>${goalCard(r)}
 ${done ? `<button class="listen more" id="dmore">Other quizzes${GOSVG}</button>` : ""}
-<div class="dsec"><h2>This week</h2><span>${wk}/2</span></div>${weekTiles()}
-<div class="dsec"><h2>My level</h2></div>${levelCard()}
-<div class="dsec"><h2>My rewards</h2><button class="qhelp" type="button" data-help="rewards" aria-label="How do stars, trophies and medals work?">?</button></div>${rewards(r)}
-<div class="dsec"><h2>My week</h2></div>${weekChart()}
-<div class="dsec" id="dtests"><h2>My tests</h2><span>/20</span></div>${testProgress()}
+<div class="dsec"><h2>My day</h2></div>${worked ? moodBlock(r, done ? "All done! How did you *feel* today?" : `${left} word${left > 1 ? "s" : ""} to go! How did you *feel* today?`) : `<div class="qhead dlater">${headSvg("Hello! Start your words! Then tell me how you *felt*.", "head")}</div>`}
 <div class="dsec"><h2>Words of the day</h2><span>${wordsOf(r).length}</span></div>${wordLists(r, true)}
-<div class="dend">${done ? kaiBig("joy", [["All done!"], ["See you"], [["tomorrow!"]]], "All done! See you tomorrow!") : kaiBig("dyn", [["Keep going!"], [[String(left)], ` word${left > 1 ? "s" : ""}`], ["to go!"]], `Keep going! ${left} word${left > 1 ? "s" : ""} to go!`)}</div>`;
+<div class="dsec"><h2>My rewards</h2><button class="qhelp" type="button" data-help="rewards" aria-label="How do stars, trophies and medals work?">?</button></div>${rewards(r)}
+<div class="dsec"><h2>My weekly recap</h2></div>${weekChart()}
+<div class="dsec"><h2>My weekly lessons</h2><span>${wk}/2</span></div>${weekTiles()}
+<div class="dsec" id="dtests"><h2>My weekly tests</h2><span>/20</span></div>${testProgress()}
+${memCard()}
+<div class="dsec"><h2>My level</h2></div>${levelCard()}`;
     body.innerHTML = h;
     if (lvUp) {
         confetti();
