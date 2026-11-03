@@ -733,7 +733,7 @@ def s09_recompenses(P):
     P.check("Trophée du jour acquis (badge allumé)", p.locator("#dailybody .badge.on").count() >= 1)
     P.check("Graphique de la semaine : 7 jours, aujourd'hui souligné", p.locator("#dailybody .week .wk").count() == 7 and p.locator("#dailybody .wk.today").count() == 1)
     P.check("Mes notes : graphique des tests", p.locator("#dailybody .tchart svg").count() == 1 and p.locator("#dailybody .tk").count() == 3)
-    P.check("Cette semaine : 2 leçons sur 2", "2/2" in P.text("#dailybody .dsec:has(h2:text-is('This week')) span"), P.text("#dailybody .dsec:has(h2:text-is('This week'))"))
+    P.check("Cette semaine : 2 leçons sur 2", "2/2" in P.text("#dailybody .dsec:has(h2:text-is('My weekly lessons')) span"), P.text("#dailybody .dsec:has(h2:text-is('My weekly lessons'))"))
     P.no_overflow("My daily work complet")
     # aide « ? » : ouverture, focus, Échap, retour du focus
     help_btn = p.locator('#dailybody [data-help="rewards"]').first

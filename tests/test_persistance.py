@@ -396,7 +396,10 @@ def bloc_reference(args, base, browser, bilan, collector, ck, ref):
                        ("semaines_tests", "moyennes de tests par semaine"), ("memoire_mots", "mémoire des mots (répétition espacée)"),
                        ("stats_profil", "ligne « niveau · rang · étoiles » de l'élève"), ("meilleures_lecons", "meilleur score de chaque leçon"),
                        ("nb_par_quiz", "nombre de mots par quiz choisi"), ("vitesse", "vitesse de la voix choisie"), ("voix_enregistree", "choix « voix de Kai / voix du téléphone »")):
-        ck(f"PE-24 {cle}", got["app"][cle] == att["app"][cle], premiere_difference(att["app"][cle], got["app"][cle], cle))
+        g = got["app"][cle]
+        if cle == "meilleures_lecons" and isinstance(g, dict):   # une leçon AJOUTÉE depuis la référence, jamais faite (None), n'est pas une régression
+            g = {k: v for k, v in g.items() if k in att["app"][cle] or v is not None}
+        ck(f"PE-24 {cle}", g == att["app"][cle], premiere_difference(att["app"][cle], g, cle))
     # Depuis S-05, les titres ne sont plus forcés en MAJUSCULES : on compare le texte sans tenir compte de la casse ni des espaces
     _n = lambda t: re.sub(r"\s+", "", str(t)).lower()
     for cle in att["rendus"]:
