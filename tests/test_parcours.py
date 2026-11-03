@@ -138,6 +138,9 @@ class Parcours:
 
     def back(self, expected):
         self.page.locator(".page.on .back").first.click()
+        # v2 : Words, Grammar et Conjugation ramènent à « Let's learn English », puis au menu (deux flèches, comme un élève)
+        if expected == "menu" and current_page(self.page) == "learn":
+            self.page.locator(".page.on .back").first.click()
         self.on(expected)
 
     def to_menu(self):
