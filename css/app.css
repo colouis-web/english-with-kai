@@ -1327,3 +1327,5 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 #learnwk .wtile .gok .stamp{width:26px;height:26px}
 @media (max-width:389px){#learnwk .wtile b{font-size:14px;letter-spacing:0}}
 @media (max-width:359px){#learnwk .wtiles{grid-template-columns:1fr}#learnwk .wtile{min-height:64px}#learnwk .wtile b{font-size:15px}}
+/* Certificates masqué (PO 03/11) : la tuile reste dans le code mais n'est plus accessible */
+#toCerts[hidden]{display:none}

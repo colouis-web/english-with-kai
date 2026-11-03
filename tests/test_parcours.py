@@ -396,7 +396,7 @@ def s02_creation_profil(P):
     P.check("Le menu accueille l'élève par son prénom", "Welcome Léa Dupont!" in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
     P.check("Les tuiles du menu sont là (Words au menu, Grammar et Conjugation rangées dans « English lessons »)",
-            all(P.visible(f"#{t}") for t in ("toDaily", "toCerts", "toWords", "toLearn", "toTests", "toTY")) and not P.visible("#toGrammar"))
+            all(P.visible(f"#{t}") for t in ("toDaily", "toWords", "toLearn", "toTests", "toTY")) and not P.visible("#toGrammar") and not P.visible("#toCerts"))
     P.no_overflow("menu")
 
 
