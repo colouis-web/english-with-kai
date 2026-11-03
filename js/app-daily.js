@@ -542,6 +542,30 @@ function updateDailyTile() {
     }
     catch (e) {
     }
+    try {
+        updateLearnTile();
+    }
+    catch (e) {
+    }
+}
+/* « My weekly lessons » (PO, 03/11) : en haut de la page English lessons (style gamer), compteur 0/2 sur la tuile du menu */
+const weekDone = () => ["grammar", "conj"].filter(t => weekLesson(t)).length;
+function renderLearnWeek() {
+    const el = document.getElementById("learnwk");
+    if (!el)
+        return;
+    if (!curProf()) {
+        el.innerHTML = "";
+        return;
+    }
+    el.innerHTML = `<div class="dsec"><h2>My weekly lessons</h2><span>${weekDone()}/2</span></div>${weekTiles()}`;
+}
+function updateLearnTile() {
+    const ring = document.getElementById("lring");
+    if (!ring || !curProf())
+        return;
+    const k = weekDone();
+    ring.innerHTML = ringSvg(k, 2, `${k} of 2 lessons this week`);
 }
 /* --- icônes --- */
 const RW = (n, c) => `<img class="${c || "st"}" src="img/rw-${n}.webp" alt="">`;
@@ -588,7 +612,8 @@ function goalCard(r) {
 function weekTiles() {
     return `<div class="wtiles">${["grammar", "conj"].map(type => {
         const wk = weekLesson(type), id = wk ? wk.id : suggestLesson(type), L = LESSONS[id];
-        return `<button class="wtile${wk ? " done" : ""}" data-wl="${id}"><span class="wtt">${type === "grammar" ? "Grammar" : "Conjugation"}</span><b>${esc(L.title)}</b><small>${wk ? `Done · ${wk.p}%` : lessonState(id) === "try" ? `Best ${lessonBest(id)}% · ${PASS}% to pass` : "1 lesson this week"}</small>${wk ? `<span class="gok">${CHECK}</span>` : `<span class="ggo">Go${ARROW(1)}</span>`}</button>`;
+        /* PO 03/11 : plus de « 1 lesson this week » ; GO (ou la coche) centré à droite, le score en dessous */
+        return `<button class="wtile${wk ? " done" : ""}" data-wl="${id}" aria-label="${type === "grammar" ? "Grammar" : "Conjugation"} lesson of the week: ${esc(L.title)}${wk ? `, done, ${wk.p}%` : ""}"><span class="wtx"><span class="wtt">${type === "grammar" ? "Grammar" : "Conjugation"}</span><b>${esc(L.title)}</b></span><span class="wgo">${wk ? `<span class="gok">${CHECK}</span><small>${wk.p}%</small>` : `<span class="ggo">Go${ARROW(1)}</span>${lessonState(id) === "try" ? `<small>Best ${lessonBest(id)}%</small>` : ""}`}</span></button>`;
     }).join("")}</div>`;
 }
 function levelCard() {
@@ -651,7 +676,7 @@ function calendar() {
 ${dayDetail(CSEL)}`;
 }
 function renderDaily() {
-    const lvUp = checkLevelUp(), r = dToday(), body = document.getElementById("dailybody"), m = masteredOf(r), n = r.n || target(), done = dayDone(r), left = n - m, wk = ["grammar", "conj"].filter(t => weekLesson(t)).length, worked = done || m > 0 || (r.qs || []).length > 0 || !!r.mood;
+    const lvUp = checkLevelUp(), r = dToday(), body = document.getElementById("dailybody"), m = masteredOf(r), n = r.n || target(), done = dayDone(r), left = n - m, worked = done || m > 0 || (r.qs || []).length > 0 || !!r.mood;
     let h = `<div class="dtabs" role="tablist"><button role="tab" data-dtab="today" class="${DTAB === "today" ? "on" : ""}" aria-selected="${DTAB === "today"}">Today</button><button role="tab" data-dtab="cal" class="${DTAB === "cal" ? "on" : ""}" aria-selected="${DTAB === "cal"}">Calendar</button></div>`;
     if (DTAB === "cal") {
         body.innerHTML = h + calendar();
@@ -665,7 +690,6 @@ ${done ? `<button class="listen more" id="dmore">Other quizzes${GOSVG}</button>`
 <div class="dsec"><h2>Words of the day</h2><span>${wordsOf(r).length}</span></div>${wordLists(r, true)}
 <div class="dsec"><h2>My rewards</h2><button class="qhelp" type="button" data-help="rewards" aria-label="How do stars, trophies and medals work?">?</button></div>${rewards(r)}
 <div class="dsec"><h2>My weekly recap</h2></div>${weekChart()}
-<div class="dsec"><h2>My weekly lessons</h2><span>${wk}/2</span></div>${weekTiles()}
 <div class="dsec" id="dtests"><h2>My weekly tests</h2><span>/20</span></div>${testProgress()}
 ${memCard()}
 <div class="dsec"><h2>My level</h2></div>${levelCard()}`;

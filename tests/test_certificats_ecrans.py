@@ -67,7 +67,8 @@ def entrer(page, pid=CAMILLE):
 
 def page_certs(page):
     vers_menu(page)
-    page.locator("#toCerts").click()
+    # tuile masquée par le PO (03/11) : on ouvre la page comme la tuile le ferait
+    page.evaluate("() => openCertificates('menu')")
     wait_page(page, "certs")
     page.wait_for_selector("#certsbody .dsec")
 
@@ -183,7 +184,7 @@ def run(args, base, browser, bilan, collector):
         ctx.close()
         return
     ids = page.evaluate("() => [...document.querySelectorAll('#menu .tiles > .tile')].map(t => t.id)")
-    ck("CU-01 [Ouss] Tuile « Certificates » du menu : juste sous « My daily work » (2e place)", ids[:2] == ["toDaily", "toCerts"], ids)
+    ck("CU-01 [Ouss] Tuile « Certificates » gardée dans le code mais masquée (PO, 03/11)", "toCerts" in ids and page.locator("#toCerts").is_hidden(), ids)
     ck("CU-02 [Ouss] Pas de pastille sur la tuile quand rien n'est à renouveler", page.locator("#certpill").is_hidden(), texte(page, "#menu .tiles"))
     page_certs(page)
     ck("CU-03 [Ouss] Page Certificates : « My certificates » (aucun certificat encore) et « Take a certificate »",
@@ -472,7 +473,7 @@ def run(args, base, browser, bilan, collector):
         ck("CU-62 [Ouss] Impossible de commencer un 2e certificat avant d'avoir fini le premier (« Finish your … certificate first »)", "Finish your" in msg and current_page(page) == "certs", [msg, current_page(page)])
     reload_app(page)
     entrer(page)
-    page.locator("#toCerts").click()
+    page.evaluate("() => openCertificates('menu')")   # tuile masquée (PO, 03/11)
     wait_page(page, "certs")
     ck("CU-63 [Ouss] Après avoir rechargé l'application, l'épreuve est toujours reprenable", page.locator("[data-resume]").count() == 1, texte(page, "#certsbody")[:200])
     page.locator("[data-resume]").click()
@@ -515,8 +516,9 @@ def run(args, base, browser, bilan, collector):
     ctx, page = ctx_a_renouveler()
     exp = page.evaluate(f"() => Cert.get(undefined, '{COLOURS}')")
     ck("CU-70 [Dédé] Préparation : certificat obtenu le 9 août 2026, échéance le 9 novembre, donc à J-7 le 2 novembre", exp["expires"] == "2026-11-09" and exp["left"] == 7, exp)
-    ck("CU-71 [Ouss] Pastille sur la tuile Certificates du menu : « 1 » (un certificat à renouveler)", page.locator("#certpill").is_visible() and texte(page, "#certpill") == "1" and "to renew" in texte(page, "#certsum"),
-       [page.locator("#certpill").is_visible(), texte(page, "#menu .tiles")[:200]])
+    # tuile masquée (PO, 03/11) : on vérifie la pastille préparée sur la tuile, sans exiger qu'elle soit visible
+    pill = page.evaluate("() => { const p = document.getElementById('certpill'); return [!p.hidden, p.textContent.trim(), document.getElementById('certsum').textContent] }")
+    ck("CU-71 [Ouss] Pastille sur la tuile Certificates du menu : « 1 » (un certificat à renouveler)", pill[0] and pill[1] == "1" and "to renew" in pill[2], pill)
     page_certs(page)
     pc = texte(page, "#certsbody")
     ck("CU-72 [Ouss] Page Certificates : bandeau Kai « Your Colours certificate ends in 7 days. Renew it: 8 questions, 2 minutes! » + bouton Renew",

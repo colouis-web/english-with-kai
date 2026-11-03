@@ -104,8 +104,12 @@ class Parcours:
         return self.page.evaluate(js) if arg is None else self.page.evaluate(js, arg)
 
     def click(self, sel, **kw):
-        # v2 (PO, 03/11) : Words, Grammar et Conjugation sont dans « Let's learn English » : on y passe depuis le menu, comme un élève
-        if sel in ("#toWords", "#toGrammar", "#toConj") and not self.page.locator(sel).first.is_visible() and self.page.locator("#toLearn").first.is_visible():
+        # v2 (PO, 03/11) : Words, Grammar et Conjugation sont dans « English lessons » : on y passe depuis le menu, comme un élève
+        # Words (PO, 03/11) : Dictionary et Quiz sont dans la page « Words » du menu
+        if sel in ("#toDico", "#toQuizzes") and not self.page.locator(sel).first.is_visible() and self.page.locator("#toWords").first.is_visible():
+            self.page.locator("#toWords").first.click()
+            self.on("wordhub")
+        if sel in ("#toGrammar", "#toConj") and not self.page.locator(sel).first.is_visible() and self.page.locator("#toLearn").first.is_visible():
             self.page.locator("#toLearn").first.click()
             self.on("learn")
         self.page.locator(sel).first.click(**kw)
@@ -138,8 +142,8 @@ class Parcours:
 
     def back(self, expected):
         self.page.locator(".page.on .back").first.click()
-        # v2 : Words, Grammar et Conjugation ramènent à « Let's learn English », puis au menu (deux flèches, comme un élève)
-        if expected == "menu" and current_page(self.page) == "learn":
+        # v2 : Words, Grammar et Conjugation ramènent à « English lessons », puis au menu (deux flèches, comme un élève)
+        if expected == "menu" and current_page(self.page) in ("learn", "wordhub"):
             self.page.locator(".page.on .back").first.click()
         self.on(expected)
 
@@ -391,8 +395,8 @@ def s02_creation_profil(P):
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
     P.check("Le menu accueille l'élève par son prénom", "Welcome Léa Dupont!" in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
-    P.check("Les tuiles du menu sont là (Words, Grammar et Conjugation sont rangées dans « Let's learn English »)",
-            all(P.visible(f"#{t}") for t in ("toDaily", "toCerts", "toLearn", "toTests", "toTY")) and not P.visible("#toWords"))
+    P.check("Les tuiles du menu sont là (Words au menu, Grammar et Conjugation rangées dans « English lessons »)",
+            all(P.visible(f"#{t}") for t in ("toDaily", "toWords", "toLearn", "toTests", "toTY")) and not P.visible("#toGrammar") and not P.visible("#toCerts"))
     P.no_overflow("menu")
 
 
@@ -444,8 +448,11 @@ def s03_mots_du_jour(P):
 def s04_vocabulaire(P):
     p = P.page
     P.click("#toWords")
+    P.on("wordhub")
+    P.check("« Words » : deux tuiles, Dictionary et Quiz", P.visible("#toDico") and P.visible("#toQuizzes"))
+    P.click("#toDico")
     P.on("words")
-    P.check("« Words » : 8 familles de mots proposées (tuiles)", p.locator("#wtiles .tile").count() == 9, p.locator("#wtiles .tile").count())
+    P.check("« Dictionary » : 9 familles de mots (tuiles)", p.locator("#wtiles .tile").count() == 9, p.locator("#wtiles .tile").count())
     P.no_overflow("Words")
     p.locator("#wq").fill("go")
     P.check("Recherche « go » : compteur « words found »", "words found" in P.text("#wcount"), P.text("#wcount"))
@@ -683,7 +690,10 @@ def s08_quiz(P):
     p = P.page
     P.click("#toTY")
     P.on("ty")
-    P.check("« Test yourself » : 4 tuiles", all(P.visible(f"#{t}") for t in ("toT6", "toQuizzes", "toDIY", "toTalk")))
+    P.check("« Test yourself » : 3 tuiles (le Quiz est rangé dans Words)", all(P.visible(f"#{t}") for t in ("toT6", "toDIY", "toTalk")) and not P.visible("#toQuizzes"))
+    P.back("menu")
+    P.click("#toWords")
+    P.on("wordhub")
     P.click("#toQuizzes")
     P.on("quizzes")
     P.check("Quiz : 6 types de mots + dictée + phrasal verbs + idioms",
@@ -740,7 +750,10 @@ def s09_recompenses(P):
     P.check("Trophée du jour acquis (badge allumé)", p.locator("#dailybody .badge.on").count() >= 1)
     P.check("Graphique de la semaine : 7 jours, aujourd'hui souligné", p.locator("#dailybody .week .wk").count() == 7 and p.locator("#dailybody .wk.today").count() == 1)
     P.check("Mes notes : graphique des tests", p.locator("#dailybody .tchart svg").count() == 1 and p.locator("#dailybody .tk").count() == 3)
-    P.check("Cette semaine : 2 leçons sur 2", "2/2" in P.text("#dailybody .dsec:has(h2:text-is('My weekly lessons')) span"), P.text("#dailybody .dsec:has(h2:text-is('My weekly lessons'))"))
+    # « My weekly lessons » est passé en haut d'English lessons (PO, 03/11), avec un anneau 0/2 sur la tuile du menu
+    wk = P.ev("() => { renderLearnWeek(); return [document.querySelector('#learnwk .dsec span').textContent, (document.querySelector('#lring svg') || {getAttribute: () => ''}).getAttribute('aria-label')] }")
+    P.check("Cette semaine : 2 leçons sur 2 (English lessons et anneau de sa tuile)", wk[0] == "2/2" and wk[1] == "2 of 2 lessons this week", wk)
+    P.check("My work n'affiche plus « My weekly lessons »", p.locator("#dailybody .wtile").count() == 0)
     P.no_overflow("My daily work complet")
     # aide « ? » : ouverture, focus, Échap, retour du focus
     help_btn = p.locator('#dailybody [data-help="rewards"]').first
@@ -1032,9 +1045,10 @@ def s12_code_parent(P):
 def s13_navigation(P):
     p = P.page
     # (tuile, page ouverte, page où ramène le bouton Retour)
-    parcours = [("menu", [("toDaily", "daily"), ("toLearn", "learn"), ("toTests", "tests"), ("toTY", "ty")]),
-                ("learn", [("toWords", "words"), ("toGrammar", "grammar"), ("toConj", "conj")]),
-                ("ty", [("toT6", "t6"), ("toQuizzes", "quizzes"), ("toDIY", "diy"), ("toTalk", "talk")]),
+    parcours = [("menu", [("toDaily", "daily"), ("toWords", "wordhub"), ("toLearn", "learn"), ("toTests", "tests"), ("toTY", "ty")]),
+                ("learn", [("toGrammar", "grammar"), ("toConj", "conj")]),
+                ("wordhub", [("toDico", "words"), ("toQuizzes", "quizzes")]),
+                ("ty", [("toT6", "t6"), ("toDIY", "diy"), ("toTalk", "talk")]),
                 ("quizzes", [("toQV", "quiz"), ("toQN", "quiz"), ("toQJ", "quiz"), ("toQA", "quiz"), ("toQC", "quiz"), ("toQP", "quiz"), ("toQPh", "quiz"), ("toQI", "quiz")])]
     for parent, tuiles in parcours:
         if parent != "menu":

@@ -32,7 +32,7 @@ const VTHEMES = {
     mind: "think know believe understand remember forget mean decide choose imagine guess wonder realize dream expect consider compare plan avoid identify discover search seek",
     talking: "say tell ask talk speak call answer reply shout scream whisper explain describe discuss agree disagree accept refuse deny promise joke greet invite introduce mention announce comment complain apologize thank excuse inform remind request ring chat meet join share support name",
     senses: "see look watch hear listen smell taste touch notice observe stink",
-    moving: "go come walk run jump climb fall move arrive leave return enter cross follow hurry turn stand sit lie reach slide spin spring swing circle escape hide hurt bite spit bleed",
+    moving: "go come walk run jump climb fall move arrive leave return enter cross follow hurry turn stand sit lie reach slide spin spring swing circle escape hide hurt bite spit bleed breathe sweat",
     hands: "take give put bring hold carry pick drop push pull throw catch lift open close shut lock break cut fold fill hang shake wave clap point knock hit stick tear dig set raise cover remove offer collect build handle",
     routine: "live wake sleep rest relax wash brush dress wear yawn sneeze wait",
     food: "eat drink cook bake boil mix feed serve prepare grind spill spread spoil",

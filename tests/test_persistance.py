@@ -222,7 +222,7 @@ def generer_reference(P):
     P.on("test")
     P.test_loop("irr")
     P.to_menu()
-    P.click("#toTY")
+    P.click("#toWords")
     P.click("#toQuizzes")
     P.click("#toQN")
     P.on("quiz")

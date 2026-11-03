@@ -19,13 +19,26 @@ document.getElementById("toAdj").addEventListener("click", () => {
     ADJ.open();
     show("adjectives");
 });
-document.getElementById("toWords").addEventListener("click", () => show("words"));
+document.getElementById("toWords").addEventListener("click", () => show("wordhub"));
+/* Words (PO, 03/11) : deux tuiles, Dictionary (les listes de mots) et Quiz */
+document.getElementById("toDico").addEventListener("click", () => show("words"));
+document.getElementById("backWh").addEventListener("click", () => show("menu", true));
 document.getElementById("toQuizzes").addEventListener("click", () => show("quizzes"));
-document.getElementById("backW").addEventListener("click", () => show("learn", true));
-/* v2 (PO, 03/11) : « Let's learn English » regroupe Words, Grammar et Conjugation */
-document.getElementById("toLearn").addEventListener("click", () => show("learn"));
+document.getElementById("backW").addEventListener("click", () => show("wordhub", true));
+/* v2 (PO, 03/11) : « English lessons » (ex-« Let's learn English ») regroupe Grammar et Conjugation */
+document.getElementById("toLearn").addEventListener("click", () => {
+    renderLearnWeek();
+    show("learn");
+});
+document.getElementById("learnwk").addEventListener("click", e => {
+    const wl = e.target.closest("[data-wl]");
+    if (wl) {
+        LFROM = "learn";   /* retour de la leçon : English lessons */
+        openLesson(wl.dataset.wl);
+    }
+});
 document.getElementById("backLe").addEventListener("click", () => show("menu", true));
-document.getElementById("backZ").addEventListener("click", () => show("ty", true));
+document.getElementById("backZ").addEventListener("click", () => show("wordhub", true));
 document.getElementById("backC").addEventListener("click", () => show("words", true));
 bubbles.forEach(b => {
     const go = () => speak([+b.dataset.i]);

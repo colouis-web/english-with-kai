@@ -19,7 +19,8 @@ function rowSvg(row) {
     return row.map(p => Array.isArray(p) ? `<tspan class="hl">${p[0]}</tspan>` : p).join("");
 }
 const KAI = { src: "img/kai-stand.webp", x: 150, y: 22, h: 610, w: 201.4 };
-document.getElementById("stage").innerHTML = `<div class="stagebox" id="stagebox"><svg viewBox="0 0 360 640" role="img" aria-label="Kai dit : Hello, my name is Kai! I'm here to help you speak English!">
+/* tubes de néon derrière Kai (accueil gamer, PO 03/11) : décor seul, masqué aux lecteurs d'écran */
+document.getElementById("stage").innerHTML = `<div class="tubes" aria-hidden="true">${"<i></i>".repeat(5)}</div><div class="stagebox" id="stagebox"><svg viewBox="0 0 360 640" role="img" aria-label="Kai dit : Hello, my name is Kai! I'm here to help you speak English!">
 <image class="kai" href="${KAI.src}" x="${KAI.x}" y="${KAI.y}" width="${KAI.w}" height="${KAI.h}"/>
 ${LINES.map((L, i) => {
     const n = L.rows.length, lh = 29, y0 = L.c[1] - (n - 1) * lh / 2 + 7;  /* R1 : texte 21 unités, interligne 1,4 */

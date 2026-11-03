@@ -1161,7 +1161,7 @@ html:has(.page.gm.on),body:has(.page.gm.on){background:#12111f}
 .page.gm #toDaily{grid-template-columns:128px minmax(0,1fr) 46px}
 .gmring{display:grid;place-items:center;width:46px;height:46px;color:var(--n,#22d3ee)}
 .gmring>svg:not(.go){width:46px;height:46px}
-.gmring text{fill:#fff;font:800 12.5px var(--claude)}
+.gmring text{fill:#fff;font:800 11px var(--claude)}
 @media (max-width:390px){.page.gm #toDaily{grid-template-columns:104px minmax(0,1fr) 46px}}
 html.ts-l .page.gm #toDaily{grid-template-columns:80px minmax(0,1fr) 46px}
 html.ts-xl .page.gm #toDaily{grid-template-columns:64px minmax(0,1fr) 44px}
@@ -1271,3 +1271,80 @@ html.ts-xl .page.gm #toDaily{grid-template-columns:64px minmax(0,1fr) 44px}
 .page.gm .dsec span{color:var(--n)}
 .page.gm .goal{color:#fbbf24}.page.gm .goal.ok{color:#4ade80}
 .page.gm .lnote b{color:#fff}
+/* Gamer : correction et explication de l'entraînement, fenêtres (traduction FR, aides) sur une page gamer (retour du PO, 03/11) */
+.page.gm .blank{border-bottom-color:#22d3ee;color:#22d3ee}
+.page.gm .blank.fill{border-bottom-color:#4ade80;color:#4ade80}
+.page.gm .blank.ko{border-bottom-color:#f87171;color:#f87171}
+.page.gm .verdict.ok{color:#4ade80}.page.gm .verdict.ko{color:#f87171}.page.gm .verdict.half{color:#fbbf24}.page.gm .verdict.un{color:#60a5fa}
+.page.gm .verdict b{color:#fff}
+.page.gm .pexp{color:#e9eaf2}
+.page.gm .frb{background:#1e1c33;border-color:#22d3ee;color:#22d3ee;box-shadow:0 0 10px -3px #22d3ee}
+body:has(.page.gm.on) .modal{background:rgba(8,7,16,.72)}
+body:has(.page.gm.on) .mbox{background:#1e1c33;border:2px solid #22d3ee;box-shadow:0 0 22px -6px #22d3ee;color:#fff}
+body:has(.page.gm.on) .mhd{border-bottom-color:#2f2d4d}
+body:has(.page.gm.on) .mx{background:#2a2846;border-color:#3a3760;color:#fff}
+body:has(.page.gm.on) .mtxt{color:#e9eaf2}
+body:has(.page.gm.on) .mfr{background:#2a2846;color:#67e8f9}
+body:has(.page.gm.on) .mnote{color:#c7c9d9}
+body:has(.page.gm.on) .mbox .listen{background:linear-gradient(90deg,#22d3ee,#a78bfa);color:#12111f;box-shadow:0 0 18px -4px #a78bfa}
+body:has(.page.gm.on) .mbox .ghost{background:#1e1c33;border-color:#3a3760;color:#fff}
+body:has(.page.gm.on) .hrow li b{color:#4ade80}
+body:has(.page.gm.on) .hrow i{color:#c7c9d9}
+body:has(.page.gm.on) .hnote{background:#2a2846;color:#c7c9d9}
+body:has(.page.gm.on) .hmed span,body:has(.page.gm.on) .hrk span{background:#2a2846;color:#fff}
+/* Deuxième sens d'un verbe écrit pareil (lie = mentir), PO 03/11 */
+.valt{margin-top:12px;padding:10px 10px 4px;border:2.5px dashed #f0b45c;border-radius:16px}
+.valth{margin:0;font:500 16px var(--claude)}
+.valth span{margin-left:6px;padding:3px 8px;border-radius:99px;background:#e6f7f8;color:#075a62;font:700 11px var(--claude);letter-spacing:.5px;text-transform:uppercase;vertical-align:2px}
+.valt .forms{margin-top:8px}
+.page.gm .valt{border-color:#fbbf24}
+.page.gm .valth span{background:#2a2846;color:#67e8f9}
+/* « My weekly lessons » en haut d'English lessons (PO, 03/11) : tuiles gamer, Grammar violet, Conjugation vert comme leurs tuiles */
+.page.gm #toLearn{grid-template-columns:128px minmax(0,1fr) 46px}
+@media (max-width:390px){.page.gm #toLearn{grid-template-columns:104px minmax(0,1fr) 46px}}
+html.ts-l .page.gm #toLearn{grid-template-columns:80px minmax(0,1fr) 46px}
+html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
+#learnwk .dsec{margin-top:4px}
+#learnwk .wtiles{margin-bottom:14px}
+.page.gm .wtile{--n:#a78bfa;background:#1e1c33;border:2px solid var(--n);box-shadow:0 0 0 1px rgba(0,0,0,.45),0 0 16px -6px var(--n);color:#fff}
+.page.gm .wtile:nth-child(2){--n:#a3e635}
+.page.gm .wtile:active{box-shadow:0 0 10px -3px var(--n)}
+.page.gm .wtt{color:var(--n)}
+.page.gm .wtile small{color:#c7c9d9}
+.page.gm .wtile .ggo{background:var(--n);color:#12111f}
+.page.gm .wtile.done{background:rgba(74,222,128,.1);border-color:#4ade80;box-shadow:0 0 16px -6px #4ade80}
+.page.gm .wtile.done small{color:#86efac}
+.page.gm #toGrammar{--n:#a78bfa}.page.gm #toConj{--n:#a3e635}
+/* Leçons de la semaine (PO 03/11) : titre à gauche, GO centré à droite, même hauteur quelle que soit la leçon (titres sur 2 lignes au plus) */
+.wtile .wtx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.wtile .wgo{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.wtile .wgo small{font:700 11px var(--claude);letter-spacing:.3px;white-space:nowrap}
+#learnwk .wtile{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px;min-height:88px;padding:8px 6px 8px 10px}
+#learnwk .wtile b{font-size:15px;line-height:1.1;letter-spacing:.2px;overflow-wrap:normal;word-break:normal}
+#learnwk .wtile .ggo,#learnwk .wtile .gok{margin:0}
+#learnwk .wtile .ggo{gap:0;padding:5px 2px 5px 7px;font-size:12px;letter-spacing:.4px}
+#learnwk .wtile .ggo svg{width:13px;height:13px}
+#learnwk .wtile .gok .stamp{width:26px;height:26px}
+@media (max-width:389px){#learnwk .wtile b{font-size:14px;letter-spacing:0}}
+@media (max-width:359px){#learnwk .wtiles{grid-template-columns:1fr}#learnwk .wtile{min-height:64px}#learnwk .wtile b{font-size:15px}}
+/* Certificates masqué (PO 03/11) : la tuile reste dans le code mais n'est plus accessible */
+#toCerts[hidden]{display:none}
+/* Accueil gamer (PO 03/11) : même fond que le reste, tubes de néon verticaux derrière Kai.
+   ::before = les tubes nets, ::after = leur halo flou qui « respire » doucement (fixe si l'élève a demandé moins d'animations). */
+#home.gm h1 span{color:#22d3ee}
+#home.gm .ver{color:#8f93ab}
+#home.gm .stage{isolation:isolate}
+#home.gm .stagebox{z-index:1}
+.tubes{display:none}
+#home.gm .tubes{display:block;position:absolute;inset:2% 2%;z-index:0;pointer-events:none;overflow:hidden}
+#home.gm .tubes i{--c:#22d3ee;position:absolute;width:5px;border-radius:3px;background:linear-gradient(transparent,var(--c) 12%,var(--c) 88%,transparent);animation:tubeglow 2.8s ease-in-out infinite alternate}
+/* « augmentation lumineuse » : chaque tube monte doucement en intensité puis redescend, en décalé */
+@keyframes tubeglow{
+  from{opacity:.45;filter:drop-shadow(0 0 2px var(--c))}
+  to{opacity:1;filter:brightness(1.35) drop-shadow(0 0 7px var(--c)) drop-shadow(0 0 20px var(--c))}}
+#home.gm .tubes i:nth-child(1){left:22%;top:26%;height:56%}
+#home.gm .tubes i:nth-child(2){--c:#a78bfa;left:36%;top:8%;height:66%;animation-delay:-1.1s}
+#home.gm .tubes i:nth-child(3){--c:#a3e635;left:50%;top:40%;height:50%;animation-delay:-2.2s}
+#home.gm .tubes i:nth-child(4){--c:#f472b6;left:64%;top:12%;height:68%;animation-delay:-.5s}
+#home.gm .tubes i:nth-child(5){--c:#fbbf24;left:78%;top:32%;height:54%;animation-delay:-1.7s}
+@media (prefers-reduced-motion:reduce){#home.gm .tubes i{animation:none;opacity:.9;filter:drop-shadow(0 0 6px var(--c)) drop-shadow(0 0 14px var(--c))}}
