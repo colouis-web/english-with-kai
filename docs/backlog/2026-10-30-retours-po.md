@@ -102,3 +102,17 @@ Sprint A fusionné dans `sprint-kai-2` (Dédé `ae60025`, Ludo `4f23278`, Ouss `
 - **Tests de parcours de nouveau bloquants** dans la publication ✅ (avec WebKit installé dans le workflow).
 - Questions de Dédé tranchées par le scrum master : « My memory » 32 → 29 mots et « your 3 grammar lessons » sont les
   effets voulus des décisions du 30/10 (thèmes sensibles exclus pour un Beginner, test de grammaire limité aux leçons travaillées).
+
+## Retouches du PO sur la v1.1 (03/11, 08:16–10:49) — v1.2
+Méthode demandée par le PO : chaque retouche est montrée dans un aperçu (artefact « Kai aperçu ») avant le push ;
+scrum master sur Opus, l'équipe adaptée à chaque demande (Matt sur Sonnet pour les leçons, relues par le scrum master).
+- **Tuile Certificates** : Kai qui reçoit son diplôme (nouvelles poses du PO ; les 48 cases des planches et la collection
+  « métiers et aventures » rangées dans `docs/poses/`, non publiées, à utiliser plus tard).
+- **My daily work → My work** (tuile, titre, textes).
+- **Puces des thèmes** (Nouns et autres listes) : thème choisi en noir sans coche ; « All themes » défile avec les autres.
+- **Thèmes des verbes** : 22 thèmes, 513 verbes (`js/data/verbes-themes.js`), mêmes puces que les noms.
+- **5 nouvelles leçons** : Grammar « Like + -ing » et « Time and dates » (6e) ; Conjugation « Used to », « If + present → will »
+  (4e) et « Past perfect » (3e). 55 exercices + 8 questions tapées chacune. « Quantifiers » existait déjà (pas de doublon).
+- **My work réorganisé** : objectif · My day (Kai + « How did you feel today? », humeur donnée APRÈS le travail ; « Hello! »
+  avant le premier tour) · mots du jour · récompenses · récap de la semaine · leçons de la semaine · tests de la semaine ·
+  mémoire · niveau. Cet ordre remplace la maquette A en onglets prévue au sprint Kai 3 (à reconfirmer).
