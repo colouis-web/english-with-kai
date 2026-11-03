@@ -4,7 +4,7 @@ const inCat = (n, c) => c === "all" || n.cat === c || (n.also || []).includes(c)
 const nrank = (n, q) => Math.min(rank(n, q), rank({ keys: n.lkeys }, q) + 2);
 const NOPEN = {};
 let NSEL = "all";
-/* R3 : la puce choisie reste visible dans la rangée qui défile ; « All themes » reste collée à gauche (CSS) */
+/* R3 : la puce choisie reste visible dans la rangée qui défile ; « All themes » défile avec les autres (PO, 03/11) ; puce choisie = fond noir, sans coche */
 function chipIntoView(id) {
     const on = document.querySelector("#" + id + " .chip.on");
     if (on && on.dataset.cat !== "all" && on.scrollIntoView)

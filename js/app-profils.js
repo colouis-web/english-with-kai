@@ -188,7 +188,7 @@ function renderMe() {
 ${txSection(p)}
 <div class="dsec"><h2>English level</h2></div>
 <div class="lvpick">${lvPicker(lvOf(p), "mlv")}</div>
-<p class="menote">Kai moves you up a level when you are ready (see My daily work › My level). A parent can also change it here.</p>
+<p class="menote">Kai moves you up a level when you are ready (see My work › My level). A parent can also change it here.</p>
 <div class="dsec"><h2>Kai's voice</h2></div>
 <div class="seg" role="radiogroup" aria-label="Kai's real voice">${[[1, "Kai's real voice"], [0, "Phone voice"]].map(([v, l]) => `<button class="${(KREC ? 1 : 0) === v ? "on" : ""}" data-krec="${v}" role="radio" aria-checked="${(KREC ? 1 : 0) === v}">${l}</button>`).join("")}</div>
 <p class="menote">${KREC ? `Kai's real voice says all his own sentences and ${KVN - 51} words. Example sentences and the other words use the phone voice below. Kai's voice was recorded with ElevenLabs.` : `Kai uses the phone voice for everything.`}</p>
