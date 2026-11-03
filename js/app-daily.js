@@ -516,10 +516,27 @@ function updateDailyTile() {
     const p = curProf();
     if (!p) {
         t.textContent = "Your words of the day";
+        const g = document.getElementById("gmrank");
+        if (g)
+            g.hidden = true;
         return;
     }
     const r = DST.days[todayKey()], m = masteredOf(r), n = (r && r.n) || target();
     t.textContent = dayDone(r) ? `Goal reached today: ${m} words!` : m ? `${m}/${n} words today` : `${LV[lvOf(p)].name} · ${n} words a day`;
+    /* v2, style « gamer » (PO, 03/11) : anneau de progression sur My work, carte rang + étoiles en haut du menu */
+    try {
+        const k = Math.min(1, m / n), C = 2 * Math.PI * 19, ring = document.getElementById("dring");
+        if (ring)
+            ring.innerHTML = `<svg viewBox="0 0 46 46" role="img" aria-label="${Math.min(m, n)} of ${n} words today"><circle cx="23" cy="23" r="19" fill="none" stroke="#2a2846" stroke-width="6"/><circle cx="23" cy="23" r="19" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-opacity="${k > 0 ? 1 : 0}" stroke-dasharray="${(C * k).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 23 23)"/><text x="23" y="27.5" text-anchor="middle">${Math.min(m, n)}/${n}</text></svg>`;
+        const g = document.getElementById("gmrank");
+        if (g) {
+            const st = totalStars(), R = rankOf(st), nx = R.next, pc = nx ? Math.round(100 * (st - R.from) / (nx[0] - R.from)) : 100;
+            g.innerHTML = `<b>${esc(p.name)} · Rank ${R.i + 1} ${R.name}</b><span class="gmbar"><i style="width:${pc}%"></i></span><small>${nx ? `${st} / ${nx[0]} stars to ${nx[1]}` : `${st} stars · top rank!`}</small>`;
+            g.hidden = false;
+        }
+    }
+    catch (e) {
+    }
     try {
         updateTestTile();
     }
