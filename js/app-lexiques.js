@@ -25,7 +25,7 @@ document.getElementById("toDico").addEventListener("click", () => show("words"))
 document.getElementById("backWh").addEventListener("click", () => show("menu", true));
 document.getElementById("toQuizzes").addEventListener("click", () => show("quizzes"));
 document.getElementById("backW").addEventListener("click", () => show("wordhub", true));
-/* v2 (PO, 03/11) : « Let's learn English » regroupe Words, Grammar et Conjugation */
+/* v2 (PO, 03/11) : « English lessons » (ex-« Let's learn English ») regroupe Grammar et Conjugation */
 document.getElementById("toLearn").addEventListener("click", () => show("learn"));
 document.getElementById("backLe").addEventListener("click", () => show("menu", true));
 document.getElementById("backZ").addEventListener("click", () => show("wordhub", true));

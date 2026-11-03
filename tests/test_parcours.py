@@ -104,7 +104,7 @@ class Parcours:
         return self.page.evaluate(js) if arg is None else self.page.evaluate(js, arg)
 
     def click(self, sel, **kw):
-        # v2 (PO, 03/11) : Words, Grammar et Conjugation sont dans « Let's learn English » : on y passe depuis le menu, comme un élève
+        # v2 (PO, 03/11) : Words, Grammar et Conjugation sont dans « English lessons » : on y passe depuis le menu, comme un élève
         # Words (PO, 03/11) : Dictionary et Quiz sont dans la page « Words » du menu
         if sel in ("#toDico", "#toQuizzes") and not self.page.locator(sel).first.is_visible() and self.page.locator("#toWords").first.is_visible():
             self.page.locator("#toWords").first.click()
@@ -142,7 +142,7 @@ class Parcours:
 
     def back(self, expected):
         self.page.locator(".page.on .back").first.click()
-        # v2 : Words, Grammar et Conjugation ramènent à « Let's learn English », puis au menu (deux flèches, comme un élève)
+        # v2 : Words, Grammar et Conjugation ramènent à « English lessons », puis au menu (deux flèches, comme un élève)
         if expected == "menu" and current_page(self.page) in ("learn", "wordhub"):
             self.page.locator(".page.on .back").first.click()
         self.on(expected)
@@ -395,7 +395,7 @@ def s02_creation_profil(P):
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
     P.check("Le menu accueille l'élève par son prénom", "Welcome Léa Dupont!" in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
-    P.check("Les tuiles du menu sont là (Words au menu, Grammar et Conjugation rangées dans « Let's learn English »)",
+    P.check("Les tuiles du menu sont là (Words au menu, Grammar et Conjugation rangées dans « English lessons »)",
             all(P.visible(f"#{t}") for t in ("toDaily", "toCerts", "toWords", "toLearn", "toTests", "toTY")) and not P.visible("#toGrammar"))
     P.no_overflow("menu")
 
