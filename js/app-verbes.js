@@ -28,19 +28,36 @@ function card(d, open) {
     return `<article class="vcard${open ? "" : " mini"}"><div class="vh"><button class="snd" data-say="${to}${d.v}" aria-label="Listen: ${to}${d.v}">${SPK}</button><div class="w"><h3 class="${sz}">${d.modal ? "" : "<small>to</small>"}${d.v}</h3><p class="tr">${esc(d.fr)}</p>${useLine("verbs", d)}</div><div class="side"><span class="tag ${d.modal ? "mod" : d.irr ? "" : "reg"}">${d.modal ? "Modal" : d.irr ? "Irregular" : "Regular"}</span><button class="tgl" data-tgl="${d.v}" aria-expanded="${open}" aria-label="${open ? "Hide" : "Show"} details: ${to}${d.v}">${PM}</button></div></div>
 <div class="vbody"${open ? "" : " inert"}><div>${open ? body(d) : ""}</div></div></article>`;
 }
+/* thèmes des verbes (js/data/verbes-themes.js, PO 03/11) : mêmes puces que les noms */
+let VSEL = "all";
+function renderVChips() {
+    const cnt = { all: DICT.length };
+    DICT.forEach(d => cnt[d.cat] = (cnt[d.cat] || 0) + 1);
+    document.getElementById("vchips").innerHTML = [["all", "All themes", ""], ...Object.keys(VCAT).map(k => [k, VCAT[k].label, VCAT[k].icon])].map(([k, l, ic]) => `<button class="chip${VSEL === k ? " on" : ""}" data-cat="${k}" aria-pressed="${VSEL === k}">${ic ? `<span class="emo" aria-hidden="true">${ic}</span>` : ""}${l}<i>${cnt[k] || 0}</i></button>`).join("");
+}
 function renderVerbs() {
     const raw = document.getElementById("q").value, q = norm(raw);
-    let list = DICT;
+    let list = VSEL === "all" ? DICT : DICT.filter(d => d.cat === VSEL);
     if (q) {
-        list = DICT.map(d => [rank(d, q), d]).filter(x => x[0] < 9).sort((a, b) => a[0] - b[0] || a[1].i - b[1].i).map(x => x[1]);
+        list = list.map(d => [rank(d, q), d]).filter(x => x[0] < 9).sort((a, b) => a[0] - b[0] || a[1].i - b[1].i).map(x => x[1]);
     }
     const auto = !!q && list.length <= 3;
     LAST = list;
     document.getElementById("searchBox").classList.toggle("has", !!q);
-    document.getElementById("count").textContent = q ? `${list.length} verb${list.length === 1 ? "" : "s"} found` : `${DICT.length} verbs in the dictionary`;
+    document.getElementById("count").textContent = q ? `${list.length} verb${list.length === 1 ? "" : "s"} found` : VSEL === "all" ? `${DICT.length} verbs in the dictionary` : `${list.length} verb${list.length === 1 ? "" : "s"} · ${VCAT[VSEL].label}`;
     document.getElementById("vlist").innerHTML = list.length ? list.map(d => card(d, d.v in OPEN ? OPEN[d.v] : auto)).join("") : `<div class="empty">No verb found for “${esc(raw)}”.<br>More verbs coming soon!</div>`;
 }
 document.getElementById("q").addEventListener("input", renderVerbs);
+document.getElementById("vchips").addEventListener("click", e => {
+    const c = e.target.closest("[data-cat]");
+    if (!c)
+        return;
+    /* re-toucher le thème choisi le désélectionne (retour à « All themes »), comme pour les noms */
+    VSEL = c.dataset.cat === VSEL ? "all" : c.dataset.cat;
+    renderVChips();
+    renderVerbs();
+    chipIntoView("vchips");
+});
 document.getElementById("clr").addEventListener("click", e => {
     e.preventDefault();
     const q = document.getElementById("q");
@@ -70,6 +87,7 @@ document.getElementById("vlist").addEventListener("click", e => {
     sayOne(b.dataset.say, b);
 });
 document.getElementById("toVerbs").addEventListener("click", () => {
+    renderVChips();
     renderVerbs();
     show("verbs");
 });
