@@ -23,16 +23,15 @@
 <button class="ghost sm" id="listen" type="button" aria-label="Listen to Kai"><svg viewBox="0 0 24 24"><path d="M3.5 9.2h3.4L12 5v14l-5.1-4.2H3.5z" fill="currentColor"/><path d="M15.5 8.6a4.5 4.5 0 0 1 0 6.8M18.2 6a8.2 8.2 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Listen to Kai</button>
 <p class="ver">v0.2</p>
 </main>
-<main class="page" id="menu">
+<main class="page gm" id="menu">
 <div class="top"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Menu</h1><button class="me" id="toMe" aria-label="My profile and Kai's voice"><span id="meIni">?</span></button></div>
 <div class="mhead" id="mhead"></div>
+<div class="gmrank" id="gmrank" hidden></div>
 <div class="tiles">
-<button class="tile wide panel" id="toDaily"><div class="pic"><img src="img/kai-school.webp" alt="Kai qui va à l'école"></div><div><b>My work</b><span>Your words of the day</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="tile wide panel" id="toDaily"><div class="pic"><img src="img/kai-school.webp" alt="Kai qui va à l'école"></div><div><b>My work</b><span>Your words of the day</span></div><span class="gmring" id="dring" aria-hidden="true"><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
 <button class="tile wide cert" id="toCerts"><div class="pic"><img src="img/kai-diploma.webp" alt="Kai qui reçoit son diplôme" width="282" height="374"></div><div><b>Certificates<em class="cpill" id="certpill" hidden></em></b><span id="certsum">Prove what you know: take a certificate</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-<button class="tile wide" id="toWords"><div class="pic"><img src="img/kai-read.webp" alt="Kai qui lit un livre"></div><div><b>Words</b><span>Verbs, nouns, adjectives, adverbs, connectors, prepositions</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-<button class="tile wide panel" id="toGrammar"><div class="pic"><img src="img/kai-study.webp" alt="Kai qui étudie à son bureau"></div><div><b>Grammar</b><span>Articles, sentence order…</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-<button class="tile wide panel" id="toConj"><div class="pic"><img src="img/sc-write.webp" alt="Kai qui écrit dans son cahier"></div><div><b>Conjugation</b><span>Be, have and 11 tenses</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-<button class="tile wide panel" id="toTests"><div class="pic"><img src="img/sc-think-sq.webp" alt="Kai qui réfléchit"></div><div><b>My weekly review</b><span>One test a week: grammar, conjugation and irregular verbs</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="tile wide panel" id="toLearn"><div class="pic"><img src="img/kai-worldmap.webp" alt="Kai qui regarde une carte du monde"></div><div><b>Let's learn English</b><span>Words, grammar and conjugation</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="tile wide panel" id="toTests"><div class="pic"><img src="img/sc-think-sq.webp" alt="Kai qui réfléchit"></div><div><b>My weekly review</b><span>One test a week: grammar, conjugation and irregular verbs</span></div><span class="gmring" id="tring" aria-hidden="true"><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
 <button class="tile wide" id="toTY"><div class="pic"><img src="img/sc-kimono.webp" alt="Kai en kimono dans un jardin japonais"></div><div><b>Test yourself</b><span>Quiz, Do it yourself, Let's talk English</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <div class="soon">More lessons coming soon</div>
 </div>
@@ -53,18 +52,18 @@
 <div class="top"><button class="back" id="backMe" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Me</h1><span></span></div>
 <div id="mebody"></div>
 </main>
-<main class="page" id="conj">
-<div class="top"><button class="back" id="backCj" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Conjugation</h1><span></span></div>
+<main class="page gm" id="conj">
+<div class="top"><button class="back" id="backCj" aria-label="Back to Let's learn English"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Conjugation</h1><span></span></div>
 <div id="conjbody"></div>
 </main>
-<main class="page" id="prepositions">
+<main class="page gm" id="prepositions">
 <div class="top"><button class="back" id="backP" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Prepositions</h1><span></span></div>
 <label class="search" id="prepbox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="prepq" type="search" placeholder="Search a preposition…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search a preposition in French or in English"><button class="clr" id="prepclr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <div class="chips" id="prepchips"></div>
 <p class="count" id="prepcount"></p>
 <div class="vlist" id="preplist"></div>
 </main>
-<main class="page" id="lesson">
+<main class="page gm" id="lesson">
 <div class="top"><button class="back" id="backL" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 id="ltitle">Lesson</h1><span></span></div>
 <div id="lessonbody"></div>
 </main>
@@ -85,12 +84,12 @@
 <div id="parentsbody"></div>
 <div class="pactions"><button class="listen" id="cprintbtn" type="button">Print</button><p class="menote">Opens the print window of your browser. Nothing is sent anywhere. <span lang="fr">(Une page A4 avec les certificats de l'élève.)</span></p></div>
 </main>
-<main class="page" id="grammar">
-<div class="top"><button class="back" id="backG" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Grammar</h1><span></span></div>
+<main class="page gm" id="grammar">
+<div class="top"><button class="back" id="backG" aria-label="Back to Let's learn English"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Grammar</h1><span></span></div>
 <div id="grammarbody"></div>
 </main>
-<main class="page" id="words">
-<div class="top"><button class="back" id="backW" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Words</h1><span></span></div>
+<main class="page gm" id="words">
+<div class="top"><button class="back" id="backW" aria-label="Back to Let's learn English"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Words</h1><span></span></div>
 <label class="search" id="wsearchBox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="wq" type="search" placeholder="Search any word: chat, run…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search any word, in French or in English"><button class="clr" id="wclr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <p class="count" id="wcount" hidden></p>
 <div id="wres" hidden></div>
@@ -106,7 +105,7 @@
 <button class="tile wide" id="toQty"><div class="pic"><img src="img/sc-think.webp" alt="Kai qui réfléchit"></div><div><b>Quantifiers</b><span>Much, many, several, a few, enough…</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 </div>
 </main>
-<main class="page" id="quizzes">
+<main class="page gm" id="quizzes">
 <div class="top"><button class="back" id="backZ" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Quiz</h1><span></span></div>
 <p class="qintro">5, 10 or 20 words: first French → English, then English → French. Do it again until you get 100% both ways!</p>
 <div class="tiles">
@@ -121,56 +120,56 @@
 <button class="tile wide" id="toDict"><div class="pic"><img src="img/sc-chill.webp" alt="Kai qui écoute de la musique"></div><div><b>Dictation</b><span>Listen to Kai and type the missing word · ≈ 3 min</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 </div>
 </main>
-<main class="page" id="verbs">
+<main class="page gm" id="verbs">
 <div class="top"><button class="back" id="backV" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Verbs</h1><span></span></div>
 <label class="search" id="searchBox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="q" type="search" placeholder="Search a verb…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search a verb in French or in English"><button class="clr" id="clr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <div class="chips" id="vchips"></div>
 <p class="count" id="count"></p>
 <div class="vlist" id="vlist"></div>
 </main>
-<main class="page" id="nouns">
+<main class="page gm" id="nouns">
 <div class="top"><button class="back" id="backN" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Nouns</h1><span></span></div>
 <label class="search" id="nsearchBox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="nq" type="search" placeholder="Search a noun…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search a noun in French or in English"><button class="clr" id="nclr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <div class="chips" id="nchips"></div>
 <p class="count" id="ncount"></p>
 <div class="vlist" id="nlist"></div>
 </main>
-<main class="page" id="adjectives">
+<main class="page gm" id="adjectives">
 <div class="top"><button class="back" id="backJ" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Adjectives</h1><span></span></div>
 <label class="search" id="adjbox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="adjq" type="search" placeholder="Search an adjective…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search an adjective in French or in English"><button class="clr" id="adjclr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <div class="chips" id="adjchips"></div>
 <p class="count" id="adjcount"></p>
 <div class="vlist" id="adjlist"></div>
 </main>
-<main class="page" id="adverbs">
+<main class="page gm" id="adverbs">
 <div class="top"><button class="back" id="backA" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Adverbs</h1><span></span></div>
 <label class="search" id="advbox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="advq" type="search" placeholder="Search an adverb…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search an adverb in French or in English"><button class="clr" id="advclr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <div class="chips" id="advchips"></div>
 <p class="count" id="advcount"></p>
 <div class="vlist" id="advlist"></div>
 </main>
-<main class="page" id="quantifiers">
+<main class="page gm" id="quantifiers">
 <div class="top"><button class="back" id="backQt" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Quantifiers</h1><span></span></div>
 <label class="search" id="qtybox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="qtyq" type="search" placeholder="Search a quantifier…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search a quantifier in French or in English"><button class="clr" id="qtyclr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <div class="chips" id="qtychips"></div>
 <p class="count" id="qtycount"></p>
 <div class="vlist" id="qtylist"></div>
 </main>
-<main class="page" id="phrasals">
+<main class="page gm" id="phrasals">
 <div class="top"><button class="back" id="backPh" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Phrasal verbs</h1><span></span></div>
 <label class="search" id="phrbox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="phrq" type="search" placeholder="Search a phrasal verb…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search a phrasal verb in French or in English"><button class="clr" id="phrclr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <div class="chips" id="phrchips"></div>
 <p class="count" id="phrcount"></p>
 <div class="vlist" id="phrlist"></div>
 </main>
-<main class="page" id="idioms">
+<main class="page gm" id="idioms">
 <div class="top"><button class="back" id="backId" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Idioms</h1><span></span></div>
 <label class="search" id="idibox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="idiq" type="search" placeholder="Search an idiom…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search an idiom in French or in English"><button class="clr" id="idiclr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <div class="chips" id="idichips"></div>
 <p class="count" id="idicount"></p>
 <div class="vlist" id="idilist"></div>
 </main>
-<main class="page" id="connectors">
+<main class="page gm" id="connectors">
 <div class="top"><button class="back" id="backC" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Connectors</h1><span></span></div>
 <label class="search" id="conbox"><svg class="mag" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><input id="conq" type="search" placeholder="Search a connector…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Search a connector in French or in English"><button class="clr" id="conclr" type="button" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button></label>
 <div class="chips" id="conchips"></div>
@@ -185,7 +184,16 @@
 <div class="top"><button class="back" id="backDY" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Do it yourself</h1><span class="qn" id="dyqn"></span></div>
 <div id="dybody"></div>
 </main>
-<main class="page" id="ty">
+<main class="page gm" id="learn">
+<div class="top"><button class="back" id="backLe" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Let's learn English</h1><span></span></div>
+<p class="qintro">Learn new words, then the rules of English: grammar and conjugation.</p>
+<div class="tiles">
+<button class="tile wide" id="toWords"><div class="pic"><img src="img/kai-read.webp" alt="Kai qui lit un livre"></div><div><b>Words</b><span>Verbs, nouns, adjectives, adverbs, connectors, prepositions</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="tile wide panel" id="toGrammar"><div class="pic"><img src="img/kai-study.webp" alt="Kai qui étudie à son bureau"></div><div><b>Grammar</b><span>Articles, sentence order…</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="tile wide panel" id="toConj"><div class="pic"><img src="img/sc-write.webp" alt="Kai qui écrit dans son cahier"></div><div><b>Conjugation</b><span>Be, have and 14 lessons on the tenses</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</div>
+</main>
+<main class="page gm" id="ty">
 <div class="top"><button class="back" id="backTY" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Test yourself</h1><span></span></div>
 <p class="qintro">Practise as much as you want: quizzes on your words, your own revision for a test, or say a sentence about a picture.</p>
 <div class="tiles">

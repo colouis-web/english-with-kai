@@ -87,10 +87,30 @@ document.getElementById("vlist").addEventListener("click", e => {
     sayOne(b.dataset.say, b);
 });
 document.getElementById("toVerbs").addEventListener("click", () => {
+    VFROM = null;
     renderVChips();
     renderVerbs();
     show("verbs");
 });
-document.getElementById("backV").addEventListener("click", () => show("words", true));
+/* ouvrir un verbe précis (liste « To review this week » de My weekly review) : fiche dépliée, retour à la page d'origine */
+let VFROM = null;
+function openVerb(v, from) {
+    VFROM = from || null;
+    VSEL = "all";
+    document.getElementById("q").value = v;
+    OPEN[v] = true;
+    renderVChips();
+    renderVerbs();
+    show("verbs");
+}
+document.getElementById("backV").addEventListener("click", () => {
+    if (VFROM === "tests") {
+        VFROM = null;
+        document.getElementById("q").value = "";
+        openTests(true);
+        return;
+    }
+    show("words", true);
+});
 document.querySelectorAll("[data-soon]").forEach(t => t.onclick = () => toast("Coming soon!"));
 requestAnimationFrame(fit);

@@ -104,6 +104,10 @@ class Parcours:
         return self.page.evaluate(js) if arg is None else self.page.evaluate(js, arg)
 
     def click(self, sel, **kw):
+        # v2 (PO, 03/11) : Words, Grammar et Conjugation sont dans « Let's learn English » : on y passe depuis le menu, comme un élève
+        if sel in ("#toWords", "#toGrammar", "#toConj") and not self.page.locator(sel).first.is_visible() and self.page.locator("#toLearn").first.is_visible():
+            self.page.locator("#toLearn").first.click()
+            self.on("learn")
         self.page.locator(sel).first.click(**kw)
 
     def text(self, sel):
@@ -134,6 +138,9 @@ class Parcours:
 
     def back(self, expected):
         self.page.locator(".page.on .back").first.click()
+        # v2 : Words, Grammar et Conjugation ramènent à « Let's learn English », puis au menu (deux flèches, comme un élève)
+        if expected == "menu" and current_page(self.page) == "learn":
+            self.page.locator(".page.on .back").first.click()
         self.on(expected)
 
     def to_menu(self):
@@ -384,8 +391,8 @@ def s02_creation_profil(P):
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
     P.check("Le menu accueille l'élève par son prénom", "Welcome Léa Dupont!" in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
-    P.check("Les six tuiles du menu sont là",
-            all(P.visible(f"#{t}") for t in ("toDaily", "toWords", "toGrammar", "toConj", "toTests", "toTY")))
+    P.check("Les tuiles du menu sont là (Words, Grammar et Conjugation sont rangées dans « Let's learn English »)",
+            all(P.visible(f"#{t}") for t in ("toDaily", "toCerts", "toLearn", "toTests", "toTY")) and not P.visible("#toWords"))
     P.no_overflow("menu")
 
 
@@ -1025,7 +1032,8 @@ def s12_code_parent(P):
 def s13_navigation(P):
     p = P.page
     # (tuile, page ouverte, page où ramène le bouton Retour)
-    parcours = [("menu", [("toDaily", "daily"), ("toWords", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toTests", "tests"), ("toTY", "ty")]),
+    parcours = [("menu", [("toDaily", "daily"), ("toLearn", "learn"), ("toTests", "tests"), ("toTY", "ty")]),
+                ("learn", [("toWords", "words"), ("toGrammar", "grammar"), ("toConj", "conj")]),
                 ("ty", [("toT6", "t6"), ("toQuizzes", "quizzes"), ("toDIY", "diy"), ("toTalk", "talk")]),
                 ("quizzes", [("toQV", "quiz"), ("toQN", "quiz"), ("toQJ", "quiz"), ("toQA", "quiz"), ("toQC", "quiz"), ("toQP", "quiz"), ("toQPh", "quiz"), ("toQI", "quiz")])]
     for parent, tuiles in parcours:

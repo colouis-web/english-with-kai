@@ -516,10 +516,27 @@ function updateDailyTile() {
     const p = curProf();
     if (!p) {
         t.textContent = "Your words of the day";
+        const g = document.getElementById("gmrank");
+        if (g)
+            g.hidden = true;
         return;
     }
     const r = DST.days[todayKey()], m = masteredOf(r), n = (r && r.n) || target();
     t.textContent = dayDone(r) ? `Goal reached today: ${m} words!` : m ? `${m}/${n} words today` : `${LV[lvOf(p)].name} · ${n} words a day`;
+    /* v2, style « gamer » (PO, 03/11) : anneau de progression sur My work, carte rang + étoiles en haut du menu */
+    try {
+        const ring = document.getElementById("dring");
+        if (ring)
+            ring.innerHTML = ringSvg(m, n, `${Math.min(m, n)} of ${n} words today`);
+        const g = document.getElementById("gmrank");
+        if (g) {
+            const st = totalStars(), R = rankOf(st), nx = R.next, pc = nx ? Math.round(100 * (st - R.from) / (nx[0] - R.from)) : 100;
+            g.innerHTML = `<b>${esc(p.name)} · Rank ${R.i + 1} ${R.name}</b><span class="gmbar"><i style="width:${pc}%"></i></span><small>${nx ? `${st} / ${nx[0]} stars to ${nx[1]}` : `${st} stars · top rank!`}</small>`;
+            g.hidden = false;
+        }
+    }
+    catch (e) {
+    }
     try {
         updateTestTile();
     }
@@ -539,6 +556,11 @@ function kaiBig(pick, rows, label) {
     const img = END_L[pick];
     return `<svg viewBox="0 0 360 300" role="img" aria-label="Kai : ${esc(label)}"><image class="kai" href="img/kai-${pick}.webp" x="${img.x}" y="${img.y}" width="${img.w}" height="${img.h}" preserveAspectRatio="xMidYMax meet"/>
 <g class="bb b1"><path d="${bubblePath(img.c, img.r, img.tip)}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle">${rows.map((rw, j) => `<tspan x="${img.c[0]}" y="${f1(img.c[1] - (rows.length - 1) * 10 + 6 + j * 20)}">${rowSvg(rw)}</tspan>`).join("")}</text></g></svg>`;
+}
+/* anneau de progression des tuiles « gamer » (v2) : fait / total au centre */
+function ringSvg(done, total, label) {
+    const k = total ? Math.min(1, done / total) : 0, C = 2 * Math.PI * 19;
+    return `<svg viewBox="0 0 46 46" role="img" aria-label="${esc(label)}"><circle cx="23" cy="23" r="19" fill="none" stroke="#2a2846" stroke-width="6"/><circle cx="23" cy="23" r="19" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-opacity="${k > 0 ? 1 : 0}" stroke-dasharray="${(C * k).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 23 23)"/><text x="23" y="27.5" text-anchor="middle">${Math.min(done, total)}/${total}</text></svg>`;
 }
 /* --- morceaux d'interface --- */
 function wordLists(r, open) {
