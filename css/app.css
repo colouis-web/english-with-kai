@@ -1329,3 +1329,21 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 @media (max-width:359px){#learnwk .wtiles{grid-template-columns:1fr}#learnwk .wtile{min-height:64px}#learnwk .wtile b{font-size:15px}}
 /* Certificates masqué (PO 03/11) : la tuile reste dans le code mais n'est plus accessible */
 #toCerts[hidden]{display:none}
+/* Accueil gamer (PO 03/11) : même fond que le reste, tubes de néon verticaux derrière Kai.
+   ::before = les tubes nets, ::after = leur halo flou qui « respire » doucement (fixe si l'élève a demandé moins d'animations). */
+#home.gm h1 span{color:#22d3ee}
+#home.gm .ver{color:#8f93ab}
+#home.gm .stage{isolation:isolate}
+#home.gm .stagebox{z-index:1}
+#home.gm .stage::before,#home.gm .stage::after{content:"";position:absolute;inset:2% 3%;z-index:0;pointer-events:none;background-repeat:no-repeat;
+  --t1:linear-gradient(transparent,#22d3ee 12%,#22d3ee 88%,transparent);
+  --t2:linear-gradient(transparent,#a78bfa 10%,#a78bfa 90%,transparent);
+  --t3:linear-gradient(transparent,#a3e635 14%,#a3e635 86%,transparent);
+  --t4:linear-gradient(transparent,#f472b6 8%,#f472b6 92%,transparent);
+  --t5:linear-gradient(transparent,#fbbf24 16%,#fbbf24 84%,transparent);
+  background-image:var(--t1),var(--t2),var(--t3),var(--t4),var(--t5),var(--t2),var(--t1);
+  background-position:6% 30%,20% 6%,36% 60%,52% 14%,68% 70%,82% 24%,95% 52%}
+#home.gm .stage::before{background-size:4px 54%,4px 66%,4px 40%,4px 72%,4px 46%,4px 60%,4px 50%;opacity:.95}
+#home.gm .stage::after{background-size:14px 54%,14px 66%,14px 40%,14px 72%,14px 46%,14px 60%,14px 50%;filter:blur(10px);opacity:.75;animation:gmglow 3.2s ease-in-out infinite alternate}
+@keyframes gmglow{to{opacity:.35}}
+@media (prefers-reduced-motion:reduce){#home.gm .stage::after{animation:none}}
