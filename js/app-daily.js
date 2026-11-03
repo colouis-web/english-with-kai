@@ -639,7 +639,7 @@ function renderDaily() {
 <p class="ddate">${longDate(r.d)}</p>
 <div class="dsec"><h2>Today's goal</h2><span>${Math.min(m, n)}/${n}</span></div>${goalCard(r)}
 ${done ? `<button class="listen more" id="dmore">Other quizzes${GOSVG}</button>` : ""}
-<div class="dsec"><h2>My day</h2></div>${worked ? moodBlock(r, done ? "All done! How did you *feel* today?" : `${left} word${left > 1 ? "s" : ""} to go! How did you *feel* today?`) : `<div class="qhead dlater">${headSvg("Start your words! Then tell me how you *felt*.", "head")}</div>`}
+<div class="dsec"><h2>My day</h2></div>${worked ? moodBlock(r, done ? "All done! How did you *feel* today?" : `${left} word${left > 1 ? "s" : ""} to go! How did you *feel* today?`) : `<div class="qhead dlater">${headSvg("Hello! Start your words! Then tell me how you *felt*.", "head")}</div>`}
 <div class="dsec"><h2>Words of the day</h2><span>${wordsOf(r).length}</span></div>${wordLists(r, true)}
 <div class="dsec"><h2>My rewards</h2><button class="qhelp" type="button" data-help="rewards" aria-label="How do stars, trophies and medals work?">?</button></div>${rewards(r)}
 <div class="dsec"><h2>My weekly recap</h2></div>${weekChart()}
