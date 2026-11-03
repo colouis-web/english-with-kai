@@ -1271,3 +1271,24 @@ html.ts-xl .page.gm #toDaily{grid-template-columns:64px minmax(0,1fr) 44px}
 .page.gm .dsec span{color:var(--n)}
 .page.gm .goal{color:#fbbf24}.page.gm .goal.ok{color:#4ade80}
 .page.gm .lnote b{color:#fff}
+/* Gamer : correction et explication de l'entraînement, fenêtres (traduction FR, aides) sur une page gamer (retour du PO, 03/11) */
+.page.gm .blank{border-bottom-color:#22d3ee;color:#22d3ee}
+.page.gm .blank.fill{border-bottom-color:#4ade80;color:#4ade80}
+.page.gm .blank.ko{border-bottom-color:#f87171;color:#f87171}
+.page.gm .verdict.ok{color:#4ade80}.page.gm .verdict.ko{color:#f87171}.page.gm .verdict.half{color:#fbbf24}.page.gm .verdict.un{color:#60a5fa}
+.page.gm .verdict b{color:#fff}
+.page.gm .pexp{color:#e9eaf2}
+.page.gm .frb{background:#1e1c33;border-color:#22d3ee;color:#22d3ee;box-shadow:0 0 10px -3px #22d3ee}
+body:has(.page.gm.on) .modal{background:rgba(8,7,16,.72)}
+body:has(.page.gm.on) .mbox{background:#1e1c33;border:2px solid #22d3ee;box-shadow:0 0 22px -6px #22d3ee;color:#fff}
+body:has(.page.gm.on) .mhd{border-bottom-color:#2f2d4d}
+body:has(.page.gm.on) .mx{background:#2a2846;border-color:#3a3760;color:#fff}
+body:has(.page.gm.on) .mtxt{color:#e9eaf2}
+body:has(.page.gm.on) .mfr{background:#2a2846;color:#67e8f9}
+body:has(.page.gm.on) .mnote{color:#c7c9d9}
+body:has(.page.gm.on) .mbox .listen{background:linear-gradient(90deg,#22d3ee,#a78bfa);color:#12111f;box-shadow:0 0 18px -4px #a78bfa}
+body:has(.page.gm.on) .mbox .ghost{background:#1e1c33;border-color:#3a3760;color:#fff}
+body:has(.page.gm.on) .hrow li b{color:#4ade80}
+body:has(.page.gm.on) .hrow i{color:#c7c9d9}
+body:has(.page.gm.on) .hnote{background:#2a2846;color:#c7c9d9}
+body:has(.page.gm.on) .hmed span,body:has(.page.gm.on) .hrk span{background:#2a2846;color:#fff}
