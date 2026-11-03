@@ -177,8 +177,12 @@ function updateTestTile() {
     const t = document.querySelector("#toTests span");
     if (!t)
         return;
-    const W = testWeeks(1), ks = Object.keys(TESTS).filter(k => W.tab[k][0]);
+    const W = testWeeks(1), ks = Object.keys(TESTS).filter(k => W.tab[k][0]), N = Object.keys(TESTS).length;
     t.textContent = ks.length ? `This week: ${ks.map(k => `${TSHORT[k]} ${n20(W.tab[k][0].avg)}/20`).join(" · ")}` : "One test a week: grammar, conjugation and irregular verbs";
+    /* v2 (PO, 03/11) : tests faits cette semaine sur 3 (0/3, 1/3…), dans l'anneau de la tuile */
+    const ring = document.getElementById("tring");
+    if (ring && curProf())
+        ring.innerHTML = ringSvg(ks.length, N, `${ks.length} of ${N} tests done this week`);
 }
 /* leçons à revoir cette semaine (du lundi au dimanche) : pour chaque leçon, le dernier test où elle est tombée ;
    elle est à revoir s'il y a eu une erreur, « revue » si l'élève a réussi son entraînement après ce test */
@@ -227,7 +231,7 @@ function reviewHtml() {
 function renderTests() {
     const T = testRecs(), W = testWeeks(8);
     document.getElementById("testsbody").innerHTML = `<div class="qhead">${headSvg("Let's *test* your English!", "smile")}</div>
-<div class="dsec"><h2>My marks this week</h2><span>/20</span></div>${testTiles(W)}
+<div class="dsec"><h2>My marks this week</h2><span>${Object.keys(TESTS).filter(k => W.tab[k][W.tab[k].length - 1]).length}/${Object.keys(TESTS).length} tests</span></div>${testTiles(W)}
 <button class="ghost sm tprog" data-goprog>See my progress week after week</button>
 <div class="dsec"><h2>The tests</h2><span>3</span></div>
 <div class="tlist">${Object.keys(TESTS).map(k => {

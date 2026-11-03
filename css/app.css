@@ -1176,3 +1176,4 @@ html.ts-xl .page.gm #toDaily{grid-template-columns:64px minmax(0,1fr) 44px}
   .page.gm .tiles>.tile:nth-child(5n+2){animation-delay:-.7s}.page.gm .tiles>.tile:nth-child(5n+3){animation-delay:-1.4s}.page.gm .tiles>.tile:nth-child(5n+4){animation-delay:-2.1s}.page.gm .tiles>.tile:nth-child(5n){animation-delay:-2.8s}
 }
 @media (prefers-reduced-motion:reduce){.page.gm .tile{animation:none}}
+.page.gm #toTests{grid-template-columns:128px minmax(0,1fr) 46px}@media (max-width:390px){.page.gm #toTests{grid-template-columns:104px minmax(0,1fr) 46px}}html.ts-l .page.gm #toTests{grid-template-columns:80px minmax(0,1fr) 46px}html.ts-xl .page.gm #toTests{grid-template-columns:64px minmax(0,1fr) 44px}
