@@ -1177,3 +1177,97 @@ html.ts-xl .page.gm #toDaily{grid-template-columns:64px minmax(0,1fr) 44px}
 }
 @media (prefers-reduced-motion:reduce){.page.gm .tile{animation:none}}
 .page.gm #toTests{grid-template-columns:128px minmax(0,1fr) 46px}@media (max-width:390px){.page.gm #toTests{grid-template-columns:104px minmax(0,1fr) 46px}}html.ts-l .page.gm #toTests{grid-template-columns:80px minmax(0,1fr) 46px}html.ts-xl .page.gm #toTests{grid-template-columns:64px minmax(0,1fr) 44px}
+/* Gamer (v2 sprint 1, demande du PO 03/11) : listes de mots, Grammar, Conjugation et leçons.
+   Chaque page reprend la couleur néon (--n) de sa tuile ; les cartes gardent un contour fixe (pas d'animation sur les longues listes). */
+.page.gm{--n:#22d3ee}
+#verbs.gm,#prepositions.gm{--n:#22d3ee}
+#nouns.gm,#phrasals.gm,#grammar.gm{--n:#a78bfa}
+#adjectives.gm,#idioms.gm,#conj.gm{--n:#a3e635}
+#adverbs.gm,#quantifiers.gm{--n:#fbbf24}
+#connectors.gm{--n:#f472b6}
+.page.gm .search .clr{background:#2a2846;color:#fff}
+.page.gm .chip{background:#1e1c33;border-color:#3a3760;color:#fff}
+.page.gm .chip i{color:#8f93ab}
+.page.gm .chip .emo{color:#fff}
+.page.gm .chip.on{background:var(--n);border-color:var(--n);color:#12111f}
+.page.gm .chip.on i,.page.gm .chip.on .emo{color:#12111f}
+.page.gm .vcard{background:#1e1c33;border:2px solid var(--n);border-color:color-mix(in srgb,var(--n) 60%,#1e1c33);box-shadow:0 0 14px -7px var(--n);color:#fff}
+.page.gm .vcard h3,.page.gm .vcard b{color:#fff}
+.page.gm .vcard small,.page.gm .pron{color:#c7c9d9}
+.page.gm .vcard .tr{color:var(--n)}
+.page.gm .emo{color:#fff}
+.page.gm .snd{background:var(--n);color:#12111f;box-shadow:0 0 12px -3px var(--n)}
+.page.gm .snd:active{box-shadow:none}
+.page.gm .snd.talk{background:#fff;box-shadow:0 0 14px -2px #fff}
+.page.gm .tgl{background:#1e1c33;border-color:var(--n);color:var(--n);box-shadow:none}
+.page.gm .vcard.mini .tgl{background:var(--n);border-color:var(--n);color:#12111f;box-shadow:none}
+.page.gm .forms div{border-color:#3a3760}
+.page.gm .forms i{color:#8f93ab}
+.page.gm .ex{background:#2a2846}
+.page.gm .ex .en{color:#fff}
+.page.gm .ex .fr{color:#c7c9d9}
+.page.gm .ex .vb,.page.gm .tok .vb,.page.gm .lsay .vb{color:#67e8f9}
+.page.gm .ex .vb,.page.gm .ex .en .vb{background:linear-gradient(transparent 62%,rgba(34,211,238,.28) 62%)}
+.page.gm .ex .fr .vb{color:#a5f3fc}
+.page.gm .ex.qa .ans{color:#67e8f9}
+.page.gm .ghost{background:#1e1c33;border-color:#3a3760;color:#fff}
+.page.gm .listen{background:linear-gradient(90deg,#22d3ee,#a78bfa);color:#12111f;box-shadow:0 0 18px -4px #a78bfa}
+.page.gm .listen:active{box-shadow:none}
+.page.gm .qhelp{background:#1e1c33;color:#fff;border-color:#3a3760}
+/* Listes Grammar / Conjugation */
+.page.gm .wkline{background:#1e1c33;color:#c7c9d9}
+.page.gm .wkline b{color:#fff}
+.page.gm .wkline.ok{background:rgba(163,230,53,.12);color:#bef264}
+.page.gm .tense{background:#1e1c33;border:2px solid var(--n);box-shadow:0 0 0 1px rgba(0,0,0,.45),0 0 16px -6px var(--n);color:#fff}
+.page.gm .tense .tn{background:var(--n);color:#12111f}
+.page.gm .tense small{color:#c7c9d9}
+.page.gm .tense em{background:#2a2846;color:var(--n)}
+.page.gm .tense.later{border-color:#3a3760;box-shadow:none}
+.page.gm .tense.later .tn{background:#3a3760;color:#8f93ab}
+.page.gm .tense.later b{color:#8f93ab}
+.page.gm .tense.later em{background:#2a2846;color:#8f93ab}
+/* Leçon */
+.page.gm .lintro{background:#1e1c33;color:#e9eaf2;border:2px solid #22d3ee;box-shadow:0 0 16px -6px #22d3ee}
+.page.gm .lintro b,.page.gm .lrule b{color:#67e8f9}
+.page.gm .dsec h2,.page.gm h2{color:#fff}
+.page.gm .ulab{color:#c7c9d9}
+.page.gm .ltwrap{border:2px solid #a78bfa;box-shadow:0 0 16px -6px #a78bfa}
+.page.gm .ltable td{border-top-color:#2f2d4d;color:#e9eaf2}
+.page.gm .ltable td:first-child,.page.gm .ltable td:last-child{color:#c7c9d9}
+.page.gm .ltable th{background:#2a2846;color:#fff}
+.page.gm .ltable tr.hot td{background:rgba(251,191,36,.12)}
+.page.gm .lsay{background:#2a2846;color:#fff}
+.page.gm .lsay.talk,.page.gm .tok.talk{background:#22d3ee;color:#12111f}
+.page.gm .lrule{background:#1e1c33;border-left-color:#a3e635;color:#e9eaf2}
+.page.gm .lrule.plain{background:none;border:0;color:#e9eaf2}
+.page.gm .lnote{background:rgba(251,191,36,.12);color:#fcd34d}
+#lesson.gm .ex{background:#1e1c33;border:1px solid #2f2d4d}
+.page.gm .trap{border-color:#fbbf24;background:#1e1c33;box-shadow:0 0 14px -7px #fbbf24}
+.page.gm .tfr{color:#c7c9d9}.page.gm .tok{color:#fff}.page.gm .tko{color:#ff9b9b}
+.page.gm .lgo{border:2px solid #3a3760;box-shadow:0 0 16px -8px #a78bfa;color:#fff}
+.page.gm .lsbox p,.page.gm .pnew{color:#c7c9d9}
+.page.gm .lsbox .lsnew{color:#fbbf24}
+/* Entraînement de la leçon */
+.page.gm .qpart{color:#22d3ee}
+.page.gm .pcount{color:#c7c9d9}
+.page.gm .psent{background:#1e1c33;border:2px solid #22d3ee;box-shadow:0 0 16px -6px #22d3ee;color:#fff}
+.page.gm .pq{color:#22d3ee}
+.page.gm .opt{background:#1e1c33;border-color:#3a3760;box-shadow:0 4px 0 #0b0a14;color:#fff}
+.page.gm .opt:active{box-shadow:0 1px 0 #0b0a14}
+.page.gm .opt .otr{color:#c7c9d9}
+.page.gm .opt.right{background:#0f2e1f;border-color:#22c55e;box-shadow:0 4px 0 #15803d;color:#86efac}
+.page.gm .opt.right .otr{color:#86efac}
+.page.gm .opt.wrong{background:#3a1420;border-color:#f87171;box-shadow:0 4px 0 #b91c1c;color:#fca5a5}
+.page.gm .opt.wrong .otr{color:#fca5a5}
+.page.gm .pscore b,.page.gm .pscore span{color:#fff}
+.page.gm .pscore small{color:#c7c9d9}
+.page.gm .pbar{background:#2a2846}
+.page.gm .recap li{background:#1e1c33;color:#fff}
+.page.gm .recap i{color:#c7c9d9}
+.page.gm .recap li.ok span,.page.gm .recap .m.ok{color:#4ade80}
+.page.gm .recap li.ko span,.page.gm .recap .m.ko{color:#f87171}
+.page.gm .dban{background:rgba(251,191,36,.14);color:#fcd34d}
+.page.gm .dban.ok{background:rgba(74,222,128,.12);color:#86efac}
+.page.gm .dsec span{color:var(--n)}
+.page.gm .goal{color:#fbbf24}.page.gm .goal.ok{color:#4ade80}
+.page.gm .lnote b{color:#fff}
