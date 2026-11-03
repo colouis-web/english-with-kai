@@ -203,12 +203,14 @@ function weekReview() {
     list.sort((a, b) => a.done - b.done || a.ok / a.n - b.ok / b.n || b.t - a.t);
     return { tests, list };
 }
+/* même présentation que « Words of the day » de My work (PO, 03/11) : « To review » en rouge, « Revised » en vert, repliables */
 function reviewHtml() {
-    const R = weekReview(), todo = R.list.filter(x => !x.done).length;
+    const R = weekReview(), ko = R.list.filter(x => !x.done), ok = R.list.filter(x => x.done);
+    const li = x => `<li class="rvli" data-lesson="${x.id}" role="button" tabindex="0" aria-label="Open the lesson ${esc(LESSONS[x.id].title)}"><span class="kt">${LESSONS[x.id].type === "conj" ? "Conj." : "Gram."}</span><b>${esc(LESSONS[x.id].title)}</b><i>${x.done ? `${CHECK}revised` : `${x.ok}/${x.n} in the test`}</i></li>`;
     const body = !R.tests ? `<p class="dnone">No test this week yet. After a grammar or conjugation test, the lessons with mistakes will appear here.</p>`
-        : !R.list.length ? `<p class="dban ok">${CHECK}No lesson to review this week. Bravo!</p>`
-        : `<div class="rvlist">${R.list.map(x => `<button class="rvl${x.done ? " done" : ""}" type="button" data-lesson="${x.id}"><span class="rvt"><i>${LESSONS[x.id].type === "conj" ? "Conjugation" : "Grammar"}</i><b>${esc(LESSONS[x.id].title)}</b><small>${x.done ? "Revised after the test. Well done!" : `${x.ok}/${x.n} good answers in the test`}</small></span>${x.done ? CHECK : `<span class="rvgo">Review${GOSVG}</span>`}</button>`).join("")}</div>`;
-    return `<div class="dsec" id="treview"><h2>Lessons to review this week</h2><span>${R.list.length ? `${todo}` : ""}</span></div>${body}`;
+        : `<details class="wd" open><summary class="wh ko">To review <span>${ko.length}</span></summary>${ko.length ? `<ul class="wlist ko">${ko.map(li).join("")}</ul>` : `<p class="dnone">No lesson to review. Bravo!</p>`}</details>
+<details class="wd"${ok.length <= 6 ? " open" : ""}><summary class="wh ok">Revised <span>${ok.length}</span></summary>${ok.length ? `<ul class="wlist ok">${ok.map(li).join("")}</ul>` : `<p class="dnone">Not yet. Open a lesson above and practise it.</p>`}</details>`;
+    return `<div class="dsec" id="treview"><h2>Lessons to review this week</h2><span>${R.tests ? R.list.length : ""}</span></div>${body}`;
 }
 function renderTests() {
     const T = testRecs(), W = testWeeks(8);
@@ -603,6 +605,14 @@ document.getElementById("testsbody").addEventListener("click", e => {
     const bb = e.target.closest(".qhead .bb");
     if (bb)
         sayOne("Let's test your English!", bb);
+});
+/* clavier : Entrée ou Espace sur une leçon à revoir l'ouvre, comme un clic */
+document.getElementById("testsbody").addEventListener("keydown", e => {
+    const rv = e.target.closest(".rvli");
+    if (rv && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        rv.click();
+    }
 });
 function leaveTest() {
     stopSpeech();
