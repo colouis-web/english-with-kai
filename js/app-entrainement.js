@@ -252,7 +252,7 @@ document.getElementById("toGrammar").addEventListener("click", () => {
     renderLessonList("grammar");
     show("grammar");
 });
-document.getElementById("backCj").addEventListener("click", () => show("menu", true));
+document.getElementById("backCj").addEventListener("click", () => show("learn", true));
 ["conjbody", "grammarbody"].forEach(id => document.getElementById(id).addEventListener("click", e => {
     const ls = e.target.closest("[data-lesson]");
     if (ls) {
@@ -278,7 +278,7 @@ document.getElementById("backL").addEventListener("click", () => {
 renderMenuHead();
 updateDailyTile();
 setTimeout(dSync, 0);
-document.getElementById("backG").addEventListener("click", () => show("menu", true));
+document.getElementById("backG").addEventListener("click", () => show("learn", true));
 /* icônes monochromes (police Noto Emoji) : si la police ne charge pas, on les masque */
 (function () {
     const H = document.documentElement, no = () => H.classList.add("emo-no");
