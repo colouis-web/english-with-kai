@@ -1210,6 +1210,10 @@ html.ts-xl .page.gm #toDaily{grid-template-columns:64px minmax(0,1fr) 44px}
 .page.gm .ex .vb,.page.gm .ex .en .vb{background:linear-gradient(transparent 62%,rgba(34,211,238,.28) 62%)}
 .page.gm .ex .fr .vb{color:#a5f3fc}
 .page.gm .ex.qa .ans{color:#67e8f9}
+/* Sprint 3 · US1 : en mode gamer, l'encadré « Meaning » des idioms gardait son fond clair sous un texte clair (illisible) */
+.page.gm .imean{background:#1e1c33;border:1px solid rgba(251,191,36,.55);box-shadow:0 0 16px -8px #fbbf24}
+.page.gm .imean i{color:#fbbf24}
+.page.gm .imean p{color:#fff;font-size:17px}
 .page.gm .ghost{background:#1e1c33;border-color:#3a3760;color:#fff}
 .page.gm .listen{background:linear-gradient(90deg,#22d3ee,#a78bfa);color:#12111f;box-shadow:0 0 18px -4px #a78bfa}
 .page.gm .listen:active{box-shadow:none}
