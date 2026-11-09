@@ -1354,12 +1354,11 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 @media (prefers-reduced-motion:reduce){#home.gm .tubes i{animation:none;opacity:.9;filter:drop-shadow(0 0 6px var(--c)) drop-shadow(0 0 14px var(--c))}}
 
 /* Sprint 3 · US4 : leçons rangées par classe (6e, 5e, 4e, 3e, lycée) */
-.lcnav{display:flex;gap:8px;overflow-x:auto;margin:0 0 6px;padding:2px 0 6px;scrollbar-width:none}
-.lcnav::-webkit-scrollbar{display:none}
-.lcnav .chip{flex:none;text-transform:none;min-width:52px;justify-content:center}
-.lclass{display:flex;align-items:baseline;gap:10px;margin:18px 0 8px;scroll-margin-top:84px}
+.lclass{display:flex;align-items:baseline;gap:10px;margin:18px 0 8px}
 .lclass b{font:700 24px/1 var(--title);letter-spacing:.5px}
 .lclass span{font:500 14px var(--claude);color:var(--mut)}
 .lclass small{margin-left:auto;font:500 13px var(--claude);color:var(--mut)}
 .page.gm .lclass b{color:var(--n,#a3e635);text-shadow:0 0 12px rgba(163,230,53,.35)}
 .page.gm .lclass span,.page.gm .lclass small{color:#c7c9d9}
+.tense em.lctag{margin-right:6px;text-transform:none;background:transparent;border:1.5px solid currentColor;padding:3.5px 8px;color:var(--ink)}
+.page.gm .tense em.lctag{background:transparent;color:#fbbf24}
