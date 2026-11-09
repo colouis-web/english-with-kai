@@ -1,0 +1,314 @@
+{
+    "Seconde_B1": {
+        "description": "Vocabulaire indispensable niveau B1 (Seconde)",
+        "categories": {
+            "Opinion_and_Argument": [
+                {
+                    "word": "agree",
+                    "pos": "verb",
+                    "translation": "être d'accord"
+                },
+                {
+                    "word": "disagree",
+                    "pos": "verb",
+                    "translation": "ne pas être d'accord"
+                },
+                {
+                    "word": "claim",
+                    "pos": "verb",
+                    "translation": "prétendre / affirmer"
+                },
+                {
+                    "word": "issue",
+                    "pos": "noun",
+                    "translation": "problème / enjeu"
+                },
+                {
+                    "word": "point of view",
+                    "pos": "noun",
+                    "translation": "point de vue"
+                }
+            ],
+            "Society_and_Daily_Life": [
+                {
+                    "word": "behavior",
+                    "pos": "noun",
+                    "translation": "comportement"
+                },
+                {
+                    "word": "citizenship",
+                    "pos": "noun",
+                    "translation": "citoyenneté"
+                },
+                {
+                    "word": "environment",
+                    "pos": "noun",
+                    "translation": "environnement"
+                },
+                {
+                    "word": "freedom",
+                    "pos": "noun",
+                    "translation": "liberté"
+                },
+                {
+                    "word": "habit",
+                    "pos": "noun",
+                    "translation": "habitude"
+                }
+            ],
+            "Work_and_Education": [
+                {
+                    "word": "achieve",
+                    "pos": "verb",
+                    "translation": "accomplir / réussir"
+                },
+                {
+                    "word": "career",
+                    "pos": "noun",
+                    "translation": "carrière"
+                },
+                {
+                    "word": "degree",
+                    "pos": "noun",
+                    "translation": "diplôme"
+                },
+                {
+                    "word": "improve",
+                    "pos": "verb",
+                    "translation": "améliorer"
+                },
+                {
+                    "word": "skill",
+                    "pos": "noun",
+                    "translation": "compétence"
+                }
+            ],
+            "Linking_Words": [
+                {
+                    "word": "however",
+                    "pos": "adverb",
+                    "translation": "cependant"
+                },
+                {
+                    "word": "although",
+                    "pos": "conjunction",
+                    "translation": "bien que"
+                },
+                {
+                    "word": "besides",
+                    "pos": "adverb",
+                    "translation": "de plus"
+                },
+                {
+                    "word": "therefore",
+                    "pos": "adverb",
+                    "translation": "par conséquent"
+                },
+                {
+                    "word": "whereas",
+                    "pos": "conjunction",
+                    "translation": "tandis que"
+                }
+            ]
+        }
+    },
+    "Premiere_B1_B2": {
+        "description": "Vocabulaire indispensable niveau B1+/B2 (Première - Axes du programme)",
+        "categories": {
+            "Identities_and_Exchanges": [
+                {
+                    "word": "belonging",
+                    "pos": "noun",
+                    "translation": "appartenance"
+                },
+                {
+                    "word": "border",
+                    "pos": "noun",
+                    "translation": "frontière"
+                },
+                {
+                    "word": "diversity",
+                    "pos": "noun",
+                    "translation": "diversité"
+                },
+                {
+                    "word": "integration",
+                    "pos": "noun",
+                    "translation": "intégration"
+                },
+                {
+                    "word": "trade",
+                    "pos": "noun/verb",
+                    "translation": "commerce / échanger"
+                }
+            ],
+            "Power_and_Counterpowers": [
+                {
+                    "word": "authority",
+                    "pos": "noun",
+                    "translation": "autorité"
+                },
+                {
+                    "word": "censorship",
+                    "pos": "noun",
+                    "translation": "censure"
+                },
+                {
+                    "word": "influence",
+                    "pos": "noun/verb",
+                    "translation": "influence / influencer"
+                },
+                {
+                    "word": "protest",
+                    "pos": "noun/verb",
+                    "translation": "manifestation / protester"
+                },
+                {
+                    "word": "rights",
+                    "pos": "noun",
+                    "translation": "droits"
+                }
+            ],
+            "Scientific_Innovations_and_Responsibility": [
+                {
+                    "word": "breakthrough",
+                    "pos": "noun",
+                    "translation": "avancée majeure / découverte"
+                },
+                {
+                    "word": "device",
+                    "pos": "noun",
+                    "translation": "appareil / dispositif"
+                },
+                {
+                    "word": "ethical",
+                    "pos": "adjective",
+                    "translation": "éthique"
+                },
+                {
+                    "word": "progress",
+                    "pos": "noun",
+                    "translation": "progrès"
+                },
+                {
+                    "word": "threat",
+                    "pos": "noun",
+                    "translation": "menace"
+                }
+            ],
+            "Art_and_Power": [
+                {
+                    "word": "commitment",
+                    "pos": "noun",
+                    "translation": "engagement"
+                },
+                {
+                    "word": "convey",
+                    "pos": "verb",
+                    "translation": "véhiculer / transmettre"
+                },
+                {
+                    "word": "depict",
+                    "pos": "verb",
+                    "translation": "dépeindre / représenter"
+                },
+                {
+                    "word": "masterpiece",
+                    "pos": "noun",
+                    "translation": "chef-d'œuvre"
+                },
+                {
+                    "word": "propaganda",
+                    "pos": "noun",
+                    "translation": "propagande"
+                }
+            ]
+        }
+    },
+    "Terminale_B2_C1": {
+        "description": "Vocabulaire avancé niveau B2/C1 (Terminale & Épreuves du Bac)",
+        "categories": {
+            "Fictions_and_Realities": [
+                {
+                    "word": "dystopia",
+                    "pos": "noun",
+                    "translation": "dystopie"
+                },
+                {
+                    "word": "misleading",
+                    "pos": "adjective",
+                    "translation": "trompeur / induisant en erreur"
+                },
+                {
+                    "word": "unreliable",
+                    "pos": "adjective",
+                    "translation": "peu fiable"
+                },
+                {
+                    "word": "utopia",
+                    "pos": "noun",
+                    "translation": "utopie"
+                },
+                {
+                    "word": "virtual",
+                    "pos": "adjective",
+                    "translation": "virtuel"
+                }
+            ],
+            "Diversity_and_Inclusion": [
+                {
+                    "word": "bias",
+                    "pos": "noun",
+                    "translation": "parti pris / préjugé"
+                },
+                {
+                    "word": "discrimination",
+                    "pos": "noun",
+                    "translation": "discrimination"
+                },
+                {
+                    "word": "empowerment",
+                    "pos": "noun",
+                    "translation": "autonomisation / emponderment"
+                },
+                {
+                    "word": "equality",
+                    "pos": "noun",
+                    "translation": "égalité"
+                },
+                {
+                    "word": "fairness",
+                    "pos": "noun",
+                    "translation": "équité / justice"
+                }
+            ],
+            "Advanced_Argumentation": [
+                {
+                    "word": "advocate",
+                    "pos": "verb",
+                    "translation": "préconiser / défendre"
+                },
+                {
+                    "word": "compelling",
+                    "pos": "adjective",
+                    "translation": "convaincant / persuasif"
+                },
+                {
+                    "word": "drawback",
+                    "pos": "noun",
+                    "translation": "inconvénient"
+                },
+                {
+                    "word": "furthermore",
+                    "pos": "adverb",
+                    "translation": "de plus / en outre"
+                },
+                {
+                    "word": "notwithstanding",
+                    "pos": "preposition",
+                    "translation": "malgré / nonobstant"
+                }
+            ]
+        }
+    }
+}
