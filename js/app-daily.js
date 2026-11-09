@@ -483,7 +483,7 @@ function weekLesson(type) {
     return null;
 }
 function suggestLesson(type) {
-    const ids = LORDER[type];
+    const ids = lessonsByClass(type);   /* Sprint 3 · US4 : la leçon proposée suit l'ordre des classes (6e d'abord) */
     return ids.find(id => (lessonBest(id) ?? -1) < PASS) || ids.slice().sort((a, b) => (lessonBest(a) ?? 0) - (lessonBest(b) ?? 0))[0];
 }
 /* --- passer au niveau suivant : régularité, mots connus, réussite, leçons --- */
