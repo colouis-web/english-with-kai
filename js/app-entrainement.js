@@ -235,14 +235,17 @@ document.getElementById("lessonbody").addEventListener("click", e => {
 /* listes de leçons : conjugaison et grammaire */
 function lessonTile(id) {
     const L = LESSONS[id], b = lessonBest(id), st = lessonState(id), wk = weekLesson(L.type);
-    return `<button class="tense lesson${st === "pass" ? " done" : ""}" data-lesson="${id}"><span class="tn">${L.type === "conj" ? esc(id === "be" || id === "have" ? id : String(LORDER.conj.indexOf(id) - 1)) : String(LORDER.grammar.indexOf(id) + 1)}</span><span class="tt2"><b>${L.title}</b><small>${esc(L.fr)} · ${esc(L.sub)}</small><em>${st === "new" ? "New lesson" : st === "pass" ? `Passed · best ${b}%` : `Best ${b}% · ${PASS}% to pass`}</em>${starRow(starsFor(lessonGood(id)))}${wk && wk.id === id ? `<em class="wkb">${CHECK}This week</em>` : ""}</span></button>`;
+    return `<button class="tense lesson${st === "pass" ? " done" : ""}" data-lesson="${id}"><span class="tn">${L.type === "conj" ? esc(id === "be" || id === "have" ? id : String(lessonsByClass("conj").indexOf(id) - 1)) : String(lessonsByClass("grammar").indexOf(id) + 1)}</span><span class="tt2"><b>${L.title}</b><small>${esc(L.fr)} · ${esc(L.sub)}</small><em class="lctag" aria-label="School year: ${lclassName(lclass(id))}">${lclassName(lclass(id))}</em><em>${st === "new" ? "New lesson" : st === "pass" ? `Passed · best ${b}%` : `Best ${b}% · ${PASS}% to pass`}</em>${starRow(starsFor(lessonGood(id)))}${wk && wk.id === id ? `<em class="wkb">${CHECK}This week</em>` : ""}</span></button>`;
 }
 function renderLessonList(type) {
     const box = document.getElementById(type === "conj" ? "conjbody" : "grammarbody"), wk = weekLesson(type), sug = suggestLesson(type);
     const say = type === "conj" ? "Let's *conjugate*! One lesson a week: start with *be* and *have*." : "Let's learn *grammar*! One lesson a week.";
     box.innerHTML = `<div class="qhead">${headSvg(say, "smile")}</div>
 <div class="wkline${wk ? " ok" : ""}">${wk ? `${CHECK}<span>This week's ${type === "conj" ? "conjugation" : "grammar"} lesson is done: <b>${esc(LESSONS[wk.id].title)}</b> (${wk.p}%)</span>` : `<span>Lesson of the week: <b>${esc(LESSONS[sug].title)}</b></span>`}</div>
-<div class="tlist">${LORDER[type].map(lessonTile).join("")}</div>`;
+${LCLASSES.map(([c, cefr, fr]) => {
+        const ids = lessonsByClass(type).filter(id => lclass(id) === c);
+        return ids.length ? `<div class="lclass" id="lc-${type}-${c}"><b>${lclassName(c)}</b><span>${cefr} · <span lang="fr">${fr}</span></span><small>${ids.length} lesson${ids.length > 1 ? "s" : ""}</small></div><div class="tlist">${ids.map(lessonTile).join("")}</div>` : "";
+    }).join("")}`;
 }
 document.getElementById("toConj").addEventListener("click", () => {
     renderLessonList("conj");

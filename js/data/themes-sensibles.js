@@ -27,11 +27,11 @@ const SENSITIVE = {
             /* war */ "medal", "uniform", "peace", "flag", "hero", "helmet", "victory", "defeat", "shield", "armour",
             /* finance */ "bank", "money", "coin", "banknote", "cash", "price", "cost", "bill", "receipt", "wallet", "purse",
             "piggy bank", "pocket money", "savings", "change", "euro", "pound", "dollar", "penny", "cent", "discount",
-            "sale", "customer", "bargain", "cashier", "safe",
+            "sale", "customer", "bargain", "cashier", "safe", "trade",   /* Sprint 3 · US6 : « le commerce », sans danger */
             /* endoflife : Halloween et vie quotidienne */ "church", "candle", "life", "birth", "memory", "angel", "ghost",
             "skeleton", "illness", "priest",
             /* justice : règles, police, vérité */ "police station", "police officer", "police", "detective", "rule", "law",
-            "right", "duty", "citizen", "truth", "lie", "permission", "ban", "government", "justice", "lawyer", "judge"
+            "right", "duty", "citizen", "citizenship", "truth", "lie", "permission", "ban", "government", "justice", "lawyer", "judge"
         ],
         adjectives: [
             /* money */ "rich", "poor", "free", "affordable", "valuable", "priceless", "greedy", "costly",

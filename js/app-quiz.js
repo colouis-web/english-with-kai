@@ -248,6 +248,8 @@ function renderEnd() {
     const msg = perfect ? "Perfect!" : P >= 80 ? "Great job!" : P >= 60 ? "Well done!" : "Not yet!", nfix = QZ.words.filter(({ d }) => !(QZ.qs[0].find(q => q.d === d) || {}).res || !(QZ.qs[1].find(q => q.d === d) || {}).res).length;
     document.getElementById("qn").textContent = "";
     const rows = [["You got"], [[`${P}%`], "!"], [msg]], pick = endPick(T, 2 * N), img = END_L[pick];
+    /* Sprint 3 · US2 : mots du jour pas tous réussis → « Do it again » ET la série suivante, sans repasser par My work */
+    const dayNext = DAILY && QZ.kind === "mix" && !perfect ? (dayDone(dToday()) ? "Bonus round" : "Next words") : "";
     const r = (ph, d) => QZ.qs[ph].find(q => q.d === d).res, mk = v => `<span class="m ${v ? "ok" : "ko"}">${v ? CHECK : CROSS}</span>`;
     QW().innerHTML = `<p class="qpart">${QZ.attempt > 1 ? `Try ${QZ.attempt}` : "Results"}</p>
 <div class="qend"><svg viewBox="0 0 360 300" role="img" aria-label="Kai : you got ${P} percent">
@@ -258,7 +260,7 @@ function renderEnd() {
 ${DR ? `<p class="dban${DR.reached ? " ok" : ""}">${DR.reached ? `${CHECK}Goal reached: ${DR.m} words today! Trophy +3 stars` : DR.bonus ? `${BOLT}Bonus quiz: +1 star!` : `${CHECK}Words of the day: ${Math.min(DR.m, DR.n)}/${DR.n} mastered`}</p>` : ""}
 <p class="rleg">FR → EN · EN → FR</p>
 <ul class="recap two">${QZ.words.map(({ d, k }) => `<li>${mk(r(0, d))}${mk(r(1, d))}<b>${esc(recapLab(k || QZ.kind, d))}</b><i>${esc(d.fr)}</i></li>`).join("")}</ul>
-<div class="endbtns">${perfect ? `<button class="listen" id="qnew">${QZ.kind === "mix" ? "Next words" : "New words"}</button>` : `<button class="listen" id="qagain">Do it again</button>`}${DAILY ? `<button class="ghost" id="qday">My day</button>` : `<button class="ghost" id="qtopics">Topics</button><button class="ghost" id="qmenu">Menu</button>`}</div>`;
+<div class="endbtns">${perfect ? `<button class="listen" id="qnew">${QZ.kind === "mix" ? "Next words" : "New words"}</button>` : `<button class="listen" id="qagain">Do it again</button>${dayNext ? `<button class="listen" id="qnew">${dayNext}</button>` : ""}`}${DAILY ? `<button class="ghost" id="qday">My day</button>` : `<button class="ghost" id="qtopics">Topics</button><button class="ghost" id="qmenu">Menu</button>`}</div>`;
     sayOne(P < 60 ? `You got ${P} percent. Not yet! ${nfix} word${nfix > 1 ? "s" : ""} to fix. Let's go again!` : `You got ${P} percent! ${msg.charAt(0) + msg.slice(1).toLowerCase()}`, document.getElementById("endb"));
 }
 /* choix du thème */

@@ -28,6 +28,9 @@ function lvOkWord(kind, d, lv) {
     /* thèmes sensibles (mort, guerre, crime, impôts…) : jamais proposés automatiquement aux niveaux 0–1 (js/data/themes-sensibles.js) */
     if (typeof sensOk === "function" && !sensOk(kind, d, lv))
         return false;
+    /* Sprint 3 · US6 : niveau minimum d'un mot (champ lv, 0 à 3) — vocabulaire de lycée : lv 2 (B1) ou 3 (B2) */
+    if (d && Number.isInteger(d.lv) && lv < d.lv)
+        return false;
     const u = useOf(kind, d);
     if (lv <= 0)
         return u.f >= 2 && !/[sfelox]/.test(u.r);
