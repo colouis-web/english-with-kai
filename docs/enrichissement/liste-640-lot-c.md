@@ -70,3 +70,8 @@ Aucune erreur JS ; compteurs augmentés (connecteurs 79, prépositions 72, adver
 - **headway** : fr précise l'emploi *make headway* (progresser, avancer).
 - **surge, soar** : séparateur « / » dans fr (comme le reste de DICT), sens principal en premier.
 - **Au PO** : *a wedge issue* est par nature un terme de politique (américain) ; les exemples sont neutres, mais la fiche pourrait être retirée si le lot doit rester sans politique.
+
+## Décisions du PO (10/11)
+
+- on behalf of, at the core of (Adding), at the expense of (Contrast), for want of (Cause & result) : déplacés des prépositions vers les connecteurs.
+- « a wedge issue » retiré (expression politique par nature).

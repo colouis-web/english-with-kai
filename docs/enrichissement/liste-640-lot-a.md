@@ -92,3 +92,8 @@ Aucune erreur JS ni erreur console ; index existants inchangés (préfixes ident
 - **buoyancy** : « life jacket » → « lifejacket » (cohérent avec la fiche lifejacket).
 - Traductions françaises reprises : deck (sont montés en courant), fishing (aller à la pêche), flare (« mer noire » ambigu), gangway, jet skiing (palpitant), brick (en briques), scaffolding (sur l'échafaudage), humidity (l'air est moite), master (maître d'échecs), deep (Inspire profondément), hit the roof.
 - **Au PO** : *take a rain check* est d'origine américaine (r « i » seul, sans « a ») ; *lifejacket* en un mot est accepté en anglais britannique (RNLI) mais les dictionnaires donnent plutôt *life jacket* ; la fiche verbe **steer** est niveau 2 alors que « steer » est utile dès le collège.
+
+## Décisions du PO (10/11)
+
+- `lifejacket` gardé en un mot.
+- `steer` sans niveau minimum : proposé dès le collège.

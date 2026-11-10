@@ -118,3 +118,13 @@ Playwright (Chromium, `python3 -m http.server`) : aucune erreur JS ni console au
 - *cover letter* : forme courante (et celle du TOEIC), mais l'anglais britannique classique dit *covering letter*. Garder *cover letter* ?
 - *binder*, *hard disk*, *house painter* : justes, mais au Royaume-Uni on dit plus souvent *(ring) binder / folder*, *hard drive*, *painter and decorator*. Laissés tels quels.
 - Proposition : ajouter *sale* (« les soldes », *in the sale*) dans un prochain lot, pour compléter *on sale*.
+
+## Décisions du PO (10/11, 07:16) appliquées par le scrum master
+
+- Mots d'argent sans danger ajoutés aux exceptions de `themes-sensibles.js` (invoice, voucher, rip-off ; freelance, full-time,
+  part-time, second-hand, self-employed, badly paid, for sale, on sale, out of stock). Les plus courants passent de lv 2 à lv 1
+  (voucher, full-time, part-time, second-hand, for sale, on sale, out of stock) : ils arrivent dès Elementary.
+- `cover letter` gardé ; `binder` retiré (`folder` existe déjà : « une pochette, un classeur »).
+- Petit lot complémentaire : work experience (lv 1), internship, apprenticeship, vacancy (lv 2), manager (lv 1). `skill` et `sale`
+  existaient déjà.
+- Le PO précise que plusieurs adultes utilisent aussi l'application.
