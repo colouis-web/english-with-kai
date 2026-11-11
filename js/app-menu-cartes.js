@@ -11,9 +11,9 @@ function mcToday() {
         return;
     const k = todayKey(), r = DST.days[k], n = (r && r.n) || target(), m = Math.min(masteredOf(r), n), done = dayDone(r), size = roundSize();
     box.innerHTML = `<div class="mch"><span class="mct">Today</span><span class="mcd">${esc(longDate(k))}</span></div>
-<div class="mcw"><b>${m}</b><span>/ ${n} words mastered</span>${done ? CHECK : ""}</div><div class="pbar"><i style="width:${Math.round(100 * m / n)}%"></i></div>
-<div class="rstats sm mrs"><div class="rst"><b>${STAR}${starsOf(r)}</b><i>Stars today</i></div><div class="rst"><b>${BOLT}${bonusOf(r)}</b><i>Bonus quizzes</i></div><div class="rst"><b>${FLAME}${streak()}</b><i>Day streak</i></div></div>
-<button class="mcgo" type="button" id="mcround">${done ? "Bonus round" : m ? "Next words" : "Start"} · ${size} words${GOSVG}</button>`;
+<div class="mcmid"><div class="mcw"><b>${m}</b><span>/ ${n} words mastered</span>${done ? CHECK : ""}</div><div class="pbar"><i style="width:${Math.round(100 * m / n)}%"></i></div>
+<button class="mcgo" type="button" id="mcround">${done ? "Bonus round" : m ? "Next words" : "Start"} · ${size} words${GOSVG}</button></div>
+<div class="rstats sm mrs"><div class="rst"><b>${STAR}${starsOf(r)}</b><i>Stars today</i></div><div class="rst"><b>${BOLT}${bonusOf(r)}</b><i>Bonus quizzes</i></div><div class="rst"><b>${FLAME}${streak()}</b><i>Day streak</i></div></div>`;
 }
 function mcWeek() {
     const p = curProf(), box = document.getElementById("mweek");

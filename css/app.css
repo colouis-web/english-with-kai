@@ -1378,10 +1378,12 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .mch{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .mct{font:800 32px/1 var(--title);letter-spacing:1px;text-transform:uppercase;color:var(--n);text-shadow:0 0 12px color-mix(in srgb,var(--n) 45%,transparent)}
 .mcd{font:700 14px var(--claude);color:#c7c9d9}
-.mcw{display:flex;align-items:baseline;gap:6px}
+.mcmid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.mcmid .mcgo{margin-top:2px}
+.mcw{display:flex;align-items:baseline;justify-content:center;gap:6px}
 .mcw b{font:800 34px/1 var(--claude);color:#fff}
 .mcw span{font:700 16px var(--claude);color:#c7c9d9}
-.mcw .stamp{width:24px;height:24px;margin-left:auto;align-self:center}
+.mcw .stamp{width:24px;height:24px;margin-left:4px;align-self:center}
 .mcar .pbar{height:10px}
 .mcar .pbar i{background:linear-gradient(90deg,#22d3ee,var(--n))}
 .mrs .rst{background:#16152a;border-color:#3a3760}
