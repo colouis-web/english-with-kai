@@ -104,15 +104,16 @@ class Parcours:
         return self.page.evaluate(js) if arg is None else self.page.evaluate(js, arg)
 
     def click(self, sel, **kw):
-        # v2 (PO, 03/11) : Words, Grammar et Conjugation sont dans « English lessons » : on y passe depuis le menu, comme un élève
-        # Words (PO, 03/11) : Dictionary et Quiz sont dans la page « Words » du menu
-        if sel in ("#toDico", "#toQuizzes") and not self.page.locator(sel).first.is_visible() and self.page.locator("#toWords").first.is_visible():
-            self.page.locator("#toWords").first.click()
-            self.on("wordhub")
-        if sel in ("#toGrammar", "#toConj") and not self.page.locator(sel).first.is_visible() and self.page.locator("#toLearn").first.is_visible():
-            self.page.locator("#toLearn").first.click()
-            self.on("learn")
+        # menu en apps (PO, 11/11) : Dictionary, Grammar et Conjugation sont au menu ; le Quiz est dans « Test yourself »
+        if sel == "#toQuizzes" and not self.page.locator(sel).first.is_visible() and self.page.locator("#toTY").first.is_visible():
+            self.page.locator("#toTY").first.click()
+            self.on("ty")
         self.page.locator(sel).first.click(**kw)
+
+    def goal(self, page=None):
+        """Mots du jour « m/n » lus sur la carte Today du menu (PO, 11/11 : ils ne sont plus dans My activity)."""
+        m = re.search(r"(\d+)\s*/\s*(\d+)", (page or self.page).locator("#mday .mcw").first.text_content() or "")
+        return f"{m.group(1)}/{m.group(2)}" if m else ""
 
     def text(self, sel):
         """Texte du DOM (les feuilles de style passent beaucoup de titres en MAJUSCULES : on lit le texte réel)."""
@@ -142,8 +143,8 @@ class Parcours:
 
     def back(self, expected):
         self.page.locator(".page.on .back").first.click()
-        # v2 : Words, Grammar et Conjugation ramènent à « English lessons », puis au menu (deux flèches, comme un élève)
-        if expected == "menu" and current_page(self.page) in ("learn", "wordhub"):
+        # le Quiz ramène à « Test yourself », puis au menu (deux flèches, comme un élève)
+        if expected == "menu" and current_page(self.page) == "ty":
             self.page.locator(".page.on .back").first.click()
         self.on(expected)
 
@@ -395,20 +396,23 @@ def s02_creation_profil(P):
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
     P.check("Le menu accueille l'élève par son prénom", "Welcome Léa Dupont!" in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
-    P.check("Les tuiles du menu sont là (Words au menu, Grammar et Conjugation rangées dans « English lessons »)",
-            all(P.visible(f"#{t}") for t in ("toDaily", "toWords", "toLearn", "toTests", "toTY")) and not P.visible("#toGrammar") and not P.visible("#toCerts"))
+    P.check("Les 6 apps du menu sont là (Dictionary, Grammar, Conjugation, My activity, Test yourself, Weekly review)",
+            all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests")) and not P.visible("#toCerts"))
+    P.check("Le menu montre la carte Today : 0/10 mots du jour", P.goal() == "0/10", P.goal())
     P.no_overflow("menu")
 
 
 def s03_mots_du_jour(P):
     p = P.page
+    P.check("Carte Today du menu : objectif du niveau Beginner = 0/10", P.goal() == "0/10", P.goal())
     P.click("#toDaily")
     P.on("daily")
-    P.check("« My daily work » : objectif du niveau Beginner = 0/10", "0/10" in P.text(".dsec span"), P.text(".dsec span"))
     # PO, 03/11 : l'humeur se donne APRÈS le travail du jour (« How did you feel today? »)
     P.check("Avant tout tour de mots : pas encore d'humeur à choisir, une phrase l'annonce", p.locator("#dailybody [data-mood]").count() == 0 and p.locator("#dailybody .dlater").count() == 1)
-    P.no_overflow("My work")
-    P.click("#dround")
+    P.check("My activity n'a plus l'objectif ni la liste des mots du jour (PO, 11/11)", p.locator("#dailybody .wgoal, #dailybody #dround").count() == 0 and "Words of the day" not in P.text("#dailybody"))
+    P.no_overflow("My activity")
+    P.back("menu")
+    P.click("#mcround")
     P.on("quiz")
     k = P.ev("() => QZ.kind")
     P.check("Le bouton « Start » lance un tour de mots du jour (kind = mix)", k == "mix", k)
@@ -433,23 +437,21 @@ def s03_mots_du_jour(P):
     P.check("Le tour porte ses mots dans les 6 natures (verbes, noms…) : au moins 3 natures différentes",
             len({w["k"] for w in rec["w"].values()}) >= 3, {w["k"] for w in rec["w"].values()})
     P.click("#qday")
+    P.on("menu")
+    P.check("Retour au menu (bouton « Menu ») : la carte Today affiche 10/10", P.goal() == "10/10", P.goal())
+    P.click("#toDaily")
     P.on("daily")
-    P.check("Retour sur « My daily work » : 10/10", "10/10" in P.text(".dsec span"), P.text(".dsec span"))
-    P.check("Le bouton « Other quizzes » apparaît quand l'objectif est atteint", P.visible("#dmore"))
     P.check("Après le tour : les 6 humeurs sont proposées (« How did you feel today? »)", p.locator("#dailybody [data-mood]").count() == 6)
     P.click('[data-mood="great"]')
     p.locator("#dailybody .mymood").wait_for()
     P.check("Humeur choisie : affichée et enregistrée pour aujourd'hui", "Great" in P.text("#dailybody .mymood") and (P.day_rec() or {}).get("mood") == "great", P.day_rec())
     P.check("Kai répond à l'humeur par une bulle", p.locator("#dailybody .dsay .bb").count() == 1)
     P.check("Le trophée du jour est célébré une seule fois (marque cel)", (P.day_rec() or {}).get("cel") == 1)
-    P.check("Les mots du jour sont listés (10)", P.text("h2:has-text('Words of the day') + span").strip() == "10" if p.locator("h2:has-text('Words of the day') + span").count() else True)
 
 
 def s04_vocabulaire(P):
     p = P.page
-    P.click("#toWords")
-    P.on("wordhub")
-    P.check("« Words » : deux tuiles, Dictionary et Quiz", P.visible("#toDico") and P.visible("#toQuizzes"))
+    P.check("Dictionary est une app du menu", P.visible("#toDico"))
     P.click("#toDico")
     P.on("words")
     P.check("« Dictionary » : 9 familles de mots (tuiles)", p.locator("#wtiles .tile").count() == 9, p.locator("#wtiles .tile").count())
@@ -690,10 +692,8 @@ def s08_quiz(P):
     p = P.page
     P.click("#toTY")
     P.on("ty")
-    P.check("« Test yourself » : 3 tuiles (le Quiz est rangé dans Words)", all(P.visible(f"#{t}") for t in ("toT6", "toDIY", "toTalk")) and not P.visible("#toQuizzes"))
-    P.back("menu")
-    P.click("#toWords")
-    P.on("wordhub")
+    ids = P.ev("() => [...document.querySelectorAll('#ty .tiles > .tile')].map(t => t.id)")
+    P.check("« Test yourself » : 4 tuiles, le Quiz en premier (PO, 11/11)", ids == ["toQuizzes", "toT6", "toDIY", "toTalk"], ids)
     P.click("#toQuizzes")
     P.on("quizzes")
     P.check("Quiz : 6 types de mots + dictée + phrasal verbs + idioms",
@@ -750,11 +750,11 @@ def s09_recompenses(P):
     P.check("Trophée du jour acquis (badge allumé)", p.locator("#dailybody .badge.on").count() >= 1)
     P.check("Graphique de la semaine : 7 jours, aujourd'hui souligné", p.locator("#dailybody .week .wk").count() == 7 and p.locator("#dailybody .wk.today").count() == 1)
     P.check("Mes notes : graphique des tests", p.locator("#dailybody .tchart svg").count() == 1 and p.locator("#dailybody .tk").count() == 3)
-    # « My weekly lessons » est passé en haut d'English lessons (PO, 03/11), avec un anneau 0/2 sur la tuile du menu
-    wk = P.ev("() => { renderLearnWeek(); return [document.querySelector('#learnwk .dsec span').textContent, (document.querySelector('#lring svg') || {getAttribute: () => ''}).getAttribute('aria-label')] }")
-    P.check("Cette semaine : 2 leçons sur 2 (English lessons et anneau de sa tuile)", wk[0] == "2/2" and wk[1] == "2 of 2 lessons this week", wk)
-    P.check("My work n'affiche plus « My weekly lessons »", p.locator("#dailybody .wtile").count() == 0)
-    P.no_overflow("My daily work complet")
+    # les leçons de la semaine sont sur la carte This week du menu (PO, 11/11)
+    wk = P.ev("() => [...document.querySelectorAll('#mweek .mrow[data-mcl]')].map(r => r.classList.contains('ok') + ':' + r.querySelector('em').textContent)")
+    P.check("Carte This week : leçon de grammaire et de conjugaison faites (1/1, cochées)", wk == ["true:1/1", "true:1/1"], wk)
+    P.check("My activity n'affiche pas « My weekly lessons »", p.locator("#dailybody .wtile").count() == 0)
+    P.no_overflow("My activity complet")
     # aide « ? » : ouverture, focus, Échap, retour du focus
     help_btn = p.locator('#dailybody [data-help="rewards"]').first
     help_btn.click()
@@ -775,7 +775,7 @@ def s09_recompenses(P):
     P.click('[data-calm="-1"]')
     P.check("Mois précédent : « Next month » devient actif", not p.locator('[data-calm="1"]').is_disabled())
     P.click('[data-dtab="today"]')
-    P.check("Retour sur l'onglet « Today »", P.visible("#dround") or P.visible("#dmore"))
+    P.check("Retour sur l'onglet « Today »", P.visible("#dailybody .rstats") and p.locator('[data-dtab="today"].on').count() == 1)
 
 
 def s10_sauvegarde(P):
@@ -840,12 +840,12 @@ def s10_sauvegarde(P):
         P.check("Après redémarrage, deux élèves → on demande « Who's learning today? »", current_page(q) == "who", current_page(q))
         P.check("Les deux élèves sont proposés, avec leurs étoiles", q.locator("#plist .prow[data-pid]").count() == 2 and "Léa Dupont" in q.locator("#plist").text_content(), q.locator("#plist").text_content())
         q.locator(f'#plist [data-pid="{P.pid}"]').click()
-        wait_page(q, "daily")
+        wait_page(q, "menu")
         P.check("Restauration : la progression est identique (jours, étoiles)",
                 q.evaluate("() => JSON.parse(JSON.stringify(DST.days))") == P.snap["days"] and q.evaluate("() => totalStars()") == P.snap["stars"],
                 "journal différent après restauration")
         P.check("Restauration : le profil (niveau, leçons, tests) est identique", q.evaluate("() => JSON.parse(JSON.stringify(curProf()))") == P.snap["prof"])
-        P.check("Restauration : même affichage « 10/10 » et mêmes étoiles", "10/10" in q.locator(".dsec span").first.text_content())
+        P.check("Restauration : même affichage « 10/10 » (carte Today du menu)", P.goal(q) == "10/10", P.goal(q))
         # recharger la même sauvegarde : aucun doublon
         q.evaluate("() => show('menu')")
         q.locator("#toMe").click()
@@ -879,9 +879,9 @@ def s11_changement_profil(P):
     P.check("Second élève créé avec le niveau 2 (objectif 15 mots par jour)", zoe["name"] == nom and zoe["lv"] == 1, zoe)
     P.check("Prénom avec <, >, & et guillemets : aucun HTML injecté dans le menu", p.locator("#mhead i, #mhead b").count() == 0)
     P.check("Il y a maintenant 2 élèves", P.ev("() => PROFS.list.length") == 2)
+    P.check("Autre élève : objectif 0/15 (niveau 2), rien de la progression de Léa", P.goal() == "0/15", P.goal())
     P.click("#toDaily")
     P.on("daily")
-    P.check("Autre élève : objectif 0/15 (niveau 2), rien de la progression de Léa", "0/15" in P.text(".dsec span"), P.text(".dsec span"))
     P.check("Autre élève : pas d'étoile ni de série héritées", P.text("#dailybody .rstats .rst:nth-child(1) b").strip() == "0" and P.text("#dailybody .rstats .rst:nth-child(3) b").strip() == "0")
     P.back("menu")
     P.click("#toMe")
@@ -895,10 +895,7 @@ def s11_changement_profil(P):
     P.click(f'#plist [data-pid="{P.pid}"]')
     P.on("menu")
     P.check("Retour sur Léa : bienvenue personnalisé", "Léa Dupont" in P.ev("() => document.getElementById('askb').getAttribute('aria-label')"))
-    P.click("#toDaily")
-    P.on("daily")
-    P.check("La progression de Léa est intacte (10/10)", "10/10" in P.text(".dsec span"))
-    P.back("menu")
+    P.check("La progression de Léa est intacte (10/10)", P.goal() == "10/10", P.goal())
     # même prénom (casse différente) : pas de doublon
     P.click("#toMe")
     P.on("me")
@@ -1035,9 +1032,7 @@ def s12_code_parent(P):
     P.check("Élève supprimé : son journal est effacé de l'appareil", P.ev("(z) => !localStorage.getItem('kai.daily.v1.' + z)", zid))
     P.click(f'#plist [data-pid="{P.pid}"]')
     P.on("menu")
-    P.click("#toDaily")
-    P.on("daily")
-    P.check("Après suppression de l'autre élève, Léa retrouve 10/10", "10/10" in P.text(".dsec span"))
+    P.check("Après suppression de l'autre élève, Léa retrouve 10/10", P.goal() == "10/10", P.goal())
     jours = P.ev("() => JSON.parse(JSON.stringify(DST.days))")
     P.check("Journal de Léa identique à celui d'avant les manipulations de profils", jours == P.snap["days"], "le journal a changé")
 
@@ -1045,10 +1040,8 @@ def s12_code_parent(P):
 def s13_navigation(P):
     p = P.page
     # (tuile, page ouverte, page où ramène le bouton Retour)
-    parcours = [("menu", [("toDaily", "daily"), ("toWords", "wordhub"), ("toLearn", "learn"), ("toTests", "tests"), ("toTY", "ty")]),
-                ("learn", [("toGrammar", "grammar"), ("toConj", "conj")]),
-                ("wordhub", [("toDico", "words"), ("toQuizzes", "quizzes")]),
-                ("ty", [("toT6", "t6"), ("toDIY", "diy"), ("toTalk", "talk")]),
+    parcours = [("menu", [("toDico", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toDaily", "daily"), ("toTY", "ty"), ("toTests", "tests")]),
+                ("ty", [("toQuizzes", "quizzes"), ("toT6", "t6"), ("toDIY", "diy"), ("toTalk", "talk")]),
                 ("quizzes", [("toQV", "quiz"), ("toQN", "quiz"), ("toQJ", "quiz"), ("toQA", "quiz"), ("toQC", "quiz"), ("toQP", "quiz"), ("toQPh", "quiz"), ("toQI", "quiz")])]
     for parent, tuiles in parcours:
         if parent != "menu":
@@ -1091,12 +1084,12 @@ def s99_rechargement(P):
     avant = P.ev("() => JSON.parse(JSON.stringify(DST.days))")
     ls_avant = {k: v for k, v in P.ls().items() if k.startswith("kai.")}
     reload_app(p)
-    P.check("Un seul élève : le rechargement ouvre directement « My daily work »", current_page(p) == "daily", current_page(p))
+    P.check("Un seul élève : le rechargement ouvre directement le menu, sur la carte Today (PO, 11/11)", current_page(p) == "menu", current_page(p))
     P.check("Rechargement : journal identique", P.ev("() => JSON.parse(JSON.stringify(DST.days))") == avant)
     ls_apres = {k: v for k, v in P.ls().items() if k.startswith("kai.")}
     perdu = [k for k in ls_avant if k not in ls_apres]
     P.check("Rechargement : aucune clé kai.* perdue", not perdu, perdu)
-    P.check("Rechargement : « 10/10 » toujours affiché", "10/10" in P.text(".dsec span"))
+    P.check("Rechargement : « 10/10 » toujours affiché", P.goal() == "10/10", P.goal())
 
 
 ETAPES = [

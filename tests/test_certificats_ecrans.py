@@ -57,11 +57,11 @@ def vers_menu(page):
 
 
 def entrer(page, pid=CAMILLE):
-    """Premier écran : choisit l'élève (My daily work), puis le menu."""
+    """Premier écran : choisit l'élève (on arrive sur le menu, PO 11/11)."""
     settle(page)
     if current_page(page) == "who":
         page.locator(f'#plist [data-pid="{pid}"]').click()
-        wait_page(page, "daily")
+        wait_page(page, "menu")
     vers_menu(page)
 
 
@@ -183,9 +183,9 @@ def run(args, base, browser, bilan, collector):
         bilan.ko("CU-xx", "Écrans des certificats absents : toute la suite est bloquée", "js/app-certificats-ui.js non chargé sur cette branche")
         ctx.close()
         return
-    ids = page.evaluate("() => [...document.querySelectorAll('#menu .tiles > .tile')].map(t => t.id)")
+    ids = page.evaluate("() => [...document.querySelectorAll('#menu .apps > .app')].map(t => t.id)")   # menu en apps (PO, 11/11)
     ck("CU-01 [Ouss] Tuile « Certificates » gardée dans le code mais masquée (PO, 03/11)", "toCerts" in ids and page.locator("#toCerts").is_hidden(), ids)
-    ck("CU-02 [Ouss] Pas de pastille sur la tuile quand rien n'est à renouveler", page.locator("#certpill").is_hidden(), texte(page, "#menu .tiles"))
+    ck("CU-02 [Ouss] Pas de pastille sur la tuile quand rien n'est à renouveler", page.locator("#certpill").is_hidden(), texte(page, "#menu .apps"))
     page_certs(page)
     ck("CU-03 [Ouss] Page Certificates : « My certificates » (aucun certificat encore) et « Take a certificate »",
        "My certificates" in texte(page, "#certsbody") and "Take a certificate" in texte(page, "#certsbody") and "No certificate yet" in texte(page, "#certsbody"), texte(page, "#certsbody")[:300])

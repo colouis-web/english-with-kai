@@ -119,6 +119,12 @@ function openMenuDay(back) {
     track.addEventListener("click", e => {
         if (e.target.closest("#mcround")) {
             stopSpeech();
+            /* un tour interrompu : on propose de le reprendre, comme l'ancien bouton Start de My work (app-v51-sauvegarde.js) */
+            const L = typeof qLoad === "function" ? qLoad(true) : null;
+            if (L) {
+                askRound(L, true);
+                return;
+            }
             DAILY = true;
             startQuiz("mix", "all");
             show("quiz");
