@@ -260,7 +260,7 @@ function renderEnd() {
 ${DR ? `<p class="dban${DR.reached ? " ok" : ""}">${DR.reached ? `${CHECK}Goal reached: ${DR.m} words today! Trophy +3 stars` : DR.bonus ? `${BOLT}Bonus quiz: +1 star!` : `${CHECK}Words of the day: ${Math.min(DR.m, DR.n)}/${DR.n} mastered`}</p>` : ""}
 <p class="rleg">FR → EN · EN → FR</p>
 <ul class="recap two">${QZ.words.map(({ d, k }) => `<li>${mk(r(0, d))}${mk(r(1, d))}<b>${esc(recapLab(k || QZ.kind, d))}</b><i>${esc(d.fr)}</i></li>`).join("")}</ul>
-<div class="endbtns">${perfect ? `<button class="listen" id="qnew">${QZ.kind === "mix" ? "Next words" : "New words"}</button>` : `<button class="listen" id="qagain">Do it again</button>${dayNext ? `<button class="listen" id="qnew">${dayNext}</button>` : ""}`}${DAILY ? `<button class="ghost" id="qday">My day</button>` : `<button class="ghost" id="qtopics">Topics</button><button class="ghost" id="qmenu">Menu</button>`}</div>`;
+<div class="endbtns">${perfect ? `<button class="listen" id="qnew">${QZ.kind === "mix" ? "Next words" : "New words"}</button>` : `<button class="listen" id="qagain">Do it again</button>${dayNext ? `<button class="listen" id="qnew">${dayNext}</button>` : ""}`}${DAILY ? `<button class="ghost" id="qday">Menu</button>` : `<button class="ghost" id="qtopics">Topics</button><button class="ghost" id="qmenu">Menu</button>`}</div>`;
     sayOne(P < 60 ? `You got ${P} percent. Not yet! ${nfix} word${nfix > 1 ? "s" : ""} to fix. Let's go again!` : `You got ${P} percent! ${msg.charAt(0) + msg.slice(1).toLowerCase()}`, document.getElementById("endb"));
 }
 /* choix du thème */
@@ -289,7 +289,7 @@ function startQuiz(k, tag, words) {
     renderTopics(k);
     show("quiz");
 }));
-document.getElementById("backQ").addEventListener("click", () => DAILY ? openDaily(true) : show("quizzes", true));
+document.getElementById("backQ").addEventListener("click", () => DAILY ? openMenuDay(true) : show("quizzes", true));   /* tour du jour : retour au menu (PO 11/11) */
 document.getElementById("quiz").addEventListener("click", e => {
     const o = e.target.closest(".opt");
     if (o) {
@@ -368,7 +368,7 @@ document.getElementById("quiz").addEventListener("click", e => {
     }
     if (e.target.closest("#qday")) {
         stopSpeech();
-        openDaily(true);
+        openMenuDay(true);
         return;
     }
     if (e.target.closest("#qmenu")) {

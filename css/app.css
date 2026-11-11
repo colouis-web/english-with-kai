@@ -1308,8 +1308,6 @@ body:has(.page.gm.on) .hmed span,body:has(.page.gm.on) .hrk span{background:#2a2
 @media (max-width:390px){.page.gm #toLearn{grid-template-columns:104px minmax(0,1fr) 46px}}
 html.ts-l .page.gm #toLearn{grid-template-columns:80px minmax(0,1fr) 46px}
 html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
-#learnwk .dsec{margin-top:4px}
-#learnwk .wtiles{margin-bottom:14px}
 .page.gm .wtile{--n:#a78bfa;background:#1e1c33;border:2px solid var(--n);box-shadow:0 0 0 1px rgba(0,0,0,.45),0 0 16px -6px var(--n);color:#fff}
 .page.gm .wtile:nth-child(2){--n:#a3e635}
 .page.gm .wtile:active{box-shadow:0 0 10px -3px var(--n)}
@@ -1323,14 +1321,6 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .wtile .wtx{display:flex;flex-direction:column;gap:2px;min-width:0}
 .wtile .wgo{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
 .wtile .wgo small{font:700 11px var(--claude);letter-spacing:.3px;white-space:nowrap}
-#learnwk .wtile{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px;min-height:88px;padding:8px 6px 8px 10px}
-#learnwk .wtile b{font-size:15px;line-height:1.1;letter-spacing:.2px;overflow-wrap:normal;word-break:normal}
-#learnwk .wtile .ggo,#learnwk .wtile .gok{margin:0}
-#learnwk .wtile .ggo{gap:0;padding:5px 2px 5px 7px;font-size:12px;letter-spacing:.4px}
-#learnwk .wtile .ggo svg{width:13px;height:13px}
-#learnwk .wtile .gok .stamp{width:26px;height:26px}
-@media (max-width:389px){#learnwk .wtile b{font-size:14px;letter-spacing:0}}
-@media (max-width:359px){#learnwk .wtiles{grid-template-columns:1fr}#learnwk .wtile{min-height:64px}#learnwk .wtile b{font-size:15px}}
 /* Certificates masqué (PO 03/11) : la tuile reste dans le code mais n'est plus accessible */
 #toCerts[hidden]{display:none}
 /* Accueil gamer (PO 03/11) : même fond que le reste, tubes de néon verticaux derrière Kai.
@@ -1369,7 +1359,7 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .mtrack::-webkit-scrollbar{display:none}
 .mslide{flex:0 0 100%;box-sizing:border-box;padding:4px 16px;scroll-snap-align:center;display:flex}
 .mslide[hidden]{display:none}
-.mcard{--n:#22d3ee;flex:1;display:flex;flex-direction:column;gap:10px;box-sizing:border-box;min-height:290px;padding:12px 14px 14px;border-radius:22px;border:2px solid var(--n);background:#1e1c33;box-shadow:0 0 0 1px rgba(0,0,0,.45),0 0 18px -4px var(--n);color:#fff;font-family:var(--claude)}
+.mcard{--n:#22d3ee;flex:1;display:flex;flex-direction:column;gap:10px;box-sizing:border-box;min-height:0;padding:12px 14px 14px;border-radius:22px;border:2px solid var(--n);background:#1e1c33;box-shadow:0 0 0 1px rgba(0,0,0,.45),0 0 18px -4px var(--n);color:#fff;font-family:var(--claude)}
 .mday{--n:#a3e635}.mweek{--n:#fbbf24}
 .mkai .mhead{margin:auto 0}
 .mhint{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin:0 -2px -4px 0;font:700 14px var(--claude);color:#9ea3bf;cursor:pointer;transition:opacity .4s}
@@ -1387,14 +1377,11 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .mcw .stamp{width:24px;height:24px;margin-left:4px;align-self:center}
 .mcar .pbar{height:10px}
 .mcar .pbar i{background:linear-gradient(90deg,#22d3ee,var(--n))}
-.mrs .rst{background:#16152a;border-color:#3a3760}
-.mrs .rst b{color:#fff}
-.mrs .rst i{color:#9ea3bf}
 .mcgo{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;min-height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--n);color:#12111f;font:800 17px var(--claude);cursor:pointer}
 .mcgo svg{width:20px;height:20px}
 .mcgo:focus-visible,.mrow:focus-visible,.mdots button:focus-visible{outline:3px solid #fff;outline-offset:2px}
-.mrows{display:flex;flex-direction:column;gap:6px}
-.mrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;min-height:48px;padding:4px 6px;border:0;border-radius:12px;background:transparent;color:#fff;text-align:left;font-family:var(--claude);cursor:pointer}
+.mrows{display:flex;flex-direction:column;gap:2px}
+.mrow{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;min-height:44px;padding:2px 6px;border:0;border-radius:12px;background:transparent;color:#fff;text-align:left;font-family:var(--claude);cursor:pointer}
 .mrow.mstar{cursor:default}
 .mtick{width:26px;height:26px;border-radius:50%;border:2px solid #3a3760;display:grid;place-items:center;color:#12111f;font:800 15px var(--claude)}
 .mtick .st{width:20px;height:20px}
@@ -1413,11 +1400,11 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .mdots button:nth-child(3)[aria-selected="true"]{background:#fbbf24}
 @media (prefers-reduced-motion:reduce){.mtrack{scroll-behavior:auto}.mdots button{transition:none}}
 /* Menu, nouvelle mouture (PO 11/11) : des « apps » 3 par ligne à la place des grandes tuiles */
-.apps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 12px;margin:4px 0 18px;padding:0 4px}
+.apps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px;margin:2px 0 18px;padding:0 4px}
 .app{--n:#22d3ee;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;padding:0;border:0;background:none;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .app[hidden]{display:none}
-.aic{position:relative;width:100%;max-width:92px;aspect-ratio:1;border-radius:24px;border:2px solid var(--n);background:#2a2846;box-shadow:0 0 0 1px rgba(0,0,0,.45),0 0 16px -4px var(--n);transition:transform .12s}
-.aic img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:22px;display:block}
+.aic{position:relative;width:100%;max-width:84px;aspect-ratio:1;border-radius:22px;border:2px solid var(--n);background:#2a2846;box-shadow:0 0 0 1px rgba(0,0,0,.45),0 0 16px -4px var(--n);transition:transform .12s}
+.aic img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:20px;display:block}
 .app b{max-width:100%;font:700 15px/1.15 var(--claude);text-align:center;color:#fff;overflow-wrap:anywhere}
 .app:active .aic{transform:scale(.94)}
 .app:focus-visible{outline:none}

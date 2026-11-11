@@ -38,7 +38,7 @@
 <!-- Menu, nouvelle mouture (PO 11/11) : des « apps » 3 par ligne à la place des grandes tuiles -->
 <nav class="apps" aria-label="Apps">
 <button class="app" id="toDico" style="--n:#22d3ee"><div class="aic"><img src="img/kai-detective.webp" alt="" loading="lazy"></div><b>Dictionary</b></button>
-<button class="app" id="toGrammar" style="--n:#fbbf24"><div class="aic"><img src="img/kai-study.webp" alt="" loading="lazy"></div><b>Grammar</b></button>
+<button class="app" id="toGrammar" style="--n:#fbbf24"><div class="aic"><img src="img/kai-worldmap.webp" alt="" loading="lazy"></div><b>Grammar</b></button>
 <button class="app" id="toConj" style="--n:#a78bfa"><div class="aic"><img src="img/sc-write.webp" alt="" loading="lazy"></div><b>Conjugation</b></button>
 <button class="app" id="toDaily" style="--n:#a3e635"><div class="aic"><img src="img/kai-school.webp" alt="" loading="lazy"></div><b>My activity</b><span class="asum" hidden></span></button>
 <button class="app" id="toTY" style="--n:#f472b6"><div class="aic"><img src="img/sc-kimono.webp" alt="" loading="lazy"></div><b>Test yourself</b></button>
@@ -98,12 +98,6 @@
 <main class="page gm" id="grammar">
 <div class="top"><button class="back" id="backG" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Grammar</h1><span></span></div>
 <div id="grammarbody"></div>
-</main>
-<main class="page gm" id="wordhub">
-<div class="top"><button class="back" id="backWh" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Words</h1><span></span></div>
-<p class="qintro">Look up any word in the dictionary, then test yourself with a quiz.</p>
-<div class="tiles">
-</div>
 </main>
 <main class="page gm" id="words">
 <div class="top"><button class="back" id="backW" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Dictionary</h1><span></span></div>
@@ -201,20 +195,14 @@
 <div class="top"><button class="back" id="backDY" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Do it yourself</h1><span class="qn" id="dyqn"></span></div>
 <div id="dybody"></div>
 </main>
-<main class="page gm" id="learn">
-<div class="top"><button class="back" id="backLe" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>English lessons</h1><span></span></div>
-<div id="learnwk"></div>
-<div class="tiles">
-</div>
-</main>
 <main class="page gm" id="ty">
 <div class="top"><button class="back" id="backTY" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Test yourself</h1><span></span></div>
 <p class="qintro">Practise as much as you want: your class tests, your own revision for a test, a sentence about a picture or a word quiz.</p>
 <div class="tiles">
+<button class="tile wide panel" id="toQuizzes"><div class="pic"><img src="img/kai-wall.webp" alt="Kai qui saute par-dessus un mur"></div><div><b>Quiz</b><span>5, 10 or 20 words, French ↔ English · Dictation</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="tile wide panel" id="toT6"><div class="pic"><img src="img/kai-v.webp" alt="Kai qui lève les bras en V"></div><div><b>Test 6th grade</b><span>Your class tests: learn the words, then test yourself both ways</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="tile wide panel" id="toDIY"><div class="pic"><img src="img/sc-sketch.webp" alt="Kai qui écrit dans son carnet"></div><div><b>Do it yourself</b><span>Choose what you revise: words, grammar, conjugation · for a test or homework</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="tile wide panel" id="toTalk"><div class="pic"><img src="img/kai-friend.webp" alt="Kai qui parle"></div><div><b>Let's talk English</b><span>Look at the picture and say a sentence</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-<button class="tile wide panel" id="toQuizzes"><div class="pic"><img src="img/kai-wall.webp" alt="Kai qui saute par-dessus un mur"></div><div><b>Quiz</b><span>5, 10 or 20 words, French ↔ English · Dictation</span></div><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 </div>
 </main>
 <main class="page" id="t6">

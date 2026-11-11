@@ -1,15 +1,14 @@
 /* Code — tranche de l'ancien index.html (lignes 3068–3681). Script classique : l'ordre des <script> compte. */
 "use strict";
 /* ===== v54 : démarrage direct sur « Today », durée affichée, série avec un seul tour, partie « Type it », dictée, mémoire des mots visible ===== */
-/* --- 1. un élève déjà connu arrive directement sur My daily work › Today (l'écran de Kai reste pour la première visite) --- */
+/* --- 1. un élève déjà connu arrive directement sur le menu, carte Today (PO 11/11 ; avant : My daily work › Today) --- */
 let BOOT2 = false;
 (function () {
     const W0 = welcome;
     welcome = function () {
         if (BOOT2) {
             BOOT2 = false;
-            DTAB = "today";
-            openDaily();
+            openMenuDay();   /* PO 11/11 : le menu, sur la carte Today (les mots du jour ne sont plus dans My activity) */
             return;
         }
         W0();
@@ -25,8 +24,7 @@ function bootDirect() {
             return;
         }
         PICKED = true;
-        DTAB = "today";
-        openDaily();
+        openMenuDay();
     }
     catch (e) {
     }

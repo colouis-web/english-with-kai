@@ -276,12 +276,6 @@ document.getElementById("backL").addEventListener("click", () => {
         scrollTo(0, 0);
         return;
     }
-    if (LFROM === "learn") {   /* leçon ouverte depuis « My weekly lessons » d'English lessons */
-        LFROM = null;
-        renderLearnWeek();
-        show("learn", true);
-        return;
-    }
     if (LFROM === "tests") {   /* leçon ouverte depuis « Lessons to review » : retour à My weekly review */
         LFROM = null;
         openTests(true);

@@ -54,7 +54,7 @@ function renderLesson() {
 ${L.sections.map(secHtml).join("")}
 <div class="lgo"><div class="lsbox">${starRow(starsFor(lessonGood(LES)), "big")}<p>${starHint(lessonGood(LES))} <button class="qhelp sm" type="button" data-help="rewards" aria-label="How do lesson stars work?">?</button></p></div><p>${best === null ? `Ready? ${PQN} questions to check you've got it! New ones every time (${lessonBank(LES).length} in all).` : best >= PASS ? (best === 100 ? `Lesson passed with <b>100%</b>. Bravo!` : `Lesson passed: best score <b>${best}%</b>. Can you get 100%?`) : `Your best score: <b>${best}%</b>. You need ${PASS}% to pass the lesson.`}</p><button class="listen" id="lpractice">Practise${GOSVG}</button></div>`;
 }
-let LFROM = null;   /* page d'où la leçon a été ouverte : "tests" (liste à revoir de My weekly review) ou "learn" (My weekly lessons) */
+let LFROM = null;   /* page d'où la leçon a été ouverte : "tests" (liste à revoir de My weekly review) ; null : la liste de la leçon */
 function openLesson(id, back) {
     if (LFROM && !(document.getElementById(LFROM) || document.body).classList.contains("on"))
         LFROM = null;

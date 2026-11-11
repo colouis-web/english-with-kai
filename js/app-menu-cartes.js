@@ -1,6 +1,7 @@
 /* Menu, nouvelle mouture (PO, 11/11) : le haut du menu devient un carrousel de 3 cartes qu'on fait glisser.
    1. Kai parle (bulle de renderMenuHead, sans la carte de rang : demande du PO) ;
-   2. Today : les tâches du jour au format de My work (mots maîtrisés / objectif, étoiles, quiz bonus, série) ;
+   2. Today : les mots du jour au format de My work (mots maîtrisés / objectif, phrase, bouton du tour) ;
+      le menu s'ouvre sur cette carte tant que l'objectif du jour n'est pas atteint (PO 11/11) ;
    3. This week : leçons de la semaine (grammaire, conjugaison), tests de My weekly review, étoiles de la semaine.
    Le glissement est natif (scroll-snap) ; les points suivent le défilement et permettent de sauter à une carte.
    En dessous, des « apps » 3 par ligne (PO 11/11) : Dictionary, Grammar, Conjugation, My activity, Test yourself,
@@ -16,8 +17,7 @@ function mcToday() {
     box.innerHTML = `<div class="mch"><span class="mct">Today</span><span class="mcd">${esc(longDate(k))}</span></div>
 <div class="mcmid"><div class="mcw"><b>${m}</b><span>/ ${n} words mastered</span>${done ? CHECK : ""}</div><div class="pbar"><i style="width:${Math.round(100 * m / n)}%"></i></div>
 <p class="mctxt">${done ? "Goal reached! Every extra round gives bonus stars." : `Rounds of ${size} words from every theme: nouns, verbs, adjectives, prepositions… Words you missed come back later.`}</p>
-<button class="mcgo" type="button" id="mcround">${done ? "Bonus round" : m ? "Next words" : "Start"} · ${size} words${GOSVG}</button></div>
-<div class="rstats sm mrs"><div class="rst"><b>${STAR}${starsOf(r)}</b><i>Stars today</i></div><div class="rst"><b>${BOLT}${bonusOf(r)}</b><i>Bonus quizzes</i></div><div class="rst"><b>${FLAME}${streak()}</b><i>Day streak</i></div></div>`;
+<button class="mcgo" type="button" id="mcround">${done ? "Bonus round" : m ? "Next words" : "Start"} · ${size} words${GOSVG}</button></div>`;   /* PO 11/11 : sans les 3 stats, elles sont dans My activity */
 }
 function mcWeek() {
     const p = curProf(), box = document.getElementById("mweek");
@@ -55,6 +55,36 @@ function mcRender() {
     catch (e) {
     }
 }
+/* carte d'arrivée : Today tant que l'objectif du jour n'est pas atteint, sinon Kai ; Kai aussi quand il accueille l'élève */
+let MCKAI = false;
+function mcStart() {
+    try {
+        return curProf() && !dayDone(DST.days[todayKey()]) ? 1 : 0;
+    }
+    catch (e) {
+        return 0;
+    }
+}
+/* fin ou abandon d'un tour de mots : retour au menu, sur la carte Today (PO 11/11) ; Kai félicite si l'élève monte de niveau */
+function openMenuDay(back) {
+    DAILY = false;
+    MCKAI = false;
+    LVUP = null;
+    const up = checkLevelUp();
+    updateDailyTile();
+    show("menu", back);
+    if (up) {
+        confetti();
+        toast(`Level up! You are now ${LV[LVUP].name}!`, 2600);
+    }
+}
+(function () {
+    const W1 = welcome;
+    welcome = function () {
+        MCKAI = true;
+        return W1.apply(this, arguments);
+    };
+})();
 /* rafraîchi à chaque mise à jour des tuiles du menu (retour au menu, fin d'un tour, changement d'élève) */
 (function () {
     const U0 = updateDailyTile;
@@ -106,12 +136,14 @@ function mcRender() {
             openTests();
         }
     });
-    /* en revenant au menu, on repart de la carte de Kai */
+    /* en revenant au menu : la carte Today tant que l'objectif n'est pas atteint, sinon celle de Kai */
     const S0 = show;
     show = function (id) {
         S0.apply(this, arguments);
         if (id === "menu") {
-            track.scrollLeft = 0;
+            const i = MCKAI ? 0 : mcStart();
+            MCKAI = false;
+            track.scrollLeft = i * track.clientWidth;
             mark();
         }
     };
