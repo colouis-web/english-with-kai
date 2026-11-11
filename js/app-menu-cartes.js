@@ -3,6 +3,8 @@
    2. Today : les tâches du jour au format de My work (mots maîtrisés / objectif, étoiles, quiz bonus, série) ;
    3. This week : leçons de la semaine (grammaire, conjugaison), tests de My weekly review, étoiles de la semaine.
    Le glissement est natif (scroll-snap) ; les points suivent le défilement et permettent de sauter à une carte.
+   En dessous, des « apps » 3 par ligne (PO 11/11) : Dictionary, Grammar, Conjugation, My activity, Test yourself,
+   Weekly review ; mcApps() pose une pastille d'avancement sur l'icône (mots du jour, leçon de la semaine, tests).
    Script classique, chargé après app-daily.js, app-tests.js et app-v54-v62.js (il en réutilise les fonctions). */
 "use strict";
 function mcToday() {
@@ -33,6 +35,26 @@ function mcWeek() {
 <div class="mrow mstar"><span class="mtick">${STAR}</span><span class="mtx"><b>Stars this week</b><small>Every word, quiz and lesson counts</small></span><em>${st}</em></div></div>
 <button class="mcgo" type="button" ${todo ? `data-mcl="${weekLesson(todo) ? "" : suggestLesson(todo)}"` : 'data-mct="1"'}>${todo ? "Open this week's lesson" : "My weekly review"}${GOSVG}</button>`;
 }
+function mcApps() {
+    const has = !!curProf(), put = (id, txt, ok) => {
+        const b = document.querySelector(`[data-ab="${id}"]`);
+        if (!b)
+            return;
+        b.hidden = !has || txt == null;
+        b.classList.toggle("ok", !!ok);
+        b.textContent = ok ? "✓" : txt == null ? "" : txt;
+    };
+    if (!has) {
+        ["toDaily", "toGrammar", "toConj", "toTests"].forEach(id => put(id, null));
+        return;
+    }
+    const r = DST.days[todayKey()], n = (r && r.n) || target(), m = Math.min(masteredOf(r), n);
+    put("toDaily", `${m}/${n}`, dayDone(r));
+    put("toGrammar", "0/1", !!weekLesson("grammar"));
+    put("toConj", "0/1", !!weekLesson("conj"));
+    const W = testWeeks(1), N = Object.keys(TESTS).length, nt = Object.keys(TESTS).filter(k => W.tab[k][0]).length;
+    put("toTests", `${nt}/${N}`, nt >= N);
+}
 function mcRender() {
     const has = !!curProf(), dots = document.getElementById("mdots");
     document.querySelectorAll("#mtrack .mslide").forEach((s, i) => { if (i) s.hidden = !has; });
@@ -48,6 +70,11 @@ function mcRender() {
     }
     try {
         mcWeek();
+    }
+    catch (e) {
+    }
+    try {
+        mcApps();
     }
     catch (e) {
     }

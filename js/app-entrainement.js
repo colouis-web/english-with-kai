@@ -255,9 +255,8 @@ document.getElementById("toGrammar").addEventListener("click", () => {
     renderLessonList("grammar");
     show("grammar");
 });
-document.getElementById("backCj").addEventListener("click", () => {
-    renderLearnWeek();
-    show("learn", true);
+document.getElementById("backCj").addEventListener("click", () => {   /* Grammar et Conjugation sont des apps du menu (PO 11/11) */
+    show("menu", true);
 });
 ["conjbody", "grammarbody"].forEach(id => document.getElementById(id).addEventListener("click", e => {
     const ls = e.target.closest("[data-lesson]");
@@ -296,8 +295,7 @@ renderMenuHead();
 updateDailyTile();
 setTimeout(dSync, 0);
 document.getElementById("backG").addEventListener("click", () => {
-    renderLearnWeek();
-    show("learn", true);
+    show("menu", true);
 });
 /* icônes monochromes (police Noto Emoji) : si la police ne charge pas, on les masque */
 (function () {
