@@ -1371,13 +1371,12 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .mslide[hidden]{display:none}
 .mcard{--n:#22d3ee;flex:1;display:flex;flex-direction:column;gap:10px;box-sizing:border-box;min-height:290px;padding:12px 14px 14px;border-radius:22px;border:2px solid var(--n);background:#1e1c33;box-shadow:0 0 0 1px rgba(0,0,0,.45),0 0 18px -4px var(--n);color:#fff;font-family:var(--claude)}
 .mday{--n:#a3e635}.mweek{--n:#fbbf24}
-.mkai{justify-content:center}
-.mkai .mhead{margin:0}
-.mhint{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin:0;font:700 14px var(--claude);color:#9ea3bf;cursor:pointer;transition:opacity .4s}
+.mkai .mhead{margin:auto 0}
+.mhint{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin:0 -2px -4px 0;font:700 14px var(--claude);color:#9ea3bf;cursor:pointer;transition:opacity .4s}
 .mhint svg{width:16px;height:16px}
 .mhint.seen{opacity:.35}
 .mch{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.mct{font:400 32px/1 var(--title);letter-spacing:1.5px;text-transform:uppercase;color:var(--n);text-shadow:0 0 12px color-mix(in srgb,var(--n) 45%,transparent)}
+.mct{font:800 32px/1 var(--title);letter-spacing:1px;text-transform:uppercase;color:var(--n);text-shadow:0 0 12px color-mix(in srgb,var(--n) 45%,transparent)}
 .mcd{font:700 14px var(--claude);color:#c7c9d9}
 .mcw{display:flex;align-items:baseline;gap:6px}
 .mcw b{font:800 34px/1 var(--claude);color:#fff}
