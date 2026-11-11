@@ -1196,8 +1196,8 @@ document.getElementById("dybody").addEventListener("click", e => {
     }
     if (t.closest("#dyhead .bb")) {
         const q = DY.run && DY.run.items[DY.run.i];
-        if (q)
-            sayOne(plain(q.dir ? q.en : q.fr), t.closest(".bb"));
+        if (q && q.dir)   /* la bulle française (français → anglais) n'est pas lue : Kai ne parle pas français */
+            sayOne(plain(q.en), t.closest(".bb"));
         return;
     }
     if (t.closest("#dyretry")) {
