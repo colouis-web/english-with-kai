@@ -695,9 +695,8 @@ ${memCard()}
 <div class="dsec"><h2>My level</h2></div>${levelCard()}`;
     body.innerHTML = h;
     if (lvUp) {
-        confetti();
+        confetti();   /* la fenêtre « Congrats! » le dit elle-même, après la phrase en cours (PO 11/11) */
         toast(`Level up! You are now ${LV[LVUP].name}!`, 2600);
-        sayOne(`Level up! You are now ${LV[LVUP].name}!`, document.querySelector(".lvup .bb"));
     }
     else if (done && !r.cel && DST.days[r.d]) {
         const c = JSON.parse(JSON.stringify(r));
