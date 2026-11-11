@@ -1380,6 +1380,7 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .mcd{font:700 14px var(--claude);color:#c7c9d9}
 .mcmid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px}
 .mcmid .mcgo{margin-top:2px}
+.mctxt{margin:0;font:600 15px/1.35 var(--claude);color:#c7c9d9;text-align:center}
 .mcw{display:flex;align-items:baseline;justify-content:center;gap:6px}
 .mcw b{font:800 34px/1 var(--claude);color:#fff}
 .mcw span{font:700 16px var(--claude);color:#c7c9d9}

@@ -12,6 +12,7 @@ function mcToday() {
     const k = todayKey(), r = DST.days[k], n = (r && r.n) || target(), m = Math.min(masteredOf(r), n), done = dayDone(r), size = roundSize();
     box.innerHTML = `<div class="mch"><span class="mct">Today</span><span class="mcd">${esc(longDate(k))}</span></div>
 <div class="mcmid"><div class="mcw"><b>${m}</b><span>/ ${n} words mastered</span>${done ? CHECK : ""}</div><div class="pbar"><i style="width:${Math.round(100 * m / n)}%"></i></div>
+<p class="mctxt">${done ? "Goal reached! Every extra round gives bonus stars." : `Rounds of ${size} words from every theme: nouns, verbs, adjectives, prepositions… Words you missed come back later.`}</p>
 <button class="mcgo" type="button" id="mcround">${done ? "Bonus round" : m ? "Next words" : "Start"} · ${size} words${GOSVG}</button></div>
 <div class="rstats sm mrs"><div class="rst"><b>${STAR}${starsOf(r)}</b><i>Stars today</i></div><div class="rst"><b>${BOLT}${bonusOf(r)}</b><i>Bonus quizzes</i></div><div class="rst"><b>${FLAME}${streak()}</b><i>Day streak</i></div></div>`;
 }
