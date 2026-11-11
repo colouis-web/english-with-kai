@@ -652,7 +652,7 @@ def s07_tests_notes(P):
     save = [k for k in P.ls() if k.startswith("kai.tsave.")]
     P.check("Le test interrompu est gardé sur l'appareil (kai.tsave.*)", len(save) == 1, save)
     reload_app(P.page)
-    P.check("Rechargement : l'élève revient directement sur « My daily work »", current_page(p) == "daily", current_page(p))
+    P.check("Rechargement : l'élève revient directement sur le menu, carte Today (PO, 11/11)", current_page(p) == "menu", current_page(p))
     P.to_menu()
     P.click("#toTests")
     P.on("tests")

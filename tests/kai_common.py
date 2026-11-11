@@ -276,7 +276,9 @@ def settle(page, timeout=10000):
       1. les scripts ont créé PROFS et un écran est affiché ;
       2. la barrière « un tour de boucle d'événements » passe derrière le setTimeout(bootDirect, 0) de l'application ;
       3. un élève déjà enregistré a quitté l'écran de Kai (home) pour « My daily work » ou « Who's learning »."""
-    page.wait_for_function("typeof PROFS !== 'undefined' && !!document.querySelector('.page.on')", timeout=timeout)
+    # readyState « complete » : TOUS les scripts ont tourné (sinon la barrière ci-dessous peut passer avant le setTimeout(bootDirect, 0)
+    # d'app-v54-v62.js, quand la machine est lente : l'élève semblait rester sur l'écran de Kai)
+    page.wait_for_function("document.readyState === 'complete' && typeof PROFS !== 'undefined' && !!document.querySelector('.page.on')", timeout=timeout)
     page.evaluate("() => new Promise(r => setTimeout(r, 0))")
     # (non bloquant : des données corrompues peuvent légitimement laisser l'écran d'accueil ; le test constate)
     wait_js(page, SETTLE_JS, timeout=min(timeout, 6000))
