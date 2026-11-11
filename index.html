@@ -25,7 +25,15 @@
 </main>
 <main class="page gm" id="menu">
 <div class="top"><button class="back" id="back" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Menu</h1><button class="me" id="toMe" aria-label="My profile and Kai's voice"><span id="meIni">?</span></button></div>
-<div class="mhead" id="mhead"></div>
+<!-- Nouvelle mouture (PO, 11/11) : le haut du menu est un carrousel de cartes à faire glisser — Kai, aujourd'hui, cette semaine -->
+<div class="mcar" id="mcar" aria-roledescription="carousel" aria-label="Kai, today and this week">
+<div class="mtrack" id="mtrack">
+<section class="mslide" aria-roledescription="slide" aria-label="1 of 3: Kai"><div class="mcard mkai"><div class="mhead" id="mhead"></div><p class="mhint" id="mhint">Swipe for your goals <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></p></div></section>
+<section class="mslide" aria-roledescription="slide" aria-label="2 of 3: today"><div class="mcard mday" id="mday"></div></section>
+<section class="mslide" aria-roledescription="slide" aria-label="3 of 3: this week"><div class="mcard mweek" id="mweek"></div></section>
+</div>
+<div class="mdots" id="mdots" role="tablist" aria-label="Cards"><button type="button" role="tab" aria-selected="true" aria-label="Kai" data-mc="0"></button><button type="button" role="tab" aria-selected="false" aria-label="Today" data-mc="1"></button><button type="button" role="tab" aria-selected="false" aria-label="This week" data-mc="2"></button></div>
+</div>
 <div class="gmrank" id="gmrank" hidden></div>
 <div class="tiles">
 <button class="tile wide panel" id="toDaily"><div class="pic"><img src="img/kai-school.webp" alt="Kai qui va à l'école"></div><div><b>My work</b><span>Your words of the day</span></div><span class="gmring" id="dring" aria-hidden="true"><svg class="go" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
@@ -277,6 +285,7 @@
 <script src="js/app-talk.js"></script>
 <script src="js/app-v51-sauvegarde.js"></script>
 <script src="js/app-v54-v62.js"></script>
+<script src="js/app-menu-cartes.js"></script>
 <script src="js/data/certificats.js"></script>
 <script src="js/app-certificats.js"></script>
 <script src="js/app-certificats-ui.js"></script>
