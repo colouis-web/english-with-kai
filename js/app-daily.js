@@ -675,6 +675,8 @@ function calendar() {
 <div class="rstats mstats"><div class="rst"><b>${worked}</b><i>Days worked</i></div><div class="rst"><b>${full}</b><i>Trophies</i></div><div class="rst"><b>${W}</b><i>Words</i></div><div class="rst"><b>${STAR}${st}</b><i>Stars</i></div></div>
 ${dayDetail(CSEL)}`;
 }
+/* My activity (PO 11/11) : plus d'objectif ni de liste des mots du jour (la carte Today du menu s'en charge ;
+   la liste reste dans Calendar, au détail du jour) ; d'abord les stats, puis l'humeur, la semaine, les tests, le niveau */
 function renderDaily() {
     const lvUp = checkLevelUp(), r = dToday(), body = document.getElementById("dailybody"), m = masteredOf(r), n = r.n || target(), done = dayDone(r), left = n - m, worked = done || m > 0 || (r.qs || []).length > 0 || !!r.mood;
     let h = `<div class="dtabs" role="tablist"><button role="tab" data-dtab="today" class="${DTAB === "today" ? "on" : ""}" aria-selected="${DTAB === "today"}">Today</button><button role="tab" data-dtab="cal" class="${DTAB === "cal" ? "on" : ""}" aria-selected="${DTAB === "cal"}">Calendar</button></div>`;
@@ -684,20 +686,16 @@ function renderDaily() {
     }
     h += `${LVUP !== null ? `<div class="lvup"><div class="dend">${kaiBig("joy", [["Level up!"], ["You are now"], [[LV[LVUP].name]]], "Level up! You are now " + LV[LVUP].name)}</div><p>New goal: <b>${LV[LVUP].words} words a day</b>. Bravo!</p></div>` : ""}
 <p class="ddate">${longDate(r.d)}</p>
-<div class="dsec"><h2>Today's goal</h2><span>${Math.min(m, n)}/${n}</span></div>${goalCard(r)}
-${done ? `<button class="listen more" id="dmore">Other quizzes${GOSVG}</button>` : ""}
-<div class="dsec"><h2>My day</h2></div>${worked ? moodBlock(r, done ? "All done! How did you *feel* today?" : `${left} word${left > 1 ? "s" : ""} to go! How did you *feel* today?`) : `<div class="qhead dlater">${headSvg("Hello! Start your words! Then tell me how you *felt*.", "head")}</div>`}
-<div class="dsec"><h2>Words of the day</h2><span>${wordsOf(r).length}</span></div>${wordLists(r, true)}
 <div class="dsec"><h2>My rewards</h2><button class="qhelp" type="button" data-help="rewards" aria-label="How do stars, trophies and medals work?">?</button></div>${rewards(r)}
+<div class="dsec"><h2>My day</h2></div>${worked ? moodBlock(r, done ? "All done! How did you *feel* today?" : `${left} word${left > 1 ? "s" : ""} to go! How did you *feel* today?`) : `<div class="qhead dlater">${headSvg("Hello! Start your words! Then tell me how you *felt*.", "head")}</div>`}
 <div class="dsec"><h2>My weekly recap</h2></div>${weekChart()}
 <div class="dsec" id="dtests"><h2>My weekly tests</h2><span>/20</span></div>${testProgress()}
 ${memCard()}
 <div class="dsec"><h2>My level</h2></div>${levelCard()}`;
     body.innerHTML = h;
     if (lvUp) {
-        confetti();
+        confetti();   /* la fenêtre « Congrats! » le dit elle-même, après la phrase en cours (PO 11/11) */
         toast(`Level up! You are now ${LV[LVUP].name}!`, 2600);
-        sayOne(`Level up! You are now ${LV[LVUP].name}!`, document.querySelector(".lvup .bb"));
     }
     else if (done && !r.cel && DST.days[r.d]) {
         const c = JSON.parse(JSON.stringify(r));

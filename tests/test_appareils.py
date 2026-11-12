@@ -268,7 +268,8 @@ def ecrans_eleve(P, M):
     p.wait_for_selector("#plist")
     mesurer(p, M, "qui-apprend")
     p.locator("#plist [data-pid]").first.click()
-    wait_page(p, "daily")
+    wait_page(p, "menu")   # PO, 11/11 : l'élève arrive sur le menu (carte Today), My activity est une app
+    P.click("#toDaily"); P.on("daily")
     mesurer(p, M, "daily-today")
     # défilement jusqu'en bas : les images du bas de page (récompenses, semaine) sont mesurées aussi
     p.evaluate("() => scrollTo(0, document.body.scrollHeight)")
@@ -285,8 +286,7 @@ def ecrans_eleve(P, M):
         P.on(pid)
         mesurer(p, M, nom)
 
-    page_de("toWords", "wordhub", "words-hub")
-    P.click("#toDico"); P.on("words"); mesurer(p, M, "words")
+    page_de("toDico", "words", "words")
     p.locator("#wq").fill("run")
     mesurer(p, M, "words-recherche")
     p.locator("#wq").fill("")
@@ -303,7 +303,7 @@ def ecrans_eleve(P, M):
     P.back("menu")
     page_de("toTY", "ty", "test-yourself")
     P.back("menu")
-    P.click("#toWords"); P.on("wordhub")
+    P.click("#toTY"); P.on("ty")
     P.click("#toQuizzes"); P.on("quizzes"); mesurer(p, M, "quiz-liste")
     P.click("#toQV"); P.on("quiz"); mesurer(p, M, "quiz-themes")
     P.click('.seg [data-n="5"]')
@@ -354,7 +354,8 @@ def ecran_congrats(P, M):
     wait_page(p, "menu")
     P.click("#toDaily"); P.on("daily")
     mesurer(p, M, "daily-neuf")
-    P.click("#dround"); P.on("quiz")
+    P.back("menu")
+    P.click("#mcround"); P.on("quiz")   # le tour se lance depuis la carte Today du menu (PO, 11/11)
     P.answer_quiz()
     p.wait_for_function("!!document.querySelector('.congrats')", timeout=8000)
     mesurer(p, M, "congrats")

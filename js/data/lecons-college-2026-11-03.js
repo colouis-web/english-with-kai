@@ -188,7 +188,7 @@ TTYPE.conj.usedto = [
   {"q":"She didn't ___ like carrots.","h":"après didn't","a":["use to"],"fr":"Elle n'aimait pas les carottes.","e":"Après didn't : use to (sans d).","i":"Complète avec used to ou use to."},
   {"q":"___ you use to have a pet?","h":"question au passé","a":["Did"],"fr":"Avais-tu un animal ?","e":"Question au passé : Did you use to…?","i":"Complète avec le mot qui manque."},
   {"q":"We ___ in London, but now we live in Leeds.","h":"live","a":["used to live","lived"],"fr":"Nous habitions à Londres, mais maintenant nous habitons à Leeds.","e":"Habitude du passé : used to live.","i":"Écris used to + le verbe donné."},
-  {"q":"He ___ eat fish. (négatif)","h":"eat","a":["didn't use to eat","did not use to eat"],"fr":"Il ne mangeait pas de poisson.","e":"Négation : didn't use to + verbe.","i":"Écris la forme négative avec use to."},
+  {"q":"He ___ fish. (négatif)","h":"eat","a":["didn't use to eat","did not use to eat"],"fr":"Il ne mangeait pas de poisson.","e":"Négation : didn't use to + verbe.","i":"Écris la forme négative avec use to."},
   {"q":"Did you use to play chess? – Yes, I ___.","h":"réponse courte","a":["did"],"fr":"Jouais-tu aux échecs ? – Oui.","e":"Réponse courte : Yes, I did.","i":"Écris la réponse courte."},
   {"q":"Last week I ___ to the cinema.","h":"go (une seule fois)","a":["went"],"fr":"La semaine dernière, je suis allé au cinéma.","e":"Last week = une seule fois : prétérit simple, pas used to.","i":"Écris le verbe au prétérit simple."},
   {"q":"Grandma ___ us stories every night.","h":"tell","a":["used to tell","told"],"fr":"Grand-mère nous racontait des histoires chaque soir.","e":"Habitude du passé : used to tell.","i":"Écris used to + le verbe donné."}

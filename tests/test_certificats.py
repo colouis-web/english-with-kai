@@ -129,8 +129,8 @@ def run(args, base, browser, bilan, collector):
       DST.days['2026-10-27'] = Object.assign({}, DST.days['2026-10-27'] || {}, r, { w: Object.assign({}, (DST.days['2026-10-27'] || {}).w, r.w) }); AWS = null; }""")
     ck("CE-21 Mot raté d'un thème certifié : absent des mots à revoir tant que le certificat court",
        P("() => !memStats().due.some(w => w.key === 'adjectives:red') && !memStats().often.some(o => o.w.key === 'adjectives:red')"), "red présent")
-    scr = P("() => { DTAB = 'today'; openDaily(); const b = document.getElementById('dailybody'); return [document.querySelector('.page.on').id, b.innerHTML.includes('My memory'), b.querySelectorAll('#dround').length]; }")
-    ck("CE-23 L'écran My daily work s'affiche normalement avec un certificat (My memory, bouton Start)", scr == ["daily", True, 1], scr)
+    scr = P("() => { DTAB = 'today'; openDaily(); const b = document.getElementById('dailybody'); return [document.querySelector('.page.on').id, b.innerHTML.includes('My memory'), document.querySelectorAll('#mcround').length]; }")
+    ck("CE-23 L'écran My activity s'affiche normalement avec un certificat (My memory ; bouton Start sur la carte Today du menu)", scr == ["daily", True, 1], scr)
     page.clock.set_fixed_time("2027-01-30T10:00:00")
     back = P(f"() => {{ AWS = null; ({RESEED})(5); return [Cert.isActive(undefined, 'adjectives:colours'), Cert.rotationFilter('{CAMILLE}') === null, memStats().due.some(w => w.key === 'adjectives:red'), Cert.get(undefined, 'adjectives:colours').left]; }}")
     ck("CE-22 À l'échéance (30/01/2027) le thème revient en révision : le mot raté est de nouveau à revoir", back == [False, True, True, 0], back)

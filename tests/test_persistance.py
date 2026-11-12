@@ -99,7 +99,10 @@ def rendus(P):
     p = P.page
     out = {}
     P.to_menu()
-    out["menu_tuiles"] = norm(p.locator(".tiles").first.text_content())
+    out["menu_tuiles"] = norm(p.locator("#menu .apps").first.text_content())
+    # menu en cartes (PO, 11/11) : les mots du jour et la semaine sont sur les cartes Today et This week
+    out["menu_today"] = norm(p.locator("#mday").text_content())
+    out["menu_semaine"] = norm(p.locator("#mweek").text_content())
     out["menu_bienvenue"] = p.evaluate("() => document.getElementById('askb').getAttribute('aria-label')")
     P.click("#toDaily")
     P.on("daily")
@@ -145,21 +148,19 @@ def generer_reference(P):
 
     def tour(wrong_n=0, stop_after=None):
         P.to_menu()
-        P.click("#toDaily")
-        P.on("daily")
-        P.click("#dround")
+        P.click("#mcround")   # le tour se lance depuis la carte Today du menu (PO, 11/11)
         if p.locator("#modal.on").count():
             p.locator('[data-mact="restart"]').click()
         P.on("quiz")
         r = P.answer_quiz(wrong_n=wrong_n, stop_after=stop_after)
         if stop_after is not None:
             P.click("#backQ")
-            P.on("daily")
+            P.on("menu")
         else:
-            # fin du tour : le bouton « My day » est là (« Congrats! » éventuel est fermé par le gestionnaire au premier clic)
+            # fin du tour : le bouton « Menu » est là (« Congrats! » éventuel est fermé par le gestionnaire au premier clic)
             if wait_js(p, "() => !!document.getElementById('qday')", timeout=4000):
                 P.click("#qday")
-                P.on("daily")
+                P.on("menu")
         return r
 
     def lecon(tuile, lid, wrong_first=False):
@@ -222,7 +223,6 @@ def generer_reference(P):
     P.on("test")
     P.test_loop("irr")
     P.to_menu()
-    P.click("#toWords")
     P.click("#toQuizzes")
     P.click("#toQN")
     P.on("quiz")
@@ -350,7 +350,7 @@ def bloc_direct(args, base, browser, bilan, collector, ck, ref):
     P.page.locator('[data-hlv="1"]').click()
     P.page.locator("#nameform .listen").click()
     wait_page(P.page, "menu")
-    P.click("#toDaily"); P.on("daily"); P.click("#dround"); P.on("quiz")
+    P.click("#mcround"); P.on("quiz")
     P.answer_quiz(wrong_n=2)
     P.to_menu()
     P.click("#toGrammar"); P.click('[data-lesson="plurals"]'); P.on("lesson"); P.click("#lpractice"); P.practice(wrong_first=True)
@@ -359,7 +359,7 @@ def bloc_direct(args, base, browser, bilan, collector, ck, ref):
     P.click("#backT"); P.page.locator('[data-mact="yes"]').click()
     avant = capture(P)
     reload_app(P.page)
-    ck("PE-11 Après rechargement, l'élève revient directement sur « My daily work »", current_page(P.page) == "daily", current_page(P.page))
+    ck("PE-11 Après rechargement, l'élève revient directement sur le menu, carte Today (PO, 11/11)", current_page(P.page) == "menu", current_page(P.page))
     apres = capture(P)
     ck("PE-12 Stockage kai.* identique avant / après rechargement (clés et valeurs)", avant["ls"] == apres["ls"], premiere_difference(avant["ls"], apres["ls"], "ls"))
     ck("PE-13 État calculé identique (profils, journal, étoiles, série, rang, niveau, mémoire des mots, semaines de tests)",
@@ -409,7 +409,7 @@ def bloc_reference(args, base, browser, bilan, collector, ck, ref):
     # reprise des états interrompus
     p = P.page
     P.to_menu()
-    P.click("#toDaily"); P.on("daily"); P.click("#dround")
+    P.click("#mcround")
     p.locator("#modal.on").wait_for()
     msg = norm(p.locator("#mbody").text_content())
     ck("PE-26 Tour interrompu retrouvé : « 3 questions out of 20 » et « Continue · 4/20 »", "answered 3 questions out of 20" in msg and "Continue · 4/20" in msg, msg[:200])
@@ -557,7 +557,7 @@ def choisir_eleve_et_capturer(P):
     p = P.page
     if current_page(p) == "who":
         p.locator("#plist [data-pid]").first.click()
-        wait_page(p, "daily")
+        wait_page(p, "menu")   # PO, 11/11 : l'élève arrive sur le menu (carte Today)
     return capture(P)
 
 

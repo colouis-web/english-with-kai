@@ -104,7 +104,8 @@ def ecrans_eleve(P, cap):
     prete(P)
     cap("qui-apprend")
     p.locator("#plist [data-pid]").first.click()
-    wait_page(p, "daily")
+    wait_page(p, "menu")   # PO, 11/11 : l'élève arrive sur le menu (carte Today), My activity est une app
+    P.click("#toDaily"); P.on("daily")
     prete(P)
     cap("daily-today", full=True)
     P.click('[data-dtab="cal"]')
@@ -115,6 +116,14 @@ def ecrans_eleve(P, cap):
     P.on("menu")
     prete(P)
     cap("menu")
+    # cartes du carrousel (PO, 11/11) : Today et This week
+    for i, nom in ((1, "menu-today"), (2, "menu-semaine")):
+        P.click(f'#mdots [data-mc="{i}"]')
+        wait_js(p, f"() => document.querySelector('#mdots [data-mc=\"{i}\"]').getAttribute('aria-selected') === 'true' && Math.abs(document.getElementById('mtrack').scrollLeft - {i} * document.getElementById('mtrack').clientWidth) < 2")
+        prete(P)
+        cap(nom)
+    p.evaluate("() => show('menu')")
+    P.on("menu")
 
     def aller(tuile, page_id, nom, retour="menu", full=False, apres=None):
         P.click(f"#{tuile}")
@@ -124,8 +133,7 @@ def ecrans_eleve(P, cap):
         prete(P)
         cap(nom, full=full)
 
-    aller("toWords", "wordhub", "words-hub")
-    P.click("#toDico"); P.on("words"); prete(P); cap("words")
+    aller("toDico", "words", "words")
     p.locator("#wq").fill("go")
     prete(P)
     cap("words-recherche-go")
@@ -147,10 +155,10 @@ def ecrans_eleve(P, cap):
     P.back("menu")
     aller("toTY", "ty", "test-yourself")
     P.back("menu")
-    P.click("#toWords"); P.on("wordhub")
+    P.click("#toTY"); P.on("ty")
     P.click("#toQuizzes"); P.on("quizzes"); prete(P); cap("quiz-liste")
     P.click("#toQV"); P.on("quiz"); prete(P); cap("quiz-themes")
-    P.back("quizzes"); P.back("wordhub"); P.back("menu")
+    P.back("quizzes"); P.back("ty"); P.back("menu")
     P.click("#toTY"); P.on("ty")
     P.click("#toT6"); P.on("t6"); prete(P); cap("controles-6e")
     P.back("ty"); P.back("menu")

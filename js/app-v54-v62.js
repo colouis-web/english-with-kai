@@ -1,15 +1,14 @@
 /* Code — tranche de l'ancien index.html (lignes 3068–3681). Script classique : l'ordre des <script> compte. */
 "use strict";
 /* ===== v54 : démarrage direct sur « Today », durée affichée, série avec un seul tour, partie « Type it », dictée, mémoire des mots visible ===== */
-/* --- 1. un élève déjà connu arrive directement sur My daily work › Today (l'écran de Kai reste pour la première visite) --- */
+/* --- 1. un élève déjà connu arrive directement sur le menu, carte Today (PO 11/11 ; avant : My daily work › Today) --- */
 let BOOT2 = false;
 (function () {
     const W0 = welcome;
     welcome = function () {
         if (BOOT2) {
             BOOT2 = false;
-            DTAB = "today";
-            openDaily();
+            openMenuDay();   /* PO 11/11 : le menu, sur la carte Today (les mots du jour ne sont plus dans My activity) */
             return;
         }
         W0();
@@ -25,8 +24,7 @@ function bootDirect() {
             return;
         }
         PICKED = true;
-        DTAB = "today";
-        openDaily();
+        openMenuDay();
     }
     catch (e) {
     }
@@ -414,11 +412,44 @@ function kaiCongrats(title, sub, say) {
         }
     }, 300);
 }
+/* PO 11/11 : le « Congrats! » n'arrive plus en même temps que la phrase de l'écran derrière (« You got 100 percent! »).
+   On attend que Kai ait fini de parler (voix enregistrée ou voix du téléphone), puis la fenêtre apparaît et parle.
+   Au plus 7 s d'attente, pour ne jamais perdre la fête si une voix reste bloquée. */
+function speechBusy() {
+    try {
+        if (window.speechSynthesis && (speechSynthesis.speaking || speechSynthesis.pending))
+            return true;
+    }
+    catch (e) {
+    }
+    try {
+        if (typeof KVA !== "undefined" && KVA.src && !KVA.paused && !KVA.ended)
+            return true;
+    }
+    catch (e) {
+    }
+    return !!document.querySelector(".talk");
+}
+function afterSpeech(fn, maxMs) {
+    const t0 = Date.now();
+    let calm = 0;
+    const tick = () => {
+        calm = speechBusy() ? 0 : calm + 1;
+        if (calm >= 2 || Date.now() - t0 > (maxMs || 7000))
+            fn();
+        else
+            setTimeout(tick, 200);
+    };
+    setTimeout(tick, 400);
+}
 confetti = function () {
-    if (LVUP !== null && LV[LVUP])
-        kaiCongrats("Level up!", `You are now <b>${LV[LVUP].name}</b>: ${LV[LVUP].words} words a day. Bravo!`, `Congrats! You are now ${LV[LVUP].name}!`);
-    else
-        kaiCongrats("Today's goal reached!", "You mastered all your words of the day. Trophy +3 stars!", "Congrats! You reached today's goal!");
+    const lv = LVUP !== null && LV[LVUP] ? LV[LVUP] : null;
+    afterSpeech(() => {
+        if (lv)
+            kaiCongrats("Level up!", `You are now <b>${lv.name}</b>: ${lv.words} words a day. Bravo!`, `Congrats! You are now ${lv.name}!`);
+        else
+            kaiCongrats("Today's goal reached!", "You mastered all your words of the day. Trophy +3 stars!", "Congrats! You reached today's goal!");
+    });
 };
 addEventListener("popstate", () => document.querySelectorAll(".congrats").forEach(x => x.remove()));
 /* l'objectif du jour atteint à la fin d'un tour : Kai félicite tout de suite */
@@ -1196,8 +1227,8 @@ document.getElementById("dybody").addEventListener("click", e => {
     }
     if (t.closest("#dyhead .bb")) {
         const q = DY.run && DY.run.items[DY.run.i];
-        if (q)
-            sayOne(plain(q.dir ? q.en : q.fr), t.closest(".bb"));
+        if (q && q.dir)   /* la bulle française (français → anglais) n'est pas lue : Kai ne parle pas français */
+            sayOne(plain(q.en), t.closest(".bb"));
         return;
     }
     if (t.closest("#dyretry")) {
@@ -1736,7 +1767,7 @@ document.getElementById("t6body").addEventListener("keydown", e => {
                 return n >= 0 && n <= 10;
             }).sort((a, b) => a.date.localeCompare(b.date))[0];
             /* S-03 : le bandeau passe sous l'objectif du jour, pour que « Start » reste visible sans défiler */
-            const dd = document.querySelector("#dailybody .wgoal");
+            const dd = document.querySelector("#dailybody .ddate");   /* PO 11/11 : plus d'objectif du jour ici, le bandeau passe sous la date */
             if (t && dd && !document.getElementById("t6ban")) {
                 dd.insertAdjacentHTML("afterend", `<button class="t6ban" id="t6ban" type="button" data-t6go="${t.id}">📅 <span><b>Class test ${t6When(t.date)}</b> ${esc(t.title)} · ${t6Date(t.date)}</span>${GOSVG}</button>`);
             }

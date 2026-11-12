@@ -109,7 +109,34 @@ function kvPlay(f, text, el, onDone) {
         fail();
     }
 }
+/* Kai ne lit jamais de français avec sa voix anglaise (PO, 11/11) : on retire des phrases lues les indications
+   en français — « (négatif) », « (je voudrais) », citations « … », début « Le 3 novembre – » — et l'on se tait
+   si ce qui reste est encore du français. Les mots anglais à accent (café, résumé) restent lus. */
+const FR_WORDS = /(^|[^a-zà-ÿœ'])(je|tu|il|elle|nous|vous|ils|elles|le|les|une|des|du|est|sont|et|mais|pas|qui|que|avec|dans|sur|mes|cette|c'est|j'ai|n'est|négatif|positif|voudrais|veux|faut)(?=$|[^a-zà-ÿœ'])/i;
+const FR_ANY = /[àâçèêëîïôûùüÿœ«»]/i;
+/* garde les morceaux anglais d'une phrase coupée par → ou par un tiret ; retire les morceaux français */
+function keepEnglish(s, sep, glue) {
+    const parts = s.split(sep);
+    if (parts.length < 2 || !parts.some(x => FR_WORDS.test(x)))
+        return s;
+    return parts.filter(x => x.trim() && !FR_WORDS.test(x) && !x.includes("___")).join(glue);
+}
+function enSpeech(text) {
+    let s = String(text || "");
+    s = s.replace(/\s*\(([^)]*)\)/g, (m, inner) => FR_WORDS.test(inner) || FR_ANY.test(inner) ? "" : m);
+    s = s.replace(/«[^»]*»/g, " ");
+    s = keepEnglish(s, "→", ". ");
+    s = keepEnglish(s, /\s+[–—]\s+/, " ");
+    s = s.replace(/^[\s.→–—]+/, "").replace(/\s+/g, " ").trim();
+    return FR_WORDS.test(s) ? "" : s;
+}
 function ttsSpeak(text, el, onDone, vo) {
+    text = enSpeech(text);
+    if (!text) {
+        if (onDone)
+            setTimeout(onDone, 0);
+        return;
+    }
     unlockAudio();
     if (KREC && !vo) {
         const f = kvFind(text);
