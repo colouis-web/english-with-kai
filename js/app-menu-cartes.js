@@ -1,7 +1,7 @@
 /* Menu, nouvelle mouture (PO, 11/11) : le haut du menu devient un carrousel de 3 cartes qu'on fait glisser.
    1. Kai parle (bulle de renderMenuHead, sans la carte de rang : demande du PO) ;
    2. Today : les mots du jour au format de My work (mots maîtrisés / objectif, phrase, bouton du tour) ;
-      le menu s'ouvre sur cette carte tant que l'objectif du jour n'est pas atteint (PO 11/11) ;
+      le menu s'ouvre toujours sur la carte de Kai (PO 13/11 ; du 11 au 13/11 : sur Today tant que l'objectif n'était pas atteint) ;
    3. This week : leçons de la semaine (grammaire, conjugaison), tests de My weekly review, étoiles de la semaine.
    Le glissement est natif (scroll-snap) ; les points suivent le défilement et permettent de sauter à une carte.
    En dessous, des « apps » 3 par ligne (PO 11/11) : Dictionary, Grammar, Conjugation, My activity, Test yourself,
@@ -58,14 +58,9 @@ function mcRender() {
 /* carte d'arrivée : Today tant que l'objectif du jour n'est pas atteint, sinon Kai ; Kai aussi quand il accueille l'élève */
 let MCKAI = false;
 function mcStart() {
-    try {
-        return curProf() && !dayDone(DST.days[todayKey()]) ? 1 : 0;
-    }
-    catch (e) {
-        return 0;
-    }
+    return 0;   /* PO, 13/11 : toujours la carte de Kai, qui discute et propose « Let's go! » (avant : Today tant que les mots n'étaient pas faits) */
 }
-/* fin ou abandon d'un tour de mots : retour au menu, sur la carte Today (PO 11/11) ; Kai félicite si l'élève monte de niveau */
+/* fin ou abandon d'un tour de mots : retour au menu, sur la carte de Kai (PO 13/11) ; Kai félicite si l'élève monte de niveau */
 function openMenuDay(back) {
     DAILY = false;
     MCKAI = false;
@@ -142,7 +137,7 @@ function openMenuDay(back) {
             openTests();
         }
     });
-    /* en revenant au menu : la carte Today tant que l'objectif n'est pas atteint, sinon celle de Kai */
+    /* en revenant au menu : la carte de Kai (PO 13/11) */
     const S0 = show;
     show = function (id) {
         S0.apply(this, arguments);
