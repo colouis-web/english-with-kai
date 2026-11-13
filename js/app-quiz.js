@@ -120,10 +120,10 @@ function bubbleFs() {
         return 20;
     }
 }
-function measure(t, fs) {
+function measure(t, fs, bold) {
     try {
         MCTX = MCTX || document.createElement("canvas").getContext("2d");
-        MCTX.font = `500 ${fs || 20}px "Roboto Condensed","Arial Narrow",Roboto,sans-serif`;
+        MCTX.font = `${bold ? 700 : 500} ${fs || 20}px "Roboto Condensed","Arial Narrow",Roboto,sans-serif`;
         return MCTX.measureText(t).width + t.length * .2;
     }
     catch (e) {
@@ -140,17 +140,24 @@ function wrapRows(s, maxW, fs) {
         txt.split(/\s+/).filter(Boolean).forEach((w, k) => toks.push({ w, hl, glue: k === 0 && toks.length > 0 && !prevEnd && !/^\s/.test(txt) }));
         prevEnd = /\s$/.test(txt);
     });
-    const rows = [];
+    const rows = [], tw = t => measure(t.w + " ", fs, t.hl);
     let cur = [], cw = 0;
     for (const t of toks) {
-        const tw = measure(t.w + " ", fs);
-        if (cur.length && !t.glue && !/^[!?:;»]+$/.test(t.w) && cw + tw > maxW) {
-            rows.push(cur);
-            cur = [];
-            cw = 0;
+        const w = tw(t);
+        if (cur.length && !/^[!?:;»]+$/.test(t.w) && cw + w > maxW) {
+            /* un mot collé (« l'*athlétisme* ») part à la ligne avec le début de son mot, sinon il déborde de la bulle (PO, 12/11) */
+            let g = cur.length;
+            if (t.glue)
+                while (g > 0 && cur[g - 1] && (cur[g] || t).glue)
+                    g--;
+            if (g > 0) {
+                rows.push(cur.slice(0, g));
+                cur = cur.slice(g);
+                cw = cur.reduce((s, x) => s + tw(x), 0);
+            }
         }
         cur.push(t);
-        cw += tw;
+        cw += w;
     }
     if (cur.length)
         rows.push(cur);
@@ -167,8 +174,27 @@ function rowTok(row) {
 const ROT = { good: ["smile", "joy"], bad: ["head", "grumpy", "head", "bored"] }, ROTI = { good: 0, bad: 0 };
 const nextFace = k => ROT[k][ROTI[k]++ % ROT[k].length];
 /* lang : "fr" quand la bulle porte une phrase française (S-10), pour que le lecteur d'écran la lise avec le bon accent */
+/* largeur d'une ligne de bulle (les mots surlignés sont en gras) */
+const rowW = (row, fs) => row.reduce((s, t, i) => s + measure((i && !t.glue ? " " : "") + t.w, fs, t.hl), 0);
+/* taille de la bulle (PO, 12/11 : « le texte dépasse de la bulle ») : chaque ligne, coins compris, doit tenir dans l'ellipse ;
+   la bulle grandit en hauteur, et si une ligne est trop large on recoupe plus court */
+function bubbleFit(sentence, fs, lh, rx, maxW) {
+    for (let mw = maxW; ; mw -= 10) {
+        const rows = wrapRows(sentence, mw, fs), n = rows.length;
+        let ry = Math.max(44, n * lh / 2 + 22), ok = true;
+        rows.forEach((r, j) => {
+            const hw = rowW(r, fs) / 2 + 9, dy = Math.abs(j - (n - 1) / 2) * lh + fs * .62;
+            if (hw >= rx * .98)
+                ok = false;
+            else
+                ry = Math.max(ry, dy / Math.sqrt(1 - (hw / rx) ** 2) + 3);
+        });
+        if (ok || mw <= 110)
+            return { rows, n, ry };
+    }
+}
 function headSvg(sentence, face, mood, lang) {
-    const fs = bubbleFs(), lh = Math.round(fs * 1.4), rows = wrapRows(sentence, 168, fs), n = rows.length, ry = Math.max(44, n * lh / 2 + 22), cx = 238, H = Math.max(176, 2 * ry + 26), cy = H / 2, rx = 116;
+    const fs = bubbleFs(), lh = Math.round(fs * 1.4), rx = 118, { rows, n, ry } = bubbleFit(sentence, fs, lh, rx, 168), cx = 238, H = Math.max(176, 2 * ry + 26), cy = H / 2;
     return `<svg viewBox="0 0 360 ${f1(H)}" role="img" aria-label="Kai : ${esc(plain(sentence))}">
 <image class="kai qface${mood ? " " + mood : ""}" href="img/kai-${face}.webp" x="2" y="${f1(H - 150)}" width="122" height="150" preserveAspectRatio="xMidYMax meet"/>
 <g class="bb b1 qb"><path d="${bubblePath([cx, cy], [rx, ry], [108, H - 62])}" fill="#fff" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><text text-anchor="middle"${lang ? ` lang="${lang}"` : ""}>${rows.map((r, j) => `<tspan x="${cx}" y="${f1(cy - (n - 1) * lh / 2 + fs * .33 + j * lh)}">${rowTok(r)}</tspan>`).join("")}</text></g></svg>`;

@@ -387,7 +387,12 @@ document.getElementById("toDict").addEventListener("click", openDict);
         }
     }, true);
 })();
-setTimeout(bootDirect, 0);
+/* PO, 12/11 : le démarrage attend que TOUS les scripts aient tourné (DOMContentLoaded). Un simple setTimeout pouvait partir
+   avant les scripts suivants (réseau lent) : openMenuDay (app-menu-cartes.js) n'existait pas encore et l'élève restait sur l'écran de Kai. */
+if (document.readyState === "loading")
+    addEventListener("DOMContentLoaded", () => setTimeout(bootDirect, 0));
+else
+    setTimeout(bootDirect, 0);
 /* ===== v55 : les nouvelles images de Kai — victoire (quiz et tests réussis), « Congrats! » à la place des confettis ===== */
 Object.assign(END_L, { v: { x: 8, y: 6, w: 143, h: 288, c: [256, 84], r: [96, 58], tip: [116, 70] }, knee: { x: 0, y: 26, w: 158, h: 270, c: [262, 82], r: [92, 56], tip: [120, 74] } });
 function kaiCongrats(title, sub, say) {
