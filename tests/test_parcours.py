@@ -394,7 +394,7 @@ def s02_creation_profil(P):
     P.check("Niveau Beginner, premier élève marqué « first »", prof["lv"] == 0 and prof.get("first") == 1, prof)
     P.check("Le profil est écrit dans localStorage (kai.profiles.v1)", P.pid in P.ls().get("kai.profiles.v1", ""))
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
-    P.check("Le menu accueille l'élève par son prénom", "Welcome Léa Dupont!" in label, label)
+    P.check("Le menu accueille l'élève par son prénom (tout premier jour : Kai se présente)", "Welcome, Léa Dupont! I'm Kai." in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
     P.check("Les 6 apps du menu sont là (Dictionary, Grammar, Conjugation, My activity, Test yourself, Weekly review)",
             all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests")) and not P.visible("#toCerts"))

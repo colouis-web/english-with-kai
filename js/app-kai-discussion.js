@@ -41,6 +41,8 @@ function kaiTalk() {
         }
         catch (e) {
         }
+        if (!last && !(r && dayActive(r)))   /* tout premier jour : Kai se présente */
+            return { say: `Welcome, ${N}! I'm *Kai*. Let's learn English *together*!`, chips: [GO, NOTNOW] };
         if (t6) {
             const d = t6Days(t6.date);
             return { say: `${H}, ${N}! Your class test is *${d === 0 ? "today" : d === 1 ? "tomorrow" : `in ${d} days`}*. Let's revise!`, chips: [{ id: "t6", label: "Revise", t6: t6.id }, GO] };
