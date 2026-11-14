@@ -23,7 +23,7 @@ function kaiTalk() {
         return { say: `Wow, ${N}! You are now *${LV[lvOf(p)].name}*! That's *${w(n)}* a day now.`, chips: done ? [] : [GO] };
     if (!done) {
         if (KTALK.mode === "later")
-            return { say: `OK! I'll be *here* when you're ready.`, chips: [GO] };
+            return { say: `OK, ${N}! I'll be *here* when you're ready.`, chips: [GO] };
         if (m > 0) {
             const left = n - m;
             return { say: pick([`Well done, ${N}! Only *${w(left)}* left today. You can do it!`, `Keep going, ${N}! *${left} more* and you're done for today!`]), chips: [{ id: "go", label: "Next words" }, NOTNOW] };
@@ -63,20 +63,20 @@ function kaiTalk() {
         return { say: `See you *tomorrow*, ${N}!`, chips: [] };
     const happy = md.id === "great" || md.id === "good";
     if (KTALK.mode === "react")
-        return { say: md.say + (happy ? " Do you want a *bonus round*?" : md.id === "okay" ? " See you tomorrow!" : ""), face: md.img, chips: happy ? [{ id: "go", label: "Yes!" }, { id: "bye", label: "No, thanks" }] : [] };
+        return { say: md.say + (happy ? ` Do you want a *bonus round*, ${N}?` : md.id === "okay" ? ` See you tomorrow, ${N}!` : ` See you tomorrow, ${N}.`), face: md.img, chips: happy ? [{ id: "go", label: "Yes!" }, { id: "bye", label: "No, thanks" }] : [] };
     if (!happy && md.id !== "okay")
         return { say: md.id === "tired" ? `You feel *tired* today. Have a good rest, ${N}!` : md.id === "grumpy" ? `Tomorrow will be *better*, ${N}!` : `I'm *here* with you, ${N}. See you tomorrow!`, face: md.img, chips: [] };
     /* bonne forme : on regarde la semaine */
     const todo = ["grammar", "conj"].find(t => !weekLesson(t));
     if (todo) {
         const id = suggestLesson(todo);
-        return { say: `You feel *${md.id === "okay" ? "okay" : md.en.toLowerCase()}* today! Your ${todo === "grammar" ? "grammar" : "conjugation"} lesson is waiting: *${LESSONS[id].title}*.`, face: md.img, chips: [{ id: "lesson", label: "Open it", lesson: id }, { id: "bye", label: "Later" }] };
+        return { say: `You feel *${md.id === "okay" ? "okay" : md.en.toLowerCase()}* today, ${N}! Your ${todo === "grammar" ? "grammar" : "conjugation"} lesson is waiting: *${LESSONS[id].title}*.`, face: md.img, chips: [{ id: "lesson", label: "Open it", lesson: id }, { id: "bye", label: "Later" }] };
     }
     if (typeof dzWeek === "function" && !dzWeek())   /* Dictation, tâche de la semaine (PO, 14/11) */
-        return { say: `Both lessons are done! Now your *dictation* of the week: listen and type!`, face: md.img, chips: [{ id: "dict", label: "Let's do it" }, { id: "bye", label: "Later" }] };
+        return { say: `Both lessons are done, ${N}! Now your *dictation* of the week!`, face: md.img, chips: [{ id: "dict", label: "Let's do it" }, { id: "bye", label: "Later" }] };
     const W = testWeeks(1), NT = Object.keys(TESTS).length, nt = Object.keys(TESTS).filter(k => W.tab[k][0]).length;
     if (nt < NT)
-        return { say: `Your lessons and your dictation are done this week! Your *weekly review* is ready.`, face: md.img, chips: [{ id: "tests", label: "Let's see" }, { id: "bye", label: "Later" }] };
+        return { say: `Well done, ${N}! Your *weekly review* is ready.`, face: md.img, chips: [{ id: "tests", label: "Let's see" }, { id: "bye", label: "Later" }] };
     return { say: `Everything is done this week, ${N}. You're a *star*!`, face: "joy", chips: [{ id: "go", label: "Bonus round" }] };
 }
 /* dessine la bulle (même mise en page que renderMenuHead, la taille suit la phrase) et les réponses dessous */

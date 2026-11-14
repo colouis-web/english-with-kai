@@ -6,8 +6,9 @@
      « Dictation » sur la carte This week du menu.
    Script classique, chargé après app-kai-discussion.js. */
 "use strict";
-let DZFROM = "menu";   /* page d'où la dictée a été ouverte : "menu" ou "daily" (My activity › My memory) */
+let DZFROM = "menu";   /* page d'où la dictée a été ouverte : "menu", "daily" (My activity › My memory) ou "quizzes" (Test yourself › Quiz) */
 const DZ_STOP = new Set("this that these those with from have has had they them their there then than what when where which while will would could should your yours very some into onto about does done were been being after before again also just only much many more most such each every other another over under here very well even ever never always often still back down your ours mine".split(" "));
+const DZB = () => DZFROM === "daily" ? "My activity" : DZFROM === "quizzes" ? "Quizzes" : "Menu";   /* bouton de fin : retour à la page d'origine */
 /* une dictée faite cette semaine ? */
 function dzWeek() {
     for (const k of weekKeys(todayKey())) {
@@ -68,7 +69,8 @@ function dzPickC(n) {
 /* écran de choix du niveau */
 function openDict(from) {
     const on = id => document.getElementById(id).classList.contains("on");
-    DZFROM = from || (on("daily") ? "daily" : on("quiz") ? DZFROM : "menu");   /* « New dictation » garde la page d'origine */
+    /* « New dictation » garde la page d'origine ; la tuile du Quiz passe l'événement du clic, pas une page */
+    DZFROM = typeof from === "string" ? from : on("daily") ? "daily" : on("quizzes") ? "quizzes" : on("quiz") ? DZFROM : "menu";
     DAILY = false;
     XMODE = "dzpick";
     document.getElementById("qtitle").textContent = "Dictation";
@@ -181,13 +183,13 @@ function dzSave(n, N) {
             QW().innerHTML = `<p class="qpart">Dictation · Results</p><div class="qhead">${headSvg(P === 100 ? "*Perfect*! You heard every word!" : P >= 60 ? `Well done! *${n}/${N}* words right!` : `Not yet: *${n}/${N}*. Let's try again!`, P >= 60 ? "smile" : "head")}</div>
 <div class="scores"><div class="sc${n === N ? " ok" : ""}"><i>Dictation · Complex</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
 <ul class="recap">${DZ.items.map((it, j) => `<li><span class="m ${DZ.res[j] === it.toks.filter(t => t.gap).length ? "ok" : "ko"}">${DZ.res[j] === it.toks.filter(t => t.gap).length ? CHECK : CROSS}</span><b>${it.toks.filter(t => t.gap).map(t => esc(t.core)).join(" · ")}</b><i>${DZ.res[j] || 0}/${it.toks.filter(t => t.gap).length}</i></li>`).join("")}</ul>
-<div class="endbtns"><button class="listen" id="dzagain">New dictation</button><button class="ghost" id="dzday">${DZFROM === "daily" ? "My activity" : "Menu"}</button></div>`;
+<div class="endbtns"><button class="listen" id="dzagain">New dictation</button><button class="ghost" id="dzday">${DZB()}</button></div>`;
             sayOne(P >= 60 ? `Well done! ${n} out of ${N}!` : `${n} out of ${N}. Let's try again!`, document.querySelector("#qwrap .qhead .bb"));
         }
         /* fin standard : « My day » devient « Menu » (ou « My activity »), « Quizzes » reste */
         const b = document.getElementById("dzday");
         if (b)
-            b.textContent = DZFROM === "daily" ? "My activity" : "Menu";
+            b.textContent = DZB();
     };
 })();
 /* clics de la page du quiz pendant la dictée : capture sur le document, donc AVANT ceux d'app-v54-v62.js (sur #quiz) */
@@ -241,6 +243,8 @@ document.addEventListener("click", e => {
             DTAB = "today";
             openDaily(true);
         }
+        else if (DZFROM === "quizzes")
+            show("quizzes", true);
         else
             openMenuDay(true);
     }
@@ -257,4 +261,4 @@ document.getElementById("quiz").addEventListener("keydown", e => {
         checkC();
 });
 /* l'app « Dictation » du menu */
-document.getElementById("toDict").addEventListener("click", () => openDict("menu"));
+document.getElementById("toDictee").addEventListener("click", () => openDict("menu"));
