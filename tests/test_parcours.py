@@ -397,9 +397,9 @@ def s02_creation_profil(P):
     P.check("Le menu accueille l'élève par son prénom (tout premier jour : Kai se présente)", "Welcome, Léa Dupont! I'm Kai." in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
     P.check("Les 7 apps du menu sont là (Dictionary, Grammar, Conjugation, My activity, Test yourself, Weekly review, Dictation)",
-            all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests", "toDict")) and not P.visible("#toCerts"))
+            all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests", "toDictee")) and not P.visible("#toCerts"))
     # Dictation (PO, 14/11) : deux niveaux ; Complex = 2 ou 3 trous par phrase ; retour au menu
-    P.click("#toDict")
+    P.click("#toDictee")
     P.on("quiz")
     P.check("Dictation : choix du niveau (Standard, Complex)", P.visible('[data-dzlv="std"]') and P.visible('[data-dzlv="cpx"]'))
     P.click('[data-dzlv="cpx"]')
@@ -1050,7 +1050,7 @@ def s12_code_parent(P):
 def s13_navigation(P):
     p = P.page
     # (tuile, page ouverte, page où ramène le bouton Retour)
-    parcours = [("menu", [("toDico", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toDaily", "daily"), ("toTY", "ty"), ("toTests", "tests"), ("toDict", "quiz")]),
+    parcours = [("menu", [("toDico", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toDaily", "daily"), ("toTY", "ty"), ("toTests", "tests"), ("toDictee", "quiz")]),
                 ("ty", [("toQuizzes", "quizzes"), ("toT6", "t6"), ("toDIY", "diy"), ("toTalk", "talk")]),
                 ("quizzes", [("toQV", "quiz"), ("toQN", "quiz"), ("toQJ", "quiz"), ("toQA", "quiz"), ("toQC", "quiz"), ("toQP", "quiz"), ("toQPh", "quiz"), ("toQI", "quiz")])]
     for parent, tuiles in parcours:
