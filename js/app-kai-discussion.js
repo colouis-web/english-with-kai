@@ -72,9 +72,11 @@ function kaiTalk() {
         const id = suggestLesson(todo);
         return { say: `You feel *${md.id === "okay" ? "okay" : md.en.toLowerCase()}* today! Your ${todo === "grammar" ? "grammar" : "conjugation"} lesson is waiting: *${LESSONS[id].title}*.`, face: md.img, chips: [{ id: "lesson", label: "Open it", lesson: id }, { id: "bye", label: "Later" }] };
     }
+    if (typeof dzWeek === "function" && !dzWeek())   /* Dictation, tâche de la semaine (PO, 14/11) */
+        return { say: `Both lessons are done! Now your *dictation* of the week: listen and type!`, face: md.img, chips: [{ id: "dict", label: "Let's do it" }, { id: "bye", label: "Later" }] };
     const W = testWeeks(1), NT = Object.keys(TESTS).length, nt = Object.keys(TESTS).filter(k => W.tab[k][0]).length;
     if (nt < NT)
-        return { say: `Both lessons are done this week! Your *weekly review* is ready.`, face: md.img, chips: [{ id: "tests", label: "Let's see" }, { id: "bye", label: "Later" }] };
+        return { say: `Your lessons and your dictation are done this week! Your *weekly review* is ready.`, face: md.img, chips: [{ id: "tests", label: "Let's see" }, { id: "bye", label: "Later" }] };
     return { say: `Everything is done this week, ${N}. You're a *star*!`, face: "joy", chips: [{ id: "go", label: "Bonus round" }] };
 }
 /* dessine la bulle (même mise en page que renderMenuHead, la taille suit la phrase) et les réponses dessous */
@@ -135,6 +137,8 @@ function kaiTalkRender() {
         }
         else if (id === "tests")
             openTests();
+        else if (id === "dict")
+            openDict("menu");
         else if (id === "t6") {   /* comme le bandeau « Class test » de My activity */
             DAILY = false;
             t6Detail(b.dataset.kt6);

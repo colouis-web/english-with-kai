@@ -396,8 +396,16 @@ def s02_creation_profil(P):
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
     P.check("Le menu accueille l'élève par son prénom (tout premier jour : Kai se présente)", "Welcome, Léa Dupont! I'm Kai." in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
-    P.check("Les 6 apps du menu sont là (Dictionary, Grammar, Conjugation, My activity, Test yourself, Weekly review)",
-            all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests")) and not P.visible("#toCerts"))
+    P.check("Les 7 apps du menu sont là (Dictionary, Grammar, Conjugation, My activity, Test yourself, Weekly review, Dictation)",
+            all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests", "toDict")) and not P.visible("#toCerts"))
+    # Dictation (PO, 14/11) : deux niveaux ; Complex = 2 ou 3 trous par phrase ; retour au menu
+    P.click("#toDict")
+    P.on("quiz")
+    P.check("Dictation : choix du niveau (Standard, Complex)", P.visible('[data-dzlv="std"]') and P.visible('[data-dzlv="cpx"]'))
+    P.click('[data-dzlv="cpx"]')
+    gaps = P.ev("() => DZ.items.map(i => i.toks.filter(t => t.gap).length)")
+    P.check("Dictation Complex : 8 phrases, chacune avec 2 ou 3 trous", len(gaps) == 8 and all(2 <= g <= 3 for g in gaps) and p.locator("#qwrap .dzg").count() == gaps[0], gaps)
+    P.back("menu")
     P.check("Le menu montre la carte Today : 0/10 mots du jour", P.goal() == "0/10", P.goal())
     P.check("Kai discute (PO, 13/11) : carte Kai à l'arrivée, avec « Let's go! »", P.ev("() => document.querySelector('#mdots [data-mc=\"0\"]').getAttribute('aria-selected')") == "true" and P.visible('#mhead [data-kc="go"]'))
     P.no_overflow("menu")
@@ -1042,7 +1050,7 @@ def s12_code_parent(P):
 def s13_navigation(P):
     p = P.page
     # (tuile, page ouverte, page où ramène le bouton Retour)
-    parcours = [("menu", [("toDico", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toDaily", "daily"), ("toTY", "ty"), ("toTests", "tests")]),
+    parcours = [("menu", [("toDico", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toDaily", "daily"), ("toTY", "ty"), ("toTests", "tests"), ("toDict", "quiz")]),
                 ("ty", [("toQuizzes", "quizzes"), ("toT6", "t6"), ("toDIY", "diy"), ("toTalk", "talk")]),
                 ("quizzes", [("toQV", "quiz"), ("toQN", "quiz"), ("toQJ", "quiz"), ("toQA", "quiz"), ("toQC", "quiz"), ("toQP", "quiz"), ("toQPh", "quiz"), ("toQI", "quiz")])]
     for parent, tuiles in parcours:
