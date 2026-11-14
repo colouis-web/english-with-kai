@@ -1439,3 +1439,4 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .dzg.right{border-color:#15803d;background:#dcfce7;color:#14532d}
 .dzg.wrong{border-color:#b91c1c;background:#fee2e2;color:#7f1d1d;text-decoration:line-through}
 .dzg.shake{animation:shake .35s}
+#dzcheck{margin-top:18px}   /* le bouton ne colle pas au cadre de la phrase (PO, 14/11) */
