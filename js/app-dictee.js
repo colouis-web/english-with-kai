@@ -22,15 +22,25 @@ function dzGaps(en) {
     const m = String(en).match(/\*(.+?)\*/);
     if (!m)
         return null;
-    const before = en.slice(0, m.index).replace(/\*/g, ""), after = en.slice(m.index + m[0].length).replace(/\*/g, "");
+    let before = en.slice(0, m.index).replace(/\*/g, ""), after = en.slice(m.index + m[0].length).replace(/\*/g, "");
+    /* la ponctuation collée au mot étudié (« *Canadian*: he… ») reste collée à son trou */
+    const glueA = (after.match(/^[^\s]+/) || [""])[0], glueB = (before.match(/[^\s]+$/) || [""])[0];
+    after = after.slice(glueA.length);
+    before = before.slice(0, before.length - glueB.length);
     const split = s => s.split(/\s+/).filter(Boolean);
-    const toks = [...split(before).map(w => ({ w })), { w: m[1].trim(), gap: true, main: true }, ...split(after).map(w => ({ w }))];
+    const toks = [...split(before).map(w => ({ w })), { w: glueB + m[1].trim() + glueA, gap: true, main: true, ans: m[1].trim() }, ...split(after).map(w => ({ w }))];
     /* la ponctuation autour d'un trou reste affichée */
     toks.forEach(t => {
         const x = t.w.match(/^([("«]*)(.*?)([.,!?;:)"»]*)$/);
         t.pre = x[1];
         t.core = x[2];
         t.post = x[3];
+        if (t.main) {   /* le trou du mot étudié : la réponse est le mot (ou les mots) entre étoiles */
+            const i = t.w.indexOf(t.ans);
+            t.pre = t.w.slice(0, i);
+            t.core = t.ans;
+            t.post = t.w.slice(i + t.ans.length);
+        }
     });
     if (toks.length < 6)
         return null;
@@ -127,17 +137,18 @@ function checkC() {
     }
     let n = 0;
     ins.forEach((inp, j) => {
-        const ok = t3Norm(inp.value) === t3Norm(gaps[j].main ? gaps[j].w : gaps[j].core);
+        const ok = t3Norm(inp.value) === t3Norm(gaps[j].core);
         n += ok;
         inp.disabled = true;
         inp.classList.add(ok ? "right" : "wrong");
+        inp.style.width = Math.max(4, inp.value.trim().length + 1) + "ch";   /* une réponse longue reste lisible en entier */
     });
     DZ.res[DZ.i] = n;
     const N = gaps.length, last = DZ.i === DZ.items.length - 1, cb = document.getElementById("dzcheck");
     if (cb)
         cb.remove();
     document.querySelector("#qwrap .dots").outerHTML = dzDots();
-    const miss = gaps.filter((t, j) => !ins[j].classList.contains("right")).map(t => `<b>${esc(t.main ? t.w : t.core)}</b>`);
+    const miss = gaps.filter((t, j) => !ins[j].classList.contains("right")).map(t => `<b>${esc(t.core)}</b>`);
     document.getElementById("xfb").innerHTML = `<p class="verdict ${n === N ? "ok" : "ko"}">${n === N ? ["YES!", "PERFECT!", "WELL DONE!"][DZ.i % 3] : `${n}/${N} · IT'S ${miss.join(", ").toUpperCase()}`}</p>
 <div class="ex"><button class="snd sm" id="xsay2" aria-label="Listen to the sentence">${SPK}</button><div><p class="en">${hl(it.en)}</p><p class="fr">${hl(it.fr)}</p></div></div>
 <button class="listen next" id="dznext">${last ? "See my score" : "Next"}${GOSVG}</button>`;
@@ -169,7 +180,7 @@ function dzSave(n, N) {
             XMODE = "dzend";
             QW().innerHTML = `<p class="qpart">Dictation · Results</p><div class="qhead">${headSvg(P === 100 ? "*Perfect*! You heard every word!" : P >= 60 ? `Well done! *${n}/${N}* words right!` : `Not yet: *${n}/${N}*. Let's try again!`, P >= 60 ? "smile" : "head")}</div>
 <div class="scores"><div class="sc${n === N ? " ok" : ""}"><i>Dictation · Complex</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
-<ul class="recap">${DZ.items.map((it, j) => `<li><span class="m ${DZ.res[j] === it.toks.filter(t => t.gap).length ? "ok" : "ko"}">${DZ.res[j] === it.toks.filter(t => t.gap).length ? CHECK : CROSS}</span><b>${it.toks.filter(t => t.gap).map(t => esc(t.main ? t.w : t.core)).join(" · ")}</b><i>${DZ.res[j] || 0}/${it.toks.filter(t => t.gap).length}</i></li>`).join("")}</ul>
+<ul class="recap">${DZ.items.map((it, j) => `<li><span class="m ${DZ.res[j] === it.toks.filter(t => t.gap).length ? "ok" : "ko"}">${DZ.res[j] === it.toks.filter(t => t.gap).length ? CHECK : CROSS}</span><b>${it.toks.filter(t => t.gap).map(t => esc(t.core)).join(" · ")}</b><i>${DZ.res[j] || 0}/${it.toks.filter(t => t.gap).length}</i></li>`).join("")}</ul>
 <div class="endbtns"><button class="listen" id="dzagain">New dictation</button><button class="ghost" id="dzday">${DZFROM === "daily" ? "My activity" : "Menu"}</button></div>`;
             sayOne(P >= 60 ? `Well done! ${n} out of ${N}!` : `${n} out of ${N}. Let's try again!`, document.querySelector("#qwrap .qhead .bb"));
         }
