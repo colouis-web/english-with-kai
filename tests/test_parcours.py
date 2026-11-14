@@ -394,11 +394,12 @@ def s02_creation_profil(P):
     P.check("Niveau Beginner, premier élève marqué « first »", prof["lv"] == 0 and prof.get("first") == 1, prof)
     P.check("Le profil est écrit dans localStorage (kai.profiles.v1)", P.pid in P.ls().get("kai.profiles.v1", ""))
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
-    P.check("Le menu accueille l'élève par son prénom", "Welcome Léa Dupont!" in label, label)
+    P.check("Le menu accueille l'élève par son prénom (tout premier jour : Kai se présente)", "Welcome, Léa Dupont! I'm Kai." in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
     P.check("Les 6 apps du menu sont là (Dictionary, Grammar, Conjugation, My activity, Test yourself, Weekly review)",
             all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests")) and not P.visible("#toCerts"))
     P.check("Le menu montre la carte Today : 0/10 mots du jour", P.goal() == "0/10", P.goal())
+    P.check("Kai discute (PO, 13/11) : carte Kai à l'arrivée, avec « Let's go! »", P.ev("() => document.querySelector('#mdots [data-mc=\"0\"]').getAttribute('aria-selected')") == "true" and P.visible('#mhead [data-kc="go"]'))
     P.no_overflow("menu")
 
 
@@ -439,6 +440,7 @@ def s03_mots_du_jour(P):
     P.click("#qday")
     P.on("menu")
     P.check("Retour au menu (bouton « Menu ») : la carte Today affiche 10/10", P.goal() == "10/10", P.goal())
+    P.check("Mots faits : Kai demande la forme du jour (6 humeurs sous sa bulle)", p.locator("#mhead [data-kmood]").count() == 6)
     P.click("#toDaily")
     P.on("daily")
     P.check("Après le tour : les 6 humeurs sont proposées (« How did you feel today? »)", p.locator("#dailybody [data-mood]").count() == 6)
@@ -652,7 +654,7 @@ def s07_tests_notes(P):
     save = [k for k in P.ls() if k.startswith("kai.tsave.")]
     P.check("Le test interrompu est gardé sur l'appareil (kai.tsave.*)", len(save) == 1, save)
     reload_app(P.page)
-    P.check("Rechargement : l'élève revient directement sur le menu, carte Today (PO, 11/11)", current_page(p) == "menu", current_page(p))
+    P.check("Rechargement : l'élève revient directement sur le menu, carte Kai (PO, 13/11)", current_page(p) == "menu", current_page(p))
     P.to_menu()
     P.click("#toTests")
     P.on("tests")
@@ -1084,7 +1086,7 @@ def s99_rechargement(P):
     avant = P.ev("() => JSON.parse(JSON.stringify(DST.days))")
     ls_avant = {k: v for k, v in P.ls().items() if k.startswith("kai.")}
     reload_app(p)
-    P.check("Un seul élève : le rechargement ouvre directement le menu, sur la carte Today (PO, 11/11)", current_page(p) == "menu", current_page(p))
+    P.check("Un seul élève : le rechargement ouvre directement le menu, sur la carte Kai (PO, 13/11)", current_page(p) == "menu", current_page(p))
     P.check("Rechargement : journal identique", P.ev("() => JSON.parse(JSON.stringify(DST.days))") == avant)
     ls_apres = {k: v for k, v in P.ls().items() if k.startswith("kai.")}
     perdu = [k for k in ls_avant if k not in ls_apres]

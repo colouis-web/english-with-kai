@@ -1412,3 +1412,14 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .abadge{position:absolute;top:-8px;right:-8px;min-width:24px;height:24px;padding:0 6px;box-sizing:border-box;border-radius:12px;display:grid;place-items:center;background:var(--n);color:#12111f;font:800 12px/1 var(--claude);font-style:normal;border:2px solid #12111f}
 .abadge[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){.aic{transition:none}}
+/* Kai discute (PO, 13/11) : réponses courtes et humeurs sous la bulle de la carte Kai */
+.kchips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:2px 0 4px}
+.kchip{min-height:40px;padding:0 18px;border-radius:20px;border:2px solid #22d3ee;background:#16152a;color:#fff;font:700 15px var(--claude);cursor:pointer}
+.kchip:first-child{background:#22d3ee;color:#12111f}
+.kchip:active{transform:scale(.96)}
+.kmoods{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin:2px 0 4px}
+.kmood{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:58px;padding:4px 0;border-radius:14px;border:1px solid #3a3760;background:#16152a;color:#fff;cursor:pointer}
+.kmood img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:50% 20%;background:#2a2846}
+.kmood b{font:700 12px var(--claude)}
+.kmood:active{transform:scale(.94)}
+.kchip:focus-visible,.kmood:focus-visible{outline:3px solid #22d3ee;outline-offset:2px}
