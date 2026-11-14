@@ -306,7 +306,7 @@ function renderDZEnd() {
     document.getElementById("qn").textContent = "";
     XMODE = "dzend";
     QW().innerHTML = `<p class="qpart">Dictation · Results</p><div class="qhead">${headSvg(P === 100 ? "*Perfect*! You heard every word!" : P >= 60 ? `Well done! *${n}/${N}* words right!` : `Not yet: *${n}/${N}*. Let's try again!`, P >= 60 ? "smile" : "head")}</div>
-<div class="scores"><div class="sc${n === N ? " ok" : ""}"><i>Dictation</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
+<div class="scores"><div class="sc${n === N ? " ok" : ""}"><i>Dictation</i><b>${P}%</b><small>${n} of ${N} word${N > 1 ? "s" : ""}</small></div></div>
 <ul class="recap">${DZ.items.map((it, j) => `<li><span class="m ${DZ.res[j] ? "ok" : "ko"}">${DZ.res[j] ? CHECK : CROSS}</span><b>${esc(t3Ans(it))}</b><i>${esc(it.d.fr)}</i></li>`).join("")}</ul>
 <div class="endbtns"><button class="listen" id="dzagain">New dictation</button><button class="ghost" id="dzquiz">Quizzes</button><button class="ghost" id="dzday">My day</button></div>`;
     sayOne(P >= 60 ? `Well done! ${n} out of ${N}!` : `${n} out of ${N}. Let's try again!`, document.querySelector("#qwrap .qhead .bb"));
