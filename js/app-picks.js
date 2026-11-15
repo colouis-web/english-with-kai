@@ -116,17 +116,31 @@ function renderPicks() {
     if (!wk.includes(PKD))
         PKD = [...wk].reverse().find(k => k <= T && pkOf(k).length) || (wk.includes(T) ? T : wk[0]);
     const day = pkOf(PKD), D = k => kDate(k), wd = ["M", "T", "W", "T", "F", "S", "S"];
-    const head = all.length ? `You picked *${all.length} word${all.length > 1 ? "s" : ""}* this week. Test yourself!` : PKW < 0 ? "No picked words this week." : "Pick words in your quizzes, then *test* yourself here!";
+    /* rythme de révision (PO, 15/11) : Kai demande « jour par jour » ou « toute la semaine » ; le choix est retenu sur cet appareil */
+    const M = pkMode(), list = M === "week" ? wk.flatMap(k => pkOf(k).map(p => ({ ...p, day: k }))) : day.map(p => ({ ...p, day: PKD }));
+    const head = !all.length ? (PKW < 0 ? "No picked words this week." : "Pick words in your quizzes, then *test* yourself here!") : !M ? "How do you want to *revise*: day by day, or the whole *week*?" : M === "week" ? `*${all.length} word${all.length > 1 ? "s" : ""}* to revise this week. Test yourself!` : `Day by day: *${day.length} word${day.length === 1 ? "" : "s"}* ${PKD === T ? "today" : "this day"}. Test yourself!`;
+    const item = p => `<li><button class="snd sm" type="button" data-say="${esc(p.e)}" aria-label="Listen">${SPK}</button><div><b>${esc(p.e)}</b><i>${esc(p.f)}</i></div><button class="pkx" type="button" data-pkx="${esc(p.key)}" data-pkxd="${p.day}" aria-label="Remove ${esc(p.e)}">×</button></li>`;
+    const byDay = wk.filter(k => pkOf(k).length).map(k => `<li class="pkdh">${k === T ? "Today" : longDate(k)}</li>${list.filter(p => p.day === k).map(item).join("")}`).join("");
     document.getElementById("pkbody").innerHTML = `<div class="qhead">${headSvg(head, all.length ? "smile" : "head")}</div>
+${all.length ? `<div class="pkmode${M ? "" : " ask"}" role="radiogroup" aria-label="How do you want to revise?">${[["day", "Day by day", "the words of one day"], ["week", "The whole week", "all your picks of the week"]].map(([id, b, s]) => `<button type="button" role="radio" class="pkm${M === id ? " on" : ""}" data-pkm="${id}" aria-checked="${M === id}"><b>${b}</b>${M ? "" : `<span>${s}</span>`}</button>`).join("")}</div>` : ""}
 <div class="pkweek"><button class="pknav" type="button" data-pkw="-1" aria-label="Previous week"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <b>${PKW === 0 ? "This week" : PKW === -1 ? "Last week" : "Week of " + D(wk[0]).toLocaleDateString("en-GB", { day: "numeric", month: "long" })}</b>
 <button class="pknav" type="button" data-pkw="1" aria-label="Next week"${PKW >= 0 ? " disabled" : ""}><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
 <div class="pkdays" role="tablist" aria-label="Days">${wk.map((k, i) => {
-        const n = pkOf(k).length, fut = k > T;
-        return `<button type="button" role="tab" class="pkday${k === PKD ? " on" : ""}${n ? " has" : ""}${k === T ? " today" : ""}" data-pkd="${k}" aria-selected="${k === PKD}"${fut ? " disabled" : ""} aria-label="${longDate(k)}: ${n} word${n === 1 ? "" : "s"}"><i>${wd[i]}</i><b>${D(k).getDate()}</b><em>${n || ""}</em></button>`;
+        const n = pkOf(k).length, fut = k > T, sel = M === "week" ? n > 0 : k === PKD;
+        return `<button type="button" role="tab" class="pkday${sel ? " on" : ""}${n ? " has" : ""}${k === T ? " today" : ""}" data-pkd="${k}" aria-selected="${sel}"${fut ? " disabled" : ""} aria-label="${longDate(k)}: ${n} word${n === 1 ? "" : "s"}"><i>${wd[i]}</i><b>${D(k).getDate()}</b><em>${n || ""}</em></button>`;
     }).join("")}</div>
-<div class="pkpanel"><h2>${PKD === T ? "Today" : longDate(PKD)}</h2>${day.length ? `<ul class="pklist">${day.map(p => `<li><button class="snd sm" type="button" data-say="${esc(p.e)}" aria-label="Listen">${SPK}</button><div><b>${esc(p.e)}</b><i>${esc(p.f)}</i></div><button class="pkx" type="button" data-pkx="${esc(p.key)}" aria-label="Remove ${esc(p.e)}">×</button></li>`).join("")}</ul>` : `<p class="pknone">No words picked ${PKD === T ? "today" : "this day"}. In a quiz, tap <span class="pkb mini">${PIN}</span> to pick a word.</p>`}</div>
-<div class="pkgo">${day.length ? `<button class="listen" type="button" data-pkt="day">Test ${PKD === T ? "today's" : "this day's"} words · ${day.length}${GOSVG}</button>` : ""}${all.length > day.length ? `<button class="${day.length ? "ghost" : "listen"}" type="button" data-pkt="week">Test the whole week · ${all.length}</button>` : ""}</div>`;
+<div class="pkpanel">${M === "week" ? `<h2>${PKW === 0 ? "This week" : "That week"} · ${all.length} word${all.length === 1 ? "" : "s"}</h2>${all.length ? `<ul class="pklist">${byDay}</ul>` : `<p class="pknone">No words picked this week. In a quiz, tap <span class="pkb mini">${PIN}</span> to pick a word.</p>`}`
+        : `<h2>${PKD === T ? "Today" : longDate(PKD)}</h2>${day.length ? `<ul class="pklist">${list.map(item).join("")}</ul>` : `<p class="pknone">No words picked ${PKD === T ? "today" : "this day"}. In a quiz, tap <span class="pkb mini">${PIN}</span> to pick a word.</p>`}`}</div>
+<div class="pkgo">${M && list.length ? `<button class="listen" type="button" data-pkt="${M}">${M === "week" ? `Test the week · ${list.length}` : `Test ${PKD === T ? "today's" : "this day's"} words · ${list.length}`}${GOSVG}</button>` : ""}</div>`;
+}
+function pkMode() {
+    try {
+        return localStorage.getItem("kai.pkrythme") || "";
+    }
+    catch (e) {
+        return "";
+    }
 }
 document.getElementById("pkbody").addEventListener("click", e => {
     const t = e.target;
@@ -137,15 +151,31 @@ document.getElementById("pkbody").addEventListener("click", e => {
         renderPicks();
         return;
     }
+    const m = t.closest("[data-pkm]");
+    if (m) {
+        try {
+            localStorage.setItem("kai.pkrythme", m.dataset.pkm);
+        }
+        catch (err) {
+        }
+        renderPicks();
+        return;
+    }
     const d = t.closest("[data-pkd]");
     if (d && !d.disabled) {
         PKD = d.dataset.pkd;
+        if (pkMode() === "week")   /* toucher un jour : on revient au rythme « jour par jour » sur ce jour */
+            try {
+                localStorage.setItem("kai.pkrythme", "day");
+            }
+            catch (err) {
+            }
         renderPicks();
         return;
     }
     const x = t.closest("[data-pkx]");
     if (x) {
-        pkRemove(PKD, x.dataset.pkx);
+        pkRemove(x.dataset.pkxd || PKD, x.dataset.pkx);
         renderPicks();
         return;
     }
