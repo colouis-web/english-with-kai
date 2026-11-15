@@ -396,8 +396,24 @@ def s02_creation_profil(P):
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
     P.check("Le menu accueille l'élève par son prénom (tout premier jour : Kai se présente)", "Welcome, Léa Dupont! I'm Kai." in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
-    P.check("Les 7 apps du menu sont là (Dictionary, Grammar, Conjugation, My activity, Test yourself, Weekly review, Dictation)",
-            all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests", "toDictee")) and not P.visible("#toCerts"))
+    P.check("Les 8 apps du menu sont là (Dictionary, Grammar, Conjugation, My activity, Test yourself, Weekly review, Dictation, My picks)",
+            all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests", "toDictee", "toPicks")) and not P.visible("#toCerts"))
+    # My picks (PO, 15/11) : la semaine en 7 jours ; un mot attrapé se teste en l'écrivant (pas de choix à 4 réponses)
+    P.click("#toPicks")
+    P.on("picks")
+    P.check("My picks : 7 jours de la semaine, aucun mot au départ", p.locator("#pkbody .pkday").count() == 7 and p.locator("#pkbody .pknone").count() == 1)
+    P.ev("() => { const w = allWords()[0], ex = (w.d.ex || [])[0] || []; pkToggle({ key: w.key, k: w.k, e: recapLab(w.k, w.d), f: w.d.fr, en: ex[0] || '', fr: ex[1] || '' }); renderPicks(); }")
+    P.check("My picks : le mot attrapé apparaît dans la journée", p.locator("#pkbody .pklist li").count() == 1)
+    P.check("My picks : Kai demande le rythme (jour par jour ou toute la semaine) avant le test", p.locator("#pkbody [data-pkm]").count() == 2 and p.locator("#pkbody [data-pkt]").count() == 0)
+    P.click('[data-pkm="week"]')
+    P.check("Rythme « semaine » : la liste de la semaine et « Test the week »", P.visible('[data-pkt="week"]') and p.locator("#pkbody .pkdh").count() == 1)
+    P.click('[data-pkm="day"]')
+    P.click('[data-pkt="day"]')
+    P.on("quiz")
+    P.check("Test de My picks : on écrit le mot, sans les 4 réponses", P.visible("#pkin") and p.locator("#qwrap .opt").count() == 0)
+    P.back("picks")
+    P.ev("() => { const r = JSON.parse(JSON.stringify(dToday())); r.pk = []; dPut(r); }")
+    P.back("menu")
     # Dictation (PO, 14/11) : deux niveaux ; Complex = 2 ou 3 trous par phrase ; retour au menu
     P.click("#toDictee")
     P.on("quiz")
@@ -1050,7 +1066,7 @@ def s12_code_parent(P):
 def s13_navigation(P):
     p = P.page
     # (tuile, page ouverte, page où ramène le bouton Retour)
-    parcours = [("menu", [("toDico", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toDaily", "daily"), ("toTY", "ty"), ("toTests", "tests"), ("toDictee", "quiz")]),
+    parcours = [("menu", [("toDico", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toDaily", "daily"), ("toTY", "ty"), ("toTests", "tests"), ("toDictee", "quiz"), ("toPicks", "picks")]),
                 ("ty", [("toQuizzes", "quizzes"), ("toT6", "t6"), ("toDIY", "diy"), ("toTalk", "talk")]),
                 ("quizzes", [("toQV", "quiz"), ("toQN", "quiz"), ("toQJ", "quiz"), ("toQA", "quiz"), ("toQC", "quiz"), ("toQP", "quiz"), ("toQPh", "quiz"), ("toQI", "quiz")])]
     for parent, tuiles in parcours:

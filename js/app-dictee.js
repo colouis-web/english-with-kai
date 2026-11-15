@@ -181,15 +181,20 @@ function dzSave(n, N) {
             document.getElementById("qn").textContent = "";
             XMODE = "dzend";
             QW().innerHTML = `<p class="qpart">Dictation · Results</p><div class="qhead">${headSvg(P === 100 ? "*Perfect*! You heard every word!" : P >= 60 ? `Well done! *${n}/${N}* words right!` : `Not yet: *${n}/${N}*. Let's try again!`, P >= 60 ? "smile" : "head")}</div>
-<div class="scores"><div class="sc${n === N ? " ok" : ""}"><i>Dictation · Complex</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
+<div class="scores one"><div class="sc${n === N ? " ok" : ""}"><i>Dictation · Complex</i><b>${P}%</b><small>${n} of ${N} word${N > 1 ? "s" : ""}</small></div></div>
 <ul class="recap">${DZ.items.map((it, j) => `<li><span class="m ${DZ.res[j] === it.toks.filter(t => t.gap).length ? "ok" : "ko"}">${DZ.res[j] === it.toks.filter(t => t.gap).length ? CHECK : CROSS}</span><b>${it.toks.filter(t => t.gap).map(t => esc(t.core)).join(" · ")}</b><i>${DZ.res[j] || 0}/${it.toks.filter(t => t.gap).length}</i></li>`).join("")}</ul>
 <div class="endbtns"><button class="listen" id="dzagain">New dictation</button><button class="ghost" id="dzday">${DZB()}</button></div>`;
             sayOne(P >= 60 ? `Well done! ${n} out of ${N}!` : `${n} out of ${N}. Let's try again!`, document.querySelector("#qwrap .qhead .bb"));
         }
-        /* fin standard : « My day » devient « Menu » (ou « My activity »), « Quizzes » reste */
-        const b = document.getElementById("dzday");
+        /* fin standard : « My day » devient le bouton de retour (Menu, My activity ou Quizzes) ; « Quizzes » en double disparaît,
+           la note seule est centrée (PO, 14/11 : passe sur la mise en page) */
+        const b = document.getElementById("dzday"), q = document.getElementById("dzquiz"), sc = document.querySelector("#qwrap .scores");
         if (b)
             b.textContent = DZB();
+        if (q)
+            q.remove();
+        if (sc)
+            sc.classList.add("one");
     };
 })();
 /* clics de la page du quiz pendant la dictée : capture sur le document, donc AVANT ceux d'app-v54-v62.js (sur #quiz) */
