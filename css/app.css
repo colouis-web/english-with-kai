@@ -1441,3 +1441,48 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .dzg.shake{animation:shake .35s}
 #dzcheck{display:flex;margin:18px auto 0}   /* centré comme le Check de Standard, sans coller au cadre (PO, 14/11) */
 .scores.one{grid-template-columns:minmax(0,240px);justify-content:center}   /* une seule note (dictée) : au centre */
+/* My picks (PO, 15/11) : bouton « Pick this word » dans le quiz, et la page de la semaine */
+.pkrow{display:flex;justify-content:center;margin:2px 0 8px}
+.pkb{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:22px;border:2.5px solid var(--ink);background:#fff;color:var(--ink);font:700 15px var(--claude);cursor:pointer}
+.pkb svg{width:18px;height:18px;color:#d97706}
+.pkb.on{background:#fef3c7;border-color:#d97706;color:#92400e}
+.pkb.sm{min-height:36px;min-width:36px;padding:0;justify-content:center;border-width:2px;margin-left:auto;flex:none}
+.pkb.sm svg{color:#c9c2a8}
+.pkb.sm.on svg{color:#d97706}
+.pkb.mini{display:inline-flex;min-height:0;padding:2px 6px;border-width:1.5px;vertical-align:-4px}
+.pkb.mini svg{width:13px;height:13px}
+.pkb:focus-visible{outline:3px solid #d97706;outline-offset:2px}
+.pkhint{margin:2px 0 6px;font:600 13px var(--claude);color:var(--mut);text-align:center}
+.pkhint svg{width:14px;height:14px;color:#d97706;vertical-align:-2px}
+.recap li .pkb.sm{width:38px;height:38px;margin:-6px -4px -6px 0;align-self:center}
+.recap.two li.pk{grid-template-columns:18px 18px auto 1fr auto;align-items:center}   /* bouton « pick » au bout de la ligne */
+#picks .qhead{margin-bottom:4px}
+.pkweek{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 8px}
+.pkweek b{font:800 20px/1 var(--title);letter-spacing:.5px;text-transform:uppercase;color:#fbbf24}
+.pknav{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;border:1px solid #3a3760;background:#16152a;color:#e5e7f5;cursor:pointer}
+.pknav svg{width:20px;height:20px}
+.pknav:disabled{opacity:.3;cursor:default}
+.pkdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:12px}
+.pkday{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:68px;padding:6px 0;border-radius:14px;border:2px solid #3a3760;background:#1e1c33;color:#fff;cursor:pointer}
+.pkday i{font:700 12px var(--claude);font-style:normal;color:#9ea2bd}
+.pkday b{font:800 18px/1 var(--claude)}
+.pkday em{min-width:20px;height:18px;border-radius:9px;font:800 12px/18px var(--claude);font-style:normal;text-align:center}
+.pkday.has em{background:#fbbf24;color:#12111f}
+.pkday.today{border-color:#6b6796}
+.pkday.on{border-color:#fbbf24;background:#2a2440;box-shadow:0 0 14px -4px #fbbf24}
+.pkday:disabled{opacity:.35;cursor:default}
+.pkday:focus-visible,.pknav:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
+.pkpanel{padding:12px 14px;border-radius:18px;border:2px solid #fbbf24;background:#1e1c33}
+.pkpanel h2{margin:0 0 8px;font:800 18px var(--claude);color:#fff}
+.pklist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.pklist li{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:12px;background:#16152a}
+.pklist li div{flex:1;min-width:0}
+.pklist li b{display:block;font:700 17px var(--claude);color:#fff}
+.pklist li i{display:block;font:500 14px var(--claude);font-style:normal;color:#b9bccf}
+.pkx{flex:none;width:40px;height:40px;border-radius:12px;border:1px solid #3a3760;background:none;color:#9ea2bd;font:700 22px/1 var(--claude);cursor:pointer}
+.pknone{margin:0;font:500 15px/1.5 var(--claude);color:#b9bccf}
+.pknone .pkb.mini{background:#fff}
+.pkgo{display:flex;flex-direction:column;align-items:center;gap:10px;margin:16px 0 10px}
+.pkgo .ghost{color:#fff;border-color:#6b6796;background:transparent}
+.pkcard{margin-top:6px}
+#pkcheck{display:flex;margin:14px auto 0}
