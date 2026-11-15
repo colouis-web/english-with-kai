@@ -45,6 +45,7 @@
 <button class="app" id="toTests" style="--n:#fb923c"><div class="aic"><img src="img/sc-think-sq.webp" alt="" loading="lazy"></div><b>Weekly review</b><span class="asum" hidden></span></button>
 <button class="app" id="toDictee" style="--n:#38bdf8"><div class="aic"><img src="img/sc-chill.webp" alt="" loading="lazy"></div><b>Dictation</b></button>
 <button class="app" id="toPicks" style="--n:#f59e0b"><div class="aic"><img src="img/kai-magic.webp" alt="" loading="lazy"></div><b>My picks</b></button>
+<button class="app" id="toChat" style="--n:#4ade80"><div class="aic"><img src="img/kai-friend.webp" alt="" loading="lazy"></div><b>Chat with Kai</b></button>
 <!-- Certificates : masquée à la demande du PO (03/11) ; openCertificates reste en place -->
 <button class="app" id="toCerts" style="--n:#f472b6" hidden><div class="aic"><img src="img/kai-diploma.webp" alt="" loading="lazy"><em class="abadge" id="certpill" hidden></em></div><b>Certificates</b><span id="certsum" hidden></span></button>
 </nav>
@@ -198,6 +199,12 @@
 <div id="dybody"></div>
 </main>
 <!-- My picks (PO, 15/11) : les mots attrapés pendant les quiz, jour par jour, et un test sans choix (js/app-picks.js) -->
+<!-- Chat with Kai (PO, 15/11, option A) : discussion avec Kai, une IA (Claude) ; clé saisie par un parent (js/app-chat.js) -->
+<main class="page gm" id="chat">
+<div class="top"><button class="back" id="backCh" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Chat with Kai</h1><button class="chgear" id="chparent" type="button" aria-label="Parents: chat settings"><svg viewBox="0 0 24 24"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm8.6 4.9-1.9-.4a7 7 0 0 1-.6 1.5l1.1 1.6-1.9 1.9-1.6-1.1a7 7 0 0 1-1.5.6l-.4 1.9h-2.7l-.4-1.9a7 7 0 0 1-1.5-.6l-1.6 1.1-1.9-1.9 1.1-1.6a7 7 0 0 1-.6-1.5l-1.9-.4v-2.7l1.9-.4a7 7 0 0 1 .6-1.5L4.2 6.5l1.9-1.9 1.6 1.1a7 7 0 0 1 1.5-.6l.4-1.9h2.7l.4 1.9a7 7 0 0 1 1.5.6l1.6-1.1 1.9 1.9-1.1 1.6c.3.5.5 1 .6 1.5l1.9.4z" fill="currentColor"/></svg></button></div>
+<div id="chbody"></div>
+<form class="chform" id="chform" hidden><textarea id="chin" rows="1" maxlength="6000" aria-label="Your message"></textarea><button class="chsend" id="chsend" type="submit" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M3 20.5 21 12 3 3.5l2.5 8.5L3 20.5zm2.5-8.5H13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></form>
+</main>
 <main class="page gm" id="picks">
 <div class="top"><button class="back" id="backPk" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>My picks</h1><span></span></div>
 <div id="pkbody"></div>
@@ -282,6 +289,7 @@
 <script src="js/app-kai-discussion.js"></script>
 <script src="js/app-dictee.js"></script>
 <script src="js/app-picks.js"></script>
+<script src="js/app-chat.js"></script>
 <script src="js/app-images.js"></script>
 <script src="js/data/certificats.js"></script>
 <script src="js/app-certificats.js"></script>

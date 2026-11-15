@@ -396,8 +396,26 @@ def s02_creation_profil(P):
     label = P.ev("() => document.getElementById('askb').getAttribute('aria-label')")
     P.check("Le menu accueille l'élève par son prénom (tout premier jour : Kai se présente)", "Welcome, Léa Dupont! I'm Kai." in label, label)
     P.check("La pastille « Me » affiche l'initiale", P.text("#meIni").strip() == "L", P.text("#meIni"))
-    P.check("Les 8 apps du menu sont là (Dictionary, Grammar, Conjugation, My activity, Test yourself, Weekly review, Dictation, My picks)",
-            all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests", "toDictee", "toPicks")) and not P.visible("#toCerts"))
+    P.check("Les 9 apps du menu sont là (… Dictation, My picks, Chat with Kai)",
+            all(P.visible(f"#{t}") for t in ("toDico", "toGrammar", "toConj", "toDaily", "toTY", "toTests", "toDictee", "toPicks", "toChat")) and not P.visible("#toCerts"))
+    # Chat with Kai (PO, 15/11, option A) : sans clé, un parent doit le régler ; avec une clé, l'élève lit l'avertissement puis discute.
+    # L'API Claude est simulée (fetch remplacé) : aucun appel réel pendant les tests.
+    P.click("#toChat")
+    P.on("chat")
+    P.check("Chat sans clé : un parent doit le régler", P.visible("#chsetup") and not P.visible("#chin"))
+    P.ev("""() => { localStorage.setItem('kaisecret.chat', JSON.stringify({ k: 'sk-ant-test', t: Date.now() })); window.__f = window.fetch;
+        window.fetch = async (u, o) => ({ ok: true, status: 200, json: async () => { window.__body = JSON.parse(o.body); return { content: [{ type: 'text', text: 'Hello! What is your favourite colour?' }] }; } });
+        renderChat(); }""")
+    P.check("Chat avec clé : avertissement (IA, messages envoyés à Anthropic) avant la 1re discussion", P.visible("#chok") and "Anthropic" in P.text("#chbody"))
+    P.click("#chok")
+    p.locator("#chin").fill("Hello Kai")
+    P.click("#chsend")
+    p.wait_for_function("() => /favourite colour/.test(document.getElementById('chlog').textContent)", timeout=4000)
+    body = P.ev("() => window.__body")
+    P.check("Chat : la réponse de Kai s'affiche ; modèle Haiku, consignes de sécurité envoyées", "favourite colour" in P.text("#chlog") and body["model"] == "claude-haiku-5-5" and "Safety" in body["system"], body.get("model"))
+    P.check("La clé du chat n'est jamais dans la sauvegarde", "sk-ant" not in P.ev("() => JSON.stringify(kaiDump())"))
+    P.ev("() => { window.fetch = window.__f; localStorage.removeItem('kaisecret.chat'); localStorage.removeItem('kai.chat.' + curProf().id); localStorage.removeItem('kai.chatok.' + curProf().id); const r = JSON.parse(JSON.stringify(dToday())); delete r.chatn; dPut(r); }")
+    P.back("menu")
     # My picks (PO, 15/11) : la semaine en 7 jours ; un mot attrapé se teste en l'écrivant (pas de choix à 4 réponses)
     P.click("#toPicks")
     P.on("picks")
@@ -1066,7 +1084,7 @@ def s12_code_parent(P):
 def s13_navigation(P):
     p = P.page
     # (tuile, page ouverte, page où ramène le bouton Retour)
-    parcours = [("menu", [("toDico", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toDaily", "daily"), ("toTY", "ty"), ("toTests", "tests"), ("toDictee", "quiz"), ("toPicks", "picks")]),
+    parcours = [("menu", [("toDico", "words"), ("toGrammar", "grammar"), ("toConj", "conj"), ("toDaily", "daily"), ("toTY", "ty"), ("toTests", "tests"), ("toDictee", "quiz"), ("toPicks", "picks"), ("toChat", "chat")]),
                 ("ty", [("toQuizzes", "quizzes"), ("toT6", "t6"), ("toDIY", "diy"), ("toTalk", "talk")]),
                 ("quizzes", [("toQV", "quiz"), ("toQN", "quiz"), ("toQJ", "quiz"), ("toQA", "quiz"), ("toQC", "quiz"), ("toQP", "quiz"), ("toQPh", "quiz"), ("toQI", "quiz")])]
     for parent, tuiles in parcours:
