@@ -1,0 +1,345 @@
+<title>Chat with Kai</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;500;700;800&display=swap">
+<style>
+/* Simulation de la 9e app « Chat with Kai » : même look que l'app (écran sombre façon jeu), messagerie pleine hauteur.
+   Les réponses viennent du compte Claude de la personne qui ouvre la page (capacité « sample »), pas d'une clé API.
+   Rien n'est enregistré : la conversation disparaît quand on quitte la page. */
+:root{
+  color-scheme:dark;
+  --bg:#12111f; --bar:#16152a; --card:#1e1c33; --kai:#26243f; --edge:#3a3760;
+  --ink:#f3f3fa; --sub:#b9bccf; --mut:#8c90a9; --me:#4ade80; --on-me:#0b2414; --hl:#86efac; --warn:#fde68a; --warnbg:#422006;
+  --ok:#16a34a; --ko:#dc2626; --cyan:#22d3ee;
+  --title:"Bangers","Impact",system-ui,sans-serif; --ui:"Roboto Condensed","Arial Narrow",system-ui,sans-serif;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:500 16px/1.42 var(--ui)}
+.app{height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{display:flex;align-items:center;gap:10px;padding-block:10px 8px;background:var(--bar);border-bottom:1px solid var(--edge)}
+header img{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:50% 15%;background:var(--kai);flex:none}
+.who{flex:1;min-width:0;line-height:1.15}
+.who h1{margin:0;font:400 26px/1 var(--title);letter-spacing:1px;text-transform:uppercase}
+.who span{font-size:13px;color:var(--sub)}
+.iconbtn{width:44px;height:44px;flex:none;display:grid;place-items:center;border:1px solid var(--edge);border-radius:14px;background:none;color:var(--sub);cursor:pointer}
+.iconbtn svg{width:22px;height:22px}
+[hidden]{display:none!important}
+.set{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;padding-block:10px;background:var(--bar);border-bottom:1px solid var(--edge)}
+.set label{display:flex;flex-direction:column;gap:4px;font:700 12px var(--ui);letter-spacing:.5px;text-transform:uppercase;color:var(--mut)}
+.set input,.set select{min-width:0;width:100%;box-sizing:border-box;min-height:40px;padding:0 10px;border-radius:12px;border:1px solid var(--edge);background:var(--kai);color:var(--ink);font:500 16px var(--ui)}
+.set p{grid-column:1/-1;margin:0;font-size:13px;color:var(--sub)}
+/* panneaux du haut, chacun repliable : le bandeau d'essai (fermable) et le choix du mode */
+.fold{display:flex;align-items:center;gap:8px;min-height:40px;margin-top:6px;padding:0 12px;border-radius:14px;border:1px solid var(--edge);background:var(--card);color:var(--ink);font:700 15px var(--ui);cursor:pointer;width:100%;text-align:left}
+.fold span{flex:1;min-width:0}
+.fold small{font:500 13px var(--ui);color:var(--mut)}
+.fold svg{width:18px;height:18px;flex:none;transition:transform .2s;color:var(--sub)}
+.fold[aria-expanded="true"] svg{transform:rotate(180deg)}
+.banner{position:relative;padding-right:44px!important}
+.bx{position:absolute;top:4px;right:4px;width:36px;height:36px;border:0;border-radius:10px;background:none;color:var(--sub);font:700 20px/1 var(--ui);cursor:pointer}
+.modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding-block:8px 4px}
+.mode{min-height:44px;padding:4px;border-radius:14px;border:2px solid var(--edge);background:var(--card);color:var(--ink);font:700 14px/1.1 var(--ui);cursor:pointer}
+.mode[aria-checked="true"]{border-color:var(--me);background:var(--me);color:var(--on-me)}
+.hint{margin:0;padding-block:2px 6px;font-size:13px;color:var(--mut);text-align:center}
+/* le fil : barre de défilement discrète et transparente, toujours calé sur le dernier message */
+.logwrap{position:relative;flex:1;min-height:0;display:flex}
+.log{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px;padding-block:8px 12px;scrollbar-width:none}
+.log::-webkit-scrollbar{display:none}
+/* barre de défilement maison : 3 px, transparente, visible seulement pendant le défilement */
+.thumb{position:absolute;right:3px;top:0;width:3px;border-radius:2px;background:rgba(255,255,255,.28);opacity:0;transition:opacity .4s;pointer-events:none}
+.thumb.on{opacity:1;transition:opacity .1s}
+.log > :first-child{margin-top:auto}
+.msg{display:flex;align-items:flex-end;gap:6px;max-width:88%}
+.msg p{margin:0;padding:9px 13px;border-radius:18px;overflow-wrap:anywhere;min-width:0}
+.msg.k{align-self:flex-start}
+.msg.k p{background:var(--kai);color:var(--ink);border-bottom-left-radius:6px}
+.msg.k b{color:var(--hl)}
+.msg.u{align-self:flex-end}
+.msg.u p{background:var(--me);color:var(--on-me);border-bottom-right-radius:6px}
+.msg.u .pics{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.msg.u .pics img{display:block;width:96px;height:96px;object-fit:cover;border-radius:12px}
+.msg.u .mic{font-size:13px;opacity:.75}
+.msg.err p{background:var(--warnbg);color:var(--warn)}
+.li{display:block;padding-left:4px}
+.say{flex:none;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:50%;background:#0e7490;color:#fff;cursor:pointer}
+.say svg{width:18px;height:18px}
+.thinking p{color:var(--mut);font-style:italic}
+/* quiz rendu dans le fil */
+.quiz{align-self:stretch;padding:12px;border-radius:18px;border:2px solid var(--cyan);background:var(--card)}
+.quiz h2{margin:0 0 2px;font:400 22px/1.1 var(--title);letter-spacing:.5px;color:var(--cyan)}
+.quiz .qn{font-size:13px;color:var(--mut)}
+.quiz .qq{margin:8px 0;font:700 17px/1.35 var(--ui)}
+.quiz .opts{display:grid;gap:6px}
+.quiz .opt{min-height:44px;padding:6px 12px;border-radius:12px;border:2px solid var(--edge);background:var(--kai);color:var(--ink);font:600 16px/1.25 var(--ui);text-align:left;cursor:pointer}
+.quiz .opt.right{border-color:var(--ok);background:#14532d}
+.quiz .opt.wrong{border-color:var(--ko);background:#5f1d1d}
+.quiz .why{margin:8px 0 0;font-size:15px;color:var(--sub)}
+.quiz .qnext{margin-top:10px;min-height:44px;padding:0 18px;border-radius:22px;border:0;background:var(--cyan);color:#062a33;font:800 15px var(--ui);cursor:pointer}
+.quiz .score{margin:6px 0 0;font:800 20px var(--ui)}
+.banner{margin-top:8px;padding:10px 12px;border-radius:14px;background:var(--card);border:2px solid var(--me);font-size:14px;color:var(--sub)}
+.banner b{color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding-block:6px 0;background:var(--bar)}
+.chips[hidden]{display:none}
+.pchip{display:inline-flex;align-items:center;gap:6px;padding:3px 4px 3px 3px;border-radius:12px;background:var(--card);font-size:13px;color:var(--sub)}
+.pchip img{width:34px;height:34px;object-fit:cover;border-radius:8px}
+.pchip button{width:28px;height:28px;border:0;background:none;color:var(--warn);font:700 18px/1 var(--ui);cursor:pointer}
+form{display:flex;align-items:flex-end;gap:6px;padding-block:8px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bar)}
+.bottom{background:var(--bar);border-top:1px solid var(--edge)}
+textarea{flex:1;min-width:0;min-height:44px;max-height:160px;box-sizing:border-box;padding:10px 14px;border-radius:22px;border:1px solid var(--edge);background:var(--kai);color:var(--ink);font:500 16px/1.35 var(--ui);resize:none;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.16) transparent}
+.send{flex:none;width:48px;height:48px;display:grid;place-items:center;border:0;border-radius:50%;background:var(--me);color:var(--on-me);cursor:pointer}
+.send svg,.tool svg{width:22px;height:22px}
+.tool{flex:none;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--edge);border-radius:50%;background:none;color:var(--sub);cursor:pointer}
+.tool.on{background:#7f1d1d;border-color:#ef4444;color:#fff;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(239,68,68,.25)}}
+button:disabled,textarea:disabled{opacity:.45;cursor:default}
+:focus-visible{outline:3px solid var(--me);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){.tool.on{animation:none}}
+</style>
+
+<div class="app">
+  <header class="pad">
+    <img src="kai-face.webp" alt="">
+    <div class="who"><h1>Chat with Kai</h1><span>Test · answers from your Claude account · nothing is saved</span></div>
+    <button class="iconbtn" id="gear" type="button" aria-label="Learner settings" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="16" cy="7" r="2.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="10" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></button>
+    <button class="iconbtn" id="reset" type="button" aria-label="New conversation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </header>
+  <div class="set pad" id="set" hidden>
+    <label for="name">Learner's first name<input id="name" value="Côme" maxlength="20" autocomplete="off"></label>
+    <label for="level">English level<select id="level"><option value="A1 (beginner)">A1 · 6e</option><option value="A2 (elementary)">A2 · 5e–4e</option><option value="B1–B2 (intermediate)">B1–B2 · lycée, adults</option></select></label>
+    <p>To try it as one of your children: their first name and level. Kai adapts his English.</p>
+  </div>
+  <div class="pad" id="bannerbox"><div class="banner"><span id="banner"><b>Test page.</b> Kai answers with your own Claude account: Claude asks once for your permission. Nothing is saved.</span><button class="bx" id="bx" type="button" aria-label="Hide this message">×</button></div></div>
+  <div class="pad"><button class="fold" id="fold" type="button" aria-expanded="true" aria-controls="modebox"><span id="foldname">Chat</span><small>change</small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  <div id="modebox">
+  <div class="modes pad" role="radiogroup" aria-label="What do you want to do?">
+    <button class="mode" type="button" role="radio" aria-checked="true" data-mode="chat">Chat</button>
+    <button class="mode" type="button" role="radio" aria-checked="false" data-mode="text">Class text</button>
+    <button class="mode" type="button" role="radio" aria-checked="false" data-mode="write">My writing</button>
+    <button class="mode" type="button" role="radio" aria-checked="false" data-mode="quiz">Quiz me</button>
+  </div>
+  <p class="hint pad" id="hint">Talk with Kai about anything!</p>
+  </div>
+  <div class="logwrap"><div class="log pad" id="log" aria-live="polite"></div><i class="thumb" id="thumb" aria-hidden="true"></i></div>
+  <div class="bottom">
+    <div class="chips pad" id="chips" hidden></div>
+    <form id="form" class="pad">
+      <button class="tool" id="clip" type="button" aria-label="Attach photos (homework, a page of your book)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5 12.2 19.3a5 5 0 0 1-7.1-7.1l8.2-8.2a3.4 3.4 0 0 1 4.8 4.8l-8.1 8.1a1.7 1.7 0 0 1-2.4-2.4l7.4-7.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <input type="file" id="file" accept="image/*" multiple hidden>
+      <textarea id="in" rows="1" maxlength="6000" aria-label="Your message" placeholder="Write to Kai…"></textarea>
+      <button class="tool" id="mic" type="button" aria-label="Speak in English" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <button class="send" id="send" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20.5 21 12 3 3.5l2.5 8.5L3 20.5zm2.5-8.5H13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* Les mêmes consignes que js/app-chat.js, passées ici en tête de la conversation (pas de message système avec « sample ») */
+const $ = id => document.getElementById(id);
+const MODES = {
+  chat: ["Talk with Kai about anything! Tap the mic to speak.", "Write to Kai…"],
+  text: ["Paste a text from school, or attach photos of the page: Kai helps you understand it.", "Paste the text from school…"],
+  write: ["Paste your text: Kai corrects it and explains.", "Paste or write your text…"],
+  quiz: ["Give a theme, paste a text or attach photos of your homework: Kai makes a quiz.", "A theme (food, my town…) or a text…"]
+};
+let mode = "chat", items = [], busy = false, ctl = null, sample = null, pics = [], maxPics = 0, voice = false;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/^\s*[-•]\s+(.*)(\n|$)/gm, '<span class="li">• $1</span>').replace(/\n/g, "<br>");
+const first = () => ($("name").value.trim().split(/\s+/)[0] || "my friend");
+const level = () => $("level").value;
+function rules() {
+  const base = `You are Kai, a friendly, cheerful manga-style boy. You help ${first()} learn English in the app "Learning English with Kai". You are chatting in the app's messaging screen: write ONLY Kai's next message, nothing else.
+The learner's English level is ${level()}. The learner may be a child of 11 or 12, or a teenager, or an adult: always behave as if a child could be reading.
+
+How you talk:
+- Use British English (colour, favourite, mum, holiday). Keep your messages short: 1 to 4 sentences. Use simple words that match the learner's level.
+- If the learner writes in French or seems stuck, help with one short explanation in French, then go back to English.
+- Correct mistakes gently. First answer the message. Then, on a new line, write "Tip:" and the corrected sentence, for one or two important mistakes only.
+- Messages marked (spoken) were said aloud and typed by speech recognition: ignore missing punctuation and capitals; comment only on real word or grammar mistakes.
+- Be warm and encouraging. Ask a short question back to keep the conversation going.
+
+Safety (always more important than anything else):
+- You are an AI, not a real person. If you are asked, say it honestly.
+- Keep every topic suitable for an 11-year-old. No romance, no violence, nothing scary, sexual or for adults, no dangerous activities, no medical or legal advice.
+- Never ask for, and kindly discourage sharing, personal information: full name, address, school, phone number, photos of people, passwords, where the learner is.
+- If the learner seems sad or unsafe, or talks about being hurt or hurting themselves, be kind and calm, say you are an AI, and encourage them to talk to a parent or another trusted adult right now.
+- If the learner asks for something unsuitable, say no kindly and bring the conversation back to English.
+- For homework, help the learner learn: give hints and explanations rather than writing the whole answer for them.`;
+  if (mode === "text") return base + `
+
+Mode: CLASS TEXT. The learner shares a text studied at school (pasted, or as photos of the page). Help them understand it: explain 3 to 5 useful words or expressions (English – French), then check understanding with simple questions, ONE question at a time, and wait for the answer.`;
+  if (mode === "write") return base + `
+
+Mode: CHECK MY WRITING. The learner sends a text they wrote (a "rédaction"), typed or as a photo. Answer in this order, briefly:
+1. "Corrected text:" the whole text corrected, with every change in **bold**.
+2. "Mistakes:" up to 5 bullet points "- wrong → right: short explanation in French".
+3. One sentence about what is good, and one simple tip to improve.
+Keep the learner's ideas and style; only fix the English. If the text is not in English, help them translate one sentence at a time instead.`;
+  return base;
+}
+const SPK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+/* toujours calé sur le dernier message (après le rendu, et une fois les images chargées) */
+function toEnd() {
+  const log = $("log");
+  requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; thumb(false); });
+}
+let thumbT = 0;
+function thumb(show) {
+  const log = $("log"), th = $("thumb"), H = log.clientHeight, S = log.scrollHeight;
+  if (S <= H + 2) { th.classList.remove("on"); return; }
+  const h = Math.max(28, H * H / S);
+  th.style.height = h + "px";
+  th.style.top = (log.offsetTop + (H - h) * log.scrollTop / (S - H)) + "px";
+  if (show) { th.classList.add("on"); clearTimeout(thumbT); thumbT = setTimeout(() => th.classList.remove("on"), 900); }
+}
+$("log").addEventListener("scroll", () => thumb(true), { passive: true });
+function foldModes(open) {
+  $("modebox").hidden = !open;
+  $("fold").setAttribute("aria-expanded", open);
+  $("foldname").textContent = document.querySelector('.mode[aria-checked="true"]').textContent;
+  toEnd();
+}
+$("fold").addEventListener("click", () => foldModes($("modebox").hidden));
+$("bx").addEventListener("click", () => { $("bannerbox").hidden = true; toEnd(); });
+function quizHtml(q, idx) {
+  if (q.i >= q.questions.length) {
+    const n = q.picks.filter((p, j) => p === q.questions[j].answer).length;
+    return `<div class="quiz"><h2>${esc(q.title)}</h2><p class="score">${n} / ${q.questions.length}</p><p class="why">${n === q.questions.length ? "Perfect! Bravo!" : n >= q.questions.length / 2 ? "Well done! Try again to get them all." : "Read the text again, then ask me for a new quiz!"}</p></div>`;
+  }
+  const Q = q.questions[q.i], p = q.picks[q.i], done = p !== undefined;
+  return `<div class="quiz" data-qz="${idx}"><h2>${esc(q.title)}</h2><span class="qn">Question ${q.i + 1} of ${q.questions.length}</span><p class="qq">${esc(Q.q)}</p>
+<div class="opts">${Q.options.map((o, k) => `<button class="opt${done && k === Q.answer ? " right" : done && k === p ? " wrong" : ""}" type="button" data-opt="${k}"${done ? " disabled" : ""}>${esc(o)}</button>`).join("")}</div>
+${done ? `<p class="why">${p === Q.answer ? "✓ " : "✗ "}${esc(Q.explain || "")}</p><button class="qnext" type="button" data-qnext>${q.i === q.questions.length - 1 ? "See my score" : "Next question"}</button>` : ""}</div>`;
+}
+function render(extra) {
+  const greet = `Hi ${first()}! I'm Kai. What do you want to do today?`;
+  $("log").innerHTML = `<div class="msg k"><p>${md(greet)}</p></div>` + items.map((t, i) => t.quiz ? quizHtml(t.quiz, i) : t.role === "user"
+    ? `<div class="msg u"><p>${t.urls && t.urls.length ? `<span class="pics">${t.urls.map(u => `<img src="${u}" alt="Photo sent to Kai">`).join("")}</span>` : ""}${t.spoken ? `<span class="mic">🎤 </span>` : ""}${esc(t.content).replace(/\n/g, "<br>")}</p></div>`
+    : `<div class="msg k${t.err ? " err" : ""}"><p>${md(t.content)}</p>${t.err ? "" : `<button class="say" type="button" data-say="${i}" aria-label="Listen to Kai">${SPK}</button>`}</div>`).join("") + (extra || "");
+  $("log").querySelectorAll("img").forEach(im => im.addEventListener("load", toEnd, { once: true }));
+  toEnd();
+  $("in").disabled = $("send").disabled = busy || !sample;
+}
+function setBusy(b) {
+  busy = b;
+  $("send").disabled = $("in").disabled = b || !sample;
+  $("clip").disabled = b || !maxPics;
+}
+const ERR = { not_granted: "I can't answer: Claude wasn't allowed for this page. Reload and allow it to try again.", sampling_disabled: "Claude isn't available for this account.", rate_limited: "I need a little break! Try again in a minute.", session_expired: "Please sign in to Claude again.", refused: "I can't answer that one. Let's talk about something else!", prompt_too_large: "That's too long for me. Send a shorter part.", image_rejected: "I can't read this photo. Try another one.", images_unavailable: "I can't look at photos here. Paste the text instead.", invalid_json: "I couldn't build the quiz. Try again, maybe with a shorter text." };
+const history = () => items.filter(t => !t.err && !t.quiz).slice(-16).map(t => ({ role: t.role, content: t.content }));
+async function send(text) {
+  if (busy || !sample || (!text && !pics.length)) return;
+  const files = pics.slice(), spoken = voice && !!text;
+  const content = text || (files.length > 1 ? "Here are photos of my homework." : "Here is a photo of my homework.");
+  items.push({ role: "user", content: content + (spoken ? " (spoken)" : ""), shown: content, spoken, urls: files.map(f => URL.createObjectURL(f)) });
+  items[items.length - 1].content = content + (spoken ? " (spoken)" : "");
+  $("in").value = ""; $("in").style.height = ""; voice = false;
+  clearPics();
+  if (!$("modebox").hidden) foldModes(false);   /* la conversation commence : on replie le choix du mode pour lui laisser la place */
+  setBusy(true);
+  ctl = new AbortController();
+  if (mode === "quiz") return makeQuiz(content, files);
+  render(`<div class="msg k thinking" id="live"><p>Kai is writing…</p></div>`);
+  const turns = history();
+  while (turns.length && turns[0].role !== "user") turns.shift();
+  try {
+    const { text: reply } = await sample([{ role: "user", content: rules() }, ...turns], {
+      cache: false, signal: ctl.signal, modelTier: mode === "write" ? "default" : "quick", images: files.length ? files : undefined,
+      onText: ({ text: t }) => { const live = $("live"); if (live) { live.classList.remove("thinking"); live.querySelector("p").innerHTML = md(t); toEnd(); } }
+    });
+    items.push({ role: "assistant", content: reply.trim() });
+    if (spoken) speak(reply);
+  } catch (e) {
+    if (e && e.code === "cancelled") { if (e.text) items.push({ role: "assistant", content: e.text }); }
+    else items.push({ role: "assistant", content: (e && e.text) ? e.text + "\n\n(interrupted)" : (ERR[e && e.code] || "Oops, something went wrong. Try again in a moment."), err: !(e && e.text) });
+  }
+  setBusy(false);
+  render();
+}
+/* Quiz me : Kai lit le thème, le texte ou les photos et renvoie un quiz à 4 réponses (JSON) */
+async function makeQuiz(content, files) {
+  render(`<div class="msg k thinking" id="live"><p>Kai is making your quiz…</p></div>`);
+  const prompt = `You are Kai, an English teacher for a learner of level ${level()} (a child of 11–12 may be reading: keep everything suitable for children, British English).
+Make a short quiz from the learner's material below${files.length ? " and the attached photo(s) of their homework or book" : ""}. If the material is just a theme, quiz useful words and phrases for that theme at the learner's level.
+Write 5 multiple-choice questions in English. Each has 4 short options and exactly one correct answer. Mix vocabulary, meaning and grammar from the material. "explain" is one short sentence in simple French saying why the answer is right.
+Reply with only this JSON: {"title": "short quiz title", "questions": [{"q": "question", "options": ["a", "b", "c", "d"], "answer": 0, "explain": "…"}]}
+
+Learner's material:
+${content}`;
+  try {
+    const data = await sample.json(prompt, { cache: false, signal: ctl.signal, images: files.length ? files : undefined });
+    const qs = (data && Array.isArray(data.questions) ? data.questions : []).filter(q => q && q.q && Array.isArray(q.options) && q.options.length >= 2 && Number.isInteger(q.answer) && q.answer >= 0 && q.answer < q.options.length).slice(0, 8);
+    if (!qs.length) throw { code: "invalid_json" };
+    items.push({ role: "assistant", content: `Here is your quiz: ${data.title || "Quiz"}!` });
+    items.push({ quiz: { title: String(data.title || "Your quiz"), questions: qs.map(q => ({ q: String(q.q), options: q.options.map(String), answer: q.answer, explain: String(q.explain || "") })), i: 0, picks: [] } });
+  } catch (e) {
+    if (!(e && e.code === "cancelled")) items.push({ role: "assistant", content: ERR[e && e.code] || "Oops, I couldn't make the quiz. Try again in a moment.", err: true });
+  }
+  setBusy(false);
+  render();
+}
+function clearPics() { pics = []; $("file").value = ""; drawPics(); }
+function drawPics() {
+  $("chips").hidden = !pics.length;
+  $("chips").innerHTML = pics.map((f, i) => `<span class="pchip"><img src="${URL.createObjectURL(f)}" alt=""><span>${esc(f.name.slice(0, 18))}</span><button type="button" data-unpic="${i}" aria-label="Remove this photo">×</button></span>`).join("");
+}
+function speak(t) {
+  try {
+    const u = new SpeechSynthesisUtterance(String(t).replace(/\*\*/g, "").replace(/^Tip:.*$/gm, ""));
+    u.lang = "en-GB"; u.rate = .95;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  } catch (e) {}
+}
+/* micro : on parle anglais, la phrase s'écrit dans la zone de saisie (on la relit, puis on envoie) */
+let rec = null;
+function micInfo(msg) { items.push({ role: "assistant", content: msg, err: true }); render(); }
+$("mic").addEventListener("click", () => {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return micInfo("Your browser can't listen here. In the app, the mic works with Chrome, Edge or Android.");
+  if (rec) { rec.stop(); return; }
+  rec = new SR(); rec.lang = "en-GB"; rec.interimResults = true; rec.maxAlternatives = 1;
+  const before = $("in").value ? $("in").value.trim() + " " : "";
+  $("mic").classList.add("on"); $("mic").setAttribute("aria-pressed", "true");
+  rec.onresult = e => { let t = ""; for (const r of e.results) t += r[0].transcript; $("in").value = before + t; voice = true; };
+  rec.onerror = e => { if (e.error === "not-allowed" || e.error === "service-not-allowed") micInfo("The microphone is blocked on this test page. In the app on your phone, it will ask for permission."); };
+  rec.onend = () => { rec = null; $("mic").classList.remove("on"); $("mic").setAttribute("aria-pressed", "false"); $("in").focus(); };
+  try { rec.start(); } catch (e) { rec = null; $("mic").classList.remove("on"); micInfo("The microphone is blocked on this test page. In the app on your phone, it will ask for permission."); }
+});
+document.querySelector(".modes").addEventListener("click", e => {
+  const b = e.target.closest("[data-mode]"); if (!b) return;
+  mode = b.dataset.mode;
+  document.querySelectorAll(".mode").forEach(x => x.setAttribute("aria-checked", x === b));
+  $("hint").textContent = MODES[mode][0]; $("in").placeholder = MODES[mode][1];
+  foldModes(true);
+});
+$("log").addEventListener("click", e => {
+  const s = e.target.closest("[data-say]"); if (s) { speak(items[+s.dataset.say].content); return; }
+  const card = e.target.closest("[data-qz]"); if (!card) return;
+  const q = items[+card.dataset.qz].quiz, o = e.target.closest("[data-opt]");
+  if (o && q.picks[q.i] === undefined) { q.picks[q.i] = +o.dataset.opt; render(); return; }
+  if (e.target.closest("[data-qnext]")) { q.i++; render(); }
+});
+$("form").addEventListener("submit", e => { e.preventDefault(); send($("in").value.trim()); });
+$("in").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && (mode === "chat" || mode === "quiz")) { e.preventDefault(); send($("in").value.trim()); } });
+$("in").addEventListener("input", e => { const t = e.target; t.style.height = ""; t.style.height = Math.min(160, t.scrollHeight) + "px"; if (!rec) voice = false; });
+$("in").addEventListener("focus", () => setTimeout(toEnd, 300));
+$("gear").addEventListener("click", () => { const s = $("set"); s.hidden = !s.hidden; $("gear").setAttribute("aria-expanded", !s.hidden); });
+$("name").addEventListener("change", () => render());
+$("reset").addEventListener("click", () => { if (ctl) ctl.abort(); items = []; setBusy(false); render(); });
+$("clip").addEventListener("click", () => $("file").click());
+$("file").addEventListener("change", e => { pics = pics.concat([...e.target.files]).slice(0, Math.max(1, maxPics)); drawPics(); });
+$("chips").addEventListener("click", e => { const b = e.target.closest("[data-unpic]"); if (b) { pics.splice(+b.dataset.unpic, 1); drawPics(); } });
+addEventListener("resize", toEnd);
+render();
+setBusy(false);
+(async () => {
+  try { sample = window.claude && window.claude.use ? await window.claude.use("sample") : null; } catch (e) { sample = null; }
+  if (!sample) {
+    $("banner").innerHTML = "<b>Kai can't answer here.</b> Open this page in Claude (claude.ai or the Claude app), signed in to your account.";
+    render(); setBusy(false); return;
+  }
+  try { const lim = await sample.limits(); maxPics = lim && lim.images ? lim.images.maxCount : 0; } catch (e) { maxPics = 0; }
+  if (!maxPics) $("clip").title = "Photos aren't available on this test page";
+  render(); setBusy(false);
+})();
+</script>
