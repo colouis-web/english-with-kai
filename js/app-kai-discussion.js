@@ -21,39 +21,69 @@ function kaiTalk() {
     /* un passage de niveau aujourd'hui passe avant tout */
     if (p.lvSince === today && lvOf(p) > 0 && !KTALK.mode)
         return { say: `Wow, ${N}! You are now *${LV[lvOf(p)].name}*! That's *${w(n)}* a day now.`, chips: done ? [] : [GO] };
+    /* PO, 17/11 : un dialogue plus riche — un mot d'accueil (retour, week-end, heure) puis une phrase sur ce qu'il y a à faire */
+    let last = null;
+    Object.keys(DST.days).filter(k => k < today && dayActive(DST.days[k])).forEach(k => {
+        if (!last || k > last)
+            last = k;
+    });
+    const away = last ? daysBetween(last, today) : 0, s = streak(), wd = new Date().getDay(), late = wd === 0 || wd >= 4;
+    const todoL = ["grammar", "conj"].find(t => !weekLesson(t)), lname = t => t === "grammar" ? "grammar" : "conjugation";
+    const dzTodo = typeof dzWeek === "function" && !dzWeek();
+    let npk = 0;
+    try {
+        npk = weekKeys(today).reduce((a, k) => a + pkOf(k).length, 0);
+    }
+    catch (e) {
+    }
+    const startedToday = r && dayActive(r);
+    /* le mot d'accueil */
+    const hello = () => {
+        if (startedToday)
+            return pick([`Welcome back, ${N}!`, `Hello again, ${N}!`, `You're back, ${N}!`]);
+        if (away >= 3)
+            return pick([`${N}, you're back! I *missed* you!`, `Welcome back, ${N}! I *missed* you so much!`]);
+        if (away === 2)
+            return `Welcome back, ${N}! I *missed* you yesterday.`;
+        if (h >= 21)
+            return `Hi ${N}! It's quite *late*.`;
+        if (wd === 6 || wd === 0)
+            return pick([`Happy ${wd === 6 ? "Saturday" : "Sunday"}, ${N}!`, `${H}, ${N}! It's the *weekend*!`]);
+        if (wd === 1)
+            return `${H}, ${N}! A *new week* starts today.`;
+        return pick([`${H}, ${N}!`, `Welcome back, ${N}!`, `Hello, ${N}! Nice to see you.`, `${H}, ${N}! How are you?`]);
+    };
     if (!done) {
         if (KTALK.mode === "later")
             return { say: `OK, ${N}! I'll be *here* when you're ready.`, chips: [GO] };
         if (m > 0) {
             const left = n - m;
-            return { say: pick([`Well done, ${N}! Only *${w(left)}* left today. You can do it!`, `Keep going, ${N}! *${left} more* and you're done for today!`]), chips: [{ id: "go", label: "Next words" }, NOTNOW] };
+            return { say: `${hello()} ${pick(m >= n / 2 ? [`Only *${w(left)}* left today. You can do it!`, `You're more than *halfway* there! *${left} more* to go.`] : [`*${w(left)}* left today. Let's finish them!`, `Keep going! *${left} more* and you're done for today.`])}`, chips: [{ id: "go", label: "Next words" }, NOTNOW] };
         }
-        /* rien encore aujourd'hui */
-        let last = null;
-        Object.keys(DST.days).filter(k => k < today && dayActive(DST.days[k])).forEach(k => {
-            if (!last || k > last)
-                last = k;
-        });
-        const away = last ? daysBetween(last, today) : 0, s = streak();
+        if (!last && !startedToday)   /* tout premier jour : Kai se présente */
+            return { say: `Welcome, ${N}! I'm *Kai*. Let's learn English *together*!`, chips: [GO, NOTNOW] };
         let t6 = null;
         try {
             t6 = T6.filter(x => t6Days(x.date) >= 0 && t6Days(x.date) <= 3).sort((a, b) => a.date.localeCompare(b.date))[0];
         }
         catch (e) {
         }
-        if (!last && !(r && dayActive(r)))   /* tout premier jour : Kai se présente */
-            return { say: `Welcome, ${N}! I'm *Kai*. Let's learn English *together*!`, chips: [GO, NOTNOW] };
         if (t6) {
             const d = t6Days(t6.date);
-            return { say: `${H}, ${N}! Your class test is *${d === 0 ? "today" : d === 1 ? "tomorrow" : `in ${d} days`}*. Let's revise!`, chips: [{ id: "t6", label: "Revise", t6: t6.id }, GO] };
+            return { say: `${hello()} Your class test is *${d === 0 ? "today" : d === 1 ? "tomorrow" : `in ${d} days`}*. Let's revise!`, chips: [{ id: "t6", label: "Revise", t6: t6.id }, GO] };
         }
-        if (away >= 3)
-            return { say: `${H}, ${N}! I *missed* you! Shall we learn some words?`, chips: [GO, NOTNOW] };
+        if (h >= 21)
+            return { say: `${hello()} Just a few *words* before bed?`, chips: [GO, NOTNOW] };
+        /* fin de semaine : ce qu'il reste à faire passe en premier */
+        if (late && todoL)
+            return { say: `${hello()} You need to do your *${lname(todoL)} lesson* this week. Your words first?`, chips: [GO, { id: "lesson", label: "The lesson", lesson: suggestLesson(todoL) }] };
+        if (late && dzTodo && wd !== 4)
+            return { say: `${hello()} Don't forget your *dictation* this week! Your words first?`, chips: [GO, { id: "dict", label: "Dictation" }] };
         if (s >= 2)
-            return { say: `${H}, ${N}! *${s} days* in a row! Let's make it *${s + 1}*!`, chips: [GO, NOTNOW] };
-        if (new Date().getDay() === 1)
-            return { say: `${H}, ${N}! A *new week* starts today. Ready for your *${w(n)}*?`, chips: [GO, NOTNOW] };
-        return { say: pick([`${H}, ${N}! Ready for your *${w(n)}*?`, `${H}, ${N}! New words are *waiting* for you!`, `${H}, ${N}! Let's learn English *together*!`]), chips: [GO, NOTNOW] };
+            return { say: `${hello()} *${s} days* in a row! Let's make it *${s + 1}*!`, chips: [GO, NOTNOW] };
+        if (npk >= 3 && seed % 3 === 0)
+            return { say: `${hello()} You picked *${npk} words* this week. Revise them, then learn new ones!`, chips: [GO, { id: "picks", label: "My picks" }] };
+        return { say: `${hello()} ${pick([`Ready for your *${w(n)}*?`, `New words are *waiting* for you!`, `Let's learn some *English* together!`, `What will we *learn* today?`, `Your *${w(n)}* are ready. Shall we start?`])}`, chips: [GO, NOTNOW] };
     }
     /* mots du jour faits : la forme du jour */
     const md = moodOf(r.mood);
@@ -70,22 +100,22 @@ function kaiTalk() {
     const todo = ["grammar", "conj"].find(t => !weekLesson(t));
     if (todo) {
         const id = suggestLesson(todo);
-        return { say: `You feel *${md.id === "okay" ? "okay" : md.en.toLowerCase()}* today, ${N}! Your ${todo === "grammar" ? "grammar" : "conjugation"} lesson is waiting: *${LESSONS[id].title}*.`, face: md.img, chips: [{ id: "lesson", label: "Open it", lesson: id }, { id: "bye", label: "Later" }] };
+        return { say: pick([`You feel *${md.id === "okay" ? "okay" : md.en.toLowerCase()}* today, ${N}! Your ${lname(todo)} lesson is waiting: *${LESSONS[id].title}*.`, `Welcome back, ${N}! You need to do your *${lname(todo)} lesson* this week: *${LESSONS[id].title}*.`, `Your words are done, ${N}! Now, what about your *${lname(todo)} lesson*? It's *${LESSONS[id].title}*.`]), face: md.img, chips: [{ id: "lesson", label: "Open it", lesson: id }, { id: "bye", label: "Later" }] };
     }
     if (typeof dzWeek === "function" && !dzWeek())   /* Dictation, tâche de la semaine (PO, 14/11) */
-        return { say: `Both lessons are done, ${N}! Now your *dictation* of the week!`, face: md.img, chips: [{ id: "dict", label: "Let's do it" }, { id: "bye", label: "Later" }] };
+        return { say: pick([`Both lessons are done, ${N}! Now your *dictation* of the week!`, `Great work this week, ${N}! You still need to do your *dictation*. Listen and type!`]), face: md.img, chips: [{ id: "dict", label: "Let's do it" }, { id: "bye", label: "Later" }] };
     const W = testWeeks(1), NT = Object.keys(TESTS).length, nt = Object.keys(TESTS).filter(k => W.tab[k][0]).length;
     if (nt < NT)
         return { say: `Well done, ${N}! Your *weekly review* is ready.`, face: md.img, chips: [{ id: "tests", label: "Let's see" }, { id: "bye", label: "Later" }] };
-    return { say: `Everything is done this week, ${N}. You're a *star*!`, face: "joy", chips: [{ id: "go", label: "Bonus round" }] };
+    return { say: pick([`Everything is done this week, ${N}. You're a *star*!`, `What a week, ${N}! Everything is *done*. See you tomorrow!`, `Lessons, dictation, review: all *done*! I'm so proud of you, ${N}!`]), face: "joy", chips: npk ? [{ id: "picks", label: "My picks" }, { id: "go", label: "Bonus round" }] : [{ id: "go", label: "Bonus round" }] };
 }
 /* dessine la bulle (même mise en page que renderMenuHead, la taille suit la phrase) et les réponses dessous */
 function kaiTalkRender() {
     const host = document.getElementById("mhead");
     if (!host || !curProf())
         return;
-    const T = kaiTalk(), fs = bubbleFs(), lh = Math.round(fs * 1.4), rx = 116, { rows, n, ry } = bubbleFit(T.say, fs, lh, rx, 170);
-    const R = Math.max(60, ry), VH = Math.max(164, Math.round(2 * R + 8)), c = [216, VH / 2 - 2], tip = [100, c[1]];
+    const T = kaiTalk(), fs = bubbleFs(), lh = Math.round(fs * 1.4), rx = 128, { rows, n, ry } = bubbleFit(T.say, fs, lh, rx, 200);   /* bulle plus large : les phrases de Kai sont plus longues (PO, 17/11) */
+    const R = Math.max(60, ry), VH = Math.max(164, Math.round(2 * R + 8)), c = [228, VH / 2 - 2], tip = [104, c[1]];
     ASK.say = plain(T.say);
     const chips = T.moods ? `<div class="kmoods" role="group" aria-label="How do you feel today?">${MOODS.map(x => `<button type="button" class="kmood" data-kmood="${x.id}"><img src="img/kai-${x.img}.webp" alt=""><b>${x.en}</b></button>`).join("")}</div>`
         : T.chips.length ? `<div class="kchips">${T.chips.map(x => `<button type="button" class="kchip" data-kc="${x.id}"${x.lesson ? ` data-kl="${x.lesson}"` : ""}${x.t6 ? ` data-kt6="${x.t6}"` : ""}>${x.label}</button>`).join("")}</div>` : "";
@@ -139,6 +169,8 @@ function kaiTalkRender() {
             openTests();
         else if (id === "dict")
             openDict("menu");
+        else if (id === "picks")
+            openPicks();
         else if (id === "t6") {   /* comme le bandeau « Class test » de My activity */
             DAILY = false;
             t6Detail(b.dataset.kt6);

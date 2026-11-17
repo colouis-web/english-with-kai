@@ -40,8 +40,11 @@ function qClash(k, a, b) {
 }
 /* les 5 sortes de quiz */
 const KINDS = {
-    verbs: { title: "Quiz verbs", ask: "Which verb is it?", unit: "verb", all: () => QPOOL, inTag: (d, t) => t === "irregular" && d.irr && !d.modal,
-        tags: () => [["all", "All verbs", QPOOL.length], ["irregular", "Irregular verbs", QPOOL.filter(d => d.irr && !d.modal).length]], eiOk: (d, i) => !QEXCL.has(d.v + ":" + i) },
+    /* PO, 17/11 : les verbes rangés par thèmes, comme les noms (thèmes du dictionnaire, js/data/verbes-themes.js) ;
+       un thème n'apparaît que s'il a au moins 4 verbes dans le quiz ; « Essay verbs » vient déjà de app-phrasal-aide.js (registre) */
+    verbs: { title: "Quiz verbs", ask: "Which verb is it?", unit: "verb", all: () => QPOOL, inTag: (d, t) => t === "irregular" ? d.irr && !d.modal : d.cat === t,
+        tags: () => [["all", "All verbs", QPOOL.length], ["irregular", "Irregular verbs", QPOOL.filter(d => d.irr && !d.modal).length],
+            ...Object.keys(VCAT).filter(c => c !== "essay").map(c => [c, VCAT[c].label, QPOOL.filter(d => d.cat === c).length, VCAT[c].icon]).filter(x => x[2] >= 4)], eiOk: (d, i) => !QEXCL.has(d.v + ":" + i) },
     nouns: { title: "Quiz nouns", ask: t => ({ animals: "Which animal is it?", numbers: "Which number is it?", jobs: "Which job is it?", fruitveg: "Which fruit or vegetable is it?", family: "Who is it?" })[t] || "Which noun is it?", unit: "noun", all: () => NDICT, inTag: (n, t) => inCat(n, t),
         tags: () => [["all", "All nouns", NDICT.length], ...Object.keys(NCAT).map(c => [c, NCAT[c].label, NDICT.filter(n => inCat(n, c)).length, NCAT[c].icon])] },
     adjectives: { title: "Quiz adjectives", ask: "Which adjective is it?", unit: "adjective", lex: () => ADJ },
