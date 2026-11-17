@@ -210,7 +210,7 @@ function renderPk() {
     QW().innerHTML = `<p class="qpart">My picks · Write the English word</p><div class="dots" aria-hidden="true">${PK.items.map((x, j) => `<i class="${PK.res[j] === undefined ? (j === PK.i ? "cur" : "") : PK.res[j] ? "ok" : "ko"}"></i>`).join("")}</div>
 <div class="qhead">${headSvg(`*${p.f}*`, "head", "", "fr")}</div>
 <p class="qask">No choices this time: write it in English!</p>
-${hasEx ? `<div class="t3card pkcard"><p class="t3en">${esc(t3Blank(p.en))}</p><p class="t3fr">${hl(p.fr)}</p></div>` : ""}
+${hasEx ? `<div class="t3card pkcard"><p class="t3en">${esc(t3Blank(p.en)).replace(/_____([.,!?;:]*)/, '<span class="bw"><span class="blank" role="img" aria-label="missing word"></span>$1</span>')}</p><p class="t3fr">${hl(p.fr)}</p></div>` : ""}
 <input class="t3in" id="pkin" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Type the English word" aria-label="English word">
 <button class="listen" id="pkcheck">Check${GOSVG}</button><div class="fb" id="pkfb" aria-live="polite"></div>`;
     setTimeout(() => {
