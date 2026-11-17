@@ -1510,4 +1510,6 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .page.gm .tense.lesson.cmp em.lstat.try{background:#2a2846;color:#fbbf24}
 .page.gm .tense.lesson.cmp em.lstat.new{background:#2a2846;color:#9ea2bd}
 .tlist:has(.cmp){gap:8px}
-.chips.lcf{margin-top:0;margin-bottom:6px}
+.chips.lcf{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;margin:0 0 6px;padding:0;overflow:visible}   /* toutes les classes sur une ligne, même 6 */
+.chips.lcf .chip{min-width:0;height:50px;padding:0 2px;flex-direction:column;justify-content:center;gap:1px;font-size:14px;line-height:1.05}
+.chips.lcf .chip i{font-size:11px;font-style:normal}

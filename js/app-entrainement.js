@@ -240,21 +240,23 @@ function lessonTile(id) {   /* tuile compacte (PO, 17/11) : numéro, titre et su
     const n = L.type === "conj" ? esc(id === "be" || id === "have" ? id : String(lessonsByClass("conj").indexOf(id) - 1)) : String(lessonsByClass("grammar").indexOf(id) + 1);
     return `<button class="tense lesson cmp${st === "pass" ? " done" : ""}" data-lesson="${id}" aria-label="${esc(L.title)} · ${lclassName(lclass(id))}"><span class="tn">${n}</span><span class="tt2"><b>${L.title}${wk && wk.id === id ? ` <em class="wkb">${CHECK}This week</em>` : ""}</b><small>${esc(L.fr)}</small></span><span class="lst">${starRow(starsFor(lessonGood(id)))}<em class="lstat ${st}">${st === "new" ? "New" : st === "pass" ? `Passed · ${b}%` : `Best ${b}%`}</em></span></button>`;
 }
-/* Grammar : filtre par classe (PO, 17/11) — All, 6e, 5e, 4e, 3e (et Lycée s'il y a des leçons) ; retenu sur l'appareil */
-let LCF = (() => {
+/* Grammar et Conjugation : filtre par classe (PO, 17/11) — All, 6e, 5e, 4e, 3e, Lycée (seulement les classes qui ont des leçons) ;
+   retenu sur l'appareil, pour chaque liste */
+const LCKEY = { grammar: "kai.lcfiltre", conj: "kai.lcfiltre.conj" };
+const LCF = Object.fromEntries(Object.entries(LCKEY).map(([t, k]) => {
     try {
-        return localStorage.getItem("kai.lcfiltre") || "all";
+        return [t, localStorage.getItem(k) || "all"];
     }
     catch (e) {
-        return "all";
+        return [t, "all"];
     }
-})();
-function lcFilters() {
-    const cnt = c => lessonsByClass("grammar").filter(id => c === "all" || lclass(id) === c).length;
+}));
+function lcFilters(type) {
+    const cnt = c => lessonsByClass(type).filter(id => c === "all" || lclass(id) === c).length;
     const cs = [["all", "All"], ...LCLASSES.map(([c]) => [c, lclassName(c)])].filter(([c]) => cnt(c) > 0);
-    if (!cs.some(([c]) => c === LCF))
-        LCF = "all";
-    return `<div class="chips lcf" role="group" aria-label="Filter by school year">${cs.map(([c, l]) => `<button class="chip${LCF === c ? " on" : ""}" type="button" data-lcf="${c}" aria-pressed="${LCF === c}">${l}<i>${cnt(c)}</i></button>`).join("")}</div>`;
+    if (!cs.some(([c]) => c === LCF[type]))
+        LCF[type] = "all";
+    return `<div class="chips lcf" role="group" aria-label="Filter by school year">${cs.map(([c, l]) => `<button class="chip${LCF[type] === c ? " on" : ""}" type="button" data-lcf="${c}" aria-pressed="${LCF[type] === c}">${l}<i>${cnt(c)}</i></button>`).join("")}</div>`;
 }
 function renderLessonList(type) {
     const box = document.getElementById(type === "conj" ? "conjbody" : "grammarbody"), wk = weekLesson(type), sug = suggestLesson(type);
@@ -262,10 +264,10 @@ function renderLessonList(type) {
     /* PO, 17/11 : Kai et la leçon de la semaine, puis le filtre par classe, puis les leçons */
     box.innerHTML = `<div class="qhead">${headSvg(say, "smile")}</div>
 <div class="wkline${wk ? " ok" : ""}">${wk ? `${CHECK}<span>This week's ${type === "conj" ? "conjugation" : "grammar"} lesson is done: <b>${esc(LESSONS[wk.id].title)}</b> (${wk.p}%)</span>` : `<span>Lesson of the week: <b>${esc(LESSONS[sug].title)}</b></span>`}</div>
-${type === "grammar" ? lcFilters() : ""}
+${lcFilters(type)}
 ${LCLASSES.map(([c, cefr, fr]) => {
         const ids = lessonsByClass(type).filter(id => lclass(id) === c);
-        return ids.length && (type !== "grammar" || LCF === "all" || LCF === c) ? `<div class="lclass" id="lc-${type}-${c}"><b>${lclassName(c)}</b><span>${cefr} · <span lang="fr">${fr}</span></span><small>${ids.length} lesson${ids.length > 1 ? "s" : ""}</small></div><div class="tlist">${ids.map(lessonTile).join("")}</div>` : "";
+        return ids.length && (LCF[type] === "all" || LCF[type] === c) ? `<div class="lclass" id="lc-${type}-${c}"><b>${lclassName(c)}</b><span>${cefr} · <span lang="fr">${fr}</span></span><small>${ids.length} lesson${ids.length > 1 ? "s" : ""}</small></div><div class="tlist">${ids.map(lessonTile).join("")}</div>` : "";
     }).join("")}`;
 }
 document.getElementById("toConj").addEventListener("click", () => {
@@ -282,13 +284,14 @@ document.getElementById("backCj").addEventListener("click", () => {   /* Grammar
 ["conjbody", "grammarbody"].forEach(id => document.getElementById(id).addEventListener("click", e => {
     const f = e.target.closest("[data-lcf]");
     if (f) {
-        LCF = f.dataset.lcf;
+        const type = id === "conjbody" ? "conj" : "grammar";
+        LCF[type] = f.dataset.lcf;
         try {
-            localStorage.setItem("kai.lcfiltre", LCF);
+            localStorage.setItem(LCKEY[type], LCF[type]);
         }
         catch (err) {
         }
-        renderLessonList("grammar");
+        renderLessonList(type);
         return;
     }
     const ls = e.target.closest("[data-lesson]");
