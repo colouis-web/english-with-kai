@@ -619,6 +619,12 @@ def s06_lecon_grammaire(P):
     P.on("grammar")
     ng = P.ev("() => LORDER.grammar.length")
     P.check(f"Grammaire : {ng} leçons listées (= LORDER)", p.locator("#grammarbody .tense.lesson").count() == ng, p.locator("#grammarbody .tense.lesson").count())
+    # filtre par classe (PO, 17/11) : All, 6e, 5e, 4e, 3e ; « 6e » ne garde que les leçons de 6e, puis on revient à All
+    P.check("Grammaire : filtres par classe (All, 6e, 5e, 4e, 3e)", [x.split()[0] if x else x for x in P.ev("() => [...document.querySelectorAll('#grammarbody [data-lcf]')].map(b => b.firstChild.textContent)")][:5] == ["All", "6e", "5e", "4e", "3e"])
+    P.click('#grammarbody [data-lcf="6e"]')
+    n6 = P.ev("() => LORDER.grammar.filter(id => lclass(id) === '6e').length")
+    P.check(f"Filtre 6e : {n6} leçons, toutes de 6e", p.locator("#grammarbody .tense.lesson").count() == n6 and p.locator("#grammarbody .lclass").count() == 1)
+    P.click('#grammarbody [data-lcf="all"]')
     P.click('[data-lesson="articles"]')
     P.on("lesson")
     P.click("#lpractice")
