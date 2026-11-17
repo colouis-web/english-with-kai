@@ -235,9 +235,10 @@ document.getElementById("lessonbody").addEventListener("click", e => {
 /* listes de leçons : conjugaison et grammaire */
 /* PO, 17/11 : plus de ligne « Passed · best … » sur les tuiles (gain de place) : les étoiles et le vert de la tuile suffisent ;
    le meilleur score reste dans la leçon */
-function lessonTile(id) {
-    const L = LESSONS[id], b = lessonBest(id), st = lessonState(id), wk = weekLesson(L.type);
-    return `<button class="tense lesson${st === "pass" ? " done" : ""}" data-lesson="${id}"><span class="tn">${L.type === "conj" ? esc(id === "be" || id === "have" ? id : String(lessonsByClass("conj").indexOf(id) - 1)) : String(lessonsByClass("grammar").indexOf(id) + 1)}</span><span class="tt2"><b>${L.title}</b><small>${esc(L.fr)} · ${esc(L.sub)}</small><em class="lctag" aria-label="School year: ${lclassName(lclass(id))}">${lclassName(lclass(id))}</em>${starRow(starsFor(lessonGood(id)))}${wk && wk.id === id ? `<em class="wkb">${CHECK}This week</em>` : ""}</span></button>`;
+function lessonTile(id) {   /* tuile compacte (PO, 17/11) : numéro, titre, sujet sur une ligne, étoiles à droite */
+    const L = LESSONS[id], st = lessonState(id), wk = weekLesson(L.type);
+    const n = L.type === "conj" ? esc(id === "be" || id === "have" ? id : String(lessonsByClass("conj").indexOf(id) - 1)) : String(lessonsByClass("grammar").indexOf(id) + 1);
+    return `<button class="tense lesson cmp${st === "pass" ? " done" : ""}" data-lesson="${id}" aria-label="${esc(L.title)} · ${lclassName(lclass(id))}"><span class="tn">${n}</span><span class="tt2"><b>${L.title}${wk && wk.id === id ? ` <em class="wkb">${CHECK}This week</em>` : ""}</b><small>${esc(L.fr)}</small></span>${starRow(starsFor(lessonGood(id)))}</button>`;
 }
 /* Grammar : filtre par classe (PO, 17/11) — All, 6e, 5e, 4e, 3e (et Lycée s'il y a des leçons) ; retenu sur l'appareil */
 let LCF = (() => {
@@ -258,9 +259,9 @@ function lcFilters() {
 function renderLessonList(type) {
     const box = document.getElementById(type === "conj" ? "conjbody" : "grammarbody"), wk = weekLesson(type), sug = suggestLesson(type);
     const say = type === "conj" ? "Let's *conjugate*! One lesson a week: start with *be* and *have*." : "Let's learn *grammar*! One lesson a week.";
-    box.innerHTML = `<div class="qhead">${headSvg(say, "smile")}</div>
+    /* PO, 17/11 : le filtre par classe tout en haut, puis Kai et la leçon de la semaine */
+    box.innerHTML = `${type === "grammar" ? lcFilters() : ""}<div class="qhead">${headSvg(say, "smile")}</div>
 <div class="wkline${wk ? " ok" : ""}">${wk ? `${CHECK}<span>This week's ${type === "conj" ? "conjugation" : "grammar"} lesson is done: <b>${esc(LESSONS[wk.id].title)}</b> (${wk.p}%)</span>` : `<span>Lesson of the week: <b>${esc(LESSONS[sug].title)}</b></span>`}</div>
-${type === "grammar" ? lcFilters() : ""}
 ${LCLASSES.map(([c, cefr, fr]) => {
         const ids = lessonsByClass(type).filter(id => lclass(id) === c);
         return ids.length && (type !== "grammar" || LCF === "all" || LCF === c) ? `<div class="lclass" id="lc-${type}-${c}"><b>${lclassName(c)}</b><span>${cefr} · <span lang="fr">${fr}</span></span><small>${ids.length} lesson${ids.length > 1 ? "s" : ""}</small></div><div class="tlist">${ids.map(lessonTile).join("")}</div>` : "";
