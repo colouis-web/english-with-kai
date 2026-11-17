@@ -1503,7 +1503,11 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .tense.lesson.cmp .tt2 small{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tense.lesson.cmp .wkb{display:inline-flex;vertical-align:1px;margin-left:4px;padding:1px 6px;font-size:11px}
 .tense.lesson.cmp .wkb svg{width:12px;height:12px}
-.tense.lesson.cmp > .lstars{justify-self:end;display:flex;gap:1px}.tense.lesson.cmp > .lstars img{width:16px;height:16px}
+.tense.lesson.cmp .lst{justify-self:end;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.tense.lesson.cmp .lstars{display:flex;gap:1px}.tense.lesson.cmp .lstars img{width:16px;height:16px}
+.tense.lesson.cmp em.lstat{padding:1px 7px;border-radius:8px;font:700 11px/1.4 var(--claude);font-style:normal;letter-spacing:.3px;white-space:nowrap}
+.page.gm .tense.lesson.cmp em.lstat.pass{background:#14532d;color:#86efac}
+.page.gm .tense.lesson.cmp em.lstat.try{background:#2a2846;color:#fbbf24}
+.page.gm .tense.lesson.cmp em.lstat.new{background:#2a2846;color:#9ea2bd}
 .tlist:has(.cmp){gap:8px}
 .chips.lcf{margin-top:0;margin-bottom:6px}
-.chips.lcf + .qhead{margin-top:-8px}
