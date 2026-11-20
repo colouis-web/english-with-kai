@@ -1155,7 +1155,7 @@
    "voix_enregistree": false
   },
   "rendus": {
-   "menu_tuiles": "Dictionary Grammar Conjugation My activityGoal reached today: 15 words! Test yourself Weekly reviewThis week: Grammar 20/20 · Conjugation 19/20 · Irregular verbs 20/20 Dictation My picks CertificatesProve what you know: take a certificate",
+   "menu_tuiles": "Dictionary Grammar Conjugation My activityGoal reached today: 15 words! Test yourself Weekly reviewThis week: Grammar 20/20 · Conjugation 19/20 · Irregular verbs 20/20 Dictation My picks Kai's voyage CertificatesProve what you know: take a certificate",
    "menu_today": "TodayFriday 30 October 10/ 10 words mastered Goal reached! Every extra round gives bonus stars. Bonus round · 10 words",
    "menu_semaine": "This week2 days left ✓Grammar lessonArticles · 100%1/1✓Conjugation lessonTo be · 90%1/1DictationStandard, complex or expert0/1✓My weekly review3 of 3 tests done3/3 Stars this weekEvery word, quiz and lesson counts34 My dictation",
    "menu_bienvenue": "Bravo, Camille Évrard! You learned your 10 words today! How do you feel?",
@@ -1229,5 +1229,5 @@
    "kai.tq.kmvm3z7k0vnx6.grammar.negative": "[\"155ytox\",\"wphazd\"]"
   }
  },
- "rendus_etalonnes_sur": "dictée Expert"
+ "rendus_etalonnes_sur": "Kai's voyage"
 }
