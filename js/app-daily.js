@@ -74,7 +74,7 @@ function dPush(rec, pid) {
     const body = JSON.parse(JSON.stringify(rec));
     dbWrite(() => pDoc(pid).collection("days").doc(rec.d).set(body));
 }
-const PFIELDS = ["name", "u", "lessons", "lv", "lvSince", "lvHist", "tests"];
+const PFIELDS = ["name", "u", "lessons", "lv", "lvSince", "lvHist", "tests", "voy"];   /* voy : Kai's voyage (PO, 20/11) */
 function pPush(p) {
     const body = { id: p.id };
     PFIELDS.forEach(f => {
