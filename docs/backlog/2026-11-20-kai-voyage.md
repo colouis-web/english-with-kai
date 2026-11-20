@@ -1,4 +1,4 @@
-# Kai's voyage — objectifs de vocabulaire du mois (PO, 20/11)
+# Kai's voyage — apprentissage continu du vocabulaire (PO, 20/11)
 
 ## Ce qui est livré (branche `po/voyage-kai`)
 - 9e app du menu, « Kai's voyage » (image `img/kai-voyage.webp`, générée par le PO avec Gemini).
@@ -15,14 +15,16 @@
 - **Certification** : 2 séries sans faute, faites **2 jours différents**.
 - **Tempête** : 21 jours après la certification (ou la dernière tempête), une série sans faute garde le phare allumé.
   Le port reste certifié dans le compte du mois.
-- **Voyage du mois** : 10 ports (4 noms, 3 verbes, 2 adjectifs, 1 adverbe), choisis au premier passage du mois ;
-  les ports non finis reviennent le mois suivant.
+- **Pas d'objectif mensuel** (PO, 20/11 : « on fait le plan et les élèves avancent ») : sur une île, le port suivant s'ouvre
+  dès que le précédent est commencé ; le bouton « Next » propose le port de l'île la moins avancée (pondérée : 4 noms pour
+  3 verbes, 2 adjectifs, 1 adverbe). La carte « My voyage » montre les ports certifiés et les mots appris, île par île.
 - **Données** : dans le profil (`p.voy`, champ ajouté à `PFIELDS`), donc dans les sauvegardes ; rien ne quitte l'appareil.
 
 ## Choix faits par le scrum master (à valider par le PO)
 - Les 2 séries sans faute doivent être faites 2 jours différents, pour éviter la mémoire immédiate.
 - Une faute de frappe d'une lettre (« ALMOST! ») ne compte pas comme une réussite.
 - Les tempêtes sont gardées, mais sans faire perdre le port.
+- Le port suivant d'une île s'ouvre dès que le précédent est commencé (pas besoin d'attendre sa certification).
 - L'ordre de fréquence des noms, adjectifs et adverbes est une première version : il faudra le faire relire comme un contenu
   pédagogique (charte : relecture par Opus).
 

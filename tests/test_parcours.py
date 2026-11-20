@@ -431,11 +431,11 @@ def s02_creation_profil(P):
     P.check("Dictation Expert : un mot oublié et un mot faux comptent 2 erreurs, pas plus",
             P.ev("() => dzAlign(['the','fans','shouted','when','we','scored'], ['the','shouted','wen','we','scored']).filter(Boolean).length") == 4)
     P.back("menu")
-    # Kai's voyage (PO, 20/11) : 9e app ; voyage du mois = 10 ports ; un port certifié après 2 séries sans faute, 2 jours différents
+    # Kai's voyage (PO, 20/11) : 9e app, sans objectif mensuel ; un port certifié après 2 séries sans faute, 2 jours différents
     P.click("#toVoyage")
     P.on("voyage")
-    route = P.ev("() => vyRoute().map(k => k.split(':')[0]).join(',')")
-    P.check("Kai's voyage : 10 ports ce mois-ci (4 noms, 3 verbes, 2 adjectifs, 1 adverbe)", route == "nouns,nouns,nouns,nouns,verbs,verbs,verbs,adjectives,adjectives,adverbs", route)
+    nx = P.ev("() => vyNext().key")
+    P.check("Kai's voyage : pas d'objectif mensuel ; le premier port conseillé est le port 1 de Thing Island (noms)", nx == "nouns:1" and "month" not in P.text("#vybody").lower(), nx)
     tete = P.ev("() => vyHarbours('nouns')[0].w.slice(0, 3).join(',')")
     P.check("Kai's voyage : le port 1 des noms commence par les mots les plus courants", tete == "nouns:time,nouns:day,nouns:year", tete)
     P.no_overflow("voyage")
@@ -457,6 +457,8 @@ def s02_creation_profil(P):
     serie()
     h = P.ev("() => vySt().h['nouns:1']")
     P.check("Kai's voyage : 2e série sans faute un autre jour = port certifié", bool(h.get("c")) and P.ev("() => vyState('nouns', 1)") == "cert", h)
+    nx = P.ev("() => vyNext().key")
+    P.check("Kai's voyage : ensuite Kai conseille l'île la moins avancée (Action Volcano, port 1)", nx == "verbs:1", nx)
     P.check("Kai's voyage : la progression est gardée dans le profil (sauvegardes)", P.ev("() => !!JSON.parse(localStorage.getItem('kai.profiles.v1')).list.find(x => x.voy && x.voy.h['nouns:1'].c)"))
     P.ev("() => { document.querySelectorAll('.congrats').forEach(x => x.remove()); XMODE = null; show('menu', true); }")
     P.on("menu")

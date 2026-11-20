@@ -1,4 +1,5 @@
-/* Kai's voyage (PO, 20/11) : les objectifs de vocabulaire du mois, en voyage d'île en île.
+/* Kai's voyage (PO, 20/11) : un apprentissage continu du vocabulaire, en voyage d'île en île (pas d'objectif mensuel :
+   « on fait le plan et les élèves avancent », PO 20/11).
    - Une île par famille de mots : Thing Island (noms), Action Volcano (verbes), Colour Cove (adjectifs), Swift Reef (adverbes).
    - Chaque île est un chemin de ports ; un port = 10 mots, rangés du plus courant au plus rare : d'abord le niveau minimum
      du mot (lvOkWord), puis l'ordre de fréquence (js/data/frequence-voyage.js ; verbes : liste USAGE), puis la classe f.
@@ -7,8 +8,8 @@
    - La série : 10 phrases d'exemple à trou, on tape le mot (aucun choix de réponses). Une faute de frappe compte comme une faute.
    - Un port est certifié après 2 séries sans faute faites 2 jours différents (PO : « 2 fois sans fautes »).
    - Tempête : 21 jours après sa certification (ou sa dernière tempête), une série sans faute garde le phare allumé.
-   - Le voyage du mois : 10 ports (4 de noms, 3 de verbes, 2 d'adjectifs, 1 d'adverbes), choisis le premier jour où l'élève
-     ouvre l'app dans le mois ; les ports non finis reviennent le mois suivant.
+   - Chaque élève avance à son rythme : sur une île, le port suivant s'ouvre dès qu'on a commencé le précédent.
+     Le bouton « Next » propose le port de l'île la moins avancée (pondérée : 4 noms pour 3 verbes, 2 adjectifs, 1 adverbe).
    - Données : dans le profil (p.voy), donc dans les sauvegardes ; rien ne quitte l'appareil.
    Script classique, chargé après app-picks.js (réutilise t3Ok, t3Blank, headSvg, la page du quiz). */
 "use strict";
@@ -21,17 +22,14 @@ const VY_SIZE = 10, VY_RUNS = 2, VY_STORM = 21;
 let VYV = { i: null, h: null }, VY = null;
 const vyIsl = k => VY_ISL.find(x => x.k === k);
 const vyHkey = (k, n) => k + ":" + n;
-const vyMonth = () => todayKey().slice(0, 7);
-/* données de l'élève : p.voy = { h: { "nouns:4": { w: [clés], r: [jours sans faute], c: jour certifié, s: jour de la dernière tempête } },
-   m: { "2026-11": [clés des ports du mois] } } */
+/* données de l'élève : p.voy = { h: { "nouns:4": { w: [clés], r: [jours sans faute], c: jour certifié, s: jour de la dernière tempête } } } */
 function vySt() {
     const p = curProf();
     if (!p)
-        return { h: {}, m: {} };
+        return { h: {} };
     if (!p.voy || typeof p.voy !== "object")
-        p.voy = { h: {}, m: {} };
+        p.voy = { h: {} };
     p.voy.h = p.voy.h || {};
-    p.voy.m = p.voy.m || {};
     return p.voy;
 }
 function vySave() {
@@ -105,38 +103,34 @@ function vyState(k, n) {
         return daysBetween(h.s || h.c, T) >= VY_STORM ? "storm" : "cert";
     return h.r && h.r.length ? "run" : "new";
 }
-/* le voyage du mois : 10 ports, choisis une fois par mois (les ports non certifiés les plus proches de chaque île) */
-function vyRoute() {
-    const st = vySt(), M = vyMonth();
-    if (st.m[M] && st.m[M].length)
-        return st.m[M];
-    const R = [], spare = [];
-    VY_ISL.forEach(I => {
-        const free = vyHarbours(I.k).filter(h => !(st.h[vyHkey(I.k, h.n)] || {}).c).map(h => vyHkey(I.k, h.n));
-        R.push(...free.slice(0, I.per));
-        spare.push(...free.slice(I.per));
-    });
-    while (R.length < VY_SIZE && spare.length)   /* une île finie : ses ports vont aux autres îles */
-        R.push(spare.shift());
-    if (curProf()) {
-        st.m[M] = R;
-        vySave();
-    }
-    return R;
-}
 const vyDone = key => !!(vySt().h[key] || {}).c;
-/* le prochain port conseillé : un port du mois pas encore certifié et pas déjà réussi aujourd'hui, sinon une tempête */
+/* le dernier port ouvert d'une île : le port 1, puis le port qui suit le dernier port commencé */
+function vyOpen(k) {
+    const st = vySt();
+    return Math.max(1, ...vyHarbours(k).filter(h => st.h[vyHkey(k, h.n)]).map(h => h.n + 1));
+}
+/* le prochain port conseillé : sur l'île la moins avancée, le premier port ouvert pas encore certifié et pas déjà réussi
+   aujourd'hui ; sinon un port en tempête ; sinon « reviens demain » (2e série) ou « tout est fini » */
 function vyNext() {
-    const st = vySt(), T = todayKey(), R = vyRoute();
-    const todo = R.filter(key => !vyDone(key));
-    const free = todo.find(key => !((st.h[key] || {}).r || []).includes(T));
-    if (free)
-        return { key: free };
+    const st = vySt(), T = todayKey(), C = [];
+    let left = 0;
+    VY_ISL.forEach(I => {
+        const H = vyHarbours(I.k), open = vyOpen(I.k), todo = H.filter(h => !vyDone(vyHkey(I.k, h.n)));
+        left += todo.length;
+        const h = todo.find(h => h.n <= open && !((st.h[vyHkey(I.k, h.n)] || {}).r || []).includes(T));
+        if (h)
+            C.push({ key: vyHkey(I.k, h.n), w: H.filter(x => vyDone(vyHkey(I.k, x.n))).length / I.per });
+    });
+    C.sort((a, b) => a.w - b.w);
+    if (C.length)
+        return { key: C[0].key };
     const storm = Object.keys(st.h).find(key => { const [k, n] = key.split(":"); return vyState(k, +n) === "storm"; });
     if (storm)
         return { key: storm, storm: true };
-    return todo.length ? { wait: true } : { done: true };
+    return left ? { wait: true } : { done: true };
 }
+const vyCount = () => Object.values(vySt().h).filter(h => h.c).length;
+const vyWords = () => Object.values(vySt().h).filter(h => h.c).reduce((t, h) => t + (h.w || []).length, 0);
 const vyLabel = key => { const [k, n] = key.split(":"); return `${vyIsl(k).name} · Harbour ${n}`; };
 /* ===== la page du voyage : la carte, une île, un port ===== */
 function openVoyage() {
@@ -150,11 +144,11 @@ const vyIcon = {
     storm: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 16a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1A4 4 0 0 1 17 16M12 13l-2 4h4l-2 4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     lock: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>'
 };
-function vyMonthCard() {
-    const R = vyRoute(), n = R.filter(vyDone).length, T = todayKey(), d = kDate(T), last = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate() - d.getDate();
-    const per = VY_ISL.map(I => { const mine = R.filter(key => key.startsWith(I.k + ":")); return mine.length ? `<span style="--n:${I.n}">${I.fam} ${mine.filter(vyDone).length}/${mine.length}</span>` : ""; }).join("");
-    return `<div class="vymonth"><div class="vymh"><span>${d.toLocaleDateString("en-GB", { month: "long" })} voyage</span><span>${last ? `${last} day${last > 1 ? "s" : ""} left` : "Last day!"}</span></div>
-<div class="vymn"><b>${n}</b><span>/ ${R.length} harbours certified</span></div><div class="pbar"><i style="width:${Math.round(100 * n / Math.max(1, R.length))}%"></i></div><div class="vyfam">${per}</div></div>`;
+/* la carte « My voyage » : ports certifiés et mots appris, île par île */
+function vyCard() {
+    const n = vyCount(), per = VY_ISL.map(I => { const H = vyHarbours(I.k); return `<span style="--n:${I.n}">${I.fam} ${H.filter(h => vyDone(vyHkey(I.k, h.n))).length}/${H.length}</span>`; }).join("");
+    return `<div class="vymonth"><div class="vymh"><span>My voyage</span><span>${vyWords()} words learnt</span></div>
+<div class="vymn"><b>${n}</b><span>harbour${n === 1 ? "" : "s"} certified</span></div><div class="vyfam">${per}</div></div>`;
 }
 function renderVoyage() {
     const B = document.getElementById("vybody");
@@ -166,26 +160,26 @@ function renderVoyage() {
     if (VYV.i)
         return renderIsland(B, h1);
     h1.textContent = "Kai's voyage";
-    const nx = vyNext(), R = vyRoute(), n = R.filter(vyDone).length;
-    const say = !curProf() ? "Create your profile first, then we *set sail*!" : nx.done ? "Every harbour of the month is *certified*! You're a real captain!" : nx.wait ? "Great sailing today! Come back *tomorrow* for your second runs." : n ? `*${n}/${R.length}* harbours this month. Let's sail on!` : `This month: *${R.length} harbours* to reach. Let's set sail!`;
+    const nx = vyNext(), n = vyCount();
+    const say = !curProf() ? "Create your profile first, then we *set sail*!" : nx.done ? "Every harbour is *certified*! You're a real captain!" : nx.wait ? "Great sailing today! Come back *tomorrow* for your second runs." : n ? `*${n} harbour${n === 1 ? "" : "s"}* certified. Let's sail on!` : "Ten words in each *harbour*. Let's set sail!";
     B.innerHTML = `<div class="qhead">${headSvg(say, n ? "smile" : "head")}</div>
-${vyMonthCard()}
+${vyCard()}
 ${nx.key ? `<button class="vygo" type="button" data-vyh="${nx.key}">${nx.storm ? "Storm! " : "Next: "}${esc(vyLabel(nx.key))}${GOSVG}</button>` : ""}
 <div class="vymap"><img src="img/voyage-carte.webp" alt="Map of the archipelago" loading="lazy">
 ${VY_ISL.map((I, j) => { const H = vyHarbours(I.k), c = H.filter(h => vyDone(vyHkey(I.k, h.n))).length; return `<button class="vyisl i${j}" type="button" data-vyi="${I.k}" style="--n:${I.n}"><b>${I.name}</b><small>${I.fam} · ${c}/${H.length}</small></button>`; }).join("")}
 <span class="vyisl i4 lock">${vyIcon.lock}<small>Secret island</small></span></div>`;
 }
 function renderIsland(B, h1) {
-    const I = vyIsl(VYV.i), H = vyHarbours(I.k), R = vyRoute(), st = vySt();
+    const I = vyIsl(VYV.i), H = vyHarbours(I.k), st = vySt(), nx = vyNext().key;
     h1.textContent = I.name;
-    const started = H.filter(h => st.h[vyHkey(I.k, h.n)]).map(h => h.n), open = Math.max(1, ...started.map(n => n + 1), ...R.filter(key => key.startsWith(I.k + ":")).map(key => +key.split(":")[1]));
+    const open = vyOpen(I.k);
     const vis = H.filter(h => h.n <= open + 2);
     B.innerHTML = `<div class="vyhead" style="--n:${I.n}"><img src="img/kai-voyage.webp" alt=""><div><span>${I.fam} · ${H.length} harbours</span><p>Harbour 1 has the 10 most useful ${I.fam.toLowerCase()}. The further you sail, the rarer the words!</p></div></div>
 <ol class="vyports">${vis.map(h => {
-        const key = vyHkey(I.k, h.n), s = vyState(I.k, h.n), lock = h.n > open, inR = R.includes(key), runs = ((st.h[key] || {}).r || []).length;
-        const sub = s === "cert" ? "Certified" : s === "storm" ? "Storm!" : s === "run" ? `${Math.min(runs, VY_RUNS)} / ${VY_RUNS} perfect runs` : lock ? "Locked" : inR ? "This month" : "Ready";
+        const key = vyHkey(I.k, h.n), s = vyState(I.k, h.n), lock = h.n > open, inR = key === nx, runs = ((st.h[key] || {}).r || []).length;
+        const sub = s === "cert" ? "Certified" : s === "storm" ? "Storm!" : s === "run" ? `${Math.min(runs, VY_RUNS)} / ${VY_RUNS} perfect runs` : lock ? "Locked" : key === nx ? "Next" : "Ready";
         const words = h.w.slice(0, 5).map(x => (allWords().byKey.get(x) || { d: {} }).d).map(d => esc(d.v || d.w || "")).join(" · ");
-        return `<li><button type="button" class="vyport ${s}${lock ? " lock" : ""}${inR ? " month" : ""}" ${lock ? "disabled" : `data-vyh="${key}"`}><span class="vyn">${s === "cert" ? vyIcon.flag : s === "storm" ? vyIcon.storm : lock ? vyIcon.lock : h.n}</span><span class="vyt"><b>Harbour ${h.n}</b><em>${sub}</em><small>${lock ? `${h.w.length} new ${I.fam.toLowerCase()}` : words + "…"}</small></span></button></li>`;
+        return `<li><button type="button" class="vyport ${s}${lock ? " lock" : ""}${inR ? " next" : ""}" ${lock ? "disabled" : `data-vyh="${key}"`}><span class="vyn">${s === "cert" ? vyIcon.flag : s === "storm" ? vyIcon.storm : lock ? vyIcon.lock : h.n}</span><span class="vyt"><b>Harbour ${h.n}</b><em>${sub}</em><small>${lock ? `${h.w.length} new ${I.fam.toLowerCase()}` : words + "…"}</small></span></button></li>`;
     }).join("")}</ol>
 ${H.length > vis.length ? `<p class="vymore">${H.length - vis.length} more harbours to discover</p>` : ""}`;
 }
@@ -300,14 +294,14 @@ function vyEnd() {
     XMODE = "vyend";
     document.getElementById("qn").textContent = "";
     QW().innerHTML = `<p class="qpart">${esc(vyLabel(VY.key))} · Results</p><div class="qhead">${headSvg(say, perfect ? "smile" : "head")}</div>
-${out === "cert" ? `<div class="vycert">${vyIcon.flag}<b>Harbour ${hn} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyRoute().filter(vyDone).length}/${vyRoute().length} this month</span></div>` : ""}
+${out === "cert" ? `<div class="vycert">${vyIcon.flag}<b>Harbour ${hn} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyCount()} harbour${vyCount() === 1 ? "" : "s"} on your voyage</span></div>` : ""}
 <div class="scores one"><div class="sc${perfect ? " ok" : ""}"><i>${esc(vyIsl(k).name)}</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
 <ul class="recap">${VY.items.map((it, j) => `<li><span class="m ${VY.res[j] ? "ok" : "ko"}">${VY.res[j] ? CHECK : CROSS}</span><b>${esc(t3Ans(it))}</b><i>${esc(it.f)}</i></li>`).join("")}</ul>
 <div class="endbtns"><button class="listen" id="vyagain">Try again</button><button class="ghost" id="vyback">Harbour ${hn}</button></div>`;
     if (out === "cert" || out === "storm")   /* la fenêtre « Congrats! » de Kai, une fois qu'il a fini de parler */
         try {
-            const R = vyRoute(), c = R.filter(vyDone).length;
-            afterSpeech(() => out === "cert" ? kaiCongrats(`Harbour ${hn} certified!`, `${esc(vyIsl(k).name)}: your flag is planted. <b>${c}/${R.length}</b> harbours this month.`, `Congrats! Harbour ${hn} is certified!`)
+            const c = vyCount();
+            afterSpeech(() => out === "cert" ? kaiCongrats(`Harbour ${hn} certified!`, `${esc(vyIsl(k).name)}: your flag is planted. <b>${vyWords()}</b> words learnt on your voyage.`, `Congrats! Harbour ${hn} is certified!`)
                 : kaiCongrats("Storm beaten!", `Harbour ${hn} keeps its lighthouse on.`, "Congrats! You beat the storm!"));
         }
         catch (e) {
