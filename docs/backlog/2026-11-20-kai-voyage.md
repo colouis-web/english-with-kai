@@ -14,7 +14,7 @@
   pluriel, l'indice donne la forme de base. Une faute de frappe compte comme une faute.
 - **Certification** : 2 séries sans faute, faites **2 jours différents**.
 - **Tempête** : 21 jours après la certification (ou la dernière tempête), une série sans faute garde le phare allumé.
-  Le port reste certifié dans le compte du mois.
+  Le port reste compté comme certifié.
 - **Pas d'objectif mensuel** (PO, 20/11 : « on fait le plan et les élèves avancent ») : sur une île, le port suivant s'ouvre
   dès que le précédent est commencé ; le bouton « Next » propose le port de l'île la moins avancée (pondérée : 4 noms pour
   3 verbes, 2 adjectifs, 1 adverbe). La carte « My voyage » montre les ports certifiés et les mots appris, île par île.
@@ -32,5 +32,5 @@
 - Images Gemini : la carte définitive (plus réaliste, haut de l'image libre), le bateau qui s'améliore, les états d'un port,
   les tampons du passeport. Les positions des noms des îles sur la carte (`.vyisl.i0` à `.i4` dans `css/app.css`) seront
   à ajuster sur la nouvelle carte.
-- Le passeport (tampons des îles et des mois réussis) et le bateau de Kai qui s'améliore.
+- Le passeport (un tampon par île terminée) et le bateau de Kai qui s'améliore.
 - Un rappel de Kai sur la carte Kai du menu, et une ligne sur la carte This week.
