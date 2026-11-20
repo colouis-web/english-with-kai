@@ -1439,6 +1439,20 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .dzg.right{border-color:#15803d;background:#dcfce7;color:#14532d}
 .dzg.wrong{border-color:#b91c1c;background:#fee2e2;color:#7f1d1d;text-decoration:line-through}
 .dzg.shake{animation:shake .35s}
+/* Dictation Expert (PO, 20/11) : la phrase entière à écrire, puis la correction mot à mot */
+.dzbtns{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.dzbtns .listen.sm{margin:0}
+.dzbtns .slow{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--ink);outline:2px solid var(--ink);outline-offset:-2px}
+.dzn{margin:10px 0 6px;font:700 15px var(--claude);color:#5b5f7a;text-align:center}
+.dzta{display:block;width:100%;box-sizing:border-box;min-height:84px;margin:0 0 10px;padding:10px 12px;resize:vertical;border:2px solid var(--ink);border-bottom-width:4px;border-bottom-color:#0e7490;border-radius:12px;background:#fff;color:var(--ink);font:700 18px/1.45 var(--claude)}
+.dzta:focus{outline:3px solid #22d3ee;outline-offset:1px}
+.dzta:disabled{background:#f6f7fa;color:#3b3f5c}
+.dzta.shake{animation:shake .35s}
+.dzw{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:4px 0 10px}
+.dzw span{padding:3px 9px;border-radius:9px;border:2px solid;font:700 16px var(--claude)}
+.dzw .right{border-color:#15803d;background:#dcfce7;color:#14532d}
+.dzw .wrong{border-color:#b91c1c;background:#fee2e2;color:#7f1d1d}
+.recap.dzr b{font-size:15px;line-height:1.35}
 #dzcheck{display:flex;margin:18px auto 0}   /* centré comme le Check de Standard, sans coller au cadre (PO, 14/11) */
 .scores.one{grid-template-columns:minmax(0,240px);justify-content:center}   /* une seule note (dictée) : au centre */
 /* My picks (PO, 15/11) : bouton « Pick this word » dans le quiz, et la page de la semaine */

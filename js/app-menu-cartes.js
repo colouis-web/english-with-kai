@@ -32,7 +32,7 @@ function mcWeek() {
     }).join("");
     const todo = ["grammar", "conj"].find(type => !weekLesson(type)), dz = typeof dzWeek === "function" ? dzWeek() : null;
     /* Dictation, tâche de la semaine (PO 14/11) : une dictée, Standard ou Complex */
-    const dzRow = row('data-mcd="1"', !!dz, "Dictation", dz ? `${dz.lv === "cpx" ? "Complex" : "Standard"} · ${dz.n}/${dz.N} words` : "Standard or complex · ≈ 3 min", dz ? "1/1" : "0/1");
+    const dzRow = row('data-mcd="1"', !!dz, "Dictation", dz ? `${dzLvName(dz.lv)} · ${dz.n}/${dz.N} words` : "Standard, complex or expert", dz ? "1/1" : "0/1");
     box.innerHTML = `<div class="mch"><span class="mct">This week</span><span class="mcd">${left ? `${left} day${left > 1 ? "s" : ""} left` : "Last day!"}</span></div>
 <div class="mrows">${les}${dzRow}${row('data-mct="1"', nt >= N, "My weekly review", nt ? `${nt} of ${N} tests done` : "Grammar, conjugation, irregular verbs", `${nt}/${N}`)}
 <div class="mrow mstar"><span class="mtick">${STAR}</span><span class="mtx"><b>Stars this week</b><small>Every word, quiz and lesson counts</small></span><em>${st}</em></div></div>
