@@ -393,26 +393,30 @@ function vyStart(key) {
 }
 const vyDots = () => `<div class="dots" aria-hidden="true">${VY.items.map((x, j) => `<i class="${VY.res[j] === undefined ? (j === VY.i ? "cur" : "") : VY.res[j] ? "ok" : "ko"}"></i>`).join("")}</div>`;
 function renderVy() {
-    const it = VY.items[VY.i], ans = t3Ans(it), /* Kai dit le mot français de la phrase (« heure » pour « What time is it? ») */ hint = t3Norm(ans) !== t3Norm(it.base) ? `<p class="vyhint">Hint: <b>${esc(it.base)}</b></p>` : "";
+    vyMicStop();
+    const mic = vyMicOk(), it = VY.items[VY.i], ans = t3Ans(it), /* Kai dit le mot français de la phrase (« heure » pour « What time is it? ») */ hint = t3Norm(ans) !== t3Norm(it.base) ? `<p class="vyhint">Hint: <b>${esc(it.base)}</b></p>` : "";
     document.getElementById("qn").textContent = `${VY.i + 1}/${VY.items.length}`;
     QW().innerHTML = `<p class="qpart">${esc(vyLabel(VY.key))} · Fill the gap</p>${vyDots()}
 <div class="qhead">${headSvg(`*${((String(it.fr).match(/\*(.+?)\*/) || [])[1] || it.f.split("/")[0]).trim()}*`, "head", "", "fr")}</div>
 <div class="t3card pkcard"><p class="t3en">${esc(t3Blank(it.en)).replace(/_____([.,!?;:]*)/, '<span class="bw"><span class="blank" role="img" aria-label="missing word"></span>$1</span>')}</p><p class="t3fr">${hl(it.fr)}</p>${hint}</div>
-<input class="t3in" id="vyin" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Type the missing word" aria-label="Missing word">
-<button class="listen" id="vycheck">Check${GOSVG}</button><div class="fb" id="vyfb" aria-live="polite"></div>`;
-    setTimeout(() => {
-        const i = document.getElementById("vyin");
-        if (i)
-            try {
-                i.focus({ preventScroll: true });
-            }
-            catch (e) {
-            }
-    }, 250);
+<div class="vyrow"><input class="t3in" id="vyin" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${mic ? "Type or say" : "Type"} the missing word" aria-label="Missing word">${mic ? `<button class="mic vymic" id="vymic" type="button" aria-label="Say the word">${MICSVG}</button>` : ""}</div>
+${mic ? '<p class="vymsg" id="vymsg">Type the word, or tap the microphone and say it.</p>' : ""}<button class="listen" id="vycheck">Check${GOSVG}</button><div class="fb" id="vyfb" aria-live="polite"></div>`;
+    /* avec le micro, sur téléphone, on n'ouvre pas le clavier d'office : l'enfant choisit */
+    if (!(mic && matchMedia("(pointer: coarse)").matches))
+        setTimeout(() => {
+            const i = document.getElementById("vyin");
+            if (i)
+                try {
+                    i.focus({ preventScroll: true });
+                }
+                catch (e) {
+                }
+        }, 250);
 }
 function vyCheck() {
     if (VY.res[VY.i] !== undefined)
         return;
+    vyMicStop();
     const it = VY.items[VY.i], inp = document.getElementById("vyin"), v = inp.value;
     if (!v.trim()) {
         inp.classList.add("shake");
@@ -425,12 +429,111 @@ function vyCheck() {
     inp.disabled = true;
     inp.classList.add(ok ? "right" : "wrong");
     document.getElementById("vycheck").remove();
+    document.querySelectorAll("#vymic, #vymsg").forEach(x => x.remove());
     document.querySelector("#qwrap .dots").outerHTML = vyDots();
     document.getElementById("vyfb").innerHTML = `<p class="verdict ${ok ? "ok" : "ko"}">${ok ? ["YES!", "PERFECT!", "WELL DONE!"][VY.i % 3] : typo ? `ALMOST! IT'S <b>${esc(t3Ans(it).toUpperCase())}</b>` : `IT'S <b>${esc(t3Ans(it).toUpperCase())}</b>`}</p>
 <div class="ex"><button class="snd sm" id="vysay" aria-label="Listen to the sentence">${SPK}</button><div><p class="en">${hl(it.en)}</p><p class="fr">${hl(it.fr)}</p></div></div>
 <button class="listen next" id="vynext">${last ? "See my score" : "Next"}${GOSVG}</button>`;
     sayOne(plain(it.en), document.getElementById("vysay"));
     document.getElementById("vynext").scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+/* ---------- micro (PO, 21/11) : dire le mot au lieu de le taper, au choix, à chaque question ----------
+   Le navigateur propose plusieurs écritures de ce qu'il entend (jusqu'à 5) : on garde celle qui correspond au mot
+   attendu, s'il y en a une (« their » / « there », « 7 » / « seven »). Sinon, la première. Le mot entendu s'écrit dans la
+   case : l'enfant voit l'orthographe, peut corriger ou recommencer, puis touche Check (rien n'est validé tout seul). */
+let VYREC = null, VYMICOFF = false;
+const vyMicOk = () => !!MIC_SR && !VYMICOFF;
+function vyMicStop() {
+    if (VYREC)
+        try {
+            VYREC.abort();
+        }
+        catch (e) {
+        }
+    VYREC = null;
+}
+function vyHeard(alts, it) {
+    const ans = t3Ans(it), cands = alts.map(a => String(a || "").trim().replace(/[.!?]+$/, "")).filter(Boolean).flatMap(micVariants);
+    if (cands.some(c => t3Ok(c, it)))
+        return { t: ans, ok: true }; /* « the friend », « Friend. » : on écrit le mot attendu, bien orthographié */
+    return { t: cands[0] || "", ok: false };
+}
+function vyListen() {
+    if (!document.getElementById("vymic") || VY.res[VY.i] !== undefined)
+        return;
+    if (VYREC) {
+        try {
+            VYREC.stop();
+        }
+        catch (e) {
+        }
+        return;
+    }
+    micAsk(vyListenGo);
+}
+function vyListenGo() {
+    const b = document.getElementById("vymic"), msg = document.getElementById("vymsg"), inp = document.getElementById("vyin"), i0 = VY.i, it = VY.items[i0];
+    if (!b || VY.res[i0] !== undefined)
+        return;
+    try {
+        stopSpeech();
+    }
+    catch (e) {
+    }
+    let r;
+    try {
+        r = micNew(5, true);
+    }
+    catch (e) {
+        return;
+    }
+    VYREC = r;
+    let heard = "";
+    const here = () => VYREC === r && VY.i === i0 && VY.res[i0] === undefined && document.getElementById("vymic") === b;
+    b.classList.add("on");
+    msg.textContent = "I'm listening… say the word!";
+    r.onresult = e => {
+        if (!here())
+            return;
+        const R = Array.from(e.results), alts = R.length === 1 ? Array.from(R[0]).map(a => a.transcript) : [R.map(x => x[0].transcript).join(" ")];
+        heard = vyHeard(alts, it).t;
+        inp.value = heard;
+    };
+    r.onerror = e => {
+        if (!here())
+            return;
+        const k = micErr(e);
+        if (k === "off") {
+            VYMICOFF = true;
+            b.remove();
+            msg.textContent = "Le micro n'est pas autorisé ici : écris le mot.";
+            inp.placeholder = "Type the missing word";
+        }
+        else
+            msg.textContent = k === "none" ? "I didn't hear anything. Try again!" : "Oops, try again!";
+    };
+    r.onend = () => {
+        if (VYREC === r)
+            VYREC = null;
+        b.classList.remove("on");
+        if (VY.i !== i0 || VY.res[i0] !== undefined || VYMICOFF)
+            return;
+        if (heard) {
+            msg.textContent = "Is it right? Tap Check! (or try again)";
+            const c = document.getElementById("vycheck");
+            if (c)
+                c.focus({ preventScroll: true });
+        }
+        else if (msg.textContent === "I'm listening… say the word!")
+            msg.textContent = "I didn't hear anything. Try again!";
+    };
+    try {
+        r.start();
+    }
+    catch (e) {
+        VYREC = null;
+        b.classList.remove("on");
+    }
 }
 /* fin de série : une série sans faute est notée (un jour compte une fois) ; 2 jours différents = port certifié */
 function vyEnd() {
@@ -557,7 +660,11 @@ document.addEventListener("click", e => {
         e.stopPropagation();
         e.preventDefault();
     };
-    if (t.closest("#vycheck")) {
+    if (t.closest("#vymic")) {
+        stop();
+        vyListen();
+    }
+    else if (t.closest("#vycheck")) {
         stop();
         vyCheck();
     }
@@ -583,6 +690,7 @@ document.addEventListener("click", e => {
     else if (t.closest("#vyback") || t.closest("#backQ")) {
         stop();
         stopSpeech();
+        vyMicStop();
         XMODE = null;
         VYV = { i: VY.key.split(":")[0], h: VY.key };
         renderVoyage();

@@ -449,6 +449,20 @@ def s02_creation_profil(P):
     P.click("#vystart")
     P.on("quiz")
     P.check("Kai's voyage : la série = 7 phrases à trou (une par mot du port), une case à remplir, aucun choix", P.ev("() => VY.items.length") == 7 and P.visible("#vyin") and p.locator("#qwrap .opt").count() == 0)
+    # micro (PO, 21/11) : au choix avec le clavier ; message avant le 1er usage ; nombres et homophones bien écrits
+    if P.ev("() => !!MIC_SR"):
+        P.check("Kai's voyage : un bouton micro à côté de la case", P.visible("#vymic"))
+        P.click("#vymic")
+        P.check("Micro : avant le 1er usage, un message dit à l'enfant où part sa voix et de prévenir ses parents",
+                P.visible("#modal.on") and "parents" in P.text("#mbody") and "Google" in P.text("#mbody"))
+        p.locator('#mbody [data-mclose]').click()
+        P.check("Micro : « Not now » ne lance rien et le message reviendra", P.ev("() => !VYREC && localStorage.getItem('kai.micinfo') === null"))
+    else:
+        P.note("Pas de reconnaissance vocale dans ce navigateur : bouton micro non testé")
+    P.check("Micro : « 7 » s'écrit aussi « seven », « 3rd » « third », « 21 » « twenty-one »",
+            P.ev("() => [micVariants('7')[1], micVariants('3rd')[1], micVariants('21')[1]].join()") == "seven,third,twenty-one")
+    P.check("Micro : parmi ce que le navigateur propose, Kai garde le mot attendu (their / there) et l'écrit bien",
+            P.ev("() => JSON.stringify(vyHeard(['there', 'their'], {en: '*Their* dog is big.'}))") == '{"t":"Their","ok":true}')
     serie()
     h = P.ev("() => vySt().h['nouns:1']")
     P.check("Kai's voyage : 1re série sans faute notée, port pas encore certifié", len(h["r"]) == 1 and not h.get("c"), h)

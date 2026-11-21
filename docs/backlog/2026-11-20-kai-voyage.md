@@ -66,3 +66,18 @@
   un code parent (page Me) est conseillé pour que l'élève ne s'offre pas son cadeau tout seul.
 - Montants faciles à changer : `VY_COIN` et `vyCoinsCert` dans `js/app-voyage.js`.
 - Port 1 des noms : **Square One** (au lieu de Ground Zero, qui désigne aussi le lieu d'une catastrophe).
+
+## 21/11 — le micro dans la série (PO : « la reconnaissance vocale pour éviter de taper les réponses »)
+- **Au choix, partout** (choix du PO) : à chaque phrase à trou, un bouton micro à côté de la case ; l'enfant peut aussi taper.
+  Le mot entendu s'écrit dans la case et l'enfant touche Check : rien n'est validé tout seul, une erreur d'écoute se corrige.
+- Le navigateur propose jusqu'à 5 écritures de ce qu'il entend : Kai garde celle qui correspond au mot attendu (their / there,
+  « 7 » → seven, « 3rd » → third) et l'écrit avec la bonne orthographe, pour que l'enfant la voie.
+- Sur téléphone, avec le micro, le clavier ne s'ouvre plus tout seul.
+- **Enfant d'abord** (revue d'Ani I-1, jamais faite jusqu'ici) : avant le premier usage du micro sur l'appareil, un message
+  dit à l'enfant que sa voix part chez Google, Apple ou Microsoft et de prévenir ses parents (choix du PO : un simple
+  message, sans code parent). Il vaut aussi pour « Let's talk English ». Clé `kai.micinfo`. README corrigé.
+- Code commun : `js/app-micro.js` (Let's talk et le voyage).
+- **Constat** : l'orthographe n'est plus travaillée quand l'enfant dit le mot. À suivre : si les ports se certifient surtout au
+  micro, garder la 2e série tapée.
+- **Non fait** : la reconnaissance sur l'appareil (Chrome, `processLocally`), qui garderait la voix ici. Son test de
+  disponibilité fait planter l'onglet du Chromium des tests : à reprendre quand l'API sera stable.

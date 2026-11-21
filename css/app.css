@@ -1642,3 +1642,7 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .vycar .vystamp{max-width:72px}
 .vykai .vygo span{display:flex;flex-direction:column;align-items:center;line-height:1.15}
 .vykai .vygo small{font:700 12px var(--claude);letter-spacing:1px;opacity:.8}
+/* Kai's voyage : micro à côté de la case (PO, 21/11) */
+.vyrow{display:flex;align-items:center;gap:10px}.vyrow .t3in{flex:1;min-width:0}
+.mic.vymic{width:58px;height:58px;flex:none}.mic.vymic svg{width:28px;height:28px}
+.vymsg{margin:0;font:500 15px var(--claude);color:var(--mut);text-align:center}
