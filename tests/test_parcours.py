@@ -441,14 +441,14 @@ def s02_creation_profil(P):
     P.no_overflow("voyage")
 
     def serie():
-        for _ in range(10):
+        for _ in range(P.ev("() => VY.items.length")):
             p.locator("#vyin").fill(P.ev("() => t3Ans(VY.items[VY.i])"))
             p.locator("#vyin").press("Enter")
             p.locator("#vynext").click()
     P.click(".vygo")
     P.click("#vystart")
     P.on("quiz")
-    P.check("Kai's voyage : la série = 10 phrases à trou, une case à remplir, aucun choix", P.ev("() => VY.items.length") == 10 and P.visible("#vyin") and p.locator("#qwrap .opt").count() == 0)
+    P.check("Kai's voyage : la série = 7 phrases à trou (une par mot du port), une case à remplir, aucun choix", P.ev("() => VY.items.length") == 7 and P.visible("#vyin") and p.locator("#qwrap .opt").count() == 0)
     serie()
     h = P.ev("() => vySt().h['nouns:1']")
     P.check("Kai's voyage : 1re série sans faute notée, port pas encore certifié", len(h["r"]) == 1 and not h.get("c"), h)
@@ -457,6 +457,9 @@ def s02_creation_profil(P):
     serie()
     h = P.ev("() => vySt().h['nouns:1']")
     P.check("Kai's voyage : 2e série sans faute un autre jour = port certifié", bool(h.get("c")) and P.ev("() => vyState('nouns', 1)") == "cert", h)
+    g = P.ev("() => vyGold()")
+    P.check("Kai's voyage : pièces d'or — 1 pour la 1re série, 3 pour la 2e le lendemain (4 en tout)", g["n"] == 4 and g["tot"] == 4, g)
+    P.check("Kai's voyage : le port 1 des noms s'appelle Square One", P.ev("() => vyHname('nouns', 1)") == "Square One")
     nx = P.ev("() => vyNext().key")
     P.check("Kai's voyage : ensuite Kai conseille l'île la moins avancée (Action Volcano, port 1)", nx == "verbs:1", nx)
     P.check("Kai's voyage : la progression est gardée dans le profil (sauvegardes)", P.ev("() => !!JSON.parse(localStorage.getItem('kai.profiles.v1')).list.find(x => x.voy && x.voy.h['nouns:1'].c)"))
