@@ -45,6 +45,7 @@
 <button class="app" id="toTests" style="--n:#fb923c"><div class="aic"><img src="img/sc-think-sq.webp" alt="" loading="lazy"></div><b>Weekly review</b><span class="asum" hidden></span></button>
 <button class="app" id="toDictee" style="--n:#38bdf8"><div class="aic"><img src="img/sc-chill.webp" alt="" loading="lazy"></div><b>Dictation</b></button>
 <button class="app" id="toPicks" style="--n:#f59e0b"><div class="aic"><img src="img/kai-magic.webp" alt="" loading="lazy"></div><b>My picks</b></button>
+<button class="app" id="toVoyage" style="--n:#2dd4bf"><div class="aic"><img src="img/kai-voyage.webp" alt="" loading="lazy"></div><b>Kai's voyage</b></button>
 <!-- Certificates : masquée à la demande du PO (03/11) ; openCertificates reste en place -->
 <button class="app" id="toCerts" style="--n:#f472b6" hidden><div class="aic"><img src="img/kai-diploma.webp" alt="" loading="lazy"><em class="abadge" id="certpill" hidden></em></div><b>Certificates</b><span id="certsum" hidden></span></button>
 </nav>
@@ -202,6 +203,10 @@
 <div class="top"><button class="back" id="backPk" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>My picks</h1><span></span></div>
 <div id="pkbody"></div>
 </main>
+<main class="page gm" id="voyage">
+<div class="top"><button class="back" id="backVy" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Kai's voyage</h1><span></span></div>
+<div id="vybody"></div>
+</main>
 <main class="page gm" id="ty">
 <div class="top"><button class="back" id="backTY" aria-label="Back to menu"><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Test yourself</h1><span></span></div>
 <p class="qintro">Practise as much as you want: your class tests, your own revision for a test, a sentence about a picture or a word quiz.</p>
@@ -283,6 +288,9 @@
 <script src="js/app-kai-discussion.js"></script>
 <script src="js/app-dictee.js"></script>
 <script src="js/app-picks.js"></script>
+<script src="js/data/frequence-voyage.js"></script>
+<script src="js/data/noms-ports.js"></script>
+<script src="js/app-voyage.js"></script>
 <script src="js/app-images.js"></script>
 <script src="js/data/certificats.js"></script>
 <script src="js/app-certificats.js"></script>
