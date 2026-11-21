@@ -28,6 +28,11 @@
 - L'ordre de fréquence des noms, adjectifs et adverbes est une première version : il faudra le faire relire comme un contenu
   pédagogique (charte : relecture par Opus).
 
+## Noms des ports (PO, 21/11)
+- `js/data/noms-ports.js` : des noms amusants dans le thème de chaque île (Ground Zero, Pirates' Harbour, Seagull Pier…
+  ; Lava Landing, Dragon's Breath… ; Rainbow Pier, Bubblegum Beach… ; Flying Fish Port, Dolphin Dash…), puis des noms
+  composés (« Sleepy Pelican Wharf »), uniques sur chaque île, toujours les mêmes pour un même port.
+
 ## Images (Gemini, PO 20-21/11)
 - Tuile du menu, carte de l'archipel (v2, plus réaliste), 4 bateaux (radeau 0, barque 5, voilier 15, trois-mâts 30 ports
   certifiés), 3 scènes de port (brouillard : pas encore certifié ; soleil : certifié ; tempête), Kai qui plante son drapeau

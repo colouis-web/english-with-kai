@@ -131,7 +131,9 @@ function vyNext() {
 }
 const vyCount = () => Object.values(vySt().h).filter(h => h.c).length;
 const vyWords = () => Object.values(vySt().h).filter(h => h.c).reduce((t, h) => t + (h.w || []).length, 0);
-const vyLabel = key => { const [k, n] = key.split(":"); return `${vyIsl(k).name} · Harbour ${n}`; };
+/* le nom amusant du port (js/data/noms-ports.js) ; « Harbour 4 » si le fichier manque */
+const vyHname = (k, n) => typeof vyName === "function" ? vyName(k, +n) : `Harbour ${n}`;
+const vyLabel = key => { const [k, n] = key.split(":"); return `${vyIsl(k).name} · ${vyHname(k, n)}`; };
 /* ===== la page du voyage : la carte, une île, un port ===== */
 function openVoyage() {
     VYV = { i: null, h: null };
@@ -190,18 +192,18 @@ function renderIsland(B, h1) {
     h1.textContent = I.name;
     const open = vyOpen(I.k);
     const vis = H.filter(h => h.n <= open + 2);
-    B.innerHTML = `<div class="vyhead" style="--n:${I.n}"><img src="img/kai-voyage.webp" alt=""><div><span>${I.fam} · ${H.length} harbours</span><p>Harbour 1 has the 10 most useful ${I.fam.toLowerCase()}. The further you sail, the rarer the words!</p></div></div>
+    B.innerHTML = `<div class="vyhead" style="--n:${I.n}"><img src="img/kai-voyage.webp" alt=""><div><span>${I.fam} · ${H.length} harbours</span><p>${esc(vyHname(I.k, 1))} has the 10 most useful ${I.fam.toLowerCase()}. The further you sail, the rarer the words!</p></div></div>
 <ol class="vyports">${vis.map(h => {
         const key = vyHkey(I.k, h.n), s = vyState(I.k, h.n), lock = h.n > open, inR = key === nx, runs = ((st.h[key] || {}).r || []).length;
         const sub = s === "cert" ? "Certified" : s === "storm" ? "Storm!" : s === "run" ? `${Math.min(runs, VY_RUNS)} / ${VY_RUNS} perfect runs` : lock ? "Locked" : key === nx ? "Next" : "Ready";
         const words = h.w.slice(0, 5).map(x => (allWords().byKey.get(x) || { d: {} }).d).map(d => esc(d.v || d.w || "")).join(" · ");
-        return `<li><button type="button" class="vyport ${s}${lock ? " lock" : ""}${inR ? " next" : ""}" ${lock ? "disabled" : `data-vyh="${key}"`}><span class="vyn">${s === "cert" ? vyIcon.flag : s === "storm" ? vyIcon.storm : lock ? vyIcon.lock : h.n}</span><span class="vyt"><b>Harbour ${h.n}</b><em>${sub}</em><small>${lock ? `${h.w.length} new ${I.fam.toLowerCase()}` : words + "…"}</small></span></button></li>`;
+        return `<li><button type="button" class="vyport ${s}${lock ? " lock" : ""}${inR ? " next" : ""}" ${lock ? "disabled" : `data-vyh="${key}"`}><span class="vyn">${s === "cert" ? vyIcon.flag : s === "storm" ? vyIcon.storm : lock ? vyIcon.lock : h.n}</span><span class="vyt"><b>${esc(vyHname(I.k, h.n))}</b><em>${sub}</em><small>${lock ? `${h.w.length} new ${I.fam.toLowerCase()}` : words + "…"}</small></span></button></li>`;
     }).join("")}</ol>
 ${H.length > vis.length ? `<p class="vymore">${H.length - vis.length} more harbours to discover</p>` : ""}`;
 }
 function renderHarbour(B, h1) {
     const [k, n] = VYV.h.split(":"), I = vyIsl(k), H = vyHarbours(k).find(h => h.n === +n), h = vySt().h[VYV.h] || {}, s = vyState(k, +n), T = todayKey();
-    h1.textContent = `Harbour ${n}`;
+    h1.textContent = vyHname(k, n);
     if (!H) {
         VYV.h = null;
         return renderIsland(B, h1);
@@ -310,23 +312,23 @@ function vyEnd() {
         }
         vySave();
     }
-    const say = { cert: `*Harbour ${hn} certified!* I plant your flag!`, run1: "*Perfect run!* Come back on another day for run 2!", sameday: "Perfect again! Run 2 must be on *another day*.", storm: "You beat the *storm*! Your lighthouse stays on!", again: "*Perfect!* This harbour is still yours!", fail: P >= 60 ? `*${n}/${N}*. So close! A run must be *perfect*.` : `*${n}/${N}*. Read the words again and try once more!` }[out];
+    const say = { cert: `*${vyHname(k, hn)}* is certified! I plant your flag!`, run1: "*Perfect run!* Come back on another day for run 2!", sameday: "Perfect again! Run 2 must be on *another day*.", storm: "You beat the *storm*! Your lighthouse stays on!", again: "*Perfect!* This harbour is still yours!", fail: P >= 60 ? `*${n}/${N}*. So close! A run must be *perfect*.` : `*${n}/${N}*. Read the words again and try once more!` }[out];
     XMODE = "vyend";
     document.getElementById("qn").textContent = "";
     QW().innerHTML = `<p class="qpart">${esc(vyLabel(VY.key))} · Results</p><div class="qhead">${headSvg(say, perfect ? "smile" : "head")}</div>
-${out === "cert" ? `<div class="vycert"><img src="img/voyage-drapeau.webp" alt="Kai plants his flag on the pier"><b>Harbour ${hn} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyCount()} harbour${vyCount() === 1 ? "" : "s"} on your voyage</span></div>` : ""}
+${out === "cert" ? `<div class="vycert"><img src="img/voyage-drapeau.webp" alt="Kai plants his flag on the pier"><b>${esc(vyHname(k, hn))} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyCount()} harbour${vyCount() === 1 ? "" : "s"} on your voyage</span></div>` : ""}
 <div class="scores one"><div class="sc${perfect ? " ok" : ""}"><i>${esc(vyIsl(k).name)}</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
 <ul class="recap">${VY.items.map((it, j) => `<li><span class="m ${VY.res[j] ? "ok" : "ko"}">${VY.res[j] ? CHECK : CROSS}</span><b>${esc(t3Ans(it))}</b><i>${esc(it.f)}</i></li>`).join("")}</ul>
-<div class="endbtns"><button class="listen" id="vyagain">Try again</button><button class="ghost" id="vyback">Harbour ${hn}</button></div>`;
+<div class="endbtns"><button class="listen" id="vyagain">Try again</button><button class="ghost" id="vyback">${esc(vyHname(k, hn))}</button></div>`;
     if (out === "cert" || out === "storm")   /* la fenêtre « Congrats! » de Kai, une fois qu'il a fini de parler */
         try {
             const c = vyCount(), b = vyBoat(c);
             const stamp = out === "cert" && vyIslDone(k) === 1, great = stamp && vyStamps() === VY_ISL.length;   /* 1er port de l'île : nouveau tampon */
             afterSpeech(() => great ? kaiCongrats("Great voyage!", `Every island of the archipelago has its stamp in your passport!`, "Congrats! You've got the great voyage stamp!")
-                : stamp && !(b > vyBoat(c - 1)) ? kaiCongrats("New stamp!", `${esc(vyIsl(k).name)} is in your passport now. Harbour ${hn} is certified!`, `Congrats! A new stamp for ${vyIsl(k).name}!`)
-                : out === "cert" && b > vyBoat(c - 1) ? kaiCongrats(`New boat: a ${VY_BOATS[b].name}!`, `Harbour ${hn} certified: <b>${c}</b> harbours on your voyage. Kai sails on a ${VY_BOATS[b].name} now!`, `Congrats! Kai has a new boat: a ${VY_BOATS[b].name}!`)
-                : out === "cert" ? kaiCongrats(`Harbour ${hn} certified!`, `${esc(vyIsl(k).name)}: your flag is planted. <b>${vyWords()}</b> words learnt on your voyage.`, `Congrats! Harbour ${hn} is certified!`)
-                : kaiCongrats("Storm beaten!", `Harbour ${hn} keeps its lighthouse on.`, "Congrats! You beat the storm!"));
+                : stamp && !(b > vyBoat(c - 1)) ? kaiCongrats("New stamp!", `${esc(vyIsl(k).name)} is in your passport now. ${esc(vyHname(k, hn))} is certified!`, `Congrats! A new stamp for ${vyIsl(k).name}!`)
+                : out === "cert" && b > vyBoat(c - 1) ? kaiCongrats(`New boat: a ${VY_BOATS[b].name}!`, `${esc(vyHname(k, hn))} certified: <b>${c}</b> harbours on your voyage. Kai sails on a ${VY_BOATS[b].name} now!`, `Congrats! Kai has a new boat: a ${VY_BOATS[b].name}!`)
+                : out === "cert" ? kaiCongrats(`${esc(vyHname(k, hn))} certified!`, `${esc(vyIsl(k).name)}: your flag is planted. <b>${vyWords()}</b> words learnt on your voyage.`, `Congrats! ${vyHname(k, hn)} is certified!`)
+                : kaiCongrats("Storm beaten!", `${esc(vyHname(k, hn))} keeps its lighthouse on.`, "Congrats! You beat the storm!"));
         }
         catch (e) {
         }
