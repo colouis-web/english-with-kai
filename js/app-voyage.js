@@ -10,6 +10,9 @@
    - Tempête : 21 jours après sa certification (ou sa dernière tempête), une série sans faute garde le phare allumé.
    - Chaque élève avance à son rythme : sur une île, le port suivant s'ouvre dès qu'on a commencé le précédent.
      Le bouton « Next » propose le port de l'île la moins avancée (pondérée : 4 noms pour 3 verbes, 2 adjectifs, 1 adverbe).
+   - Pièces d'or (PO, 21/11 : « un système de pièces d'or, je pourrai transformer les points en cadeau au bout de x pièces ») :
+     1re série sans faute 1 pièce ; 2e série (certification) 3 pièces le lendemain, 2 dans les 3 jours, 1 ensuite ; tempête battue 2.
+     Un parent choisit un cadeau et son prix en pièces (code parent) ; l'élève échange ses pièces contre le cadeau (code parent).
    - Données : dans le profil (p.voy), donc dans les sauvegardes ; rien ne quitte l'appareil.
    Script classique, chargé après app-picks.js (réutilise t3Ok, t3Blank, headSvg, la page du quiz). */
 "use strict";
@@ -23,7 +26,8 @@ let VYV = { i: null, h: null }, VY = null;
 const vyIsl = k => VY_ISL.find(x => x.k === k);
 const vyHkey = (k, n) => k + ":" + n;
 /* données de l'élève : p.voy = { h: { "nouns:4": { w: [clés], r: [jours sans faute], c: jour certifié, s: jour de la dernière tempête } },
-   seen: jour de la 1re ouverture (Kai annonce la nouveauté dans le menu jusque-là) } */
+   seen: jour de la 1re ouverture (Kai annonce la nouveauté dans le menu jusque-là),
+   gold: { n: pièces en poche, tot: pièces gagnées, gifts: [{ d, n, g }] cadeaux reçus }, gift: { n: prix en pièces, g: le cadeau } } */
 function vySt() {
     const p = curProf();
     if (!p)
@@ -156,6 +160,7 @@ function openVoyage() {
     scrollTo(0, 0);
 }
 const vyIcon = {
+    coin: '<svg class="vycoin" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="#fbbf24" stroke="#b45309" stroke-width="1.6"/><circle cx="12" cy="12" r="7.2" fill="none" stroke="#d97706" stroke-width="1.3"/><path d="M12 7.6l1.3 2.7 3 .4-2.2 2.1.5 3-2.6-1.4-2.6 1.4.5-3-2.2-2.1 3-.4z" fill="#fff7d6"/></svg>',
     flag: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4M6 4h11l-2.5 4L17 12H6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     storm: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 16a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1A4 4 0 0 1 17 16M12 13l-2 4h4l-2 4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     lock: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>'
@@ -181,6 +186,78 @@ function vyPassport() {
     return `<div class="vypass"><div class="vypassh"><span>My passport</span><span>${vyStamps() + (all ? 1 : 0)} / ${VY_ISL.length + 1} stamps</span></div>
 <ul>${VY_ISL.map(I => { const c = vyIslDone(I.k); return one(I.st, I.name, c > 0, c ? `${c} harbour${c > 1 ? "s" : ""}` : "1 harbour to get it"); }).join("")}${one("voyage", "Great voyage", all, all ? "All the islands!" : "Every island stamped")}</ul></div>`;
 }
+/* ===== les pièces d'or et le cadeau (PO, 21/11) ===== */
+const VY_COIN = { run1: 1, storm: 2 };
+const vyCoinsCert = d => d <= 1 ? 3 : d <= 3 ? 2 : 1;   /* 2e série : d jours après la 1re */
+const vyCoinTxt = c => `${c} gold coin${c === 1 ? "" : "s"}`;
+function vyGold() {
+    const st = vySt();
+    if (!st.gold || typeof st.gold !== "object") {   /* première fois : les ports déjà réussis rapportent leurs pièces */
+        let n = 0;
+        Object.values(st.h).forEach(h => {
+            if (h.r && h.r.length)
+                n += VY_COIN.run1;
+            if (h.c)
+                n += 3;
+        });
+        st.gold = { n, tot: n, gifts: [] };
+    }
+    st.gold.gifts = st.gold.gifts || [];
+    return st.gold;
+}
+function vyTreasure() {
+    const g = vyGold(), gift = vySt().gift, ok = gift && g.n >= gift.n;
+    return `<div class="vytres"><div class="vymh"><span>My treasure</span><span>${vyCoinTxt(g.tot)} won</span></div>
+<div class="vyboat"><span class="vychest">${vyIcon.coin}</span><div><div class="vymn"><b>${g.n}</b><span>gold coin${g.n === 1 ? "" : "s"}</span></div>
+${gift ? `<p>My gift: <b>${esc(gift.g)}</b></p><div class="pbar"><i style="width:${Math.min(100, Math.round(100 * g.n / gift.n))}%"></i></div><small>${ok ? "Enough coins! Ask a parent." : `${gift.n - g.n} more coin${gift.n - g.n === 1 ? "" : "s"} for your gift`}</small>` : "<p>A parent chooses a gift and its price in gold coins.</p>"}</div></div>
+<p class="vycrule">Run 1: <b>1 coin</b> · Run 2 the next day: <b>3 coins</b> (within 3 days: 2, later: 1) · Storm beaten: <b>2 coins</b></p>
+<div class="vytbtn">${ok ? `<button class="vygo" type="button" id="vyswap">${vyIcon.coin}Get my gift</button>` : ""}<button class="ghost sm" type="button" id="vygift">${gift ? "Change the gift" : "Choose a gift"} (parents)</button></div>
+${g.gifts.length ? `<small class="vygot">Gifts received: ${g.gifts.length}</small>` : ""}</div>`;
+}
+/* le parent choisit le cadeau et son prix (après le code parent) */
+function vyGiftForm() {
+    const gift = vySt().gift || {};
+    openModal("The gift", `<p class="mtxt">Choose a gift and how many gold coins it costs.</p><input class="pcin vygin" id="vygg" type="text" maxlength="40" autocomplete="off" placeholder="The gift (e.g. a cinema ticket)" aria-label="The gift" value="${esc(gift.g || "")}"><input class="pcin" id="vygn" type="number" inputmode="numeric" min="1" max="1000" placeholder="Coins" aria-label="Price in gold coins" value="${gift.n || ""}"><div class="endbtns"><button class="listen sm" data-mact="ok">Save</button>${gift.g ? '<button class="ghost sm" data-mact="del">No gift</button>' : ""}<button class="ghost sm" data-mclose>Cancel</button></div>`);
+    const save = () => {
+        renderVoyage();
+        vySave();
+    };
+    MACT = { ok: () => {
+            const g = ((document.getElementById("vygg") || {}).value || "").trim().slice(0, 40), n = Math.round(+((document.getElementById("vygn") || {}).value || 0));
+            if (!g || !(n >= 1 && n <= 1000)) {
+                toast(!g ? "Write the gift, please" : "A price from 1 to 1000 coins", 2200);
+                return;
+            }
+            vySt().gift = { n, g };
+            save();
+            toast("Gift saved", 2000);
+        }, del: () => {
+            delete vySt().gift;
+            save();
+        } };
+    setTimeout(() => {
+        const i = document.getElementById("vygg");
+        if (i)
+            try {
+                i.focus();
+            }
+            catch (e) {
+            }
+    }, 90);
+}
+/* l'élève échange ses pièces contre le cadeau (le parent confirme) */
+function vySwap() {
+    const g = vyGold(), gift = vySt().gift;
+    if (!gift || g.n < gift.n)
+        return;
+    gate(`Swap <b>${gift.n} gold coins</b> for <b>${esc(gift.g)}</b>?`, () => {
+        g.n -= gift.n;
+        g.gifts.push({ d: todayKey(), n: gift.n, g: gift.g });
+        vySave();
+        renderVoyage();
+        kaiCongrats("Enjoy your gift!", `<b>${esc(gift.g)}</b> for ${gift.n} gold coins. Well done, captain!`, "Congrats! Enjoy your gift!");
+    });
+}
 function renderVoyage() {
     const B = document.getElementById("vybody");
     if (!B)
@@ -196,7 +273,7 @@ function renderVoyage() {
     /* le haut de la page comme le menu (PO, 21/11) : un carrousel de 3 cartes — Kai et « Next », le statut, le passeport —
        pour que la carte des îles remonte */
     B.innerHTML = `<div class="mcar vycar" aria-roledescription="carousel" aria-label="Kai, my voyage and my passport"><div class="mtrack" id="vytrack">
-<section class="mslide" aria-roledescription="slide" aria-label="1 of 3: Kai"><div class="mcard mkai vykai"><div class="qhead">${headSvg(say, n ? "smile" : "head")}</div>
+<section class="mslide" aria-roledescription="slide" aria-label="1 of 3: Kai"><div class="mcard mkai vykai">${curProf() ? `<span class="vycoins" aria-label="${vyCoinTxt(vyGold().n)}">${vyIcon.coin}<b>${vyGold().n}</b></span>` : ""}<div class="qhead">${headSvg(say, n ? "smile" : "head")}</div>
 ${nx.key ? `<button class="vygo" type="button" data-vyh="${nx.key}"><span>${nx.storm ? "Storm! " : "Next: "}${esc(vyHname(...nx.key.split(":")))}<small>${esc(vyIsl(nx.key.split(":")[0]).name)}</small></span>${GOSVG}</button>` : ""}
 <p class="mhint" id="vyhint">Swipe for your voyage <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></p></div></section>
 <section class="mslide" aria-roledescription="slide" aria-label="2 of 3: my voyage">${vyCard()}</section>
@@ -205,6 +282,7 @@ ${nx.key ? `<button class="vygo" type="button" data-vyh="${nx.key}"><span>${nx.s
 <div class="vymap"><img src="img/voyage-carte.webp" alt="Map of the archipelago" loading="lazy">
 ${VY_ISL.map((I, j) => { const H = vyHarbours(I.k), c = H.filter(h => vyDone(vyHkey(I.k, h.n))).length; return `<button class="vyisl i${j}" type="button" data-vyi="${I.k}" style="--n:${I.n}"><b>${I.name}</b><small>${I.fam} · ${c}/${H.length}</small></button>`; }).join("")}
 <span class="vyisl i4 lock">${vyIcon.lock}<small>Secret island</small></span></div>
+${curProf() ? vyTreasure() : ""}
 <div class="vymiss"><img src="img/voyage-missions.webp" alt="Kai and two friends on a rock above a harbour in Brittany"><div><span>${vyIcon.lock} Special missions</span><p>Coming soon: Kai and his friends have new adventures for you!</p></div></div>`;
     vyCarousel();
 }
@@ -258,6 +336,13 @@ function vyForms(w) {
         t = `<b>${esc(f(d.pt))}</b>${ok(d.pp) ? " · <b>" + esc(f(d.pp)) + "</b>" : ""}`;   /* seuls les irréguliers ont leurs formes : pas d'étiquette */
     return t ? `<small class="vyfm">${t}</small>` : "";
 }
+/* sous chaque série du port : ce qu'elle rapporte (pour donner envie de revenir le lendemain) */
+function vyRunCoins(j, r, s) {
+    if (s === "cert" || s === "storm" || r[j])
+        return "";
+    const T = todayKey(), c = j === 0 ? VY_COIN.run1 : !r[0] ? 3 : r[0] === T ? 3 : vyCoinsCert(daysBetween(r[0], T)), when = j === 1 && r[0] === T ? "tomorrow" : j === 1 && r[0] ? "today" : "";
+    return `<small class="vyrc">${vyIcon.coin}+${vyCoinTxt(c)}${when ? " " + when : ""}</small>`;
+}
 function renderHarbour(B, h1) {
     const [k, n] = VYV.h.split(":"), I = vyIsl(k), H = vyHarbours(k).find(h => h.n === +n), h = vySt().h[VYV.h] || {}, s = vyState(k, +n), T = todayKey();
     h1.textContent = vyHname(k, n);
@@ -278,7 +363,7 @@ function renderHarbour(B, h1) {
         : `<figure class="vyscene lieu fog"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, in the fog"><figcaption>Two perfect runs and the fog lifts on this harbour!</figcaption></figure>`;
     B.innerHTML = `<div class="qhead">${headSvg(say, face)}</div>
 ${scene}
-<div class="vyruns">${[0, 1].map(j => `<div class="${r[j] ? "ok" : ""}"><span>Run ${j + 1}${r[j] ? " · " + kDate(r[j]).toLocaleDateString("en-GB", { weekday: "short", day: "numeric" }) : ""}</span><b>${r[j] ? `${W.length} / ${W.length} perfect` : "To do"}</b></div>`).join("")}</div>
+<div class="vyruns">${[0, 1].map(j => `<div class="${r[j] ? "ok" : ""}"><span>Run ${j + 1}${r[j] ? " · " + kDate(r[j]).toLocaleDateString("en-GB", { weekday: "short", day: "numeric" }) : ""}</span><b>${r[j] ? `${W.length} / ${W.length} perfect` : "To do"}</b>${vyRunCoins(j, r, s)}</div>`).join("")}</div>
 <div class="vywords" style="--n:${I.n}"><div class="vywh"><span>${I.name}</span><span>${W.length} ${W.length === 1 ? I.one : I.fam.toLowerCase()}</span></div>
 <ul>${W.map(w => `<li><button class="snd sm" type="button" data-say="${esc(w.d.v || w.d.w)}" aria-label="Listen">${SPK}</button><span class="vyw"><b>${esc(w.d.v || w.d.w)}</b>${vyForms(w)}</span><i>${esc(w.d.fr || "")}</i></li>`).join("")}</ul></div>
 <p class="vyrule">${W.length} sentences with a gap: type the missing word. A typo counts as a mistake.</p>
@@ -350,7 +435,9 @@ function vyCheck() {
 /* fin de série : une série sans faute est notée (un jour compte une fois) ; 2 jours différents = port certifié */
 function vyEnd() {
     const N = VY.items.length, n = VY.res.filter(Boolean).length, P = pct(n, N), perfect = n === N, T = todayKey(), [k, hn] = VY.key.split(":");
-    const st = vySt(), h = st.h[VY.key] || (st.h[VY.key] = { w: VY.items.map(x => x.key), r: [] });
+    const st = vySt(), G = vyGold(), h = st.h[VY.key] || (st.h[VY.key] = { w: VY.items.map(x => x.key), r: [] });   /* vyGold avant de noter la série */
+    const gift = st.gift, had = G.n;
+    let coins = 0;
     const was = vyState(k, +hn);
     let out = "fail";
     if (perfect && curProf()) {
@@ -358,6 +445,7 @@ function vyEnd() {
         if (was === "storm") {
             h.s = T;
             out = "storm";
+            coins = VY_COIN.storm;
         }
         else if (h.c)
             out = "again";
@@ -368,22 +456,31 @@ function vyEnd() {
             if (h.r.length >= VY_RUNS) {
                 h.c = T;
                 out = "cert";
+                coins = vyCoinsCert(daysBetween(h.r[0], T));
             }
-            else
+            else {
                 out = "run1";
+                coins = VY_COIN.run1;
+            }
         }
+        G.n += coins;
+        G.tot += coins;
         vySave();
     }
-    const say = { cert: `*${vyHname(k, hn)}* is certified! I plant your flag!`, run1: "*Perfect run!* Come back on another day for run 2!", sameday: "Perfect again! Run 2 must be on *another day*.", storm: "You beat the *storm*! Your lighthouse stays on!", again: "*Perfect!* This harbour is still yours!", fail: P >= 60 ? `*${n}/${N}*. So close! A run must be *perfect*.` : `*${n}/${N}*. Read the words again and try once more!` }[out];
+    const giftNow = gift && had < gift.n && G.n >= gift.n;
+    const say = { cert: `*${vyHname(k, hn)}* is certified! I plant your flag!`, run1: "*Perfect run!* Come back *tomorrow* for run 2: *3 gold coins*!", sameday: "Perfect again! Run 2 must be on *another day*.", storm: "You beat the *storm*! Your lighthouse stays on!", again: "*Perfect!* This harbour is still yours!", fail: P >= 60 ? `*${n}/${N}*. So close! A run must be *perfect*.` : `*${n}/${N}*. Read the words again and try once more!` }[out];
     XMODE = "vyend";
     document.getElementById("qn").textContent = "";
     QW().innerHTML = `<p class="qpart">${esc(vyLabel(VY.key))} · Results</p><div class="qhead">${headSvg(say, perfect ? "smile" : "head")}</div>
 ${out === "storm" ? `<div class="vycert"><img class="wide" src="img/voyage-port-soleil.webp" alt="Kai at the harbour in the sun"><b>${esc(vyHname(k, hn))} · ${esc(vyIsl(k).name)}</b><span>Storm beaten: the lighthouse stays on!</span></div>` : ""}
 ${out === "cert" ? `<div class="vycert"><img src="img/voyage-drapeau.webp" alt="Kai plants his flag on the pier"><b>${esc(vyHname(k, hn))} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyCount()} harbour${vyCount() === 1 ? "" : "s"} on your voyage</span></div>` : ""}
+${coins ? `<div class="vywin">${vyIcon.coin}<b>+${coins}</b><span>${coins === 1 ? "gold coin" : "gold coins"} · ${G.n} in your treasure</span></div>` : ""}
 <div class="scores one"><div class="sc${perfect ? " ok" : ""}"><i>${esc(vyIsl(k).name)}</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
 <ul class="recap">${VY.items.map((it, j) => `<li><span class="m ${VY.res[j] ? "ok" : "ko"}">${VY.res[j] ? CHECK : CROSS}</span><b>${esc(t3Ans(it))}</b><i>${esc(it.f)}</i></li>`).join("")}</ul>
 <div class="endbtns"><button class="listen" id="vyagain">Try again</button><button class="ghost" id="vyback">${esc(vyHname(k, hn))}</button></div>`;
-    if (out === "cert" || out === "storm")   /* la fenêtre « Congrats! » de Kai, une fois qu'il a fini de parler */
+    if (giftNow)   /* assez de pièces pour le cadeau : c'est l'annonce la plus importante */
+        afterSpeech(() => kaiCongrats("Gift unlocked!", `You have <b>${G.n} gold coins</b>: enough for <b>${esc(gift.g)}</b>! Ask a parent.`, "Congrats! You have enough gold coins for your gift!"));
+    else if (out === "cert" || out === "storm")   /* la fenêtre « Congrats! » de Kai, une fois qu'il a fini de parler */
         try {
             const c = vyCount(), b = vyBoat(c);
             const stamp = out === "cert" && vyIslDone(k) === 1, great = stamp && vyStamps() === VY_ISL.length;   /* 1er port de l'île : nouveau tampon */
@@ -424,6 +521,16 @@ document.getElementById("voyage").addEventListener("click", e => {
         VYV = { i: il.dataset.vyi, h: null };
         renderVoyage();
         scrollTo(0, 0);
+        return;
+    }
+    if (t.closest("#vygift")) {
+        stopSpeech();
+        gate("Choose the gift and its price in gold coins.", vyGiftForm);
+        return;
+    }
+    if (t.closest("#vyswap")) {
+        stopSpeech();
+        vySwap();
         return;
     }
     if (t.closest("#vystart")) {

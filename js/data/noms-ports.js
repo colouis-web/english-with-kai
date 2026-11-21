@@ -1,10 +1,11 @@
 /* Kai's voyage : les noms des ports (PO, 21/11 : « en mode amusant, genre le premier Ground Zero, le deuxième Pirates' Harbour »).
+   Le port 1 s'appelle Square One (« le point de départ ») : « Ground Zero » désigne aussi le lieu d'une catastrophe (PO, 21/11 : d'accord).
    Les premiers ports de chaque île ont un nom choisi à la main, dans le thème de l'île ; au-delà, un nom est composé
    (« Sleepy Pelican Wharf ») avec des mots simples (niveau A1-A2), toujours le même pour un même port, jamais deux fois
    le même sur une île. Anglais britannique (harbour). */
 "use strict";
 const VY_NAMES = {
-    nouns: ["Ground Zero", "Pirates' Harbour", "Seagull Pier", "Lighthouse Point", "Fishermen's Wharf", "Treasure Cove",
+    nouns: ["Square One", "Pirates' Harbour", "Seagull Pier", "Lighthouse Point", "Fishermen's Wharf", "Treasure Cove",
         "Coconut Corner", "Parrot Bay", "Sandcastle Quay", "Lobster Landing", "Crab Creek", "Mermaid Rock", "Old Anchor Port",
         "Smugglers' Inn", "Sleepy Turtle Bay", "Captain's Rest", "Rainy Day Dock", "Rope Bridge Port", "Seashell Harbour",
         "Windmill Wharf", "Pancake Pier", "Bottle Message Bay", "Ship in a Bottle", "Lost Sock Landing", "Muddy Boots Quay"],
