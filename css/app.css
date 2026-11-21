@@ -1580,3 +1580,9 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .vyhint{margin:6px 0 0;font:600 14px var(--claude);color:#5b5f7a}.vyhint b{color:#0b7f89}
 .vycert{display:flex;flex-direction:column;align-items:center;gap:4px;margin:0 auto 10px;padding:12px 20px;border-radius:18px;border:3px solid #15803d;background:#dcfce7;color:#14532d;text-align:center}
 .vycert svg{width:34px;height:34px;color:#15803d}.vycert b{font:800 18px var(--claude)}.vycert span{font:600 14px var(--claude)}
+.vyboat{display:flex;align-items:center;gap:12px}
+.vyboat img{width:120px;height:81px;object-fit:cover;border-radius:12px;border:2px solid #0b0a16;flex:none}
+.vyboat>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.vyboat p{margin:0;font:500 14px var(--claude);color:#c7c9d9}.vyboat p b{color:#fff;text-transform:capitalize}
+.vyboat small{font:600 12px var(--claude);color:#c7c9d9}
+.vyscene{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:18px;border:2px solid #3a3760}
