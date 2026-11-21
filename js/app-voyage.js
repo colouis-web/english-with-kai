@@ -14,10 +14,10 @@
    Script classique, chargé après app-picks.js (réutilise t3Ok, t3Blank, headSvg, la page du quiz). */
 "use strict";
 const VY_ISL = [
-    { k: "nouns", name: "Thing Island", fam: "Nouns", one: "noun", n: "#a3e635", per: 4 },
-    { k: "verbs", name: "Action Volcano", fam: "Verbs", one: "verb", n: "#fb923c", per: 3 },
-    { k: "adjectives", name: "Colour Cove", fam: "Adjectives", one: "adjective", n: "#f472b6", per: 2 },
-    { k: "adverbs", name: "Swift Reef", fam: "Adverbs", one: "adverb", n: "#38bdf8", per: 1 }];
+    { k: "nouns", name: "Thing Island", fam: "Nouns", one: "noun", n: "#a3e635", per: 4, st: "vert" },
+    { k: "verbs", name: "Action Volcano", fam: "Verbs", one: "verb", n: "#fb923c", per: 3, st: "volcan" },
+    { k: "adjectives", name: "Colour Cove", fam: "Adjectives", one: "adjective", n: "#f472b6", per: 2, st: "arc" },
+    { k: "adverbs", name: "Swift Reef", fam: "Adverbs", one: "adverb", n: "#38bdf8", per: 1, st: "recif" }];
 const VY_SIZE = 10, VY_RUNS = 2, VY_STORM = 21;
 let VYV = { i: null, h: null }, VY = null;
 const vyIsl = k => VY_ISL.find(x => x.k === k);
@@ -155,6 +155,16 @@ function vyCard() {
 <p>Kai's boat: <b>${VY_BOATS[b].name}</b></p>${nx ? `<div class="pbar"><i style="width:${Math.round(100 * (n - VY_BOATS[b].min) / (nx.min - VY_BOATS[b].min))}%"></i></div><small>${nx.min - n} more for a ${nx.name}</small>` : "<small>The biggest ship of the archipelago!</small>"}</div></div>
 <div class="vyfam">${per}</div></div>`;
 }
+/* le passeport (images Gemini du PO, 21/11) : le tampon d'une île au 1er port certifié sur cette île ;
+   le tampon « voyage » quand les 4 îles sont tamponnées */
+const vyIslDone = k => vyHarbours(k).filter(h => vyDone(vyHkey(k, h.n))).length;
+const vyStamps = () => VY_ISL.filter(I => vyIslDone(I.k) > 0).length;
+function vyPassport() {
+    const all = vyStamps() === VY_ISL.length;
+    const one = (img, name, got, sub) => `<li class="${got ? "got" : ""}"><span class="vystamp">${got ? `<img src="img/voyage-tampon-${img}.webp" alt="">` : ""}</span><b>${name}</b><small>${sub}</small></li>`;
+    return `<div class="vypass"><div class="vypassh"><span>My passport</span><span>${vyStamps() + (all ? 1 : 0)} / ${VY_ISL.length + 1} stamps</span></div>
+<ul>${VY_ISL.map(I => { const c = vyIslDone(I.k); return one(I.st, I.name, c > 0, c ? `${c} harbour${c > 1 ? "s" : ""}` : "1 harbour to get it"); }).join("")}${one("voyage", "Great voyage", all, all ? "All the islands!" : "Every island stamped")}</ul></div>`;
+}
 function renderVoyage() {
     const B = document.getElementById("vybody");
     if (!B)
@@ -170,6 +180,7 @@ function renderVoyage() {
     B.innerHTML = `<div class="qhead">${headSvg(say, n ? "smile" : "head")}</div>
 ${vyCard()}
 ${nx.key ? `<button class="vygo" type="button" data-vyh="${nx.key}">${nx.storm ? "Storm! " : "Next: "}${esc(vyLabel(nx.key))}${GOSVG}</button>` : ""}
+${vyPassport()}
 <div class="vymap"><img src="img/voyage-carte.webp" alt="Map of the archipelago" loading="lazy">
 ${VY_ISL.map((I, j) => { const H = vyHarbours(I.k), c = H.filter(h => vyDone(vyHkey(I.k, h.n))).length; return `<button class="vyisl i${j}" type="button" data-vyi="${I.k}" style="--n:${I.n}"><b>${I.name}</b><small>${I.fam} · ${c}/${H.length}</small></button>`; }).join("")}
 <span class="vyisl i4 lock">${vyIcon.lock}<small>Secret island</small></span></div>`;
@@ -303,14 +314,17 @@ function vyEnd() {
     XMODE = "vyend";
     document.getElementById("qn").textContent = "";
     QW().innerHTML = `<p class="qpart">${esc(vyLabel(VY.key))} · Results</p><div class="qhead">${headSvg(say, perfect ? "smile" : "head")}</div>
-${out === "cert" ? `<div class="vycert">${vyIcon.flag}<b>Harbour ${hn} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyCount()} harbour${vyCount() === 1 ? "" : "s"} on your voyage</span></div>` : ""}
+${out === "cert" ? `<div class="vycert"><img src="img/voyage-drapeau.webp" alt="Kai plants his flag on the pier"><b>Harbour ${hn} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyCount()} harbour${vyCount() === 1 ? "" : "s"} on your voyage</span></div>` : ""}
 <div class="scores one"><div class="sc${perfect ? " ok" : ""}"><i>${esc(vyIsl(k).name)}</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
 <ul class="recap">${VY.items.map((it, j) => `<li><span class="m ${VY.res[j] ? "ok" : "ko"}">${VY.res[j] ? CHECK : CROSS}</span><b>${esc(t3Ans(it))}</b><i>${esc(it.f)}</i></li>`).join("")}</ul>
 <div class="endbtns"><button class="listen" id="vyagain">Try again</button><button class="ghost" id="vyback">Harbour ${hn}</button></div>`;
     if (out === "cert" || out === "storm")   /* la fenêtre « Congrats! » de Kai, une fois qu'il a fini de parler */
         try {
             const c = vyCount(), b = vyBoat(c);
-            afterSpeech(() => out === "cert" && b > vyBoat(c - 1) ? kaiCongrats(`New boat: a ${VY_BOATS[b].name}!`, `Harbour ${hn} certified: <b>${c}</b> harbours on your voyage. Kai sails on a ${VY_BOATS[b].name} now!`, `Congrats! Kai has a new boat: a ${VY_BOATS[b].name}!`)
+            const stamp = out === "cert" && vyIslDone(k) === 1, great = stamp && vyStamps() === VY_ISL.length;   /* 1er port de l'île : nouveau tampon */
+            afterSpeech(() => great ? kaiCongrats("Great voyage!", `Every island of the archipelago has its stamp in your passport!`, "Congrats! You've got the great voyage stamp!")
+                : stamp && !(b > vyBoat(c - 1)) ? kaiCongrats("New stamp!", `${esc(vyIsl(k).name)} is in your passport now. Harbour ${hn} is certified!`, `Congrats! A new stamp for ${vyIsl(k).name}!`)
+                : out === "cert" && b > vyBoat(c - 1) ? kaiCongrats(`New boat: a ${VY_BOATS[b].name}!`, `Harbour ${hn} certified: <b>${c}</b> harbours on your voyage. Kai sails on a ${VY_BOATS[b].name} now!`, `Congrats! Kai has a new boat: a ${VY_BOATS[b].name}!`)
                 : out === "cert" ? kaiCongrats(`Harbour ${hn} certified!`, `${esc(vyIsl(k).name)}: your flag is planted. <b>${vyWords()}</b> words learnt on your voyage.`, `Congrats! Harbour ${hn} is certified!`)
                 : kaiCongrats("Storm beaten!", `Harbour ${hn} keeps its lighthouse on.`, "Congrats! You beat the storm!"));
         }

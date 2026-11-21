@@ -1544,7 +1544,7 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .vyisl{--n:#22d3ee;position:absolute;display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-height:44px;padding:5px 10px;box-sizing:border-box;border-radius:12px;border:2px solid var(--n);background:rgba(18,17,31,.88);box-shadow:0 0 12px -3px var(--n);color:#fff;cursor:pointer;text-align:left}
 .vyisl b{font:800 15px/1.15 var(--claude)}.vyisl small{font:600 12px var(--claude);color:#d9dbe8}
 .vyisl:focus-visible{outline:3px solid #fff;outline-offset:2px}
-.vyisl.i0{left:3%;top:25%}.vyisl.i1{right:3%;top:52%}.vyisl.i2{left:3%;top:77%}.vyisl.i3{right:3%;top:89%}
+.vyisl.i0{left:3%;top:27.5%}.vyisl.i1{right:3%;top:53.5%}.vyisl.i2{left:3%;top:80.5%}.vyisl.i3{right:3%;top:91.3%}
 .vyisl.i4{right:5%;top:5%;flex-direction:row;align-items:center;gap:6px;min-height:0;border-style:dashed;border-color:#94a3b8;box-shadow:none;cursor:default}
 .vyisl.i4 svg{width:16px;height:16px;color:#d9dbe8}
 .vyhead{--n:#a3e635;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:20px;border:2px solid var(--n);background:#1e1c33;box-shadow:0 0 18px -4px var(--n)}
@@ -1578,11 +1578,22 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .vywords li b{font:700 17px var(--claude);color:#fff}.vywords li i{font:500 14px var(--claude);font-style:normal;color:#c7c9d9;text-align:right}
 .vyrule{margin:0;text-align:center;font:500 14px/1.4 var(--claude);color:#c7c9d9}
 .vyhint{margin:6px 0 0;font:600 14px var(--claude);color:#5b5f7a}.vyhint b{color:#0b7f89}
-.vycert{display:flex;flex-direction:column;align-items:center;gap:4px;margin:0 auto 10px;padding:12px 20px;border-radius:18px;border:3px solid #15803d;background:#dcfce7;color:#14532d;text-align:center}
-.vycert svg{width:34px;height:34px;color:#15803d}.vycert b{font:800 18px var(--claude)}.vycert span{font:600 14px var(--claude)}
+.vycert{display:flex;flex-direction:column;align-items:center;gap:4px;max-width:340px;margin:0 auto 10px;padding:10px 10px 12px;border-radius:18px;border:3px solid #15803d;background:#dcfce7;color:#14532d;text-align:center}
+.vycert img{display:block;width:100%;height:auto;aspect-ratio:1;border-radius:12px;margin-bottom:4px}.vycert b{font:800 18px var(--claude)}.vycert span{font:600 14px var(--claude)}
 .vyboat{display:flex;align-items:center;gap:12px}
 .vyboat img{width:120px;height:81px;object-fit:cover;border-radius:12px;border:2px solid #0b0a16;flex:none}
 .vyboat>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
 .vyboat p{margin:0;font:500 14px var(--claude);color:#c7c9d9}.vyboat p b{color:#fff;text-transform:capitalize}
 .vyboat small{font:600 12px var(--claude);color:#c7c9d9}
 .vyscene{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:18px;border:2px solid #3a3760}
+/* le passeport : une page de papier crème, 5 tampons */
+.vypass{padding:12px 14px 14px;border-radius:20px;background:#f6f1e3;color:#3b2f1e;border:2px solid #d8c9a3;box-shadow:0 0 0 1px rgba(0,0,0,.45)}
+.vypassh{display:flex;justify-content:space-between;align-items:baseline;font:600 13px var(--claude);color:#6b5a3a}
+.vypassh span:first-child{font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#3b2f1e}
+.vypass ul{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.vypass li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px}
+.vystamp{width:100%;max-width:64px;aspect-ratio:1;border-radius:50%;border:2px dashed #c4b28a;display:block;overflow:hidden}
+.vystamp img{display:block;width:100%;height:100%;transform:rotate(-8deg);mix-blend-mode:multiply}
+.vypass li.got .vystamp{border:0}
+.vypass li:nth-child(even).got .vystamp img{transform:rotate(7deg)}
+.vypass b{font:700 11px/1.15 var(--claude);color:#3b2f1e}.vypass small{font:600 10px/1.15 var(--claude);color:#6b5a3a}

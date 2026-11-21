@@ -28,9 +28,13 @@
 - L'ordre de fréquence des noms, adjectifs et adverbes est une première version : il faudra le faire relire comme un contenu
   pédagogique (charte : relecture par Opus).
 
+## Images (Gemini, PO 20-21/11)
+- Tuile du menu, carte de l'archipel (v2, plus réaliste), 4 bateaux (radeau 0, barque 5, voilier 15, trois-mâts 30 ports
+  certifiés), 3 scènes de port (brouillard : pas encore certifié ; soleil : certifié ; tempête), Kai qui plante son drapeau
+  (écran de certification), 5 tampons du passeport (un par île au 1er port certifié de l'île, « Great voyage » quand les
+  4 îles sont tamponnées). Sources dans le dossier de travail de la session ; recadrées et converties en webp dans `img/`.
+
 ## Reste à faire
-- Images Gemini : la carte définitive (plus réaliste, haut de l'image libre), le bateau qui s'améliore, les états d'un port,
-  les tampons du passeport. Les positions des noms des îles sur la carte (`.vyisl.i0` à `.i4` dans `css/app.css`) seront
-  à ajuster sur la nouvelle carte.
-- Le passeport (un tampon par île terminée) et le bateau de Kai qui s'améliore.
+- Le système de récompense pour pousser au 2e run (coffres, pièces, marée) : proposé au PO le 20/11, en attente de sa réponse.
+- Les missions spéciales débloquées par les récompenses (à définir par le PO) ; l'île secrète.
 - Un rappel de Kai sur la carte Kai du menu, et une ligne sur la carte This week.
