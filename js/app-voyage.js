@@ -132,6 +132,14 @@ function vyNext() {
 const vyCount = () => Object.values(vySt().h).filter(h => h.c).length;
 const vyWords = () => Object.values(vySt().h).filter(h => h.c).reduce((t, h) => t + (h.w || []).length, 0);
 /* le nom amusant du port (js/data/noms-ports.js) ; « Harbour 4 » si le fichier manque */
+/* le lieu de chaque port (12 vignettes Gemini du PO, 21/11) : caché dans le brouillard, il se dévoile à moitié après la
+   1re série sans faute et en entier quand le port est certifié — une raison de plus de faire la 2e série */
+const VY_LIEUX = ["A fishing harbour in Brittany", "A tropical harbour in Tahiti", "A colourful little harbour in Italy", "A peaceful harbour in Greece",
+    "A harbour on the east coast of the USA", "A pirates' hideout in the 17th century", "The walled harbour of Saint-Malo", "A fishing harbour in England",
+    "A harbour in the fjords of Norway", "A big trading harbour in Asia", "A harbour in the Middle East", "A modern marina"];
+const VY_LORDER = { nouns: [1, 6, 8, 5, 7, 2, 3, 4, 9, 10, 11, 12], verbs: [10, 11, 4, 2, 6, 9, 1, 3, 5, 7, 8, 12], adjectives: [3, 4, 2, 12, 1, 5, 6, 7, 8, 9, 10, 11], adverbs: [12, 9, 2, 1, 3, 4, 5, 6, 7, 8, 10, 11] };
+const vyLieu = (k, n) => { const L = VY_LORDER[k] || VY_LORDER.nouns; return L[(n - 1) % L.length]; };
+const vyLieuImg = (k, n) => `img/voyage-lieu-${String(vyLieu(k, n)).padStart(2, "0")}.webp`;
 const vyHname = (k, n) => typeof vyName === "function" ? vyName(k, +n) : `Harbour ${n}`;
 const vyLabel = key => { const [k, n] = key.split(":"); return `${vyIsl(k).name} · ${vyHname(k, n)}`; };
 /* ===== la page du voyage : la carte, une île, un port ===== */
@@ -190,7 +198,8 @@ ${nx.key ? `<button class="vygo" type="button" data-vyh="${nx.key}"><span>${nx.s
 <div class="mdots" id="vydots" role="tablist" aria-label="Cards">${["Kai", "My voyage", "My passport"].map((t, i) => `<button type="button" role="tab" aria-selected="${!i}" aria-label="${t}" data-vc="${i}"></button>`).join("")}</div></div>
 <div class="vymap"><img src="img/voyage-carte.webp" alt="Map of the archipelago" loading="lazy">
 ${VY_ISL.map((I, j) => { const H = vyHarbours(I.k), c = H.filter(h => vyDone(vyHkey(I.k, h.n))).length; return `<button class="vyisl i${j}" type="button" data-vyi="${I.k}" style="--n:${I.n}"><b>${I.name}</b><small>${I.fam} · ${c}/${H.length}</small></button>`; }).join("")}
-<span class="vyisl i4 lock">${vyIcon.lock}<small>Secret island</small></span></div>`;
+<span class="vyisl i4 lock">${vyIcon.lock}<small>Secret island</small></span></div>
+<div class="vymiss"><img src="img/voyage-missions.webp" alt="Kai and two friends on a rock above a harbour in Brittany"><div><span>${vyIcon.lock} Special missions</span><p>Coming soon: Kai and his friends have new adventures for you!</p></div></div>`;
     vyCarousel();
 }
 /* glisser d'une carte à l'autre : les points suivent, un point ou « Swipe » fait défiler (comme le menu) */
@@ -226,7 +235,7 @@ function renderIsland(B, h1) {
         const key = vyHkey(I.k, h.n), s = vyState(I.k, h.n), lock = h.n > open, inR = key === nx, runs = ((st.h[key] || {}).r || []).length;
         const sub = s === "cert" ? "Certified" : s === "storm" ? "Storm!" : s === "run" ? `${Math.min(runs, VY_RUNS)} / ${VY_RUNS} perfect runs` : lock ? "Locked" : key === nx ? "Next" : "Ready";
         const words = h.w.slice(0, 5).map(x => (allWords().byKey.get(x) || { d: {} }).d).map(d => esc(d.v || d.w || "")).join(" · ");
-        return `<li><button type="button" class="vyport ${s}${lock ? " lock" : ""}${inR ? " next" : ""}" ${lock ? "disabled" : `data-vyh="${key}"`}><span class="vyn">${s === "cert" ? vyIcon.flag : s === "storm" ? vyIcon.storm : lock ? vyIcon.lock : h.n}</span><span class="vyt"><b>${esc(vyHname(I.k, h.n))}</b><em>${sub}</em><small>${lock ? `${h.w.length} new ${I.fam.toLowerCase()}` : words + "…"}</small></span></button></li>`;
+        return `<li><button type="button" class="vyport ${s}${lock ? " lock" : ""}${inR ? " next" : ""}" ${lock ? "disabled" : `data-vyh="${key}"`}><span class="vyn">${s === "cert" ? vyIcon.flag : s === "storm" ? vyIcon.storm : lock ? vyIcon.lock : h.n}</span><span class="vyt"><b>${esc(vyHname(I.k, h.n))}</b><em>${sub}</em><small>${lock ? `${h.w.length} new ${I.fam.toLowerCase()}` : words + "…"}</small></span>${s === "cert" || s === "storm" ? `<img class="vythumb" src="${vyLieuImg(I.k, h.n)}" alt="">` : ""}</button></li>`;
     }).join("")}</ol>
 ${H.length > vis.length ? `<p class="vymore">${H.length - vis.length} more harbours to discover</p>` : ""}`;
 }
@@ -242,9 +251,14 @@ function renderHarbour(B, h1) {
     const W = H.w.map(x => allWords().byKey.get(x)).filter(Boolean);
     const face = s === "cert" ? "smile" : "head";   /* le visage à part : le test des images lit le 2e argument de headSvg */
     /* l'image du port : au soleil quand il est certifié, sous la tempête, sinon encore dans le brouillard */
-    const scene = s === "cert" ? "soleil" : s === "storm" ? "tempete" : "brume";
+    /* l'image du port : Kai dans le brouillard (rien de réussi), le lieu dans la brume (1 série), le lieu dévoilé (certifié), la tempête */
+    const lieu = VY_LIEUX[vyLieu(k, +n) - 1];
+    const scene = s === "storm" ? `<figure class="vyscene"><img src="img/voyage-port-tempete.webp" alt="Kai at the lighthouse in the storm"><figcaption>Storm! One perfect run keeps your lighthouse on.</figcaption></figure>`
+        : s === "cert" ? `<figure class="vyscene lieu"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}"><figcaption>${vyIcon.flag}${esc(lieu)}</figcaption></figure>`
+        : s === "run" ? `<figure class="vyscene lieu fog"><img src="${vyLieuImg(k, n)}" alt="A harbour hidden in the fog"><figcaption>The fog is lifting… One more perfect run to see this harbour!</figcaption></figure>`
+        : `<figure class="vyscene"><img src="img/voyage-port-brume.webp" alt="Kai at the harbour in the fog"><figcaption>Two perfect runs and the fog lifts on this harbour!</figcaption></figure>`;
     B.innerHTML = `<div class="qhead">${headSvg(say, face)}</div>
-<img class="vyscene" src="img/voyage-port-${scene}.webp" alt="${s === "cert" ? "Kai at the harbour in the sun, the flag is planted" : s === "storm" ? "Kai at the lighthouse in the storm" : "Kai at the harbour in the fog"}">
+${scene}
 <div class="vyruns">${[0, 1].map(j => `<div class="${r[j] ? "ok" : ""}"><span>Run ${j + 1}${r[j] ? " · " + kDate(r[j]).toLocaleDateString("en-GB", { weekday: "short", day: "numeric" }) : ""}</span><b>${r[j] ? "10 / 10 perfect" : "To do"}</b></div>`).join("")}</div>
 <div class="vywords" style="--n:${I.n}"><div class="vywh"><span>${I.name}</span><span>${W.length} ${W.length === 1 ? I.one : I.fam.toLowerCase()}</span></div>
 <ul>${W.map(w => `<li><button class="snd sm" type="button" data-say="${esc(w.d.v || w.d.w)}" aria-label="Listen">${SPK}</button><b>${esc(w.d.v || w.d.w)}</b><i>${esc(w.d.fr || "")}</i></li>`).join("")}</ul></div>
@@ -345,6 +359,7 @@ function vyEnd() {
     XMODE = "vyend";
     document.getElementById("qn").textContent = "";
     QW().innerHTML = `<p class="qpart">${esc(vyLabel(VY.key))} · Results</p><div class="qhead">${headSvg(say, perfect ? "smile" : "head")}</div>
+${out === "storm" ? `<div class="vycert"><img class="wide" src="img/voyage-port-soleil.webp" alt="Kai at the harbour in the sun"><b>${esc(vyHname(k, hn))} · ${esc(vyIsl(k).name)}</b><span>Storm beaten: the lighthouse stays on!</span></div>` : ""}
 ${out === "cert" ? `<div class="vycert"><img src="img/voyage-drapeau.webp" alt="Kai plants his flag on the pier"><b>${esc(vyHname(k, hn))} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyCount()} harbour${vyCount() === 1 ? "" : "s"} on your voyage</span></div>` : ""}
 <div class="scores one"><div class="sc${perfect ? " ok" : ""}"><i>${esc(vyIsl(k).name)}</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
 <ul class="recap">${VY.items.map((it, j) => `<li><span class="m ${VY.res[j] ? "ok" : "ko"}">${VY.res[j] ? CHECK : CROSS}</span><b>${esc(t3Ans(it))}</b><i>${esc(it.f)}</i></li>`).join("")}</ul>

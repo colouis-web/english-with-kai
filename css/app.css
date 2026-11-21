@@ -1585,7 +1585,22 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .vyboat>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
 .vyboat p{margin:0;font:500 14px var(--claude);color:#c7c9d9}.vyboat p b{color:#fff;text-transform:capitalize}
 .vyboat small{font:600 12px var(--claude);color:#c7c9d9}
-.vyscene{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:18px;border:2px solid #3a3760}
+.vyscene{position:relative;margin:0;border-radius:18px;overflow:hidden;border:2px solid #3a3760;background:#1e1c33}
+.vyscene img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
+.vyscene.lieu img{aspect-ratio:480/211}
+.vyscene figcaption{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 12px;font:600 14px/1.3 var(--claude);color:#e4e6f2;text-align:center}
+.vyscene figcaption svg{width:18px;height:18px;flex:none;color:#2dd4bf}
+.vyscene.fog img{filter:blur(4px) grayscale(.55) brightness(1.15)}
+.vyscene.fog::after{content:"";position:absolute;inset:0 0 auto 0;aspect-ratio:480/211;background:linear-gradient(180deg,rgba(236,240,246,.55),rgba(236,240,246,.25) 60%,rgba(236,240,246,.6));pointer-events:none}
+@media (prefers-reduced-motion:no-preference){.vyscene.lieu:not(.fog) img{animation:vyreveal .9s ease-out both}}
+@keyframes vyreveal{from{filter:blur(6px) grayscale(.6) brightness(1.15)}to{filter:none}}
+.vythumb{width:64px;height:40px;flex:none;object-fit:cover;border-radius:8px;border:2px solid #0b0a16}
+.vycert img.wide{aspect-ratio:4/3;object-fit:cover}
+.vymiss{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:20px;border:2px dashed #64748b;background:#1a1830}
+.vymiss img{width:88px;height:117px;object-fit:cover;border-radius:12px;flex:none;filter:saturate(.7)}
+.vymiss span{display:flex;align-items:center;gap:6px;font:800 13px var(--claude);letter-spacing:1.2px;text-transform:uppercase;color:#d9dbe8}
+.vymiss span svg{width:16px;height:16px}
+.vymiss p{margin:4px 0 0;font:500 15px/1.3 var(--claude);color:#fff}
 /* le passeport : une page de papier crème, 5 tampons */
 .vypass{padding:12px 14px 14px;border-radius:20px;background:#f6f1e3;color:#3b2f1e;border:2px solid #d8c9a3;box-shadow:0 0 0 1px rgba(0,0,0,.45)}
 .vypassh{display:flex;justify-content:space-between;align-items:baseline;font:600 13px var(--claude);color:#6b5a3a}

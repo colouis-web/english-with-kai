@@ -39,6 +39,12 @@
   (écran de certification), 5 tampons du passeport (un par île au 1er port certifié de l'île, « Great voyage » quand les
   4 îles sont tamponnées). Sources dans le dossier de travail de la session ; recadrées et converties en webp dans `img/`.
 
+- 12 vignettes de ports du monde (Bretagne, Tahiti, Italie, Grèce, côte est des États-Unis, repaire de pirates, Saint-Malo,
+  Angleterre, fjords, Asie, Moyen-Orient, marina) : chaque port a son lieu, caché dans le brouillard, à moitié dévoilé après
+  la 1re série sans faute, dévoilé quand il est certifié (vignette aussi dans la liste des ports). Une raison de plus de faire
+  la 2e série.
+- Kai et deux amis devant un port breton : carte « Special missions · coming soon » sous la carte des îles.
+
 ## Reste à faire
 - Le système de récompense pour pousser au 2e run (coffres, pièces, marée) : proposé au PO le 20/11, en attente de sa réponse.
 - Les missions spéciales débloquées par les récompenses (à définir par le PO) ; l'île secrète.
