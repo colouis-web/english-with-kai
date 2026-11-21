@@ -4,7 +4,7 @@
 - 9e app du menu, « Kai's voyage » (image `img/kai-voyage.webp`, générée par le PO avec Gemini).
 - Une île par famille de mots : Thing Island (noms), Action Volcano (verbes), Colour Cove (adjectifs), Swift Reef (adverbes),
   et une île secrète dans le brouillard (affichée, pas encore jouable).
-- Chaque île est une suite de **ports de 10 mots**, du plus courant au plus rare :
+- Chaque île est une suite de **ports de 7 mots** (10 au départ ; 7 depuis le 21/11 pour que la série ne soit pas trop longue — un port déjà commencé garde ses 10 mots), du plus courant au plus rare :
   1. niveau minimum du mot (`lvOkWord`, du niveau 0 au niveau 3) ;
   2. ordre de fréquence de `js/data/frequence-voyage.js` (verbes : l'ordre de la liste `USAGE`) ;
   3. classe de fréquence `f`, puis l'ordre des dictionnaires.
@@ -49,3 +49,9 @@
 - Le système de récompense pour pousser au 2e run (coffres, pièces, marée) : proposé au PO le 20/11, en attente de sa réponse.
 - Les missions spéciales débloquées par les récompenses (à définir par le PO) ; l'île secrète.
 - Un rappel de Kai sur la carte Kai du menu, et une ligne sur la carte This week.
+
+## 21/11 — retours du PO
+- Bouton **Check** centré dans la série (comme le Check de la dictée).
+- Liste des mots d'un port : sous chaque **nom**, son pluriel (« irregular » s'il est irrégulier, « uncountable », « always plural ») ;
+  sous chaque **verbe irrégulier**, son prétérit et son participe passé (went · gone). Rien sous les verbes réguliers.
+- **7 mots par port** : un reste de moins de 4 mots rejoint le dernier port. Les ports déjà commencés restent figés (10 mots).

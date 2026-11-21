@@ -441,14 +441,14 @@ def s02_creation_profil(P):
     P.no_overflow("voyage")
 
     def serie():
-        for _ in range(10):
+        for _ in range(P.ev("() => VY.items.length")):
             p.locator("#vyin").fill(P.ev("() => t3Ans(VY.items[VY.i])"))
             p.locator("#vyin").press("Enter")
             p.locator("#vynext").click()
     P.click(".vygo")
     P.click("#vystart")
     P.on("quiz")
-    P.check("Kai's voyage : la série = 10 phrases à trou, une case à remplir, aucun choix", P.ev("() => VY.items.length") == 10 and P.visible("#vyin") and p.locator("#qwrap .opt").count() == 0)
+    P.check("Kai's voyage : la série = 7 phrases à trou (une par mot du port), une case à remplir, aucun choix", P.ev("() => VY.items.length") == 7 and P.visible("#vyin") and p.locator("#qwrap .opt").count() == 0)
     serie()
     h = P.ev("() => vySt().h['nouns:1']")
     P.check("Kai's voyage : 1re série sans faute notée, port pas encore certifié", len(h["r"]) == 1 and not h.get("c"), h)

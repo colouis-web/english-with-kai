@@ -74,7 +74,7 @@ function kaiTalk() {
         }
         /* nouveauté (PO, 21/11) : Kai annonce Kai's voyage tant que l'élève ne l'a pas ouvert */
         if (typeof vySt === "function" && !vySt().seen)
-            return { say: `${hello()} *New!* Kai's voyage: sail from harbour to harbour, *10 words* in each one!`, chips: [{ id: "voyage", label: "Set sail!" }, GO] };
+            return { say: `${hello()} *New!* Kai's voyage: sail from harbour to harbour, *7 words* in each one!`, chips: [{ id: "voyage", label: "Set sail!" }, GO] };
         if (h >= 21)
             return { say: `${hello()} Just a few *words* before bed?`, chips: [GO, NOTNOW] };
         /* fin de semaine : ce qu'il reste à faire passe en premier */

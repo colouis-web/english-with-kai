@@ -1,11 +1,11 @@
 /* Kai's voyage (PO, 20/11) : un apprentissage continu du vocabulaire, en voyage d'île en île (pas d'objectif mensuel :
    « on fait le plan et les élèves avancent », PO 20/11).
    - Une île par famille de mots : Thing Island (noms), Action Volcano (verbes), Colour Cove (adjectifs), Swift Reef (adverbes).
-   - Chaque île est un chemin de ports ; un port = 10 mots, rangés du plus courant au plus rare : d'abord le niveau minimum
+   - Chaque île est un chemin de ports ; un port = 7 mots (10 au départ, 7 depuis le 21/11 : « pour que ce ne soit pas trop long », PO), rangés du plus courant au plus rare : d'abord le niveau minimum
      du mot (lvOkWord), puis l'ordre de fréquence (js/data/frequence-voyage.js ; verbes : liste USAGE), puis la classe f.
-     Un port est figé (ses 10 mots sont notés dans le profil) dès sa première série : un mot ajouté plus tard au dictionnaire
-     ne décale jamais un port commencé.
-   - La série : 10 phrases d'exemple à trou, on tape le mot (aucun choix de réponses). Une faute de frappe compte comme une faute.
+     Un port est figé (ses mots sont notés dans le profil) dès sa première série : un mot ajouté plus tard au dictionnaire
+     ne décale jamais un port commencé, et un port commencé à 10 mots les garde.
+   - La série : une phrase d'exemple à trou par mot, on tape le mot (aucun choix de réponses). Une faute de frappe compte comme une faute.
    - Un port est certifié après 2 séries sans faute faites 2 jours différents (PO : « 2 fois sans fautes »).
    - Tempête : 21 jours après sa certification (ou sa dernière tempête), une série sans faute garde le phare allumé.
    - Chaque élève avance à son rythme : sur une île, le port suivant s'ouvre dès qu'on a commencé le précédent.
@@ -18,7 +18,7 @@ const VY_ISL = [
     { k: "verbs", name: "Action Volcano", fam: "Verbs", one: "verb", n: "#fb923c", per: 3, st: "volcan" },
     { k: "adjectives", name: "Colour Cove", fam: "Adjectives", one: "adjective", n: "#f472b6", per: 2, st: "arc" },
     { k: "adverbs", name: "Swift Reef", fam: "Adverbs", one: "adverb", n: "#38bdf8", per: 1, st: "recif" }];
-const VY_SIZE = 10, VY_RUNS = 2, VY_STORM = 21;
+const VY_SIZE = 7, VY_RUNS = 2, VY_STORM = 21;
 let VYV = { i: null, h: null }, VY = null;
 const vyIsl = k => VY_ISL.find(x => x.k === k);
 const vyHkey = (k, n) => k + ":" + n;
@@ -85,7 +85,7 @@ function vyHarbours(k) {
             continue;
         }
         const w = pool.slice(p, p + VY_SIZE);
-        if (w.length < 5 && out.length && ![...fz.keys()].some(x => x > n)) {   /* un reste de moins de 5 mots rejoint le dernier port */
+        if (w.length < 4 && out.length && ![...fz.keys()].some(x => x > n)) {   /* un reste de moins de 4 mots rejoint le dernier port */
             if (!fz.has(out[out.length - 1].n))
                 out[out.length - 1].w.push(...w);
             break;
@@ -192,7 +192,7 @@ function renderVoyage() {
         return renderIsland(B, h1);
     h1.textContent = "Kai's voyage";
     const nx = vyNext(), n = vyCount();
-    const say = !curProf() ? "Create your profile first, then we *set sail*!" : nx.done ? "Every harbour is *certified*! You're a real captain!" : nx.wait ? "Great sailing today! Come back *tomorrow* for your second runs." : n ? `*${n} harbour${n === 1 ? "" : "s"}* certified. Let's sail on!` : "Ten words in each *harbour*. Let's set sail!";
+    const say = !curProf() ? "Create your profile first, then we *set sail*!" : nx.done ? "Every harbour is *certified*! You're a real captain!" : nx.wait ? "Great sailing today! Come back *tomorrow* for your second runs." : n ? `*${n} harbour${n === 1 ? "" : "s"}* certified. Let's sail on!` : `${VY_NUM[VY_SIZE]} words in each *harbour*. Let's set sail!`;
     /* le haut de la page comme le menu (PO, 21/11) : un carrousel de 3 cartes — Kai et « Next », le statut, le passeport —
        pour que la carte des îles remonte */
     B.innerHTML = `<div class="mcar vycar" aria-roledescription="carousel" aria-label="Kai, my voyage and my passport"><div class="mtrack" id="vytrack">
@@ -236,7 +236,7 @@ function renderIsland(B, h1) {
     h1.textContent = I.name;
     const open = vyOpen(I.k);
     const vis = H.filter(h => h.n <= open + 2);
-    B.innerHTML = `<div class="vyhead" style="--n:${I.n}"><img src="img/kai-voyage.webp" alt=""><div><span>${I.fam} · ${H.length} harbours</span><p>${esc(vyHname(I.k, 1))} has the 10 most useful ${I.fam.toLowerCase()}. The further you sail, the rarer the words!</p></div></div>
+    B.innerHTML = `<div class="vyhead" style="--n:${I.n}"><img src="img/kai-voyage.webp" alt=""><div><span>${I.fam} · ${H.length} harbours</span><p>${esc(vyHname(I.k, 1))} has the ${VY_SIZE} most useful ${I.fam.toLowerCase()}. The further you sail, the rarer the words!</p></div></div>
 <ol class="vyports">${vis.map(h => {
         const key = vyHkey(I.k, h.n), s = vyState(I.k, h.n), lock = h.n > open, inR = key === nx, runs = ((st.h[key] || {}).r || []).length;
         const sub = s === "cert" ? "Certified" : s === "storm" ? "Storm!" : s === "run" ? `${Math.min(runs, VY_RUNS)} / ${VY_RUNS} perfect runs` : lock ? "Locked" : key === nx ? "Next" : "Ready";
@@ -244,6 +244,19 @@ function renderIsland(B, h1) {
         return `<li><button type="button" class="vyport ${s}${lock ? " lock" : ""}${inR ? " next" : ""}" ${lock ? "disabled" : `data-vyh="${key}"`}><span class="vyn">${s === "cert" ? vyIcon.flag : s === "storm" ? vyIcon.storm : lock ? vyIcon.lock : h.n}</span><span class="vyt"><b>${esc(vyHname(I.k, h.n))}</b><em>${sub}</em><small>${lock ? `${h.w.length} new ${I.fam.toLowerCase()}` : words + "…"}</small></span>${lock ? "" : `<img class="vythumb${s === "cert" || s === "storm" ? "" : s === "run" ? " fog1" : " fog"}" src="${vyLieuImg(I.k, h.n)}" alt="">`}</button></li>`;
     }).join("")}</ol>
 ${H.length > vis.length ? `<p class="vymore">${H.length - vis.length} more harbours to discover</p>` : ""}`;
+}
+const VY_NUM = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
+/* sous le mot, dans la liste du port, ce qui aide pour les phrases à trou (PO, 21/11) : le pluriel des noms,
+   le prétérit et le participe passé des verbes irréguliers */
+function vyForms(w) {
+    const d = w.d, f = x => String(x || "").trim(), ok = x => f(x) && f(x) !== "—";
+    let t = "";
+    if (w.k === "nouns")
+        t = d.t === "u" ? "uncountable" : d.t === "p" ? "always plural" : (d.t === "c" || d.t === "n") && ok(d.pl) && f(d.pl) !== f(d.w)
+            ? `plural: <b>${esc(f(d.pl))}</b>${d.ipl ? ' <em>irregular</em>' : ""}` : "";
+    else if (w.k === "verbs" && d.irr && ok(d.pt))
+        t = `<b>${esc(f(d.pt))}</b>${ok(d.pp) ? " · <b>" + esc(f(d.pp)) + "</b>" : ""}`;   /* seuls les irréguliers ont leurs formes : pas d'étiquette */
+    return t ? `<small class="vyfm">${t}</small>` : "";
 }
 function renderHarbour(B, h1) {
     const [k, n] = VYV.h.split(":"), I = vyIsl(k), H = vyHarbours(k).find(h => h.n === +n), h = vySt().h[VYV.h] || {}, s = vyState(k, +n), T = todayKey();
@@ -253,8 +266,8 @@ function renderHarbour(B, h1) {
         return renderIsland(B, h1);
     }
     const r = h.r || [], today = r.includes(T);
-    const say = s === "cert" ? "This harbour is *certified*! Practise when you want." : s === "storm" ? "A *storm* is coming! One perfect run keeps your lighthouse on." : today ? "Perfect run today! Come back *tomorrow* for the second one." : r.length ? "Second run today! *No mistakes* and I plant your flag!" : "Ten words, ten gaps. Two *perfect* runs, on two different days!";
     const W = H.w.map(x => allWords().byKey.get(x)).filter(Boolean);
+    const say = s === "cert" ? "This harbour is *certified*! Practise when you want." : s === "storm" ? "A *storm* is coming! One perfect run keeps your lighthouse on." : today ? "Perfect run today! Come back *tomorrow* for the second one." : r.length ? "Second run today! *No mistakes* and I plant your flag!" : `${VY_NUM[W.length] || W.length} words, ${(VY_NUM[W.length] || W.length + "").toLowerCase()} gaps. Two *perfect* runs, on two different days!`;
     const face = s === "cert" ? "smile" : "head";   /* le visage à part : le test des images lit le 2e argument de headSvg */
     /* l'image du port : au soleil quand il est certifié, sous la tempête, sinon encore dans le brouillard */
     /* l'image du port : Kai dans le brouillard (rien de réussi), le lieu dans la brume (1 série), le lieu dévoilé (certifié), la tempête */
@@ -265,13 +278,13 @@ function renderHarbour(B, h1) {
         : `<figure class="vyscene lieu fog"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, in the fog"><figcaption>Two perfect runs and the fog lifts on this harbour!</figcaption></figure>`;
     B.innerHTML = `<div class="qhead">${headSvg(say, face)}</div>
 ${scene}
-<div class="vyruns">${[0, 1].map(j => `<div class="${r[j] ? "ok" : ""}"><span>Run ${j + 1}${r[j] ? " · " + kDate(r[j]).toLocaleDateString("en-GB", { weekday: "short", day: "numeric" }) : ""}</span><b>${r[j] ? "10 / 10 perfect" : "To do"}</b></div>`).join("")}</div>
+<div class="vyruns">${[0, 1].map(j => `<div class="${r[j] ? "ok" : ""}"><span>Run ${j + 1}${r[j] ? " · " + kDate(r[j]).toLocaleDateString("en-GB", { weekday: "short", day: "numeric" }) : ""}</span><b>${r[j] ? `${W.length} / ${W.length} perfect` : "To do"}</b></div>`).join("")}</div>
 <div class="vywords" style="--n:${I.n}"><div class="vywh"><span>${I.name}</span><span>${W.length} ${W.length === 1 ? I.one : I.fam.toLowerCase()}</span></div>
-<ul>${W.map(w => `<li><button class="snd sm" type="button" data-say="${esc(w.d.v || w.d.w)}" aria-label="Listen">${SPK}</button><b>${esc(w.d.v || w.d.w)}</b><i>${esc(w.d.fr || "")}</i></li>`).join("")}</ul></div>
+<ul>${W.map(w => `<li><button class="snd sm" type="button" data-say="${esc(w.d.v || w.d.w)}" aria-label="Listen">${SPK}</button><span class="vyw"><b>${esc(w.d.v || w.d.w)}</b>${vyForms(w)}</span><i>${esc(w.d.fr || "")}</i></li>`).join("")}</ul></div>
 <p class="vyrule">${W.length} sentences with a gap: type the missing word. A typo counts as a mistake.</p>
 <button class="vygo" type="button" id="vystart">${s === "cert" ? "Practise" : s === "storm" ? "Face the storm" : r.length && !today ? "Start run 2" : today ? "Practise again" : "Start run 1"}${GOSVG}</button>`;
 }
-/* ===== la série : 10 phrases à trou ===== */
+/* ===== la série : une phrase à trou par mot du port ===== */
 function vyStart(key) {
     const [k, n] = key.split(":"), H = vyHarbours(k).find(h => h.n === +n);
     if (!H)
