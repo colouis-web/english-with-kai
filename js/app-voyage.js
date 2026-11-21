@@ -179,13 +179,42 @@ function renderVoyage() {
     h1.textContent = "Kai's voyage";
     const nx = vyNext(), n = vyCount();
     const say = !curProf() ? "Create your profile first, then we *set sail*!" : nx.done ? "Every harbour is *certified*! You're a real captain!" : nx.wait ? "Great sailing today! Come back *tomorrow* for your second runs." : n ? `*${n} harbour${n === 1 ? "" : "s"}* certified. Let's sail on!` : "Ten words in each *harbour*. Let's set sail!";
-    B.innerHTML = `<div class="qhead">${headSvg(say, n ? "smile" : "head")}</div>
-${vyCard()}
-${nx.key ? `<button class="vygo" type="button" data-vyh="${nx.key}">${nx.storm ? "Storm! " : "Next: "}${esc(vyLabel(nx.key))}${GOSVG}</button>` : ""}
-${vyPassport()}
+    /* le haut de la page comme le menu (PO, 21/11) : un carrousel de 3 cartes — Kai et « Next », le statut, le passeport —
+       pour que la carte des îles remonte */
+    B.innerHTML = `<div class="mcar vycar" aria-roledescription="carousel" aria-label="Kai, my voyage and my passport"><div class="mtrack" id="vytrack">
+<section class="mslide" aria-roledescription="slide" aria-label="1 of 3: Kai"><div class="mcard mkai vykai"><div class="qhead">${headSvg(say, n ? "smile" : "head")}</div>
+${nx.key ? `<button class="vygo" type="button" data-vyh="${nx.key}"><span>${nx.storm ? "Storm! " : "Next: "}${esc(vyHname(...nx.key.split(":")))}<small>${esc(vyIsl(nx.key.split(":")[0]).name)}</small></span>${GOSVG}</button>` : ""}
+<p class="mhint" id="vyhint">Swipe for your voyage <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></p></div></section>
+<section class="mslide" aria-roledescription="slide" aria-label="2 of 3: my voyage">${vyCard()}</section>
+<section class="mslide" aria-roledescription="slide" aria-label="3 of 3: my passport">${vyPassport()}</section></div>
+<div class="mdots" id="vydots" role="tablist" aria-label="Cards">${["Kai", "My voyage", "My passport"].map((t, i) => `<button type="button" role="tab" aria-selected="${!i}" aria-label="${t}" data-vc="${i}"></button>`).join("")}</div></div>
 <div class="vymap"><img src="img/voyage-carte.webp" alt="Map of the archipelago" loading="lazy">
 ${VY_ISL.map((I, j) => { const H = vyHarbours(I.k), c = H.filter(h => vyDone(vyHkey(I.k, h.n))).length; return `<button class="vyisl i${j}" type="button" data-vyi="${I.k}" style="--n:${I.n}"><b>${I.name}</b><small>${I.fam} · ${c}/${H.length}</small></button>`; }).join("")}
 <span class="vyisl i4 lock">${vyIcon.lock}<small>Secret island</small></span></div>`;
+    vyCarousel();
+}
+/* glisser d'une carte à l'autre : les points suivent, un point ou « Swipe » fait défiler (comme le menu) */
+function vyCarousel() {
+    const track = document.getElementById("vytrack"), dots = document.getElementById("vydots");
+    if (!track || !dots)
+        return;
+    const cur = () => Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+    let raf = 0;
+    track.addEventListener("scroll", () => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+            const i = cur();
+            dots.querySelectorAll("[data-vc]").forEach((d, k) => d.setAttribute("aria-selected", String(k === i)));
+            if (i > 0)
+                document.getElementById("vyhint").classList.add("seen");
+        });
+    }, { passive: true });
+    dots.addEventListener("click", e => {
+        const d = e.target.closest("[data-vc]");
+        if (d)
+            track.scrollTo({ left: +d.dataset.vc * track.clientWidth, behavior: "smooth" });
+    });
+    document.getElementById("vyhint").addEventListener("click", () => track.scrollTo({ left: track.clientWidth, behavior: "smooth" }));
 }
 function renderIsland(B, h1) {
     const I = vyIsl(VYV.i), H = vyHarbours(I.k), st = vySt(), nx = vyNext().key;

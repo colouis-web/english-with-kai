@@ -1597,3 +1597,15 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .vypass li.got .vystamp{border:0}
 .vypass li:nth-child(even).got .vystamp img{transform:rotate(7deg)}
 .vypass b{font:700 11px/1.15 var(--claude);color:#3b2f1e}.vypass small{font:600 10px/1.15 var(--claude);color:#6b5a3a}
+/* Kai's voyage : le haut de la page en carrousel, comme le menu (PO, 21/11) */
+.vycar{margin:0 -20px 0}
+.vycar .mslide>*{flex:1;margin:0}
+.vykai{--n:#2dd4bf}.vykai .qhead{margin:auto 0 0}
+.vycar .mdots button:nth-child(1)[aria-selected="true"]{background:#2dd4bf}
+.vycar .mdots button:nth-child(2)[aria-selected="true"]{background:#22d3ee}
+.vycar .mdots button:nth-child(3)[aria-selected="true"]{background:#f6f1e3}
+.vycar .vypass{display:flex;flex-direction:column;justify-content:center}
+.vycar .vymonth{justify-content:center}
+.vycar .vystamp{max-width:72px}
+.vykai .vygo span{display:flex;flex-direction:column;align-items:center;line-height:1.15}
+.vykai .vygo small{font:700 12px var(--claude);letter-spacing:1px;opacity:.8}
