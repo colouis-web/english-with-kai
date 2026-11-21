@@ -22,7 +22,8 @@ const VY_SIZE = 10, VY_RUNS = 2, VY_STORM = 21;
 let VYV = { i: null, h: null }, VY = null;
 const vyIsl = k => VY_ISL.find(x => x.k === k);
 const vyHkey = (k, n) => k + ":" + n;
-/* données de l'élève : p.voy = { h: { "nouns:4": { w: [clés], r: [jours sans faute], c: jour certifié, s: jour de la dernière tempête } } } */
+/* données de l'élève : p.voy = { h: { "nouns:4": { w: [clés], r: [jours sans faute], c: jour certifié, s: jour de la dernière tempête } },
+   seen: jour de la 1re ouverture (Kai annonce la nouveauté dans le menu jusque-là) } */
 function vySt() {
     const p = curProf();
     if (!p)
@@ -145,6 +146,11 @@ const vyLabel = key => { const [k, n] = key.split(":"); return `${vyIsl(k).name}
 /* ===== la page du voyage : la carte, une île, un port ===== */
 function openVoyage() {
     VYV = { i: null, h: null };
+    const st = vySt();
+    if (!st.seen && curProf()) {   /* Kai n'annonce plus la nouveauté dans le menu */
+        st.seen = todayKey();
+        vySave();
+    }
     renderVoyage();
     show("voyage");
     scrollTo(0, 0);
@@ -419,7 +425,7 @@ document.getElementById("backVy").addEventListener("click", () => {
     else if (VYV.i)
         VYV.i = null;
     else
-        return show("menu", true);
+        return openMenuDay(true);   /* retour au menu par le même chemin que les autres apps : Kai remet sa discussion à jour */
     renderVoyage();
     scrollTo(0, 0);
 });

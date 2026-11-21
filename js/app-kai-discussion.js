@@ -72,6 +72,9 @@ function kaiTalk() {
             const d = t6Days(t6.date);
             return { say: `${hello()} Your class test is *${d === 0 ? "today" : d === 1 ? "tomorrow" : `in ${d} days`}*. Let's revise!`, chips: [{ id: "t6", label: "Revise", t6: t6.id }, GO] };
         }
+        /* nouveauté (PO, 21/11) : Kai annonce Kai's voyage tant que l'élève ne l'a pas ouvert */
+        if (typeof vySt === "function" && !vySt().seen)
+            return { say: `${hello()} *New!* Kai's voyage: sail from harbour to harbour, *10 words* in each one!`, chips: [{ id: "voyage", label: "Set sail!" }, GO] };
         if (h >= 21)
             return { say: `${hello()} Just a few *words* before bed?`, chips: [GO, NOTNOW] };
         /* fin de semaine : ce qu'il reste à faire passe en premier */
@@ -171,6 +174,8 @@ function kaiTalkRender() {
             openDict("menu");
         else if (id === "picks")
             openPicks();
+        else if (id === "voyage")
+            openVoyage();
         else if (id === "t6") {   /* comme le bandeau « Class test » de My activity */
             DAILY = false;
             t6Detail(b.dataset.kt6);
