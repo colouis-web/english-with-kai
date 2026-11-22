@@ -5,6 +5,6 @@ Application d'anglais pour un élève de 6e, avec Kai, un personnage manga : voc
 - Ouvrir l'application : le lien est dans **Settings › Pages** de ce dépôt (de la forme `https://NOM.github.io/english-with-kai/`).
 - Aucun compte n'est nécessaire pour l'utiliser. La progression de chaque élève est enregistrée dans le navigateur de son appareil.
 - Voix de Kai enregistrée avec ElevenLabs.
-- « Let's talk English » utilise la reconnaissance vocale du navigateur (Chrome, Edge, Safari) ; sinon, le micro du clavier du téléphone permet de dicter la phrase. Sur ce site, la phrase est vérifiée par des règles de grammaire intégrées à l'application, sans rien envoyer.
+- « Let's talk English » et Kai's voyage proposent le micro : c'est la reconnaissance vocale du navigateur (Chrome, Edge, Safari), qui envoie en général la voix à Google, Microsoft ou Apple pour la transformer en texte. Avant le premier usage, un message le dit à l'enfant et l'invite à prévenir ses parents ; on peut toujours écrire à la place. L'application n'enregistre pas la voix, et la phrase est vérifiée par des règles intégrées à l'application, sans rien envoyer.
 - Sauvegarde de la progression dans un fichier (Me › Save & move) pour la retrouver sur un autre appareil ; code parent pour le niveau et la suppression d'un élève.
 - Version du 16 octobre 2026.

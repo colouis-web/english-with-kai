@@ -137,14 +137,78 @@ function vyNext() {
 const vyCount = () => Object.values(vySt().h).filter(h => h.c).length;
 const vyWords = () => Object.values(vySt().h).filter(h => h.c).reduce((t, h) => t + (h.w || []).length, 0);
 /* le nom amusant du port (js/data/noms-ports.js) ; « Harbour 4 » si le fichier manque */
-/* le lieu de chaque port (12 vignettes Gemini du PO, 21/11) : caché dans le brouillard, il se dévoile à moitié après la
-   1re série sans faute et en entier quand le port est certifié — une raison de plus de faire la 2e série */
+/* le lieu de chaque port (12 vignettes Gemini du PO, 21/11 ; 46 de plus le 22/11, de vrais ports du monde) : caché dans le
+   brouillard, il se dévoile à moitié après la 1re série sans faute et en entier quand le port est certifié — une raison de
+   plus de faire la 2e série. Légendes vérifiées (ville, pays) ; un dessin inexact garde une légende générale (Hong Kong). */
 const VY_LIEUX = ["A fishing harbour in Brittany", "A tropical harbour in Tahiti", "A colourful little harbour in Italy", "A peaceful harbour in Greece",
     "A harbour on the east coast of the USA", "A pirates' hideout in the 17th century", "The walled harbour of Saint-Malo", "A fishing harbour in England",
-    "A harbour in the fjords of Norway", "A big trading harbour in Asia", "A harbour in the Middle East", "A modern marina"];
+    "A harbour in the fjords of Norway", "A big trading harbour in Asia", "A harbour in the Middle East", "A modern marina",
+    /* 13 à 58 (22/11) */
+    "Sydney Harbour, Australia",
+    "The port of Shanghai, China",
+    "The port of Helsinki, Finland",
+    "The port of Dakar, Senegal",
+    "The port of Santos, Brazil",
+    "Tortuga, a pirates' island in the Caribbean",
+    "The port of Odesa, Ukraine",
+    "The port of St Petersburg, Russia",
+    "The port of Auckland, New Zealand",
+    "The port of Singapore",
+    "The port of Klaipėda, Lithuania",
+    "The port of Abidjan, Côte d'Ivoire",
+    "The port of Buenos Aires, Argentina",
+    "Port Royal, a pirates' town in Jamaica",
+    "The port of Constanța, Romania",
+    "The port of Murmansk, Russia",
+    "The port of Wellington, New Zealand",
+    "A busy harbour in East Asia",
+    "The port of Stockholm, Sweden",
+    "The port of Tema, Ghana",
+    "The port of Valparaíso, Chile",
+    "A hidden pirates' cove in the Caribbean",
+    "The port of Varna, Bulgaria",
+    "The port of Vladivostok, Russia",
+    "The port of Papeete, Tahiti",
+    "The port of Kobe, Japan",
+    "The port of Gdynia, Poland",
+    "The port of Lagos, Nigeria",
+    "The port of Callao, Peru",
+    "A pirates' bay in the Caribbean",
+    "The port of Gdańsk, Poland",
+    "The port of Sochi, Russia",
+    "The port of Suva, Fiji",
+    "The port of Busan, South Korea",
+    "Warnemünde, the port of Rostock, Germany",
+    "The port of Luanda, Angola",
+    "The port of Guayaquil, Ecuador",
+    "A pirates' hideout in the Caribbean",
+    "The port of Tallinn, Estonia",
+    "The port of Kaliningrad, Russia",
+    "The port of Mumbai, India",
+    "The port of Turku, Finland",
+    "The port of Dar es Salaam, Tanzania",
+    "The port of Cartagena, Colombia",
+    "A pirates' island in the Caribbean",
+    "The port of Arkhangelsk, Russia"];
 const VY_LORDER = { nouns: [1, 6, 8, 5, 7, 2, 3, 4, 9, 10, 11, 12], verbs: [10, 11, 4, 2, 6, 9, 1, 3, 5, 7, 8, 12], adjectives: [3, 4, 2, 12, 1, 5, 6, 7, 8, 9, 10, 11], adverbs: [12, 9, 2, 1, 3, 4, 5, 6, 7, 8, 10, 11] };
-const vyLieu = (k, n) => { const L = VY_LORDER[k] || VY_LORDER.nouns; return L[(n - 1) % L.length]; };
+/* Chaque port retient son lieu (h.l) dès sa première série : un nouveau dessin ne change jamais un port commencé.
+   Les ports commencés avant le 22/11 (sans h.l) gardent l'ancienne règle, les 12 lieux en boucle. Pour les autres : les 12
+   premiers ports de chaque île comme avant, puis les 46 nouveaux lieux et les 12 anciens, décalés d'une île à l'autre. */
+const VY_LALL = Array.from({ length: VY_LIEUX.length }, (_, i) => (i + 12) % VY_LIEUX.length + 1);
+const VY_LOFF = { nouns: 0, verbs: 12, adjectives: 24, adverbs: 36 };
+function vyLieuNew(k, n) {
+    const L = VY_LORDER[k] || VY_LORDER.nouns;
+    return n <= L.length ? L[n - 1] : VY_LALL[(n - L.length - 1 + (VY_LOFF[k] || 0)) % VY_LALL.length];
+}
+function vyLieu(k, n) {
+    const h = curProf() ? vySt().h[vyHkey(k, n)] : null, L = VY_LORDER[k] || VY_LORDER.nouns;
+    if (h && h.l >= 1 && h.l <= VY_LIEUX.length)
+        return h.l;
+    return h ? L[(n - 1) % L.length] : vyLieuNew(k, n);
+}
+const vyKN = key => { const [k, n] = key.split(":"); return [k, +n]; };
 const vyLieuImg = (k, n) => `img/voyage-lieu-${String(vyLieu(k, n)).padStart(2, "0")}.webp`;
+const vyLieuCls = (k, n) => vyLieu(k, n) > 12 ? " l2" : ""; /* les nouveaux dessins sont moins allongés (10/7) */
 const vyHname = (k, n) => typeof vyName === "function" ? vyName(k, +n) : `Harbour ${n}`;
 const vyLabel = key => { const [k, n] = key.split(":"); return `${vyIsl(k).name} · ${vyHname(k, n)}`; };
 /* ===== la page du voyage : la carte, une île, un port ===== */
@@ -358,9 +422,9 @@ function renderHarbour(B, h1) {
     /* l'image du port : Kai dans le brouillard (rien de réussi), le lieu dans la brume (1 série), le lieu dévoilé (certifié), la tempête */
     const lieu = VY_LIEUX[vyLieu(k, +n) - 1];
     const scene = s === "storm" ? `<figure class="vyscene"><img src="img/voyage-port-tempete.webp" alt="Kai at the lighthouse in the storm"><figcaption>Storm! One perfect run keeps your lighthouse on.</figcaption></figure>`
-        : s === "cert" ? `<figure class="vyscene lieu"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}"><figcaption>${vyIcon.flag}${esc(lieu)}</figcaption></figure>`
-        : s === "run" ? `<figure class="vyscene lieu fog1"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, still in the fog"><figcaption>The fog is lifting… One more perfect run!</figcaption></figure>`
-        : `<figure class="vyscene lieu fog"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, in the fog"><figcaption>Two perfect runs and the fog lifts on this harbour!</figcaption></figure>`;
+        : s === "cert" ? `<figure class="vyscene lieu${vyLieuCls(k, n)}"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}"><figcaption>${vyIcon.flag}${esc(lieu)}</figcaption></figure>`
+        : s === "run" ? `<figure class="vyscene lieu fog1${vyLieuCls(k, n)}"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, still in the fog"><figcaption>The fog is lifting… One more perfect run!</figcaption></figure>`
+        : `<figure class="vyscene lieu fog${vyLieuCls(k, n)}"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, in the fog"><figcaption>Two perfect runs and the fog lifts on this harbour!</figcaption></figure>`;
     B.innerHTML = `<div class="qhead">${headSvg(say, face)}</div>
 ${scene}
 <div class="vyruns">${[0, 1].map(j => `<div class="${r[j] ? "ok" : ""}"><span>Run ${j + 1}${r[j] ? " · " + kDate(r[j]).toLocaleDateString("en-GB", { weekday: "short", day: "numeric" }) : ""}</span><b>${r[j] ? `${W.length} / ${W.length} perfect` : "To do"}</b>${vyRunCoins(j, r, s)}</div>`).join("")}</div>
@@ -376,7 +440,7 @@ function vyStart(key) {
         return;
     const st = vySt();
     if (!st.h[key] && curProf()) {   /* le port est figé dès sa première série */
-        st.h[key] = { w: H.w.slice(), r: [] };
+        st.h[key] = { w: H.w.slice(), r: [], l: vyLieuNew(...vyKN(key)) };
         vySave();
     }
     const items = H.w.map(x => allWords().byKey.get(x)).filter(Boolean).map(w => {
@@ -393,26 +457,32 @@ function vyStart(key) {
 }
 const vyDots = () => `<div class="dots" aria-hidden="true">${VY.items.map((x, j) => `<i class="${VY.res[j] === undefined ? (j === VY.i ? "cur" : "") : VY.res[j] ? "ok" : "ko"}"></i>`).join("")}</div>`;
 function renderVy() {
-    const it = VY.items[VY.i], ans = t3Ans(it), /* Kai dit le mot français de la phrase (« heure » pour « What time is it? ») */ hint = t3Norm(ans) !== t3Norm(it.base) ? `<p class="vyhint">Hint: <b>${esc(it.base)}</b></p>` : "";
+    vyMicStop();
+    /* Kai dit le mot français de la phrase (« heure » pour « What time is it? »). Plus d'indice « Hint: dog » (PO, 22/11 :
+       les questions étaient trop simples) : l'enfant trouve seul le pluriel ou la forme du verbe d'après la phrase française. */
+    const mic = vyMicOk(), it = VY.items[VY.i];
     document.getElementById("qn").textContent = `${VY.i + 1}/${VY.items.length}`;
     QW().innerHTML = `<p class="qpart">${esc(vyLabel(VY.key))} · Fill the gap</p>${vyDots()}
 <div class="qhead">${headSvg(`*${((String(it.fr).match(/\*(.+?)\*/) || [])[1] || it.f.split("/")[0]).trim()}*`, "head", "", "fr")}</div>
-<div class="t3card pkcard"><p class="t3en">${esc(t3Blank(it.en)).replace(/_____([.,!?;:]*)/, '<span class="bw"><span class="blank" role="img" aria-label="missing word"></span>$1</span>')}</p><p class="t3fr">${hl(it.fr)}</p>${hint}</div>
-<input class="t3in" id="vyin" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Type the missing word" aria-label="Missing word">
-<button class="listen" id="vycheck">Check${GOSVG}</button><div class="fb" id="vyfb" aria-live="polite"></div>`;
-    setTimeout(() => {
-        const i = document.getElementById("vyin");
-        if (i)
-            try {
-                i.focus({ preventScroll: true });
-            }
-            catch (e) {
-            }
-    }, 250);
+<div class="t3card pkcard"><p class="t3en">${esc(t3Blank(it.en)).replace(/_____([.,!?;:]*)/, '<span class="bw"><span class="blank" role="img" aria-label="missing word"></span>$1</span>')}</p><p class="t3fr">${hl(it.fr)}</p></div>
+<div class="vyrow"><input class="t3in" id="vyin" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${mic ? "Type or say" : "Type"} the missing word" aria-label="Missing word">${mic ? `<button class="mic vymic" id="vymic" type="button" aria-label="Say the word">${MICSVG}</button>` : ""}</div>
+${mic ? '<p class="vymsg" id="vymsg">Type the word, or tap the microphone and say it.</p>' : ""}<button class="listen" id="vycheck">Check${GOSVG}</button><div class="fb" id="vyfb" aria-live="polite"></div>`;
+    /* avec le micro, sur téléphone, on n'ouvre pas le clavier d'office : l'enfant choisit */
+    if (!(mic && matchMedia("(pointer: coarse)").matches))
+        setTimeout(() => {
+            const i = document.getElementById("vyin");
+            if (i)
+                try {
+                    i.focus({ preventScroll: true });
+                }
+                catch (e) {
+                }
+        }, 250);
 }
 function vyCheck() {
     if (VY.res[VY.i] !== undefined)
         return;
+    vyMicStop();
     const it = VY.items[VY.i], inp = document.getElementById("vyin"), v = inp.value;
     if (!v.trim()) {
         inp.classList.add("shake");
@@ -425,6 +495,7 @@ function vyCheck() {
     inp.disabled = true;
     inp.classList.add(ok ? "right" : "wrong");
     document.getElementById("vycheck").remove();
+    document.querySelectorAll("#vymic, #vymsg").forEach(x => x.remove());
     document.querySelector("#qwrap .dots").outerHTML = vyDots();
     document.getElementById("vyfb").innerHTML = `<p class="verdict ${ok ? "ok" : "ko"}">${ok ? ["YES!", "PERFECT!", "WELL DONE!"][VY.i % 3] : typo ? `ALMOST! IT'S <b>${esc(t3Ans(it).toUpperCase())}</b>` : `IT'S <b>${esc(t3Ans(it).toUpperCase())}</b>`}</p>
 <div class="ex"><button class="snd sm" id="vysay" aria-label="Listen to the sentence">${SPK}</button><div><p class="en">${hl(it.en)}</p><p class="fr">${hl(it.fr)}</p></div></div>
@@ -432,10 +503,108 @@ function vyCheck() {
     sayOne(plain(it.en), document.getElementById("vysay"));
     document.getElementById("vynext").scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
+/* ---------- micro (PO, 21/11) : dire le mot au lieu de le taper, au choix, à chaque question ----------
+   Le navigateur propose plusieurs écritures de ce qu'il entend (jusqu'à 5) : on garde celle qui correspond au mot
+   attendu, s'il y en a une (« their » / « there », « 7 » / « seven »). Sinon, la première. Le mot entendu s'écrit dans la
+   case : l'enfant voit l'orthographe, peut corriger ou recommencer, puis touche Check (rien n'est validé tout seul). */
+let VYREC = null, VYMICOFF = false;
+const vyMicOk = () => !!MIC_SR && !VYMICOFF;
+function vyMicStop() {
+    if (VYREC)
+        try {
+            VYREC.abort();
+        }
+        catch (e) {
+        }
+    VYREC = null;
+}
+function vyHeard(alts, it) {
+    const ans = t3Ans(it), cands = alts.map(a => String(a || "").trim().replace(/[.!?]+$/, "")).filter(Boolean).flatMap(micVariants);
+    if (cands.some(c => t3Ok(c, it)))
+        return { t: ans, ok: true }; /* « the friend », « Friend. » : on écrit le mot attendu, bien orthographié */
+    return { t: cands[0] || "", ok: false };
+}
+function vyListen() {
+    if (!document.getElementById("vymic") || VY.res[VY.i] !== undefined)
+        return;
+    if (VYREC) {
+        try {
+            VYREC.stop();
+        }
+        catch (e) {
+        }
+        return;
+    }
+    micAsk(vyListenGo);
+}
+function vyListenGo() {
+    const b = document.getElementById("vymic"), msg = document.getElementById("vymsg"), inp = document.getElementById("vyin"), i0 = VY.i, it = VY.items[i0];
+    if (!b || VY.res[i0] !== undefined)
+        return;
+    try {
+        stopSpeech();
+    }
+    catch (e) {
+    }
+    let r;
+    try {
+        r = micNew(5, true);
+    }
+    catch (e) {
+        return;
+    }
+    VYREC = r;
+    let heard = "";
+    const here = () => VYREC === r && VY.i === i0 && VY.res[i0] === undefined && document.getElementById("vymic") === b;
+    b.classList.add("on");
+    msg.textContent = "I'm listening… say the word!";
+    r.onresult = e => {
+        if (!here())
+            return;
+        const R = Array.from(e.results), alts = R.length === 1 ? Array.from(R[0]).map(a => a.transcript) : [R.map(x => x[0].transcript).join(" ")];
+        heard = vyHeard(alts, it).t;
+        inp.value = heard;
+    };
+    r.onerror = e => {
+        if (!here())
+            return;
+        const k = micErr(e);
+        if (k === "off") {
+            VYMICOFF = true;
+            b.remove();
+            msg.textContent = "Le micro n'est pas autorisé ici : écris le mot.";
+            inp.placeholder = "Type the missing word";
+        }
+        else
+            msg.textContent = k === "none" ? "I didn't hear anything. Try again!" : "Oops, try again!";
+    };
+    r.onend = () => {
+        if (VYREC === r)
+            VYREC = null;
+        b.classList.remove("on");
+        if (VY.i !== i0 || VY.res[i0] !== undefined || VYMICOFF)
+            return;
+        if (heard) {
+            msg.textContent = "Is it right? Tap Check! (or try again)";
+            const c = document.getElementById("vycheck");
+            if (c)
+                c.focus({ preventScroll: true });
+        }
+        else if (msg.textContent === "I'm listening… say the word!")
+            msg.textContent = "I didn't hear anything. Try again!";
+    };
+    try {
+        r.start();
+    }
+    catch (e) {
+        VYREC = null;
+        b.classList.remove("on");
+    }
+}
 /* fin de série : une série sans faute est notée (un jour compte une fois) ; 2 jours différents = port certifié */
 function vyEnd() {
     const N = VY.items.length, n = VY.res.filter(Boolean).length, P = pct(n, N), perfect = n === N, T = todayKey(), [k, hn] = VY.key.split(":");
-    const st = vySt(), G = vyGold(), h = st.h[VY.key] || (st.h[VY.key] = { w: VY.items.map(x => x.key), r: [] });   /* vyGold avant de noter la série */
+    const st = vySt(), G = vyGold(), h = st.h[VY.key] || (st.h[VY.key] = { w: VY.items.map(x => x.key), r: [], l: vyLieuNew(...vyKN(VY.key)) });   /* vyGold avant de noter la série */
     const gift = st.gift, had = G.n;
     let coins = 0;
     const was = vyState(k, +hn);
@@ -557,7 +726,11 @@ document.addEventListener("click", e => {
         e.stopPropagation();
         e.preventDefault();
     };
-    if (t.closest("#vycheck")) {
+    if (t.closest("#vymic")) {
+        stop();
+        vyListen();
+    }
+    else if (t.closest("#vycheck")) {
         stop();
         vyCheck();
     }
@@ -583,6 +756,7 @@ document.addEventListener("click", e => {
     else if (t.closest("#vyback") || t.closest("#backQ")) {
         stop();
         stopSpeech();
+        vyMicStop();
         XMODE = null;
         VYV = { i: VY.key.split(":")[0], h: VY.key };
         renderVoyage();

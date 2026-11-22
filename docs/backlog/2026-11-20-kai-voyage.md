@@ -66,3 +66,34 @@
   un code parent (page Me) est conseillé pour que l'élève ne s'offre pas son cadeau tout seul.
 - Montants faciles à changer : `VY_COIN` et `vyCoinsCert` dans `js/app-voyage.js`.
 - Port 1 des noms : **Square One** (au lieu de Ground Zero, qui désigne aussi le lieu d'une catastrophe).
+
+## 21/11 — le micro dans la série (PO : « la reconnaissance vocale pour éviter de taper les réponses »)
+- **Au choix, partout** (choix du PO) : à chaque phrase à trou, un bouton micro à côté de la case ; l'enfant peut aussi taper.
+  Le mot entendu s'écrit dans la case et l'enfant touche Check : rien n'est validé tout seul, une erreur d'écoute se corrige.
+- Le navigateur propose jusqu'à 5 écritures de ce qu'il entend : Kai garde celle qui correspond au mot attendu (their / there,
+  « 7 » → seven, « 3rd » → third) et l'écrit avec la bonne orthographe, pour que l'enfant la voie.
+- Sur téléphone, avec le micro, le clavier ne s'ouvre plus tout seul.
+- **Enfant d'abord** (revue d'Ani I-1, jamais faite jusqu'ici) : avant le premier usage du micro sur l'appareil, un message
+  dit à l'enfant que sa voix part chez Google, Apple ou Microsoft et de prévenir ses parents (choix du PO : un simple
+  message, sans code parent). Il vaut aussi pour « Let's talk English ». Clé `kai.micinfo`. README corrigé.
+- Code commun : `js/app-micro.js` (Let's talk et le voyage).
+- **Constat** : l'orthographe n'est plus travaillée quand l'enfant dit le mot. À suivre : si les ports se certifient surtout au
+  micro, garder la 2e série tapée.
+- **Non fait** : la reconnaissance sur l'appareil (Chrome, `processLocally`), qui garderait la voix ici. Son test de
+  disponibilité fait planter l'onglet du Chromium des tests : à reprendre quand l'API sera stable.
+
+## 22/11 — plus d'indice (PO : « faut enlever les hint, ça rend les questions un peu trop simples »)
+- La ligne « Hint: dog » (mot de base quand la réponse est un pluriel ou un verbe conjugué) est supprimée : l'enfant trouve
+  la forme d'après la phrase française. Restent la phrase française (mot surligné) et Kai qui dit le mot français.
+- À voir avec le PO : les autres indices de l'app (Daily « Choose from », mot de base entre parenthèses dans Tests) n'ont pas changé.
+
+## 22/11 — 46 nouveaux lieux (planches Gemini du PO)
+- 58 lieux au lieu de 12 : Océanie, Asie, Baltique, Afrique, Amérique du Sud, pirates des Caraïbes, Europe de l'Est,
+  Russie (images `img/voyage-lieu-13.webp` à `-58.webp`, 400 × 280, découpées dans les planches ; dessins en 10/7).
+- Légendes vérifiées, en anglais : « The port of Dakar, Senegal ». Écartés : Melbourne (faux mots dans le dessin), un
+  Klaipėda en double, la série One Piece (lieux protégés, pas sur un site public). Suva : faux mot effacé du ciel.
+  Hong Kong montre la tour de Kobe : légende générale « A busy harbour in East Asia ». Pirates : seules La Tortue et
+  Port Royal sont nommées (les autres « repaires » de la planche n'ont pas de source).
+- **Rien ne bouge pour l'enfant** : chaque port retient son lieu (`h.l`) dès sa 1re série ; les ports commencés avant
+  (sans `h.l`) gardent l'ancienne règle. Les 12 premiers ports de chaque île sont inchangés ; ensuite, les nouveaux lieux.
+- À venir : une planche de 6 phares avec Kai (tempêtes et certifications) ; les lieux de l'île secrète (de l'invention du PO).

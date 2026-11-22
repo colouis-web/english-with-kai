@@ -28,9 +28,8 @@ const TKPICS = [
     { img: "sc-ill", d: "Kai is in bed with a thermometer in his mouth. He is ill.", q: "How is Kai today?", k: "ill,sick,thermometer,bed,temperature,fever,cold,flu", w: [["ill / sick", "malade"], ["a thermometer", "un thermomètre"], ["a temperature", "de la fièvre"]], m: ["Kai is ill today.", "He is in bed.", "He has a temperature."] },
 ];
 let TK = { i: -1, seen: [], noAI: false, micOff: false, busy: false, mic: false };
-const TK_SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+const TK_SR = MIC_SR; /* micro partagé : js/app-micro.js (message avant le premier usage, MICSVG) */
 let TKREC = null;
-const MICSVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M8.5 21h7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
 function tkPick() {
     let ids = TKPICS.map((_, i) => i).filter(i => !TK.seen.includes(i));
     if (!ids.length) {
@@ -78,17 +77,19 @@ function tkListen() {
         }
         return;
     }
+    micAsk(tkListenGo);
+}
+function tkListenGo() {
+    const b = document.getElementById("tkmic"), msg = document.getElementById("tkmicmsg"), box = document.getElementById("tktext");
+    if (!b)
+        return;
     try {
         stopSpeech();
     }
     catch (e) {
     }
-    const r = new TK_SR();
+    const r = micNew(1, true);
     TKREC = r;
-    r.lang = "en-GB";
-    r.interimResults = true;
-    r.continuous = false;
-    r.maxAlternatives = 1;
     b.classList.add("on");
     msg.textContent = "I'm listening…";
     r.onresult = e => {
@@ -99,13 +100,14 @@ function tkListen() {
         TK.mic = true;
     };
     r.onerror = e => {
-        if (e.error === "not-allowed" || e.error === "service-not-allowed" || e.error === "audio-capture") {
+        const k = micErr(e);
+        if (k === "off") {
             TK.micOff = true;
             const v = box.value;
             renderTalk();
             document.getElementById("tktext").value = v;
         }
-        else if (e.error === "no-speech")
+        else if (k === "none")
             msg.textContent = "I didn't hear anything. Try again!";
         else
             msg.textContent = "Oops, try again!";

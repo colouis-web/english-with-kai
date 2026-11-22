@@ -449,6 +449,20 @@ def s02_creation_profil(P):
     P.click("#vystart")
     P.on("quiz")
     P.check("Kai's voyage : la série = 7 phrases à trou (une par mot du port), une case à remplir, aucun choix", P.ev("() => VY.items.length") == 7 and P.visible("#vyin") and p.locator("#qwrap .opt").count() == 0)
+    # micro (PO, 21/11) : au choix avec le clavier ; message avant le 1er usage ; nombres et homophones bien écrits
+    if P.ev("() => !!MIC_SR"):
+        P.check("Kai's voyage : un bouton micro à côté de la case", P.visible("#vymic"))
+        P.click("#vymic")
+        P.check("Micro : avant le 1er usage, un message dit à l'enfant où part sa voix et de prévenir ses parents",
+                P.visible("#modal.on") and "parents" in P.text("#mbody") and "Google" in P.text("#mbody"))
+        p.locator('#mbody [data-mclose]').click()
+        P.check("Micro : « Not now » ne lance rien et le message reviendra", P.ev("() => !VYREC && localStorage.getItem('kai.micinfo') === null"))
+    else:
+        P.note("Pas de reconnaissance vocale dans ce navigateur : bouton micro non testé")
+    P.check("Micro : « 7 » s'écrit aussi « seven », « 3rd » « third », « 21 » « twenty-one »",
+            P.ev("() => [micVariants('7')[1], micVariants('3rd')[1], micVariants('21')[1]].join()") == "seven,third,twenty-one")
+    P.check("Micro : parmi ce que le navigateur propose, Kai garde le mot attendu (their / there) et l'écrit bien",
+            P.ev("() => JSON.stringify(vyHeard(['there', 'their'], {en: '*Their* dog is big.'}))") == '{"t":"Their","ok":true}')
     serie()
     h = P.ev("() => vySt().h['nouns:1']")
     P.check("Kai's voyage : 1re série sans faute notée, port pas encore certifié", len(h["r"]) == 1 and not h.get("c"), h)
@@ -460,6 +474,18 @@ def s02_creation_profil(P):
     g = P.ev("() => vyGold()")
     P.check("Kai's voyage : pièces d'or — 1 pour la 1re série, 3 pour la 2e le lendemain (4 en tout)", g["n"] == 4 and g["tot"] == 4, g)
     P.check("Kai's voyage : le port 1 des noms s'appelle Square One", P.ev("() => vyHname('nouns', 1)") == "Square One")
+    # lieux (PO, 22/11) : 58 dessins ; un port retient son lieu ; un port commencé avant garde l'ancienne règle
+    P.check("Kai's voyage : 58 lieux, chacun avec sa légende et son image",
+            P.ev("() => VY_LIEUX.length === 58 && VY_LIEUX.every(Boolean) && new Set(VY_LALL).size === 58") is True)
+    P.check("Kai's voyage : le port certifié retient son lieu (Square One : la Bretagne)",
+            P.ev("() => vySt().h['nouns:1'].l") == 1 and P.ev("() => vyLieu('nouns', 1)") == 1)
+    P.check("Kai's voyage : après les 12 premiers ports, les nouveaux lieux (port 13 : Sydney)",
+            P.ev("() => VY_LIEUX[vyLieuNew('nouns', 13) - 1]") == "Sydney Harbour, Australia")
+    P.check("Kai's voyage : un port commencé avant le 22/11 (sans lieu noté) garde son ancien lieu",
+            P.ev("() => { const h = vySt().h, k = 'nouns:14', o = h[k]; h[k] = { w: [], r: [] }; const v = vyLieu('nouns', 14); if (o) h[k] = o; else delete h[k]; return v; }") == 6)
+    for n in (13, 30, 58):
+        st = P.ev(f"() => fetch('img/voyage-lieu-{n}.webp').then(r => r.status)")
+        P.check(f"Kai's voyage : l'image du lieu {n} est là", st == 200)
     nx = P.ev("() => vyNext().key")
     P.check("Kai's voyage : ensuite Kai conseille l'île la moins avancée (Action Volcano, port 1)", nx == "verbs:1", nx)
     P.check("Kai's voyage : la progression est gardée dans le profil (sauvegardes)", P.ev("() => !!JSON.parse(localStorage.getItem('kai.profiles.v1')).list.find(x => x.voy && x.voy.h['nouns:1'].c)"))
