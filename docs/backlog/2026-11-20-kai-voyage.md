@@ -81,3 +81,8 @@
   micro, garder la 2e série tapée.
 - **Non fait** : la reconnaissance sur l'appareil (Chrome, `processLocally`), qui garderait la voix ici. Son test de
   disponibilité fait planter l'onglet du Chromium des tests : à reprendre quand l'API sera stable.
+
+## 22/11 — plus d'indice (PO : « faut enlever les hint, ça rend les questions un peu trop simples »)
+- La ligne « Hint: dog » (mot de base quand la réponse est un pluriel ou un verbe conjugué) est supprimée : l'enfant trouve
+  la forme d'après la phrase française. Restent la phrase française (mot surligné) et Kai qui dit le mot français.
+- À voir avec le PO : les autres indices de l'app (Daily « Choose from », mot de base entre parenthèses dans Tests) n'ont pas changé.

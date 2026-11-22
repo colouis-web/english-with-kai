@@ -394,11 +394,13 @@ function vyStart(key) {
 const vyDots = () => `<div class="dots" aria-hidden="true">${VY.items.map((x, j) => `<i class="${VY.res[j] === undefined ? (j === VY.i ? "cur" : "") : VY.res[j] ? "ok" : "ko"}"></i>`).join("")}</div>`;
 function renderVy() {
     vyMicStop();
-    const mic = vyMicOk(), it = VY.items[VY.i], ans = t3Ans(it), /* Kai dit le mot français de la phrase (« heure » pour « What time is it? ») */ hint = t3Norm(ans) !== t3Norm(it.base) ? `<p class="vyhint">Hint: <b>${esc(it.base)}</b></p>` : "";
+    /* Kai dit le mot français de la phrase (« heure » pour « What time is it? »). Plus d'indice « Hint: dog » (PO, 22/11 :
+       les questions étaient trop simples) : l'enfant trouve seul le pluriel ou la forme du verbe d'après la phrase française. */
+    const mic = vyMicOk(), it = VY.items[VY.i];
     document.getElementById("qn").textContent = `${VY.i + 1}/${VY.items.length}`;
     QW().innerHTML = `<p class="qpart">${esc(vyLabel(VY.key))} · Fill the gap</p>${vyDots()}
 <div class="qhead">${headSvg(`*${((String(it.fr).match(/\*(.+?)\*/) || [])[1] || it.f.split("/")[0]).trim()}*`, "head", "", "fr")}</div>
-<div class="t3card pkcard"><p class="t3en">${esc(t3Blank(it.en)).replace(/_____([.,!?;:]*)/, '<span class="bw"><span class="blank" role="img" aria-label="missing word"></span>$1</span>')}</p><p class="t3fr">${hl(it.fr)}</p>${hint}</div>
+<div class="t3card pkcard"><p class="t3en">${esc(t3Blank(it.en)).replace(/_____([.,!?;:]*)/, '<span class="bw"><span class="blank" role="img" aria-label="missing word"></span>$1</span>')}</p><p class="t3fr">${hl(it.fr)}</p></div>
 <div class="vyrow"><input class="t3in" id="vyin" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${mic ? "Type or say" : "Type"} the missing word" aria-label="Missing word">${mic ? `<button class="mic vymic" id="vymic" type="button" aria-label="Say the word">${MICSVG}</button>` : ""}</div>
 ${mic ? '<p class="vymsg" id="vymsg">Type the word, or tap the microphone and say it.</p>' : ""}<button class="listen" id="vycheck">Check${GOSVG}</button><div class="fb" id="vyfb" aria-live="polite"></div>`;
     /* avec le micro, sur téléphone, on n'ouvre pas le clavier d'office : l'enfant choisit */
