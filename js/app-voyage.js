@@ -137,14 +137,78 @@ function vyNext() {
 const vyCount = () => Object.values(vySt().h).filter(h => h.c).length;
 const vyWords = () => Object.values(vySt().h).filter(h => h.c).reduce((t, h) => t + (h.w || []).length, 0);
 /* le nom amusant du port (js/data/noms-ports.js) ; « Harbour 4 » si le fichier manque */
-/* le lieu de chaque port (12 vignettes Gemini du PO, 21/11) : caché dans le brouillard, il se dévoile à moitié après la
-   1re série sans faute et en entier quand le port est certifié — une raison de plus de faire la 2e série */
+/* le lieu de chaque port (12 vignettes Gemini du PO, 21/11 ; 46 de plus le 22/11, de vrais ports du monde) : caché dans le
+   brouillard, il se dévoile à moitié après la 1re série sans faute et en entier quand le port est certifié — une raison de
+   plus de faire la 2e série. Légendes vérifiées (ville, pays) ; un dessin inexact garde une légende générale (Hong Kong). */
 const VY_LIEUX = ["A fishing harbour in Brittany", "A tropical harbour in Tahiti", "A colourful little harbour in Italy", "A peaceful harbour in Greece",
     "A harbour on the east coast of the USA", "A pirates' hideout in the 17th century", "The walled harbour of Saint-Malo", "A fishing harbour in England",
-    "A harbour in the fjords of Norway", "A big trading harbour in Asia", "A harbour in the Middle East", "A modern marina"];
+    "A harbour in the fjords of Norway", "A big trading harbour in Asia", "A harbour in the Middle East", "A modern marina",
+    /* 13 à 58 (22/11) */
+    "Sydney Harbour, Australia",
+    "The port of Shanghai, China",
+    "The port of Helsinki, Finland",
+    "The port of Dakar, Senegal",
+    "The port of Santos, Brazil",
+    "Tortuga, a pirates' island in the Caribbean",
+    "The port of Odesa, Ukraine",
+    "The port of St Petersburg, Russia",
+    "The port of Auckland, New Zealand",
+    "The port of Singapore",
+    "The port of Klaipėda, Lithuania",
+    "The port of Abidjan, Côte d'Ivoire",
+    "The port of Buenos Aires, Argentina",
+    "Port Royal, a pirates' town in Jamaica",
+    "The port of Constanța, Romania",
+    "The port of Murmansk, Russia",
+    "The port of Wellington, New Zealand",
+    "A busy harbour in East Asia",
+    "The port of Stockholm, Sweden",
+    "The port of Tema, Ghana",
+    "The port of Valparaíso, Chile",
+    "A hidden pirates' cove in the Caribbean",
+    "The port of Varna, Bulgaria",
+    "The port of Vladivostok, Russia",
+    "The port of Papeete, Tahiti",
+    "The port of Kobe, Japan",
+    "The port of Gdynia, Poland",
+    "The port of Lagos, Nigeria",
+    "The port of Callao, Peru",
+    "A pirates' bay in the Caribbean",
+    "The port of Gdańsk, Poland",
+    "The port of Sochi, Russia",
+    "The port of Suva, Fiji",
+    "The port of Busan, South Korea",
+    "Warnemünde, the port of Rostock, Germany",
+    "The port of Luanda, Angola",
+    "The port of Guayaquil, Ecuador",
+    "A pirates' hideout in the Caribbean",
+    "The port of Tallinn, Estonia",
+    "The port of Kaliningrad, Russia",
+    "The port of Mumbai, India",
+    "The port of Turku, Finland",
+    "The port of Dar es Salaam, Tanzania",
+    "The port of Cartagena, Colombia",
+    "A pirates' island in the Caribbean",
+    "The port of Arkhangelsk, Russia"];
 const VY_LORDER = { nouns: [1, 6, 8, 5, 7, 2, 3, 4, 9, 10, 11, 12], verbs: [10, 11, 4, 2, 6, 9, 1, 3, 5, 7, 8, 12], adjectives: [3, 4, 2, 12, 1, 5, 6, 7, 8, 9, 10, 11], adverbs: [12, 9, 2, 1, 3, 4, 5, 6, 7, 8, 10, 11] };
-const vyLieu = (k, n) => { const L = VY_LORDER[k] || VY_LORDER.nouns; return L[(n - 1) % L.length]; };
+/* Chaque port retient son lieu (h.l) dès sa première série : un nouveau dessin ne change jamais un port commencé.
+   Les ports commencés avant le 22/11 (sans h.l) gardent l'ancienne règle, les 12 lieux en boucle. Pour les autres : les 12
+   premiers ports de chaque île comme avant, puis les 46 nouveaux lieux et les 12 anciens, décalés d'une île à l'autre. */
+const VY_LALL = Array.from({ length: VY_LIEUX.length }, (_, i) => (i + 12) % VY_LIEUX.length + 1);
+const VY_LOFF = { nouns: 0, verbs: 12, adjectives: 24, adverbs: 36 };
+function vyLieuNew(k, n) {
+    const L = VY_LORDER[k] || VY_LORDER.nouns;
+    return n <= L.length ? L[n - 1] : VY_LALL[(n - L.length - 1 + (VY_LOFF[k] || 0)) % VY_LALL.length];
+}
+function vyLieu(k, n) {
+    const h = curProf() ? vySt().h[vyHkey(k, n)] : null, L = VY_LORDER[k] || VY_LORDER.nouns;
+    if (h && h.l >= 1 && h.l <= VY_LIEUX.length)
+        return h.l;
+    return h ? L[(n - 1) % L.length] : vyLieuNew(k, n);
+}
+const vyKN = key => { const [k, n] = key.split(":"); return [k, +n]; };
 const vyLieuImg = (k, n) => `img/voyage-lieu-${String(vyLieu(k, n)).padStart(2, "0")}.webp`;
+const vyLieuCls = (k, n) => vyLieu(k, n) > 12 ? " l2" : ""; /* les nouveaux dessins sont moins allongés (10/7) */
 const vyHname = (k, n) => typeof vyName === "function" ? vyName(k, +n) : `Harbour ${n}`;
 const vyLabel = key => { const [k, n] = key.split(":"); return `${vyIsl(k).name} · ${vyHname(k, n)}`; };
 /* ===== la page du voyage : la carte, une île, un port ===== */
@@ -358,9 +422,9 @@ function renderHarbour(B, h1) {
     /* l'image du port : Kai dans le brouillard (rien de réussi), le lieu dans la brume (1 série), le lieu dévoilé (certifié), la tempête */
     const lieu = VY_LIEUX[vyLieu(k, +n) - 1];
     const scene = s === "storm" ? `<figure class="vyscene"><img src="img/voyage-port-tempete.webp" alt="Kai at the lighthouse in the storm"><figcaption>Storm! One perfect run keeps your lighthouse on.</figcaption></figure>`
-        : s === "cert" ? `<figure class="vyscene lieu"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}"><figcaption>${vyIcon.flag}${esc(lieu)}</figcaption></figure>`
-        : s === "run" ? `<figure class="vyscene lieu fog1"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, still in the fog"><figcaption>The fog is lifting… One more perfect run!</figcaption></figure>`
-        : `<figure class="vyscene lieu fog"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, in the fog"><figcaption>Two perfect runs and the fog lifts on this harbour!</figcaption></figure>`;
+        : s === "cert" ? `<figure class="vyscene lieu${vyLieuCls(k, n)}"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}"><figcaption>${vyIcon.flag}${esc(lieu)}</figcaption></figure>`
+        : s === "run" ? `<figure class="vyscene lieu fog1${vyLieuCls(k, n)}"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, still in the fog"><figcaption>The fog is lifting… One more perfect run!</figcaption></figure>`
+        : `<figure class="vyscene lieu fog${vyLieuCls(k, n)}"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, in the fog"><figcaption>Two perfect runs and the fog lifts on this harbour!</figcaption></figure>`;
     B.innerHTML = `<div class="qhead">${headSvg(say, face)}</div>
 ${scene}
 <div class="vyruns">${[0, 1].map(j => `<div class="${r[j] ? "ok" : ""}"><span>Run ${j + 1}${r[j] ? " · " + kDate(r[j]).toLocaleDateString("en-GB", { weekday: "short", day: "numeric" }) : ""}</span><b>${r[j] ? `${W.length} / ${W.length} perfect` : "To do"}</b>${vyRunCoins(j, r, s)}</div>`).join("")}</div>
@@ -376,7 +440,7 @@ function vyStart(key) {
         return;
     const st = vySt();
     if (!st.h[key] && curProf()) {   /* le port est figé dès sa première série */
-        st.h[key] = { w: H.w.slice(), r: [] };
+        st.h[key] = { w: H.w.slice(), r: [], l: vyLieuNew(...vyKN(key)) };
         vySave();
     }
     const items = H.w.map(x => allWords().byKey.get(x)).filter(Boolean).map(w => {
@@ -540,7 +604,7 @@ function vyListenGo() {
 /* fin de série : une série sans faute est notée (un jour compte une fois) ; 2 jours différents = port certifié */
 function vyEnd() {
     const N = VY.items.length, n = VY.res.filter(Boolean).length, P = pct(n, N), perfect = n === N, T = todayKey(), [k, hn] = VY.key.split(":");
-    const st = vySt(), G = vyGold(), h = st.h[VY.key] || (st.h[VY.key] = { w: VY.items.map(x => x.key), r: [] });   /* vyGold avant de noter la série */
+    const st = vySt(), G = vyGold(), h = st.h[VY.key] || (st.h[VY.key] = { w: VY.items.map(x => x.key), r: [], l: vyLieuNew(...vyKN(VY.key)) });   /* vyGold avant de noter la série */
     const gift = st.gift, had = G.n;
     let coins = 0;
     const was = vyState(k, +hn);

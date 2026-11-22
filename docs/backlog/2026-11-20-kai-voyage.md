@@ -86,3 +86,14 @@
 - La ligne « Hint: dog » (mot de base quand la réponse est un pluriel ou un verbe conjugué) est supprimée : l'enfant trouve
   la forme d'après la phrase française. Restent la phrase française (mot surligné) et Kai qui dit le mot français.
 - À voir avec le PO : les autres indices de l'app (Daily « Choose from », mot de base entre parenthèses dans Tests) n'ont pas changé.
+
+## 22/11 — 46 nouveaux lieux (planches Gemini du PO)
+- 58 lieux au lieu de 12 : Océanie, Asie, Baltique, Afrique, Amérique du Sud, pirates des Caraïbes, Europe de l'Est,
+  Russie (images `img/voyage-lieu-13.webp` à `-58.webp`, 400 × 280, découpées dans les planches ; dessins en 10/7).
+- Légendes vérifiées, en anglais : « The port of Dakar, Senegal ». Écartés : Melbourne (faux mots dans le dessin), un
+  Klaipėda en double, la série One Piece (lieux protégés, pas sur un site public). Suva : faux mot effacé du ciel.
+  Hong Kong montre la tour de Kobe : légende générale « A busy harbour in East Asia ». Pirates : seules La Tortue et
+  Port Royal sont nommées (les autres « repaires » de la planche n'ont pas de source).
+- **Rien ne bouge pour l'enfant** : chaque port retient son lieu (`h.l`) dès sa 1re série ; les ports commencés avant
+  (sans `h.l`) gardent l'ancienne règle. Les 12 premiers ports de chaque île sont inchangés ; ensuite, les nouveaux lieux.
+- À venir : une planche de 6 phares avec Kai (tempêtes et certifications) ; les lieux de l'île secrète (de l'invention du PO).

@@ -1645,3 +1645,5 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .vyrow{display:flex;align-items:center;gap:10px}.vyrow .t3in{flex:1;min-width:0}
 .mic.vymic{width:58px;height:58px;flex:none}.mic.vymic svg{width:28px;height:28px}
 .vymsg{margin:0;font:500 15px var(--claude);color:var(--mut);text-align:center}
+/* Kai's voyage : les 46 nouveaux lieux (22/11) sont dessinés en 10/7 */
+.vyscene.lieu.l2 img,.vyscene.l2.fog::after,.vyscene.l2.fog1::after{aspect-ratio:10/7}
