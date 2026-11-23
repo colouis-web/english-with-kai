@@ -104,3 +104,13 @@
 - Ports déjà commencés : inchangés (`h.l`).
 - **Phares** (planche du 23/11) : pas intégrés, le garçon dessiné n'est pas Kai (cheveux châtains, veste verte). À refaire
   avec la description de Kai.
+
+## 23/11 — mission spéciale « Around the world » (PO : « la géographie est un excellent thème, 1 quiz de 5 questions sur où se trouve un monument célèbre »)
+- Choix du PO : des monuments vérifiés, illustrés par nos dessins de ports quand on y voit le monument ; une mission par
+  jour, après le port du jour ; 5/5 = 2 pièces d'or, 4/5 = 1 pièce.
+- 5 questions en anglais (« Where is the Eiffel Tower? »), 3 avec un dessin ; 4 réponses « ville, pays » de pays
+  différents ; Kai lit la question puis la réponse (« The Eiffel Tower is in Paris, in France. »).
+- Banque : `js/data/monuments.js`, 43 monuments (17 avec un dessin). Quand le nom donne la réponse (« the Sydney Opera
+  House »), la question décrit le dessin (« this famous opera house »). On évite les 20 derniers monuments vus.
+- Code : `js/app-voyage-missions.js`. Données : `p.voy.mis`, `p.voy.day` (série finie aujourd'hui, même ratée).
+- À voir avec le PO : d'autres missions (drapeaux, capitales, animaux du monde…) ; l'île secrète.

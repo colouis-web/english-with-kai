@@ -486,6 +486,23 @@ def s02_creation_profil(P):
     for n in (13, 30, 58, 70):
         st = P.ev(f"() => fetch('img/voyage-lieu-{n}.webp').then(r => r.status)")
         P.check(f"Kai's voyage : l'image du lieu {n} est là", st == 200)
+    # mission spéciale « Around the world » (PO, 23/11) : après la série du jour, 5 questions, 5/5 = 2 pièces, 1 par jour
+    P.check("Mission spéciale : ouverte après la série du jour", P.ev("() => vmState()") == "ready")
+    P.check("Mission spéciale : 43 monuments, aucune question qui donne la réponse",
+            P.ev("() => VY_MONU.length === 43 && VY_MONU.every(x => x.q || !(x.m.includes(x.city) || x.m.includes(x.cty.replace('the ', ''))))") is True)
+    g0 = P.ev("() => vyGold().n")
+    P.ev("() => { XMODE = null; VYV = { i: null, h: null }; renderVoyage(); show('voyage', true); }")
+    P.click("#vmstart")
+    q = P.ev("() => ({ n: VM.items.length, img: VM.items.filter(it => it.x.img).length, opts: VM.items.every(it => it.opts.length === 4 && it.opts.includes(vmPlace(it.x)) && new Set(it.opts).size === 4) })")
+    P.check("Mission spéciale : 5 questions, 3 avec un dessin, 4 réponses dont la bonne", q == {"n": 5, "img": 3, "opts": True}, q)
+    for _ in range(5):
+        P.click(f"[data-vm=\"{P.ev('() => VM.items[VM.i].opts.indexOf(vmPlace(VM.items[VM.i].x))')}\"]")
+        P.click("#vmnext")
+    m = P.ev("() => vySt().mis")
+    P.check("Mission spéciale : 5/5 = 2 pièces d'or, mission faite pour aujourd'hui",
+            m["n"] == 5 and P.ev("() => vyGold().n") == g0 + 2 and P.ev("() => vmState()") == "done", m)
+    P.click("#vmback")
+    P.check("Mission spéciale : retour au voyage, une nouvelle mission demain", "tomorrow" in P.text(".vymiss p"))
     nx = P.ev("() => vyNext().key")
     P.check("Kai's voyage : ensuite Kai conseille l'île la moins avancée (Action Volcano, port 1)", nx == "verbs:1", nx)
     P.check("Kai's voyage : la progression est gardée dans le profil (sauvegardes)", P.ev("() => !!JSON.parse(localStorage.getItem('kai.profiles.v1')).list.find(x => x.voy && x.voy.h['nouns:1'].c)"))

@@ -27,7 +27,8 @@ const vyIsl = k => VY_ISL.find(x => x.k === k);
 const vyHkey = (k, n) => k + ":" + n;
 /* données de l'élève : p.voy = { h: { "nouns:4": { w: [clés], r: [jours sans faute], c: jour certifié, s: jour de la dernière tempête } },
    seen: jour de la 1re ouverture (Kai annonce la nouveauté dans le menu jusque-là),
-   gold: { n: pièces en poche, tot: pièces gagnées, gifts: [{ d, n, g }] cadeaux reçus }, gift: { n: prix en pièces, g: le cadeau } } */
+   gold: { n: pièces en poche, tot: pièces gagnées, gifts: [{ d, n, g }] cadeaux reçus }, gift: { n: prix en pièces, g: le cadeau },
+   day: jour de la dernière série finie, mis: la mission spéciale (js/app-voyage-missions.js) } */
 function vySt() {
     const p = curProf();
     if (!p)
@@ -360,7 +361,7 @@ ${nx.key ? `<button class="vygo" type="button" data-vyh="${nx.key}"><span>${nx.s
 ${VY_ISL.map((I, j) => { const H = vyHarbours(I.k), c = H.filter(h => vyDone(vyHkey(I.k, h.n))).length; return `<button class="vyisl i${j}" type="button" data-vyi="${I.k}" style="--n:${I.n}"><b>${I.name}</b><small>${I.fam} · ${c}/${H.length}</small></button>`; }).join("")}
 <span class="vyisl i4 lock">${vyIcon.lock}<small>Secret island</small></span></div>
 ${curProf() ? vyTreasure() : ""}
-<div class="vymiss"><img src="img/voyage-missions.webp" alt="Kai and two friends on a rock above a harbour in Brittany"><div><span>${vyIcon.lock} Special missions</span><p>Coming soon: Kai and his friends have new adventures for you!</p></div></div>`;
+${typeof vmCard === "function" ? vmCard() : ""}`;
     vyCarousel();
 }
 /* glisser d'une carte à l'autre : les points suivent, un point ou « Swipe » fait défiler (comme le menu) */
@@ -647,6 +648,10 @@ function vyEnd() {
         }
         G.n += coins;
         G.tot += coins;
+        vySave();
+    }
+    if (curProf()) {   /* une série finie, même ratée, ouvre la mission spéciale du jour (app-voyage-missions.js) */
+        st.day = T;
         vySave();
     }
     const giftNow = gift && had < gift.n && G.n >= gift.n;
