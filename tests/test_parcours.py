@@ -431,7 +431,7 @@ def s02_creation_profil(P):
     P.check("Dictation Expert : un mot oublié et un mot faux comptent 2 erreurs, pas plus",
             P.ev("() => dzAlign(['the','fans','shouted','when','we','scored'], ['the','shouted','wen','we','scored']).filter(Boolean).length") == 4)
     P.back("menu")
-    # Kai's voyage (PO, 20/11) : 9e app, sans objectif mensuel ; un port certifié après 2 séries sans faute, 2 jours différents
+    # Kai's voyage (PO, 20/11) : 9e app, sans objectif mensuel ; un port certifié après 2 séries sans faute (le même jour possible depuis le 23/11)
     P.click("#toVoyage")
     P.on("voyage")
     nx = P.ev("() => vyNext().key")
@@ -474,6 +474,17 @@ def s02_creation_profil(P):
     g = P.ev("() => vyGold()")
     P.check("Kai's voyage : pièces d'or — 1 pour la 1re série, 3 pour la 2e le lendemain (4 en tout)", g["n"] == 4 and g["tot"] == 4, g)
     P.check("Kai's voyage : le port 1 des noms s'appelle Square One", P.ev("() => vyHname('nouns', 1)") == "Square One")
+    # 2e série le jour même (PO, 23/11 : « sans attendre le lendemain ») : certifié, 1 pièce au lieu de 3
+    P.check("Kai's voyage : 2e série le jour même = 1 pièce, le lendemain = 3", P.ev("() => [vyCoinsCert(0), vyCoinsCert(1), vyCoinsCert(2), vyCoinsCert(5)].join()") == "1,3,2,1")
+    P.ev("() => { XMODE = null; vyStart('nouns:2'); }")
+    serie()
+    P.check("Kai's voyage : après la 1re série, le bouton propose la 2e tout de suite", "Start run 2" in P.text("#vyagain"))
+    g0 = P.ev("() => vyGold().n")
+    P.click("#vyagain")
+    serie()
+    h = P.ev("() => vySt().h['nouns:2']")
+    P.check("Kai's voyage : 2e série sans faute le même jour = port certifié, +1 pièce",
+            bool(h.get("c")) and len(h["r"]) == 2 and h["r"][0] == h["r"][1] and P.ev("() => vyGold().n") == g0 + 1, h)
     # lieux (PO, 22/11 et 23/11) : 70 dessins ; un port retient son lieu ; un port commencé avant garde l'ancienne règle
     P.check("Kai's voyage : 70 lieux, chacun avec sa légende et son image",
             P.ev("() => VY_LIEUX.length === 70 && VY_LIEUX.every(Boolean) && new Set(VY_LALL).size === 70") is True)
