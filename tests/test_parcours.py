@@ -494,6 +494,10 @@ def s02_creation_profil(P):
             P.ev("() => VY_LIEUX[vyLieuNew('nouns', 13) - 1]") == "Sydney Harbour, Australia")
     P.check("Kai's voyage : un port commencé avant le 22/11 (sans lieu noté) garde son ancien lieu",
             P.ev("() => { const h = vySt().h, k = 'nouns:14', o = h[k]; h[k] = { w: [], r: [] }; const v = vyLieu('nouns', 14); if (o) h[k] = o; else delete h[k]; return v; }") == 6)
+    # phares (PO, 23/11) : 6 phares pour les tempêtes, 6 images de Kai et son drapeau pour les certifications
+    P.check("Kai's voyage : phares et drapeaux choisis d'après le port (1 à 6, puis on recommence)", P.ev("() => [1, 6, 7, 13].map(vyPhare).join()") == "1,6,1,1")
+    for f in ("phare-1", "phare-6", "drapeau-1", "drapeau-6"):
+        P.check(f"Kai's voyage : l'image voyage-{f} est là", P.ev(f"() => fetch('img/voyage-{f}.webp').then(r => r.status)") == 200)
     for n in (13, 30, 58, 70):
         st = P.ev(f"() => fetch('img/voyage-lieu-{n}.webp').then(r => r.status)")
         P.check(f"Kai's voyage : l'image du lieu {n} est là", st == 200)

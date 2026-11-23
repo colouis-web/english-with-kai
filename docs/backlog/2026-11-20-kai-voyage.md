@@ -121,3 +121,10 @@
   reste la meilleure affaire, et c'est aussi ce qui fixe le mieux les mots (répétition espacée). À ajuster si le PO veut.
 - Fin de la 1re série : bouton « Start run 2 ». Page du port : « +1 gold coin now · +3 gold coins tomorrow ».
 - Kai conseille d'abord un port pas encore joué aujourd'hui, puis une tempête, puis la 2e série d'un port du jour.
+
+## 23/11 soir — phares et drapeau (planches du PO)
+- Tempête : la page du port montre Kai devant un des 6 phares (Kermorvan, Île Vierge, Fastnet Rock, Cape Point,
+  Cape Hatteras, Cape Byron), nommé dans la légende (`img/voyage-phare-1.webp` à `-6`).
+- Certification : l'ancienne image de Kai et son drapeau (jugée peu jolie par le PO) est remplacée par 6 images de Kai
+  et son drapeau devant un phare (`img/voyage-drapeau-1.webp` à `-6`), image entière.
+- Choix d'après le numéro du port (1 à 6, puis on recommence). Les anciennes images restent dans img/ (non utilisées).

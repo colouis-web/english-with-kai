@@ -229,6 +229,10 @@ function vyLieu(k, n) {
         return h.l;
     return h ? L[(n - 1) % L.length] : vyLieuNew(k, n);
 }
+/* les phares (planches du PO, 23/11) : Kai devant un phare quand la tempête menace un port ; Kai et son drapeau devant
+   un phare quand le port est certifié. 6 de chaque, choisis d'après le numéro du port. */
+const VY_PHARES = ["Kermorvan lighthouse, Brittany", "Île Vierge lighthouse, Brittany", "Fastnet Rock lighthouse, Ireland", "Cape Point lighthouse, South Africa", "Cape Hatteras lighthouse, USA", "Cape Byron lighthouse, Australia"];
+const vyPhare = n => (+n - 1) % 6 + 1;
 const vyKN = key => { const [k, n] = key.split(":"); return [k, +n]; };
 const vyLieuImg = (k, n) => `img/voyage-lieu-${String(vyLieu(k, n)).padStart(2, "0")}.webp`;
 const vyLieuCls = (k, n) => vyLieu(k, n) > 12 ? " l2" : ""; /* les nouveaux dessins sont moins allongés (10/7) */
@@ -449,7 +453,8 @@ function renderHarbour(B, h1) {
     /* l'image du port : au soleil quand il est certifié, sous la tempête, sinon encore dans le brouillard */
     /* l'image du port : Kai dans le brouillard (rien de réussi), le lieu dans la brume (1 série), le lieu dévoilé (certifié), la tempête */
     const lieu = VY_LIEUX[vyLieu(k, +n) - 1];
-    const scene = s === "storm" ? `<figure class="vyscene"><img src="img/voyage-port-tempete.webp" alt="Kai at the lighthouse in the storm"><figcaption>Storm! One perfect run keeps your lighthouse on.</figcaption></figure>`
+    const ph = vyPhare(n);
+    const scene = s === "storm" ? `<figure class="vyscene lieu l2"><img src="img/voyage-phare-${ph}.webp" alt="Kai looks at ${esc(VY_PHARES[ph - 1])}"><figcaption>Storm at ${esc(VY_PHARES[ph - 1])}! One perfect run keeps the light on.</figcaption></figure>`
         : s === "cert" ? `<figure class="vyscene lieu${vyLieuCls(k, n)}"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}"><figcaption>${vyIcon.flag}${esc(lieu)}</figcaption></figure>`
         : s === "run" ? `<figure class="vyscene lieu fog1${vyLieuCls(k, n)}"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, still in the fog"><figcaption>The fog is lifting… One more perfect run!</figcaption></figure>`
         : `<figure class="vyscene lieu fog${vyLieuCls(k, n)}"><img src="${vyLieuImg(k, n)}" alt="${esc(lieu)}, in the fog"><figcaption>Two perfect runs and the fog lifts on this harbour!</figcaption></figure>`;
@@ -672,7 +677,7 @@ function vyEnd() {
     document.getElementById("qn").textContent = "";
     QW().innerHTML = `<p class="qpart">${esc(vyLabel(VY.key))} · Results</p><div class="qhead">${headSvg(say, perfect ? "smile" : "head")}</div>
 ${out === "storm" ? `<div class="vycert"><img class="wide" src="img/voyage-port-soleil.webp" alt="Kai at the harbour in the sun"><b>${esc(vyHname(k, hn))} · ${esc(vyIsl(k).name)}</b><span>Storm beaten: the lighthouse stays on!</span></div>` : ""}
-${out === "cert" ? `<div class="vycert"><img src="img/voyage-drapeau.webp" alt="Kai plants his flag on the pier"><b>${esc(vyHname(k, hn))} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyCount()} harbour${vyCount() === 1 ? "" : "s"} on your voyage</span></div>` : ""}
+${out === "cert" ? `<div class="vycert"><img class="kai" src="img/voyage-drapeau-${vyPhare(hn)}.webp" alt="Kai holds his flag in front of a lighthouse"><b>${esc(vyHname(k, hn))} · ${esc(vyIsl(k).name)}</b><span>Certified · ${vyCount()} harbour${vyCount() === 1 ? "" : "s"} on your voyage</span></div>` : ""}
 ${coins ? `<div class="vywin">${vyIcon.coin}<b>+${coins}</b><span>${coins === 1 ? "gold coin" : "gold coins"} · ${G.n} in your treasure</span></div>` : ""}
 <div class="scores one"><div class="sc${perfect ? " ok" : ""}"><i>${esc(vyIsl(k).name)}</i><b>${P}%</b><small>${n} of ${N} words</small></div></div>
 <ul class="recap">${VY.items.map((it, j) => `<li><span class="m ${VY.res[j] ? "ok" : "ko"}">${VY.res[j] ? CHECK : CROSS}</span><b>${esc(t3Ans(it))}</b><i>${esc(it.f)}</i></li>`).join("")}</ul>

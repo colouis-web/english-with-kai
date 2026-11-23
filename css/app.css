@@ -1653,3 +1653,5 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .vmimg{margin:12px 0 4px;border-radius:18px;overflow:hidden;border:3px solid var(--ink)}.vmimg img{display:block;width:100%;aspect-ratio:10/7;object-fit:cover}
 .vmfr{margin:6px 0 12px;text-align:center;font:500 15px var(--claude);color:var(--mut)}
 .vmopts .opt{font-size:17px}
+/* Kai's voyage : Kai et son drapeau devant un phare (PO, 23/11), image entière */
+.vycert img.kai{aspect-ratio:340/378;object-fit:cover}
