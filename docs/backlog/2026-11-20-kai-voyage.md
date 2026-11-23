@@ -114,3 +114,17 @@
   House »), la question décrit le dessin (« this famous opera house »). On évite les 20 derniers monuments vus.
 - Code : `js/app-voyage-missions.js`. Données : `p.voy.mis`, `p.voy.day` (série finie aujourd'hui, même ratée).
 - À voir avec le PO : d'autres missions (drapeaux, capitales, animaux du monde…) ; l'île secrète.
+
+## 23/11 soir — 2e série sans attendre (PO : « pour le run 2, il faut qu'on puisse jouer sans attendre le lendemain »)
+- La 2e série se joue tout de suite après la 1re ; 2 séries sans faute certifient le port, même le jour même.
+- Pièces de la certification : 1 le jour même, 3 le lendemain, 2 dans les 3 jours, 1 ensuite. Revenir le lendemain
+  reste la meilleure affaire, et c'est aussi ce qui fixe le mieux les mots (répétition espacée). À ajuster si le PO veut.
+- Fin de la 1re série : bouton « Start run 2 ». Page du port : « +1 gold coin now · +3 gold coins tomorrow ».
+- Kai conseille d'abord un port pas encore joué aujourd'hui, puis une tempête, puis la 2e série d'un port du jour.
+
+## 23/11 soir — phares et drapeau (planches du PO)
+- Tempête : la page du port montre Kai devant un des 6 phares (Kermorvan, Île Vierge, Fastnet Rock, Cape Point,
+  Cape Hatteras, Cape Byron), nommé dans la légende (`img/voyage-phare-1.webp` à `-6`).
+- Certification : l'ancienne image de Kai et son drapeau (jugée peu jolie par le PO) est remplacée par 6 images de Kai
+  et son drapeau devant un phare (`img/voyage-drapeau-1.webp` à `-6`), image entière.
+- Choix d'après le numéro du port (1 à 6, puis on recommence). Les anciennes images restent dans img/ (non utilisées).
