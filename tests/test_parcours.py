@@ -474,18 +474,35 @@ def s02_creation_profil(P):
     g = P.ev("() => vyGold()")
     P.check("Kai's voyage : pièces d'or — 1 pour la 1re série, 3 pour la 2e le lendemain (4 en tout)", g["n"] == 4 and g["tot"] == 4, g)
     P.check("Kai's voyage : le port 1 des noms s'appelle Square One", P.ev("() => vyHname('nouns', 1)") == "Square One")
-    # lieux (PO, 22/11) : 58 dessins ; un port retient son lieu ; un port commencé avant garde l'ancienne règle
-    P.check("Kai's voyage : 58 lieux, chacun avec sa légende et son image",
-            P.ev("() => VY_LIEUX.length === 58 && VY_LIEUX.every(Boolean) && new Set(VY_LALL).size === 58") is True)
+    # lieux (PO, 22/11 et 23/11) : 70 dessins ; un port retient son lieu ; un port commencé avant garde l'ancienne règle
+    P.check("Kai's voyage : 70 lieux, chacun avec sa légende et son image",
+            P.ev("() => VY_LIEUX.length === 70 && VY_LIEUX.every(Boolean) && new Set(VY_LALL).size === 70") is True)
     P.check("Kai's voyage : le port certifié retient son lieu (Square One : la Bretagne)",
             P.ev("() => vySt().h['nouns:1'].l") == 1 and P.ev("() => vyLieu('nouns', 1)") == 1)
     P.check("Kai's voyage : après les 12 premiers ports, les nouveaux lieux (port 13 : Sydney)",
             P.ev("() => VY_LIEUX[vyLieuNew('nouns', 13) - 1]") == "Sydney Harbour, Australia")
     P.check("Kai's voyage : un port commencé avant le 22/11 (sans lieu noté) garde son ancien lieu",
             P.ev("() => { const h = vySt().h, k = 'nouns:14', o = h[k]; h[k] = { w: [], r: [] }; const v = vyLieu('nouns', 14); if (o) h[k] = o; else delete h[k]; return v; }") == 6)
-    for n in (13, 30, 58):
+    for n in (13, 30, 58, 70):
         st = P.ev(f"() => fetch('img/voyage-lieu-{n}.webp').then(r => r.status)")
         P.check(f"Kai's voyage : l'image du lieu {n} est là", st == 200)
+    # mission spéciale « Around the world » (PO, 23/11) : après la série du jour, 5 questions, 5/5 = 2 pièces, 1 par jour
+    P.check("Mission spéciale : ouverte après la série du jour", P.ev("() => vmState()") == "ready")
+    P.check("Mission spéciale : 43 monuments, aucune question qui donne la réponse",
+            P.ev("() => VY_MONU.length === 43 && VY_MONU.every(x => x.q || !(x.m.includes(x.city) || x.m.includes(x.cty.replace('the ', ''))))") is True)
+    g0 = P.ev("() => vyGold().n")
+    P.ev("() => { XMODE = null; VYV = { i: null, h: null }; renderVoyage(); show('voyage', true); }")
+    P.click("#vmstart")
+    q = P.ev("() => ({ n: VM.items.length, img: VM.items.filter(it => it.x.img).length, opts: VM.items.every(it => it.opts.length === 4 && it.opts.includes(vmPlace(it.x)) && new Set(it.opts).size === 4) })")
+    P.check("Mission spéciale : 5 questions, 3 avec un dessin, 4 réponses dont la bonne", q == {"n": 5, "img": 3, "opts": True}, q)
+    for _ in range(5):
+        P.click(f"[data-vm=\"{P.ev('() => VM.items[VM.i].opts.indexOf(vmPlace(VM.items[VM.i].x))')}\"]")
+        P.click("#vmnext")
+    m = P.ev("() => vySt().mis")
+    P.check("Mission spéciale : 5/5 = 2 pièces d'or, mission faite pour aujourd'hui",
+            m["n"] == 5 and P.ev("() => vyGold().n") == g0 + 2 and P.ev("() => vmState()") == "done", m)
+    P.click("#vmback")
+    P.check("Mission spéciale : retour au voyage, une nouvelle mission demain", "tomorrow" in P.text(".vymiss p"))
     nx = P.ev("() => vyNext().key")
     P.check("Kai's voyage : ensuite Kai conseille l'île la moins avancée (Action Volcano, port 1)", nx == "verbs:1", nx)
     P.check("Kai's voyage : la progression est gardée dans le profil (sauvegardes)", P.ev("() => !!JSON.parse(localStorage.getItem('kai.profiles.v1')).list.find(x => x.voy && x.voy.h['nouns:1'].c)"))

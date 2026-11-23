@@ -1647,3 +1647,9 @@ html.ts-xl .page.gm #toLearn{grid-template-columns:64px minmax(0,1fr) 44px}
 .vymsg{margin:0;font:500 15px var(--claude);color:var(--mut);text-align:center}
 /* Kai's voyage : les 46 nouveaux lieux (22/11) sont dessinés en 10/7 */
 .vyscene.lieu.l2 img,.vyscene.l2.fog::after,.vyscene.l2.fog1::after{aspect-ratio:10/7}
+/* Kai's voyage : mission spéciale « Around the world » (PO, 23/11) */
+.vymiss.on{border:2px solid #fbbf24;background:#231f3a}.vymiss.on img{filter:none}
+.vymiss .listen.sm{margin-top:10px}
+.vmimg{margin:12px 0 4px;border-radius:18px;overflow:hidden;border:3px solid var(--ink)}.vmimg img{display:block;width:100%;aspect-ratio:10/7;object-fit:cover}
+.vmfr{margin:6px 0 12px;text-align:center;font:500 15px var(--claude);color:var(--mut)}
+.vmopts .opt{font-size:17px}
