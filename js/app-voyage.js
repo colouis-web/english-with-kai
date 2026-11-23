@@ -137,7 +137,7 @@ function vyNext() {
 const vyCount = () => Object.values(vySt().h).filter(h => h.c).length;
 const vyWords = () => Object.values(vySt().h).filter(h => h.c).reduce((t, h) => t + (h.w || []).length, 0);
 /* le nom amusant du port (js/data/noms-ports.js) ; « Harbour 4 » si le fichier manque */
-/* le lieu de chaque port (12 vignettes Gemini du PO, 21/11 ; 46 de plus le 22/11, de vrais ports du monde) : caché dans le
+/* le lieu de chaque port (12 vignettes Gemini du PO, 21/11 ; 46 de plus le 22/11 et 12 le 23/11, de vrais ports du monde) : caché dans le
    brouillard, il se dévoile à moitié après la 1re série sans faute et en entier quand le port est certifié — une raison de
    plus de faire la 2e série. Légendes vérifiées (ville, pays) ; un dessin inexact garde une légende générale (Hong Kong). */
 const VY_LIEUX = ["A fishing harbour in Brittany", "A tropical harbour in Tahiti", "A colourful little harbour in Italy", "A peaceful harbour in Greece",
@@ -189,11 +189,24 @@ const VY_LIEUX = ["A fishing harbour in Brittany", "A tropical harbour in Tahiti
     "The port of Dar es Salaam, Tanzania",
     "The port of Cartagena, Colombia",
     "A pirates' island in the Caribbean",
-    "The port of Arkhangelsk, Russia"];
+    "The port of Arkhangelsk, Russia",
+    /* 59 à 70 (23/11) : Amérique du Nord, Islande, Europe de l'Ouest */
+    "The port of New York, USA",
+    "The Old Port of Marseille, France",
+    "The port of San Francisco, USA",
+    "The port of Lisbon, Portugal",
+    "The port of Vancouver, Canada",
+    "The port of Barcelona, Spain",
+    "The port of Quebec City, Canada",
+    "The port of Amsterdam, the Netherlands",
+    "The port of Halifax, Canada",
+    "The port of Hamburg, Germany",
+    "The port of Reykjavik, Iceland",
+    "The port of Dublin, Ireland"];
 const VY_LORDER = { nouns: [1, 6, 8, 5, 7, 2, 3, 4, 9, 10, 11, 12], verbs: [10, 11, 4, 2, 6, 9, 1, 3, 5, 7, 8, 12], adjectives: [3, 4, 2, 12, 1, 5, 6, 7, 8, 9, 10, 11], adverbs: [12, 9, 2, 1, 3, 4, 5, 6, 7, 8, 10, 11] };
 /* Chaque port retient son lieu (h.l) dès sa première série : un nouveau dessin ne change jamais un port commencé.
    Les ports commencés avant le 22/11 (sans h.l) gardent l'ancienne règle, les 12 lieux en boucle. Pour les autres : les 12
-   premiers ports de chaque île comme avant, puis les 46 nouveaux lieux et les 12 anciens, décalés d'une île à l'autre. */
+   premiers ports de chaque île comme avant, puis les nouveaux lieux et les 12 anciens, décalés d'une île à l'autre. */
 const VY_LALL = Array.from({ length: VY_LIEUX.length }, (_, i) => (i + 12) % VY_LIEUX.length + 1);
 const VY_LOFF = { nouns: 0, verbs: 12, adjectives: 24, adverbs: 36 };
 function vyLieuNew(k, n) {

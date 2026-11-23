@@ -97,3 +97,10 @@
 - **Rien ne bouge pour l'enfant** : chaque port retient son lieu (`h.l`) dès sa 1re série ; les ports commencés avant
   (sans `h.l`) gardent l'ancienne règle. Les 12 premiers ports de chaque île sont inchangés ; ensuite, les nouveaux lieux.
 - À venir : une planche de 6 phares avec Kai (tempêtes et certifications) ; les lieux de l'île secrète (de l'invention du PO).
+
+## 23/11 — 12 lieux de plus (70 en tout)
+- New York, San Francisco, Vancouver, Québec, Halifax, Reykjavik ; Marseille, Lisbonne, Barcelone, Amsterdam, Hambourg,
+  Dublin (`img/voyage-lieu-59.webp` à `-70.webp`). Boussole et blason du cadre retirés des vignettes du haut.
+- Ports déjà commencés : inchangés (`h.l`).
+- **Phares** (planche du 23/11) : pas intégrés, le garçon dessiné n'est pas Kai (cheveux châtains, veste verte). À refaire
+  avec la description de Kai.

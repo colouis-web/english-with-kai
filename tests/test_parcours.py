@@ -474,16 +474,16 @@ def s02_creation_profil(P):
     g = P.ev("() => vyGold()")
     P.check("Kai's voyage : pièces d'or — 1 pour la 1re série, 3 pour la 2e le lendemain (4 en tout)", g["n"] == 4 and g["tot"] == 4, g)
     P.check("Kai's voyage : le port 1 des noms s'appelle Square One", P.ev("() => vyHname('nouns', 1)") == "Square One")
-    # lieux (PO, 22/11) : 58 dessins ; un port retient son lieu ; un port commencé avant garde l'ancienne règle
-    P.check("Kai's voyage : 58 lieux, chacun avec sa légende et son image",
-            P.ev("() => VY_LIEUX.length === 58 && VY_LIEUX.every(Boolean) && new Set(VY_LALL).size === 58") is True)
+    # lieux (PO, 22/11 et 23/11) : 70 dessins ; un port retient son lieu ; un port commencé avant garde l'ancienne règle
+    P.check("Kai's voyage : 70 lieux, chacun avec sa légende et son image",
+            P.ev("() => VY_LIEUX.length === 70 && VY_LIEUX.every(Boolean) && new Set(VY_LALL).size === 70") is True)
     P.check("Kai's voyage : le port certifié retient son lieu (Square One : la Bretagne)",
             P.ev("() => vySt().h['nouns:1'].l") == 1 and P.ev("() => vyLieu('nouns', 1)") == 1)
     P.check("Kai's voyage : après les 12 premiers ports, les nouveaux lieux (port 13 : Sydney)",
             P.ev("() => VY_LIEUX[vyLieuNew('nouns', 13) - 1]") == "Sydney Harbour, Australia")
     P.check("Kai's voyage : un port commencé avant le 22/11 (sans lieu noté) garde son ancien lieu",
             P.ev("() => { const h = vySt().h, k = 'nouns:14', o = h[k]; h[k] = { w: [], r: [] }; const v = vyLieu('nouns', 14); if (o) h[k] = o; else delete h[k]; return v; }") == 6)
-    for n in (13, 30, 58):
+    for n in (13, 30, 58, 70):
         st = P.ev(f"() => fetch('img/voyage-lieu-{n}.webp').then(r => r.status)")
         P.check(f"Kai's voyage : l'image du lieu {n} est là", st == 200)
     nx = P.ev("() => vyNext().key")
