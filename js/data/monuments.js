@@ -3,7 +3,7 @@
    - m : le nom anglais, avec son article (« the Eiffel Tower »), dit dans la réponse ; pl : pluriel (« Where are… ») ;
    - q : la question quand le nom donne la réponse (« the Sydney Opera House ») : on montre le dessin et on le décrit ;
      fr traduit alors la question, pas le nom ;
-   - img : numéro d'un dessin de port du voyage (img/voyage-lieu-NN.webp) où l'on voit le monument ;
+   - img : numéro d'un dessin de port du voyage (les images « voyage-lieu » du dossier img) où l'on voit le monument ;
    - city, cty : la ville et le pays, en anglais britannique (« the USA », « England ») ; fr : le nom français.
    Faits vérifiés (ville et pays de chaque monument). Un nom qui contient la ville ou le pays n'est jamais dans la question. */
 "use strict";
